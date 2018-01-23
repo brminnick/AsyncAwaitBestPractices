@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProjectGuid>{3D955BC3-A36B-4CF4-A0D9-141E85529B17}</ProjectGuid>
+    <ProjectGuid>{6F319699-D810-4441-AF9F-4880C6AA2B03}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TwitterSearch.iOS</RootNamespace>
-    <AssemblyName>TwitterSearch.iOS</AssemblyName>
+    <RootNamespace>HackerNews.iOS</RootNamespace>
+    <AssemblyName>HackerNews.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
@@ -24,7 +24,7 @@
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchProfiling>true</MtouchProfiling>
-    <IOSDebuggerPort>30520</IOSDebuggerPort>
+    <IOSDebuggerPort>60578</IOSDebuggerPort>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
@@ -73,7 +73,7 @@
     <MtouchProfiling>true</MtouchProfiling>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <IOSDebuggerPort>42330</IOSDebuggerPort>
+    <IOSDebuggerPort>54488</IOSDebuggerPort>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
@@ -123,9 +123,9 @@
     <Compile Include="AppDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TwitterSearch\TwitterSearch.csproj">
-      <Project>{A76EFB87-4F4D-43F7-BBFC-BA2D4E4C9E52}</Project>
-      <Name>TwitterSearch</Name>
+    <ProjectReference Include="..\HackerNews\HackerNews.csproj">
+      <Project>{A42556A0-5B26-4FE1-A15B-1AD54ABA4C57}</Project>
+      <Name>HackerNews</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

@@ -1,5 +1,4 @@
-﻿using System;
-namespace TwitterSearch
+﻿namespace HackerNews
 {
     public class SearchPageViewModel_GoodAsyncAwaitPractices : BaseViewModel
     {

@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>TwitterSearch</string>
+	<string>HackerNews</string>
 	<key>CFBundleName</key>
-	<string>TwitterSearch</string>
+	<string>HackerNews</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.minnick.TwitterSearch</string>
+	<string>com.minnick.HackerNews</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

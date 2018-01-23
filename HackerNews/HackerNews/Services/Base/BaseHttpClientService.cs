@@ -2,17 +2,15 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
-using System.Security.Cryptography;
 
 using Newtonsoft.Json;
 
 using Xamarin.Forms;
 
-namespace TwitterSearch
+namespace HackerNews
 {
     public abstract class BaseHttpClientService
     {
@@ -37,14 +35,12 @@ namespace TwitterSearch
 
         protected static async Task<HttpResponseMessage> GetResponseMessageFromAPI<TPayloadData>(string apiUrl, TPayloadData data = default)
         {
-
             var stringPayload = string.Empty;
 
             if (data?.Equals(default) == true)
                 stringPayload = await Task.Run(() => JsonConvert.SerializeObject(data)).ConfigureAwait(false);
 
             var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-            AddOAutchAuthorizationHeader();
 
             try
             {
@@ -58,7 +54,6 @@ namespace TwitterSearch
             }
             finally
             {
-                RemoveOAuthAuthorizationHeader();
                 UpdateActivityIndicatorStatus(false);
             }
         }
@@ -73,11 +68,12 @@ namespace TwitterSearch
                 stringPayload = await Task.Run(() => JsonConvert.SerializeObject(data)).ConfigureAwait(false);
 
             var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-            AddOAutchAuthorizationHeader();
 
             try
             {
                 UpdateActivityIndicatorStatus(true);
+
+                var temp = await Client.GetAsync(apiUrl);
 
                 using (var stream = await Client.GetStreamAsync(apiUrl).ConfigureAwait(false))
                 using (var reader = new StreamReader(stream))
@@ -95,7 +91,6 @@ namespace TwitterSearch
             }
             finally
             {
-                RemoveOAuthAuthorizationHeader();
                 UpdateActivityIndicatorStatus(false);
             }
         }
@@ -105,7 +100,6 @@ namespace TwitterSearch
             var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(data)).ConfigureAwait(false);
 
             var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-            AddOAutchAuthorizationHeader();
 
             try
             {
@@ -119,7 +113,6 @@ namespace TwitterSearch
             }
             finally
             {
-                RemoveOAuthAuthorizationHeader();
                 UpdateActivityIndicatorStatus(false);
             }
         }
@@ -137,8 +130,6 @@ namespace TwitterSearch
                 Content = httpContent
             };
 
-            AddOAutchAuthorizationHeader();
-
             try
             {
                 UpdateActivityIndicatorStatus(true);
@@ -151,7 +142,6 @@ namespace TwitterSearch
             }
             finally
             {
-                RemoveOAuthAuthorizationHeader();
                 UpdateActivityIndicatorStatus(false);
             }
         }
@@ -160,7 +150,6 @@ namespace TwitterSearch
         {
             var httpRequest = new HttpRequestMessage(HttpMethod.Delete, new Uri(apiUrl));
 
-            AddOAutchAuthorizationHeader();
 
             try
             {
@@ -174,7 +163,6 @@ namespace TwitterSearch
             }
             finally
             {
-                RemoveOAuthAuthorizationHeader();
                 UpdateActivityIndicatorStatus(false);
             }
         }
@@ -199,59 +187,6 @@ namespace TwitterSearch
 
             return client;
         }
-
-        static string GetOauthHeaderAuthorizationString()
-        {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append("OAuth ");
-            stringBuilder.Append($"oauth_consumer_key=\"{TwitterConstants.ConsumerKey}\",");
-            stringBuilder.Append($"oauth_token=\"{TwitterConstants.ConsumerToken}\",");
-            stringBuilder.Append($"oauth_signature_method=\"HMAC - SHA1\",");
-            stringBuilder.Append($"oauth_timestamp=\"{GenerateOAuthTimeStamp()}\",");
-            stringBuilder.Append($"oauth_nonce=\"kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg\",");
-            stringBuilder.Append($"oauth_version=\"1.0\",");
-            stringBuilder.Append($"oauth_signature=\"{GenerateSha1Hash(TwitterConstants.AccessToken, TwitterConstants.AccessTokenSecret)}\"");
-
-            return stringBuilder.ToString();
-
-            #region Local Methods
-            string GenerateOAuthTimeStamp()
-            {
-                TimeSpan timeSpan = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, 0));
-
-                string timeStamp = timeSpan.TotalSeconds.ToString();
-                timeStamp = timeStamp.Substring(0, timeStamp.IndexOf('.'));
-
-                return timeStamp;
-            }
-
-            string GenerateSha1Hash(string key, string message)
-            {
-                var encoding = new ASCIIEncoding();
-
-                byte[] keyBytes = encoding.GetBytes(key);
-                byte[] messageBytes = encoding.GetBytes(message);
-
-                string Sha1Result = string.Empty;
-
-                using (var SHA1 = new HMACSHA1(keyBytes))
-                {
-                    var Hashed = SHA1.ComputeHash(messageBytes);
-                    Sha1Result = Convert.ToBase64String(Hashed);
-                }
-
-                return Sha1Result;
-            }
-            #endregion
-        }
-
-        static void AddOAutchAuthorizationHeader()
-        {
-            if (Client.DefaultRequestHeaders.Contains(_authorizationHeaderName))
-                Client.DefaultRequestHeaders.Add(_authorizationHeaderName, GetOauthHeaderAuthorizationString());
-        }
-
-        static void RemoveOAuthAuthorizationHeader() => Client.DefaultRequestHeaders.Remove(_authorizationHeaderName);
 
         static void UpdateActivityIndicatorStatus(bool isActivityInidicatorRunning)
         {

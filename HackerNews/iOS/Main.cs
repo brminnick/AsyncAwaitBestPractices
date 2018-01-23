@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace TwitterSearch.iOS
+namespace HackerNews.iOS
 {
     public class Application
     {

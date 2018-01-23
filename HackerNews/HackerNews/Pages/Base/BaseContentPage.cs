@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace TwitterSearch
+namespace HackerNews
 {
     public abstract class BaseContentPage<T> : ContentPage where T : BaseViewModel, new()
     {
