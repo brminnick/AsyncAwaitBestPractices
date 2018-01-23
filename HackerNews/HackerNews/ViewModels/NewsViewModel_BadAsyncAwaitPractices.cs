@@ -16,13 +16,11 @@ namespace HackerNews
         #endregion
 
         #region Constructors
-        #region Constructors
         public NewsViewModel_BadAsyncAwaitPractices()
         {
-            //ToDo Refactor
+            //ToDo Refactor1
             Task.Run(async () => await ExecuteRefreshCommand());
         }
-        #endregion
         #endregion
 
         #region Properties
@@ -74,13 +72,13 @@ namespace HackerNews
             return topStoryList;
         }
 
-        //ToDo Refactor 
+        //ToDo Refactor2
         async Task<List<string>> GetTopStoryIDs()
         {
             return await GetDataObjectFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
         }
 
-        //ToDo Refactor 
+        //ToDo Refactor3
         async Task<StoryModel> GetStory(string storyId)
         {
             try
