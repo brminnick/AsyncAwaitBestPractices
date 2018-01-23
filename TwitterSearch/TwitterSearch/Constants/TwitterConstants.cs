@@ -4,7 +4,7 @@
     {
         #error Twitter API Constants Missing. Generate them by creating a Twitter App here: https://apps.twitter.com
         public const string ConsumerKey = "";
-        public const string ConsumerToken = "";
+        public const string ConsumerSecret = "";
         public const string AccessToken = "";
         public const string AccessTokenSecret = "";
 
