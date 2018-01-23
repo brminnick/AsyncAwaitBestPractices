@@ -3,10 +3,16 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
+using Xamarin.Forms;
+
 namespace HackerNews
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
+        #region Fields
+        static int _networkIndicatorCount = 0;
+        #endregion
+
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
@@ -22,6 +28,20 @@ namespace HackerNews
             onChanged?.Invoke();
 
             OnPropertyChanged(propertyname);
+        }
+
+        protected void UpdateActivityIndicatorStatus(bool isActivityInidicatorRunning)
+        {
+            if (isActivityInidicatorRunning)
+            {
+                Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.IsBusy = true);
+                _networkIndicatorCount++;
+            }
+            else if (--_networkIndicatorCount <= 0)
+            {
+                Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.IsBusy = false);
+                _networkIndicatorCount = 0;
+            }
         }
 
         void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
