@@ -1,10 +1,14 @@
-﻿using System;
-namespace TwitterSearch
+﻿namespace TwitterSearch
 {
     public static class TwitterConstants
     {
-        public const string SearchAPIUrl = "https://api.twitter.com/1.1/search/tweets.json?q=";
+        #error Twitter API Constants Missing. Generate them by creating a Twitter App here: https://apps.twitter.com
+        public const string ConsumerKey = "";
+        public const string ConsumerToken = "";
+        public const string AccessToken = "";
+        public const string AccessTokenSecret = "";
 
-        public const string 
+
+		public const string SearchAPIUrl = "https://api.twitter.com/1.1/search/tweets.json?q=";
     }
 }

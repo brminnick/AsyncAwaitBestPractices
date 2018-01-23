@@ -1,8 +1,7 @@
-﻿using System;
-namespace TwitterSearch
+﻿namespace TwitterSearch
 {
     public abstract class TwitterAPIService : BaseHttpClientService
     {
-        public
+        
     }
 }

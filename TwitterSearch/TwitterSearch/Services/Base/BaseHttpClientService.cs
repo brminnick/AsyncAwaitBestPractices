@@ -2,22 +2,25 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using System.Security.Cryptography;
 
 using Newtonsoft.Json;
 
 using Xamarin.Forms;
-using System.Net.Http.Headers;
-using System.Linq;
 
 namespace TwitterSearch
 {
     public abstract class BaseHttpClientService
     {
         #region Constant Fields
+        const string _authorizationHeaderName = "Authorization";
+
         static readonly Lazy<JsonSerializer> _serializerHolder = new Lazy<JsonSerializer>();
-        static readonly Lazy<HttpClient> _clientHolder = new Lazy<HttpClient>(() => CreateHttpClient(HttpConstants.HttpTimeOut));
+        static readonly Lazy<HttpClient> _clientHolder = new Lazy<HttpClient>(() => CreateHttpClient(TimeSpan.FromSeconds(30)));
         #endregion
 
         #region Fields
@@ -49,9 +52,8 @@ namespace TwitterSearch
 
                 return await Client.GetAsync(apiUrl);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                AppCenterService.LogException(e);
                 return default;
             }
             finally
@@ -87,9 +89,8 @@ namespace TwitterSearch
                     return await Task.Run(() => Serializer.Deserialize<TDataObject>(json)).ConfigureAwait(false);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                AppCenterService.LogException(e);
                 return default;
             }
             finally
@@ -112,9 +113,8 @@ namespace TwitterSearch
 
                 return await Client.PostAsync(apiUrl, httpContent).ConfigureAwait(false);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                AppCenterService.LogException(e);
                 return null;
             }
             finally
@@ -145,9 +145,8 @@ namespace TwitterSearch
 
                 return await Client.SendAsync(httpRequest).ConfigureAwait(false);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                AppCenterService.LogException(e);
                 return null;
             }
             finally
@@ -169,9 +168,8 @@ namespace TwitterSearch
 
                 return await Client.SendAsync(httpRequest);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                AppCenterService.LogException(e);
                 return null;
             }
             finally
@@ -212,7 +210,7 @@ namespace TwitterSearch
             stringBuilder.Append($"oauth_timestamp=\"{GenerateOAuthTimeStamp()}\",");
             stringBuilder.Append($"oauth_nonce=\"kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg\",");
             stringBuilder.Append($"oauth_version=\"1.0\",");
-            stringBuilder.Append($"oauth_signature=\"D7PUGsbvKtECJvmrdaFBDV1q % 2FFc % 3D\"");
+            stringBuilder.Append($"oauth_signature=\"{GenerateSha1Hash(TwitterConstants.AccessToken, TwitterConstants.AccessTokenSecret)}\"");
 
             return stringBuilder.ToString();
 
@@ -226,16 +224,34 @@ namespace TwitterSearch
 
                 return timeStamp;
             }
+
+            string GenerateSha1Hash(string key, string message)
+            {
+                var encoding = new ASCIIEncoding();
+
+                byte[] keyBytes = encoding.GetBytes(key);
+                byte[] messageBytes = encoding.GetBytes(message);
+
+                string Sha1Result = string.Empty;
+
+                using (var SHA1 = new HMACSHA1(keyBytes))
+                {
+                    var Hashed = SHA1.ComputeHash(messageBytes);
+                    Sha1Result = Convert.ToBase64String(Hashed);
+                }
+
+                return Sha1Result;
+            }
             #endregion
         }
 
         static void AddOAutchAuthorizationHeader()
         {
-            if (Client.DefaultRequestHeaders.Contains("Authorization"))
-                Client.DefaultRequestHeaders.Add("Authorization", GetOauthHeaderAuthorizationString());
+            if (Client.DefaultRequestHeaders.Contains(_authorizationHeaderName))
+                Client.DefaultRequestHeaders.Add(_authorizationHeaderName, GetOauthHeaderAuthorizationString());
         }
 
-        static void RemoveOAuthAuthorizationHeader() => Client.DefaultRequestHeaders.Remove("Authorization");
+        static void RemoveOAuthAuthorizationHeader() => Client.DefaultRequestHeaders.Remove(_authorizationHeaderName);
 
         static void UpdateActivityIndicatorStatus(bool isActivityInidicatorRunning)
         {
