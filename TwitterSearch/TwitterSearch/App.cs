@@ -4,6 +4,6 @@ namespace TwitterSearch
 {
     public class App : Application
     {
-        public App() => MainPage = new SearchPage();
+        public App() => MainPage = new NavigationPage(new SearchPage());
     }
 }
