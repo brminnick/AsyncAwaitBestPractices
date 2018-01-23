@@ -11,5 +11,8 @@
 	<ItemGroup>
 	  <Folder Include="Pages\Base\" />
 	  <Folder Include="ViewModels\Base\" />
+	  <Folder Include="Models\" />
+	  <Folder Include="Views\" />
+	  <Folder Include="Views\News\" />
 	</ItemGroup>
 </Project>
