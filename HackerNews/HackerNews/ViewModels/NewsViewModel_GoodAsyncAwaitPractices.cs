@@ -59,13 +59,17 @@ namespace HackerNews
 
             var getTop20StoriesTaskList = new List<Task<StoryModel>>();
             for (int i = 0; i < numberOfStories; i++)
+            {
                 getTop20StoriesTaskList.Add(GetStory(topStoryIds[i]));
+            }
 
             await Task.WhenAll(getTop20StoriesTaskList).ConfigureAwait(false);
 
             var topStoryList = new List<StoryModel>();
             foreach (var getStoryTask in getTop20StoriesTaskList)
+            {
                 topStoryList.Add(await getStoryTask.ConfigureAwait(false));
+            }
 
             return topStoryList;
         }

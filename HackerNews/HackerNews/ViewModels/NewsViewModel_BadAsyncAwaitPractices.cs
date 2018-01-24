@@ -18,7 +18,7 @@ namespace HackerNews
         #region Constructors
         public NewsViewModel_BadAsyncAwaitPractices()
         {
-            //ToDo Refactor1
+            //ToDo Refactor
             Task.Run(async () => await ExecuteRefreshCommand());
         }
         #endregion
@@ -43,42 +43,58 @@ namespace HackerNews
         #region Methods
         async Task ExecuteRefreshCommand()
         {
-            IsListRefreshing = true;
+            //ToDo Refactor
+            SetIsRefreshing(true).Wait();
 
             try
             {
+                //ToDo Refactor
                 TopStoryList = await GetTopStories(20);
             }
             finally
             {
-                IsListRefreshing = false;
+                //ToDo Refactor
+                SetIsRefreshing(true).Wait();
             }
         }
 
         async Task<List<StoryModel>> GetTopStories(int numberOfStories)
         {
+            //ToDo Refactor
             var topStoryIds = await GetTopStoryIDs();
 
             var getTop20StoriesTaskList = new List<Task<StoryModel>>();
             for (int i = 0; i < numberOfStories; i++)
+            {
                 getTop20StoriesTaskList.Add(GetStory(topStoryIds[i]));
+            }
 
+            //ToDo Refactor
             await Task.WhenAll(getTop20StoriesTaskList);
 
             var topStoryList = new List<StoryModel>();
             foreach (var getStoryTask in getTop20StoriesTaskList)
+            {
+                //ToDo Refactor
                 topStoryList.Add(await getStoryTask);
+            }
 
             return topStoryList;
         }
 
-        //ToDo Refactor2
+        //ToDo Refactor
+        async Task SetIsRefreshing(bool isRefreshing)
+        {
+            IsListRefreshing = isRefreshing;
+        }
+
+        //ToDo Refactor
         async Task<List<string>> GetTopStoryIDs()
         {
             return await GetDataObjectFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
         }
 
-        //ToDo Refactor3
+        //ToDo Refactor
         async Task<StoryModel> GetStory(string storyId)
         {
             try
