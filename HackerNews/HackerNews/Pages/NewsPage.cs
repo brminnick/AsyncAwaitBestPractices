@@ -12,10 +12,12 @@ namespace HackerNews
 
         public NewsPage() : base("Top Stories")
         {
-            _storiesListView = new ListView
+            _storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
             {
-                ItemTemplate = new DataTemplate(typeof(StoryViewCell)),
+                ItemTemplate = new DataTemplate(typeof(StoryTextCell)),
                 IsPullToRefreshEnabled = true,
+                BackgroundColor = Color.FromHex("F6F6EF"),
+                SeparatorVisibility = SeparatorVisibility.None
             };
             _storiesListView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.TopStoryList));
             _storiesListView.SetBinding(ListView.IsRefreshingProperty, nameof(ViewModel.IsListRefreshing));

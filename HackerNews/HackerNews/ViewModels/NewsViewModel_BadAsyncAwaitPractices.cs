@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Linq;
+using System.Diagnostics;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -79,7 +80,7 @@ namespace HackerNews
                 topStoryList.Add(await getStoryTask);
             }
 
-            return topStoryList;
+            return topStoryList.OrderByDescending(x => x.Score).ToList();
         }
 
         //ToDo Refactor

@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
+using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -71,7 +72,7 @@ namespace HackerNews
                 topStoryList.Add(await getStoryTask.ConfigureAwait(false));
             }
 
-            return topStoryList;
+            return topStoryList.OrderByDescending(x => x.Score).ToList();
         }
 
         Task<List<string>> GetTopStoryIDs() =>
