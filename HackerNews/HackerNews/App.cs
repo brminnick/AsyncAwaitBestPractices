@@ -8,8 +8,8 @@ namespace HackerNews
         {
             MainPage = new NavigationPage(new NewsPage())
             {
-                BarBackgroundColor = Color.FromHex("FF6601"),
-                BarTextColor = Color.Black
+                BarBackgroundColor = ColorConstants.NavigationBarBackgroundColor,
+                BarTextColor = ColorConstants.NavigationBarTextColor
             };
         }
     }

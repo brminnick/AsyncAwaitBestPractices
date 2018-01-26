@@ -1,6 +1,4 @@
-﻿using System;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace HackerNews
 {
@@ -41,10 +39,10 @@ namespace HackerNews
             var listView = sender as ListView;
             var storyTapped = e.Item as StoryModel;
 
-            Device.BeginInvokeOnMainThread(() =>
+            Device.BeginInvokeOnMainThread(async () =>
             {
                 listView.SelectedItem = null;
-                Device.OpenUri(new Uri(storyTapped.Url));
+                await DependencyService.Get<IBrowserServices>()?.OpenBrowser(storyTapped.Url);
             });
         }
     }

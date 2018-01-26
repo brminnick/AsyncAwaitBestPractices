@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -121,6 +122,8 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Services\BrowserServices_iOS.cs" />
+    <Compile Include="HelperMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HackerNews\HackerNews.csproj">

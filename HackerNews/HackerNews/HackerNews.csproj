@@ -14,5 +14,7 @@
 	  <Folder Include="Models\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="Views\News\" />
+	  <Folder Include="Services\" />
+	  <Folder Include="Constants\" />
 	</ItemGroup>
 </Project>

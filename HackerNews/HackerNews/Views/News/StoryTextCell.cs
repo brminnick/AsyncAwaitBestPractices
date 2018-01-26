@@ -6,7 +6,11 @@ namespace HackerNews
 {
     public class StoryTextCell : TextCell
     {
-        public StoryTextCell() => DetailColor = Color.FromHex("828282");
+        public StoryTextCell()
+        {
+            TextColor = ColorConstants.TextCellTextColor;
+            DetailColor = ColorConstants.TextCellDetailColor;
+        }
 
         protected override void OnBindingContextChanged()
         {
