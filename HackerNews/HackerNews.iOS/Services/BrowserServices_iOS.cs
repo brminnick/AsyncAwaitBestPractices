@@ -18,8 +18,8 @@ namespace HackerNews.iOS
         {
             var safariViewController = new SFSafariViewController(new NSUrl(url), true)
             {
-                PreferredBarTintColor = ColorConstants.NavigationBarBackgroundColor.ToUIColor(),
-                PreferredControlTintColor = ColorConstants.NavigationBarTextColor.ToUIColor()
+                PreferredBarTintColor = ColorConstants.BrowserNavigationBarBackgroundColor.ToUIColor(),
+                PreferredControlTintColor = ColorConstants.BrowserNavigationBarTextColor.ToUIColor()
             };
 
             var visibleViewController = await HelperMethods.GetVisibleViewController();

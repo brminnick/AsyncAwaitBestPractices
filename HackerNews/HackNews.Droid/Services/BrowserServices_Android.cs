@@ -22,7 +22,8 @@ namespace HackerNews.Droid
         {
             var tabsBuilder = new CustomTabsIntent.Builder();
             tabsBuilder.SetShowTitle(true);
-            tabsBuilder.SetToolbarColor(ColorConstants.NavigationBarBackgroundColor.ToAndroid());
+            tabsBuilder.SetToolbarColor(ColorConstants.BrowserNavigationBarBackgroundColor.ToAndroid());
+            tabsBuilder.SetSecondaryToolbarColor(ColorConstants.BrowserNavigationBarTextColor.ToAndroid());
 
             var intent = tabsBuilder.Build();
             intent.LaunchUrl(CurrentContext, Android.Net.Uri.Parse(url));
