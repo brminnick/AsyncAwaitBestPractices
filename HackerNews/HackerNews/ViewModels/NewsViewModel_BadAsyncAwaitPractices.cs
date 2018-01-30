@@ -77,7 +77,7 @@ namespace HackerNews
             foreach (var getStoryTask in getTop20StoriesTaskList)
             {
                 //ToDo Refactor
-                topStoryList.Add(await getStoryTask);
+                topStoryList.Add(getStoryTask.Result);
             }
 
             return topStoryList.OrderByDescending(x => x.Score).ToList();
