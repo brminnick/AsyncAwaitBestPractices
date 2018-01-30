@@ -55,7 +55,7 @@ namespace HackerNews
             finally
             {
                 //ToDo Refactor
-                SetIsRefreshing(true).Wait();
+                SetIsRefreshing(false).Wait();
             }
         }
 
