@@ -47,21 +47,21 @@ namespace HackerNews
 
             var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
 
+            UpdateActivityIndicatorStatus(true);
+
             try
             {
-                UpdateActivityIndicatorStatus(true);
-
                 using (var stream = await _client.GetStreamAsync(apiUrl).ConfigureAwait(false))
                 using (var reader = new StreamReader(stream))
                 using (var json = new JsonTextReader(reader))
                 {
-                    if (json == null)
+                    if (json is null)
                         return default;
 
                     return await Task.Run(() => _serializer.Deserialize<TDataObject>(json)).ConfigureAwait(false);
                 }
             }
-            catch (Exception)
+            catch
             {
                 return default;
             }
