@@ -102,10 +102,12 @@ namespace HackerNews
             }
         }
 
-        async Task SetIsRefreshing(bool isRefreshing)
+        async Task<bool> SetIsRefreshing(bool isRefreshing)
         {
             IsListRefreshing = isRefreshing;
             await Task.Delay(100);
+
+            return isRefreshing;
         }
         #endregion
     }
