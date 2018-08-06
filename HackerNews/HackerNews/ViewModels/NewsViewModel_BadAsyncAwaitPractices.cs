@@ -49,7 +49,6 @@ namespace HackerNews
 
             try
             {
-                //ToDo Refactor
                 TopStoryList = await GetTopStories(20);
             }
             finally
