@@ -19,8 +19,7 @@ namespace HackerNews
         #region Constructors
         public NewsViewModel_BadAsyncAwaitPractices()
         {
-            //ToDo Refactor
-            Task.Run(async () => await ExecuteRefreshCommand());
+            ExecuteRefreshCommand();
         }
         #endregion
 
