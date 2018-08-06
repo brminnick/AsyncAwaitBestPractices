@@ -83,12 +83,6 @@ namespace HackerNews
         }
 
         //ToDo Refactor
-        async Task SetIsRefreshing(bool isRefreshing)
-        {
-            IsListRefreshing = isRefreshing;
-        }
-
-        //ToDo Refactor
         async Task<List<string>> GetTopStoryIDs()
         {
             return await GetDataObjectFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
@@ -106,6 +100,12 @@ namespace HackerNews
                 Debug.WriteLine(e.Message);
                 return null;
             }
+        }
+
+        async Task SetIsRefreshing(bool isRefreshing)
+        {
+            IsListRefreshing = isRefreshing;
+            await Task.Delay(100);
         }
         #endregion
     }
