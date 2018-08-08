@@ -71,16 +71,9 @@ namespace HackerNews
             }
 
             //ToDo Refactor
-            await Task.WhenAll(getTop20StoriesTaskList);
+            var completedGetTop20StoriesTaskList = await Task.WhenAll(getTop20StoriesTaskList);
 
-            var topStoryList = new List<StoryModel>();
-            foreach (var getStoryTask in getTop20StoriesTaskList)
-            {
-                //ToDo Refactor
-                topStoryList.Add(getStoryTask.Result);
-            }
-
-            return topStoryList.OrderByDescending(x => x.Score).ToList();
+            return completedGetTop20StoriesTaskList.OrderByDescending(x => x.Score).ToList();
         }
 
         //ToDo Refactor
