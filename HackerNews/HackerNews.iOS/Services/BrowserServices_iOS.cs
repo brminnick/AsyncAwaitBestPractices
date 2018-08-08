@@ -22,7 +22,7 @@ namespace HackerNews.iOS
                 PreferredControlTintColor = ColorConstants.BrowserNavigationBarTextColor.ToUIColor()
             };
 
-            var visibleViewController = await HelperMethods.GetVisibleViewController();
+			var visibleViewController = await HelperMethods.GetVisibleViewController().ConfigureAwait(false);
 
             var taskCompletionSource = new TaskCompletionSource<bool>();
             DispatchQueue.MainQueue.DispatchAsync(() =>
@@ -31,7 +31,7 @@ namespace HackerNews.iOS
                 taskCompletionSource.SetResult(true);
             });
 
-            await taskCompletionSource.Task;
+            await taskCompletionSource.Task.ConfigureAwait(false);
         }
     }
 }

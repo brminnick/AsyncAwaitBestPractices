@@ -20,7 +20,7 @@ namespace HackerNews
         public NewsViewModel_BadAsyncAwaitPractices()
         {
             //ToDo Refactor
-            Task.Run(async () => await ExecuteRefreshCommand());
+            ExecuteRefreshCommand();
         }
         #endregion
 
@@ -49,7 +49,6 @@ namespace HackerNews
 
             try
             {
-                //ToDo Refactor
                 TopStoryList = await GetTopStories(20);
             }
             finally
@@ -64,22 +63,16 @@ namespace HackerNews
             //ToDo Refactor
             var topStoryIds = await GetTopStoryIDs();
 
-            var getTop20StoriesTaskList = new List<Task<StoryModel>>();
+            var getTopStoriesTaskList = new List<Task<StoryModel>>();
             for (int i = 0; i < numberOfStories; i++)
             {
-                getTop20StoriesTaskList.Add(GetStory(topStoryIds[i]));
+                getTopStoriesTaskList.Add(GetStory(topStoryIds[i]));
             }
 
             //ToDo Refactor
-            var completedGetTop20StoriesTaskList = await Task.WhenAll(getTop20StoriesTaskList);
+            var completedGetTop20StoriesTaskList = await Task.WhenAll(getTopStoriesTaskList);
 
             return completedGetTop20StoriesTaskList.OrderByDescending(x => x.Score).ToList();
-        }
-
-        //ToDo Refactor
-        async Task SetIsRefreshing(bool isRefreshing)
-        {
-            IsListRefreshing = isRefreshing;
         }
 
         //ToDo Refactor
@@ -100,6 +93,14 @@ namespace HackerNews
                 Debug.WriteLine(e.Message);
                 return null;
             }
+        }
+
+        async Task<bool> SetIsRefreshing(bool isRefreshing)
+        {
+            IsListRefreshing = isRefreshing;
+            await Task.Delay(100);
+
+            return isRefreshing;
         }
         #endregion
     }
