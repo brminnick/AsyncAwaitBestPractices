@@ -61,9 +61,9 @@ namespace HackerNews
 				getTopStoryTaskList.Add(GetStory(topStoryIds[i]));
 			}
 
-			var top20Stories = await Task.WhenAll(getTopStoryTaskList).ConfigureAwait(false);
+            var topStoriesArray = await Task.WhenAll(getTopStoryTaskList).ConfigureAwait(false);
 
-			return top20Stories.OrderByDescending(x => x.Score).ToList();
+			return topStoriesArray.OrderByDescending(x => x.Score).ToList();
 		}
 
 		Task<List<string>> GetTopStoryIDs() =>

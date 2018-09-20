@@ -70,9 +70,9 @@ namespace HackerNews
             }
 
             //ToDo Refactor
-            var completedGetTop20StoriesTaskList = await Task.WhenAll(getTopStoriesTaskList);
+            var topStoriesArray = await Task.WhenAll(getTopStoriesTaskList);
 
-            return completedGetTop20StoriesTaskList.OrderByDescending(x => x.Score).ToList();
+            return topStoriesArray.OrderByDescending(x => x.Score).ToList();
         }
 
         //ToDo Refactor
