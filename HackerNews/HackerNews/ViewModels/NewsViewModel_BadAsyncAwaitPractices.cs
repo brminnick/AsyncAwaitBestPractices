@@ -65,10 +65,10 @@ namespace HackerNews
             //ToDo Refactor
             var topStoryIds = await GetTopStoryIDs();
 
-            foreach (var storyId in topStoryIds)
+            for (int i = 0; i < numberOfStories; i++)
             {
                 //ToDo Refactor
-                var story = await GetStory(storyId);
+                var story = await GetStory(topStoryIds[i]);
                 topStoryList.Add(story);
             }
 
