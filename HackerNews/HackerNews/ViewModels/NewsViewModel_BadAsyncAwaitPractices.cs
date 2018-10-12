@@ -25,7 +25,7 @@ namespace HackerNews
         #endregion
 
         #region Properties
-        public ICommand RefreshCommand => _refreshCommand ?? 
+        public ICommand RefreshCommand => _refreshCommand ??
             (_refreshCommand = new Command(async () => await ExecuteRefreshCommand()));
 
         public List<StoryModel> TopStoryList
@@ -60,19 +60,19 @@ namespace HackerNews
 
         async Task<List<StoryModel>> GetTopStories(int numberOfStories)
         {
+            List<StoryModel> topStoryList = new List<StoryModel>();
+
             //ToDo Refactor
             var topStoryIds = await GetTopStoryIDs();
 
-            var getTopStoriesTaskList = new List<Task<StoryModel>>();
-            for (int i = 0; i < numberOfStories; i++)
+            foreach (var storyId in topStoryIds)
             {
-                getTopStoriesTaskList.Add(GetStory(topStoryIds[i]));
+                //ToDo Refactor
+                var story = await GetStory(storyId);
+                topStoryList.Add(story);
             }
 
-            //ToDo Refactor
-            var topStoriesArray = await Task.WhenAll(getTopStoriesTaskList);
-
-            return topStoriesArray.OrderByDescending(x => x.Score).ToList();
+            return topStoryList.Where(x => x != null).OrderByDescending(x => x.Score).ToList();
         }
 
         //ToDo Refactor
@@ -84,11 +84,14 @@ namespace HackerNews
         //ToDo Refactor
         async Task<StoryModel> GetStory(string storyId)
         {
+            if (string.IsNullOrWhiteSpace(storyId))
+                return null;
+
             try
             {
                 return await GetDataObjectFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
             }
-            catch(System.Exception e)
+            catch (System.Exception e)
             {
                 Debug.WriteLine(e.Message);
                 return null;
