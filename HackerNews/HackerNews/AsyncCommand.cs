@@ -43,20 +43,7 @@ namespace HackerNews
         }
 
         bool ICommand.CanExecute(object parameter) => CanExecute();
-
-#pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
-        async void ICommand.Execute(object parameter)
-#pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
-        {
-            try
-            {
-                await ExecuteAsync().ConfigureAwait(_continueOnCapturedContext);
-            }
-            catch (Exception ex)
-            {
-                _onException?.Invoke(ex);
-            }
-        }
+        void ICommand.Execute(object parameter) => _execute.Invoke().FireAndForgetSafeAsync(_continueOnCapturedContext, _onException);
         #endregion
     }
 
@@ -64,5 +51,30 @@ namespace HackerNews
     {
         Task ExecuteAsync();
         bool CanExecute();
+    }
+
+    public static class TaskExtensions
+    {
+#pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
+        public static async void FireAndForgetSafeAsync(this Task task, bool continueOnCapturedContext = true, Action<Exception> onException = null)
+#pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
+        {
+            try
+            {
+                await task.ConfigureAwait(continueOnCapturedContext);
+            }
+            catch (Exception ex)
+            {
+                switch(onException)
+                {
+                    case null:
+                        throw;
+                    
+                    default:
+                        onException?.Invoke(ex);
+                        break;
+                }
+            }
+        }
     }
 }
