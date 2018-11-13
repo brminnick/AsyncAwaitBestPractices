@@ -22,7 +22,7 @@ namespace HackerNews
             _execute = execute;
             _continueOnCapturedContext = continueOnCapturedContext;
             _onException = (onException is null) ? (ex => throw ex) : onException;
-            _canExecute = canExecute;
+            _canExecute = (canExecute is null) ? () => true : canExecute;
         }
         #endregion
 
