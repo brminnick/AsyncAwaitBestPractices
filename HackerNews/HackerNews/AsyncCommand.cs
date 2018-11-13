@@ -14,16 +14,15 @@ namespace HackerNews
         #endregion
 
         #region Constructors
-        public AsyncCommand(
-            Func<Task> execute,
-            Action<Exception> errorHandler = null,
-            bool continueOnCapturedContext = true,
-            Func<bool> canExecute = null)
+        public AsyncCommand(Func<Task> execute,
+                            bool continueOnCapturedContext = true,
+                            Action<Exception> onException = null,
+                            Func<bool> canExecute = null)
         {
             _execute = execute;
-            _canExecute = canExecute;
-            _onException = errorHandler;
             _continueOnCapturedContext = continueOnCapturedContext;
+            _onException = (onException is null) ? (ex => throw ex) : onException;
+            _canExecute = canExecute;
         }
         #endregion
 
@@ -35,10 +34,12 @@ namespace HackerNews
         public bool CanExecute() => _canExecute?.Invoke() ?? true;
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
-        public async Task ExecuteAsync()
+        public Task ExecuteAsync()
         {
-            if (CanExecute())
-                await _execute?.Invoke();
+            if (CanExecute() && _execute != null)
+                return _execute.Invoke();
+
+            return Task.CompletedTask;
         }
 
         bool ICommand.CanExecute(object parameter) => CanExecute();

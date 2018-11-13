@@ -19,7 +19,7 @@ namespace HackerNews
 
         #region Properties
         public IAsyncCommand RefreshCommand => _refreshCommand ??
-            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand, ex => Debug.WriteLine(ex.Message), false));
+            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand, false));
 
         public List<StoryModel> TopStoryList
         {
