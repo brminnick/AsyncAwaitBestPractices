@@ -1,10 +1,7 @@
 ﻿using System.Linq;
 using System.Diagnostics;
-using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
-using Xamarin.Forms;
 
 namespace HackerNews
 {
@@ -12,7 +9,7 @@ namespace HackerNews
     {
         #region Fields
         bool _isListRefreshing;
-        ICommand _refreshCommand;
+        IAsyncCommand _refreshCommand;
         List<StoryModel> _topStoryList;
         #endregion
 
@@ -21,8 +18,8 @@ namespace HackerNews
         #endregion
 
         #region Properties
-        public ICommand RefreshCommand => _refreshCommand ??
-            (_refreshCommand = new Command(async () => await ExecuteRefreshCommand().ConfigureAwait(false)));
+        public IAsyncCommand RefreshCommand => _refreshCommand ??
+            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand, ex => Debug.WriteLine(ex.Message), false));
 
         public List<StoryModel> TopStoryList
         {
