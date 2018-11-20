@@ -25,6 +25,7 @@ namespace HackerNews
         #endregion
 
         #region Properties
+        //ToDo Refactor
         public ICommand RefreshCommand => _refreshCommand ??
             (_refreshCommand = new Command(async () => await ExecuteRefreshCommand()));
 

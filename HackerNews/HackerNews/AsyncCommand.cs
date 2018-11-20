@@ -4,6 +4,7 @@ using System.Windows.Input;
 
 namespace HackerNews
 {
+    //Credit to John Thiriet, https://johnthiriet.com/mvvm-going-async-with-async-command/
     public class AsyncCommand : IAsyncCommand
     {
         #region Constant Fields
@@ -36,7 +37,7 @@ namespace HackerNews
         public Task ExecuteAsync() => CanExecute() ? _execute?.Invoke() : Task.CompletedTask;
 
         bool ICommand.CanExecute(object parameter) => CanExecute();
-        void ICommand.Execute(object parameter) => _execute?.Invoke()?.FireAndForgetSafeAsync(_continueOnCapturedContext, _onException);
+        void ICommand.Execute(object parameter) => _execute?.Invoke()?.FireAndForgetSafe(_continueOnCapturedContext, _onException);
         #endregion
     }
 
@@ -46,10 +47,11 @@ namespace HackerNews
         bool CanExecute();
     }
 
+    //Credit to John Thiriet, https://johnthiriet.com/removing-async-void/
     public static class TaskExtensions
     {
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
-        public static async void FireAndForgetSafeAsync(this Task task, bool continueOnCapturedContext = true, Action<Exception> onException = null)
+        public static async void FireAndForgetSafe(this Task task, bool continueOnCapturedContext = true, Action<Exception> onException = null)
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
         {
             try
