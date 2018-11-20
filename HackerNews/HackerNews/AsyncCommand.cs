@@ -33,17 +33,10 @@ namespace HackerNews
         #region Methods
         public bool CanExecute() => _canExecute?.Invoke() ?? true;
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-
-        public Task ExecuteAsync()
-        {
-            if (CanExecute() && _execute != null)
-                return _execute.Invoke();
-
-            return Task.CompletedTask;
-        }
+        public Task ExecuteAsync() => CanExecute() ? _execute?.Invoke() : Task.CompletedTask;
 
         bool ICommand.CanExecute(object parameter) => CanExecute();
-        void ICommand.Execute(object parameter) => _execute.Invoke().FireAndForgetSafeAsync(_continueOnCapturedContext, _onException);
+        void ICommand.Execute(object parameter) => _execute?.Invoke()?.FireAndForgetSafeAsync(_continueOnCapturedContext, _onException);
         #endregion
     }
 
@@ -63,17 +56,12 @@ namespace HackerNews
             {
                 await task.ConfigureAwait(continueOnCapturedContext);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                switch(onException)
-                {
-                    case null:
-                        throw;
-                    
-                    default:
-                        onException?.Invoke(ex);
-                        break;
-                }
+                if (onException is null)
+                    throw;
+
+                onException?.Invoke(e);
             }
         }
     }
