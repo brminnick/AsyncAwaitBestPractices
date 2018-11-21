@@ -9,7 +9,7 @@ namespace HackerNews
     {
         #region Constant Fields
         readonly Func<Task> _execute;
-        readonly Func<bool> _canExecute;
+        readonly Func<object, bool> _canExecute;
         readonly Action<Exception> _onException;
         readonly bool _continueOnCapturedContext;
         #endregion
@@ -18,12 +18,12 @@ namespace HackerNews
         public AsyncCommand(Func<Task> execute,
                             bool continueOnCapturedContext = true,
                             Action<Exception> onException = null,
-                            Func<bool> canExecute = null)
+                            Func<object, bool> canExecute = null)
         {
             _execute = execute;
             _continueOnCapturedContext = continueOnCapturedContext;
             _onException = (onException is null) ? (ex => throw ex) : onException;
-            _canExecute = (canExecute is null) ? () => true : canExecute;
+            _canExecute = (canExecute is null) ? _ => true : canExecute;
         }
         #endregion
 
@@ -32,38 +32,36 @@ namespace HackerNews
         #endregion
 
         #region Methods
-        public bool CanExecute() => _canExecute?.Invoke() ?? true;
+        public bool CanExecute(object parameter) => _canExecute?.Invoke(parameter) ?? true;
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        public Task ExecuteAsync() => CanExecute() ? _execute?.Invoke() : Task.CompletedTask;
+        public Task ExecuteAsync(object parameter) => _execute?.Invoke();
 
-        bool ICommand.CanExecute(object parameter) => CanExecute();
-        void ICommand.Execute(object parameter) => _execute?.Invoke()?.FireAndForgetSafe(_continueOnCapturedContext, _onException);
+        void ICommand.Execute(object parameter) => _execute?.Invoke()?.SafeFireAndForget(_continueOnCapturedContext, _onException);
         #endregion
     }
 
     public interface IAsyncCommand : ICommand
     {
-        Task ExecuteAsync();
-        bool CanExecute();
+        Task ExecuteAsync(object parameter);
     }
 
     //Credit to John Thiriet, https://johnthiriet.com/removing-async-void/
     public static class TaskExtensions
     {
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
-        public static async void FireAndForgetSafe(this Task task, bool continueOnCapturedContext = true, Action<Exception> onException = null)
+        public static async void SafeFireAndForget(this Task task, bool continueOnCapturedContext = true, Action<Exception> onException = null)
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
         {
             try
             {
                 await task.ConfigureAwait(continueOnCapturedContext);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 if (onException is null)
                     throw;
-
-                onException?.Invoke(e);
+                else
+                    onException?.Invoke(ex);
             }
         }
     }

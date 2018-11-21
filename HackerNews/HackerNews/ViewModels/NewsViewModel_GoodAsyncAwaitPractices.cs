@@ -14,7 +14,7 @@ namespace HackerNews
         #endregion
 
         #region Constructors
-        public NewsViewModel_GoodAsyncAwaitPractices() => ExecuteRefreshCommand().FireAndForgetSafe(false);
+        public NewsViewModel_GoodAsyncAwaitPractices() => ExecuteRefreshCommand().SafeFireAndForget(false);
         #endregion
 
         #region Properties
