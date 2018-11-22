@@ -1,20 +1,20 @@
 # AsyncAwaitBestPractices
 
 Extensions for `System.Threading.Tasks.Task`:
-- `AsyncAwaitBestPractices` 
+- AsyncAwaitBestPractices
   - Contains `SafeFireAndForget`, an extension method to safely fire-and-forget a `Task`
   - [Usage instructions below](#asyncawaitbestpractices)
-- `AsyncAwaitBestPractices.MVVM`
+- AsyncAwaitBestPractices.MVVM
   - Contains `AsyncCommand<T> : IAsyncCommand`, `AsyncCommand : IAsyncCommand` and `IAsyncCommand : ICommand`, which allow for `Task` to safely be used asynchronously with `ICommand`
   - [Usage instructions below](#asyncawaitbestpracticesmvvm)
 
 ## Setup
 
-###  `AsyncAwaitBestPractices` 
+###  AsyncAwaitBestPractices
   - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ [![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
   - Add to any project supporting .NET Standard 1.0
 
-### `AsyncAwaitBestPractices.MVVM`
+### AsyncAwaitBestPractices.MVVM
   - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/ [![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.MVVM.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
   - Add to any project supporting .NET Standard 2.0
   
@@ -50,7 +50,7 @@ public class ExampleClass
         ExampleAsyncCommand = new AsyncCommand(ExampleAsyncMethod);
         ExampleAsyncIntCommand = new AsyncCommand<int>(ExampleAsyncMethodWithIntParameter);
         ExampleAsyncExceptionCommand = new AsyncCommand(ExampleAsyncMethodWithException, onException: ex => Console.WriteLine(ex.Message));
-        ExampleAsyncCommandNotReturningToTheCallingThread = new AsyncCommand(ExampleAsyncMethod, continueOnCapturedContext:false);
+        ExampleAsyncCommandNotReturningToTheCallingThread = new AsyncCommand(ExampleAsyncMethod, continueOnCapturedContext: false);
     }
     
     public IAsyncCommand ExampleAsyncCommand { get; }
