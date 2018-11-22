@@ -8,7 +8,6 @@
 		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
 		<PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
 		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
-		<PackageReference Include="TaskExentions.MVVM" Version="0.9.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\Base\" />
@@ -18,5 +17,8 @@
 	  <Folder Include="Views\News\" />
 	  <Folder Include="Services\" />
 	  <Folder Include="Constants\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
 	</ItemGroup>
 </Project>
