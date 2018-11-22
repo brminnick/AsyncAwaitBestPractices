@@ -9,10 +9,11 @@ Extensions for `System.Threading.Tasks.Task`:
   - [Usage instructions below](#AsyncAwaitBestPractices.MVVM)
 
 # Setup
+- `AsyncAwaitBestPractices` 
+  - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ [![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
 
-* Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ [![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
-
-* Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/ [![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.MVVM.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
+- `AsyncAwaitBestPractices.MVVM`
+  - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/ [![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.MVVM.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
 
 # Usage
 
