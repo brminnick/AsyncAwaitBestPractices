@@ -6,6 +6,6 @@
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
       <DebugSymbols>true</DebugSymbols>
       <DebugType>full</DebugType>
-      <DocumentationFile>bin\Release\netstandard1.0\TaskExtensions.xml</DocumentationFile>
+      <DocumentationFile>bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml</DocumentationFile>
     </PropertyGroup>
 </Project>
