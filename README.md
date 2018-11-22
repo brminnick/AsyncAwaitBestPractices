@@ -8,18 +8,19 @@ Extensions for `System.Threading.Tasks.Task`:
   - Contains `AsyncCommand<T> : IAsyncCommand`, `AsyncCommand : IAsyncCommand` and `IAsyncCommand : ICommand`, which allow for `Task` to safely be used asynchronously with `ICommand`
   - [Usage instructions below](#asyncawaitbestpracticesmvvm)
 
-# Setup
-- `AsyncAwaitBestPractices` 
+## Setup
+
+###  `AsyncAwaitBestPractices` 
   - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ [![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
   - Add to any project supporting .NET Standard 1.0
 
-- `AsyncAwaitBestPractices.MVVM`
+### `AsyncAwaitBestPractices.MVVM`
   - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/ [![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.MVVM.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
   - Add to any project supporting .NET Standard 2.0
   
-# Usage
+## Usage
 
-## AsyncAwaitBestPractices
+### AsyncAwaitBestPractices
 An extension method to safely fire-and-forget a Task
 
 ```csharp
@@ -38,7 +39,7 @@ async Task ExampleAsyncMethod()
 }
 ```
 
-## AsyncAwaitBestPractices.MVVM
+### AsyncAwaitBestPractices.MVVM
 Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task
 
 ```csharp
