@@ -19,6 +19,6 @@
 	  <Folder Include="Constants\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
+	  <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
 	</ItemGroup>
 </Project>
