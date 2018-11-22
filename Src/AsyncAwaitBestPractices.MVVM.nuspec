@@ -6,7 +6,7 @@
     <title>Task Extensions for MVVM</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
-    <licenseUrl>https://github.com/brminnick/AsyncAwaitBestPractices/blob/master/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/brminnick/AsyncAwaitBestPractices/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</projectUrl>
     <!-- <iconUrl>TBD</iconUrl> -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

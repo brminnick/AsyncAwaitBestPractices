@@ -6,9 +6,9 @@
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
-    <licenseUrl>https://github.com/brminnick/AsyncAwaitBestPractices/blob/master/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/brminnick/AsyncAwaitBestPractices/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</projectUrl>
-    <!-- <iconUrl>https://github.com/brminnick/EntryCustomReturnPlugin/blob/master/Artwork/icon.png</iconUrl> -->
+    <!-- <iconUrl>TBD</iconUrl> -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
       An extension method to safely fire-and-forget a Task
