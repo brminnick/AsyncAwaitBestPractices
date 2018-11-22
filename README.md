@@ -1,6 +1,8 @@
 # AsyncAwaitBestPractices
 
-Extensions for `System.Threading.Tasks.Task`:
+Extensions for `System.Threading.Tasks.Task`, inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removing Async Void](https://johnthiriet.com/removing-async-void/) and [MVVM - Going Async With AsyncCommand](https://johnthiriet.com/mvvm-going-async-with-async-command/).
+
+
 - AsyncAwaitBestPractices
   - Contains `SafeFireAndForget`, an extension method to safely fire-and-forget a `Task`
   - [Usage instructions below](#asyncawaitbestpractices)
@@ -21,7 +23,8 @@ Extensions for `System.Threading.Tasks.Task`:
 ## Usage
 
 ### AsyncAwaitBestPractices
-An extension method to safely fire-and-forget a Task
+
+Contains `SafeFireAndForget`, an extension method to safely fire-and-forget a `Task`
 
 ```csharp
 void HandleButtonTapped(object sender, EventArgs e)
@@ -40,7 +43,8 @@ async Task ExampleAsyncMethod()
 ```
 
 ### AsyncAwaitBestPractices.MVVM
-Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task
+
+Contains `AsyncCommand<T> : IAsyncCommand`, `AsyncCommand : IAsyncCommand` and `IAsyncCommand : ICommand`, which allow for `Task` to safely be used asynchronously with `ICommand`
 
 ```csharp
 public class ExampleClass
