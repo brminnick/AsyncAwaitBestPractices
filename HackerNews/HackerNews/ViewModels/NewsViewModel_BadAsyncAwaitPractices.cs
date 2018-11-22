@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 
+using HackerNewsExtensions;
+
 namespace HackerNews
 {
     public class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel

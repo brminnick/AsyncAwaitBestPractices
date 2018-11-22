@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace HackerNews
+namespace HackerNewsExtensions
 {
     //Credit to John Thiriet, https://johnthiriet.com/mvvm-going-async-with-async-command/
     public class AsyncCommand : IAsyncCommand

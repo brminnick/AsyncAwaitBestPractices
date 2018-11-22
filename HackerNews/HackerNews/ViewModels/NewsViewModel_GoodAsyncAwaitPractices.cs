@@ -3,6 +3,9 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using TaskExtensions;
+using TaskExtensions.MVVM;
+
 namespace HackerNews
 {
     public class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
