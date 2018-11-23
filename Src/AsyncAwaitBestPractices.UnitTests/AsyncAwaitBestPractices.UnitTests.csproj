@@ -7,6 +7,7 @@
     <ItemGroup>
         <PackageReference Include="NUnit" Version="2.6.4" />
         <PackageReference Include="NUnitTestAdapter" Version="2.1.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
