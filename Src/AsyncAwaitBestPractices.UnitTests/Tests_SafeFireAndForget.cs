@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using AsyncAwaitBestPractices;
 using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
@@ -8,48 +8,20 @@ namespace AsyncAwaitBestPractices.UnitTests
     public class Tests_SafeFireAndForget : BaseTest
     {
         [Test]
-        public async Task SafeFireAndForget()
+        public void SafeFireAndForget_UnhandledException()
         {
             //Arrange
-            Exception exception = null;
 
             //Act
-            try
-            {
-                NoParameterTask().SafeFireAndForget();
-                await NoParameterTask();
-                await NoParameterTask();
-            }
-            catch (Exception e)
-            {
-                exception = e;
-            }
 
             //Assert
-            Assert.IsNull(exception);
-        }
-
-        [Test]
-        public async Task SafeFireAndForget_UnhandledException()
-        {
-            //Arrange
-            Exception exception = null;
-
-            //Act
-            try
+            Assert.Throws<Exception>(() =>
             {
                 NoParameterExceptionTask().SafeFireAndForget();
-                await NoParameterTask();
-                await NoParameterTask();
-            }
-            catch(Exception e)
-            {
-                exception = e;
-            }
-
-            //Assert
-            Assert.IsNotNull(exception);
+                Thread.Sleep(Delay * 2);
+            });
         }
+
 
         [Test]
         public async Task SafeFireAndForget_HandledException()
