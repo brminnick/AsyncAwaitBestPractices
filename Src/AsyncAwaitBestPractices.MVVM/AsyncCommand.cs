@@ -71,35 +71,22 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
         public Task ExecuteAsync(object parameter)
         {
-            switch (parameter)
-            {
-                case T validParameter:
-                    return ExecuteAsync(validParameter);
+            if (parameter is T validParameter)
+                return ExecuteAsync(validParameter);
+            else if (parameter is null && !typeof(T).IsValueType)
+                return ExecuteAsync((T)parameter);
 
-                case null when !typeof(T).IsValueType:
-
-                    return ExecuteAsync((T)parameter);
-
-                default:
-                    throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
-            }
+            throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
         }
 
         void ICommand.Execute(object parameter)
         {
-            switch (parameter)
-            {
-                case T validParameter:
-                    _execute?.Invoke(validParameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
-                    break;
-
-                case null when !typeof(T).IsValueType:
-                    _execute?.Invoke((T)parameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
-                    break;
-
-                default:
-                    throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
-            }
+            if (parameter is T validParameter)
+                _execute?.Invoke(validParameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
+            else if (parameter is null && !typeof(T).IsValueType)
+                _execute?.Invoke((T)parameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
+            else
+                throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
         }
         #endregion
     }
