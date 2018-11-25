@@ -41,7 +41,7 @@ void HandleButtonTapped(object sender, EventArgs e)
     // Allows the async Task method to safely run on a different thread while not awaiting its completion
     ExampleAsyncMethod().SafeFireAndForget();
     
-    // The code continues here while `ExampleAsyncMethod()` is running on a different thread
+    // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` is running on a different thread
     // ...
 }
 
