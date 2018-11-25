@@ -11,9 +11,9 @@ Extensions for `System.Threading.Tasks.Task`, inspired by [John Thiriet](https:/
   - [Usage instructions below](#asyncawaitbestpractices)
 - AsyncAwaitBestPractices.MVVM
   - Allows for `Task` to safely be used asynchronously with `ICommand`:
-    - `AsyncCommand<T> : IAsyncCommand`
+    - `IAsyncCommand : ICommand`
     - `AsyncCommand : IAsyncCommand`
-    - `IAsyncCommand : ICommand``Task` to safely be used asynchronously with `ICommand`
+    - `AsyncCommand<T> : IAsyncCommand`
   - [Usage instructions below](#asyncawaitbestpracticesmvvm)
 
 ## Setup
