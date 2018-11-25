@@ -6,10 +6,14 @@ Extensions for `System.Threading.Tasks.Task`, inspired by [John Thiriet](https:/
 
 
 - AsyncAwaitBestPractices
-  - Contains `SafeFireAndForget`, an extension method to safely fire-and-forget a `Task`
+  - An extension method to safely fire-and-forget a `Task`:
+    - `SafeFireAndForget`
   - [Usage instructions below](#asyncawaitbestpractices)
 - AsyncAwaitBestPractices.MVVM
-  - Contains `AsyncCommand<T> : IAsyncCommand`, `AsyncCommand : IAsyncCommand` and `IAsyncCommand : ICommand`, which allow for `Task` to safely be used asynchronously with `ICommand`
+  - Allows for `Task` to safely be used asynchronously with `ICommand`:
+    - `AsyncCommand<T> : IAsyncCommand`
+    - `AsyncCommand : IAsyncCommand`
+    - `IAsyncCommand : ICommand``Task` to safely be used asynchronously with `ICommand`
   - [Usage instructions below](#asyncawaitbestpracticesmvvm)
 
 ## Setup
