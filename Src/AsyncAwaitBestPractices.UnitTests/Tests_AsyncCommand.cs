@@ -90,7 +90,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public async Task AsyncCommand_ExecuteAsync_NoParameter_ContinueOnCapturedContext_Test(bool continueOnCapturedContext)
         {
             //Arrange
-            AsyncCommand command = new AsyncCommand(NoParameterTask, continueOnCapturedContext);
+            AsyncCommand command = new AsyncCommand(NoParameterTask, continueOnCapturedContext: continueOnCapturedContext);
             var callingThreadId = Thread.CurrentThread.ManagedThreadId;
 
             //Act
@@ -107,7 +107,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public async Task AsyncCommand_ExecuteAsync_Parameter_ContinueOnCapturedContext_Test(int parameter, bool continueOnCapturedContext)
         {
             //Arrange
-            AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, continueOnCapturedContext);
+            AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, continueOnCapturedContext: continueOnCapturedContext);
             var callingThreadId = Thread.CurrentThread.ManagedThreadId;
 
             //Act
@@ -123,7 +123,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public void AsyncCommand_Parameter_CanExecuteTrue_Test()
         {
             //Arrange
-            AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, canExecute: CanExecuteTrue);
+            AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, CanExecuteTrue);
 
             //Act
 
