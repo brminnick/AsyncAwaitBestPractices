@@ -6,24 +6,28 @@ Extensions for `System.Threading.Tasks.Task`, inspired by [John Thiriet](https:/
 
 
 - AsyncAwaitBestPractices
-  - Contains `SafeFireAndForget`, an extension method to safely fire-and-forget a `Task`
+  - An extension method to safely fire-and-forget a `Task`:
+    - `SafeFireAndForget`
   - [Usage instructions below](#asyncawaitbestpractices)
 - AsyncAwaitBestPractices.MVVM
-  - Contains `AsyncCommand<T> : IAsyncCommand`, `AsyncCommand : IAsyncCommand` and `IAsyncCommand : ICommand`, which allow for `Task` to safely be used asynchronously with `ICommand`
+  - Allows for `Task` to safely be used asynchronously with `ICommand`:
+    - `IAsyncCommand : ICommand`
+    - `AsyncCommand : IAsyncCommand`
+    - `AsyncCommand<T> : IAsyncCommand`
   - [Usage instructions below](#asyncawaitbestpracticesmvvm)
 
 ## Setup
 
 ###  AsyncAwaitBestPractices
 
-[![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.svg?label=Version)](https://www.nuget.org/packages/AsyncAwaitBestPractices/) [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.svg?label=Downloads)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
+[![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices/) [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.svg?label=Downloads)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
 
   - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ 
   - Add to any project supporting .NET Standard 1.0
 
 ### AsyncAwaitBestPractices.MVVM
 
-[![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.MVVM.svg?label=Version)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/) [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.MVVM.svg?label=Downloads)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
+[![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.MVVM.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/) [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.MVVM.svg?label=Downloads)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
 
   - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
   - Add to any project supporting .NET Standard 2.0
@@ -32,7 +36,8 @@ Extensions for `System.Threading.Tasks.Task`, inspired by [John Thiriet](https:/
 
 ### AsyncAwaitBestPractices
 
-Contains `SafeFireAndForget`, an extension method to safely fire-and-forget a `Task`
+An extension method to safely fire-and-forget a `Task`:
+- `SafeFireAndForget`
 
 ```csharp
 void HandleButtonTapped(object sender, EventArgs e)
@@ -40,7 +45,7 @@ void HandleButtonTapped(object sender, EventArgs e)
     // Allows the async Task method to safely run on a different thread while not awaiting its completion
     ExampleAsyncMethod().SafeFireAndForget();
     
-    // The code continues here while `ExampleAsyncMethod()` is running on a different thread
+    // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` is running on a different thread
     // ...
 }
 
@@ -52,7 +57,10 @@ async Task ExampleAsyncMethod()
 
 ### AsyncAwaitBestPractices.MVVM
 
-Contains `AsyncCommand<T> : IAsyncCommand`, `AsyncCommand : IAsyncCommand` and `IAsyncCommand : ICommand`, which allow for `Task` to safely be used asynchronously with `ICommand`
+Allows for `Task` to safely be used asynchronously with `ICommand`:
+- `AsyncCommand<T> : IAsyncCommand`
+- `AsyncCommand : IAsyncCommand`
+- `IAsyncCommand : ICommand`
 
 ```csharp
 public class ExampleClass
