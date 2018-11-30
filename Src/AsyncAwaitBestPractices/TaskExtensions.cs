@@ -21,15 +21,10 @@
             }
             catch (System.Exception ex)
             {
-                switch (onException)
-                {
-                    case null:
-                        throw;
+                if (onException is null)
+                    throw;
 
-                    default:
-                        onException?.Invoke(ex);
-                        break;
-                }
+                onException?.Invoke(ex);
             }
         }
     }

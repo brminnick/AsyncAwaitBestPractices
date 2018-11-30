@@ -40,10 +40,15 @@ An extension method to safely fire-and-forget a `Task`:
 - `SafeFireAndForget`
 
 ```csharp
+public static async void SafeFireAndForget(this System.Threading.Tasks.Task task, bool continueOnCapturedContext = true, System.Action<System.Exception> onException = null)
+```
+
+```csharp
 void HandleButtonTapped(object sender, EventArgs e)
 {
     // Allows the async Task method to safely run on a different thread while not awaiting its completion
-    ExampleAsyncMethod().SafeFireAndForget();
+    // If an exception is thrown, Console.WriteLine
+    ExampleAsyncMethod().SafeFireAndForget(onException: ex => Console.WriteLine(ex.Message));
     
     // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` is running on a different thread
     // ...
@@ -61,6 +66,22 @@ Allows for `Task` to safely be used asynchronously with `ICommand`:
 - `AsyncCommand<T> : IAsyncCommand`
 - `AsyncCommand : IAsyncCommand`
 - `IAsyncCommand : ICommand`
+
+
+```csharp
+public AsyncCommand(Func<T, Task> execute,
+                     Func<object, bool> canExecute = null,
+                     Action<Exception> onException = null,
+                     bool continueOnCapturedContext = true)   
+```
+
+```csharp
+public AsyncCommand(Func<Task> execute,
+                     Func<object, bool> canExecute = null,
+                     Action<Exception> onException = null,
+                     bool continueOnCapturedContext = true)
+```
+        
 
 ```csharp
 public class ExampleClass

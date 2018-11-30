@@ -29,7 +29,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.InvalidCommandParameterException"/> class.
         /// </summary>
-        public InvalidCommandParameterException() : base()
+        public InvalidCommandParameterException()
         {
 
         }

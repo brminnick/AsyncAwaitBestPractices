@@ -21,13 +21,13 @@ namespace AsyncAwaitBestPractices.MVVM
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
         /// </summary>
         /// <param name="execute">The Function executed when Execute or ExecuteAysnc is called. This does not check canExecute before executing and will execute even if canExecute is false</param>
-        /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
-        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
+        /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         public AsyncCommand(Func<T, Task> execute,
-                            bool continueOnCapturedContext = true,
+                            Func<object, bool> canExecute = null,
                             Action<Exception> onException = null,
-                            Func<object, bool> canExecute = null)
+                            bool continueOnCapturedContext = true)
         {
             _execute = execute;
             _continueOnCapturedContext = continueOnCapturedContext;
@@ -71,35 +71,22 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
         public Task ExecuteAsync(object parameter)
         {
-            switch (parameter)
-            {
-                case T validParameter:
-                    return ExecuteAsync(validParameter);
+            if (parameter is T validParameter)
+                return ExecuteAsync(validParameter);
+            else if (parameter is null && !typeof(T).IsValueType)
+                return ExecuteAsync((T)parameter);
 
-                case null when !typeof(T).IsValueType:
-
-                    return ExecuteAsync((T)parameter);
-
-                default:
-                    throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
-            }
+            throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
         }
 
         void ICommand.Execute(object parameter)
         {
-            switch (parameter)
-            {
-                case T validParameter:
-                    _execute?.Invoke(validParameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
-                    break;
-
-                case null when !typeof(T).IsValueType:
-                    _execute?.Invoke((T)parameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
-                    break;
-
-                default:
-                    throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
-            }
+            if (parameter is T validParameter)
+                _execute?.Invoke(validParameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
+            else if (parameter is null && !typeof(T).IsValueType)
+                _execute?.Invoke((T)parameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
+            else
+                throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
         }
         #endregion
     }
@@ -125,9 +112,9 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
         public AsyncCommand(Func<Task> execute,
-                            bool continueOnCapturedContext = true,
+                            Func<object, bool> canExecute = null,
                             Action<Exception> onException = null,
-                            Func<object, bool> canExecute = null)
+                            bool continueOnCapturedContext = true)
         {
             _execute = execute;
             _continueOnCapturedContext = continueOnCapturedContext;
