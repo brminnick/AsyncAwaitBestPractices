@@ -14,6 +14,7 @@ namespace AsyncAwaitBestPractices.MVVM
         readonly Func<object, bool> _canExecute;
         readonly Action<Exception> _onException;
         readonly bool _continueOnCapturedContext;
+        readonly WeakEventManager _weakEventManager = new WeakEventManager();
         #endregion
 
         #region Constructors
@@ -40,7 +41,11 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute
         /// </summary>
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { _weakEventManager.AddEventHandler(nameof(CanExecuteChanged), value); }
+            remove { _weakEventManager.RemoveEventHandler(nameof(CanExecuteChanged), value); }
+        }
         #endregion
 
         #region Methods
@@ -54,7 +59,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Raises the CanExecuteChanged event.
         /// </summary>
-        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        public void RaiseCanExecuteChanged() => _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
         /// <summary>
         /// Executes the Command as a Task
@@ -101,6 +106,7 @@ namespace AsyncAwaitBestPractices.MVVM
         readonly Func<object, bool> _canExecute;
         readonly Action<Exception> _onException;
         readonly bool _continueOnCapturedContext;
+        readonly WeakEventManager _weakEventManager = new WeakEventManager();
         #endregion
 
         #region Constructors
@@ -127,7 +133,11 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute
         /// </summary>
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { _weakEventManager.AddEventHandler(nameof(CanExecuteChanged), value); }
+            remove { _weakEventManager.RemoveEventHandler(nameof(CanExecuteChanged), value); }
+        }
         #endregion
 
         #region Methods
@@ -141,7 +151,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Raises the CanExecuteChanged event.
         /// </summary>
-        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        public void RaiseCanExecuteChanged() => _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
         /// <summary>
         /// Executes the Command as a Task
