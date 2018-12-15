@@ -4,7 +4,7 @@ using System.Reflection;
 
 using static System.String;
 
-namespace AsyncAwaitBestPractices.MVVM
+namespace AsyncAwaitBestPractices
 {
     /// <summary>
     /// Weak event manager that allows for garbage collection when the EventHandler is still subscribed
