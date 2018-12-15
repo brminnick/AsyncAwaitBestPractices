@@ -10,9 +10,15 @@ namespace HackerNews.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
+            Xamarin.Calabash.Start();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(uiApplication, launchOptions);
         }
+
+        [Preserve, Export("getStoriesAsBase64String:")]
+        public NSString GetStoriesAsBase64String(NSString noValue) =>
+            new NSString(BackdoorMethodServices.GetStoriesAsBase64String());
     }
 }

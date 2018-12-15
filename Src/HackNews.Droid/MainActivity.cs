@@ -19,5 +19,8 @@ namespace HackerNews.Droid
 
             LoadApplication(new App());
         }
+
+        [Android.Runtime.Preserve, Java.Interop.Export(nameof(GetStoriesAsBase64String))]
+        public string GetStoriesAsBase64String() => BackdoorMethodServices.GetStoriesAsBase64String();
     }
 }

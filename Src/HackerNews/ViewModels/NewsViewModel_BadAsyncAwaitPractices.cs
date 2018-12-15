@@ -4,6 +4,8 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using HackerNews.Shared;
+
 using Xamarin.Forms;
 
 namespace HackerNews

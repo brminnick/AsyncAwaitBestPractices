@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using HackerNews.Shared;
 
 namespace HackerNews
 {
@@ -8,7 +9,7 @@ namespace HackerNews
         readonly ListView _storiesListView;
         #endregion
 
-        public NewsPage() : base("Top Stories")
+        public NewsPage() : base(PageTitleConstants.NewsPageTitle)
         {
             _storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
             {
