@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
-namespace HackerNews
+namespace HackerNews.Shared
 {
     public class StoryModel
     {

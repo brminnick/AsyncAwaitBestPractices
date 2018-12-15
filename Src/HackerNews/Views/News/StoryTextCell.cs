@@ -1,5 +1,5 @@
 ﻿using System;
-
+using HackerNews.Shared;
 using Xamarin.Forms;
 
 namespace HackerNews

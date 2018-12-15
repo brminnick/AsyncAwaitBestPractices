@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 
+using HackerNews.Shared;
+
 namespace HackerNews
 {
     public class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
@@ -44,8 +46,8 @@ namespace HackerNews
 
             try
             {
-                TopStoryList = await GetTopStories(20).ConfigureAwait(false);
-            }
+                TopStoryList = await GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false);
+            } 
             finally
             {
                 IsListRefreshing = false;
