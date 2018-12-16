@@ -8,6 +8,7 @@ Extensions for `System.Threading.Tasks.Task`, inspired by [John Thiriet](https:/
 - AsyncAwaitBestPractices
   - An extension method to safely fire-and-forget a `Task`:
     - `SafeFireAndForget`
+    - `WeakEventManager`
   - [Usage instructions below](#asyncawaitbestpractices)
 - AsyncAwaitBestPractices.MVVM
   - Allows for `Task` to safely be used asynchronously with `ICommand`:
@@ -58,6 +59,21 @@ async Task ExampleAsyncMethod()
 {
     await Task.Delay(1000);
 }
+```
+
+An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents):
+- `WeakEventManager`
+
+```csharp
+readonly WeakEventManager _weakEventManager = new WeakEventManager();
+
+public event EventHandler CanExecuteChanged
+{
+    add => _weakEventManager.AddEventHandler(value);
+    remove => _weakEventManager.RemoveEventHandler(value);
+}
+
+public void RaiseCanExecuteChanged() => _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 ```
 
 ### AsyncAwaitBestPractices.MVVM

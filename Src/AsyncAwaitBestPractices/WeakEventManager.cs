@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 using static System.String;
+using System.Runtime.CompilerServices;
 
 namespace AsyncAwaitBestPractices
 {
@@ -17,10 +18,10 @@ namespace AsyncAwaitBestPractices
         /// <summary>
         /// Adds the event handler
         /// </summary>
-        /// <param name="eventName">Event name</param>
         /// <param name="handler">Handler</param>
+        /// <param name="eventName">Event name</param>
         /// <typeparam name="TEventArgs">EventHandler type</typeparam>
-        public void AddEventHandler<TEventArgs>(string eventName, EventHandler<TEventArgs> handler)
+        public void AddEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
             where TEventArgs : EventArgs
         {
             if (IsNullOrWhiteSpace(eventName))
@@ -35,9 +36,9 @@ namespace AsyncAwaitBestPractices
         /// <summary>
         /// Adds the event handler
         /// </summary>
-        /// <param name="eventName">Event name</param>
         /// <param name="handler">Handler</param>
-        public void AddEventHandler(string eventName, EventHandler handler)
+        /// <param name="eventName">Event name</param>
+        public void AddEventHandler(EventHandler handler, [CallerMemberName] string eventName = "")
         {
             if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
@@ -96,10 +97,10 @@ namespace AsyncAwaitBestPractices
         /// <summary>
         /// Removes the event handler
         /// </summary>
-        /// <param name="eventName">Event name</param>
         /// <param name="handler">Handler</param>
+        /// <param name="eventName">Event name</param>
         /// <typeparam name="TEventArgs">EventHandler type</typeparam>
-        public void RemoveEventHandler<TEventArgs>(string eventName, EventHandler<TEventArgs> handler)
+        public void RemoveEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
             where TEventArgs : EventArgs
         {
             if (IsNullOrEmpty(eventName))
@@ -114,9 +115,9 @@ namespace AsyncAwaitBestPractices
         /// <summary>
         /// Removes the event handler.
         /// </summary>
-        /// <param name="eventName">Event name</param>
         /// <param name="handler">Handler</param>
-        public void RemoveEventHandler(string eventName, EventHandler handler)
+        /// <param name="eventName">Event name</param>
+        public void RemoveEventHandler(EventHandler handler, [CallerMemberName] string eventName = "")
         {
             if (IsNullOrEmpty(eventName))
                 throw new ArgumentNullException(nameof(eventName));
