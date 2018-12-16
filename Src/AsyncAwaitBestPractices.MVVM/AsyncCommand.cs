@@ -43,8 +43,8 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         public event EventHandler CanExecuteChanged
         {
-            add { _weakEventManager.AddEventHandler(nameof(CanExecuteChanged), value); }
-            remove { _weakEventManager.RemoveEventHandler(nameof(CanExecuteChanged), value); }
+            add => _weakEventManager.AddEventHandler(value);
+            remove => _weakEventManager.RemoveEventHandler(value);
         }
         #endregion
 
@@ -135,8 +135,8 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         public event EventHandler CanExecuteChanged
         {
-            add { _weakEventManager.AddEventHandler(nameof(CanExecuteChanged), value); }
-            remove { _weakEventManager.RemoveEventHandler(nameof(CanExecuteChanged), value); }
+            add => _weakEventManager.AddEventHandler(value);
+            remove => _weakEventManager.RemoveEventHandler(value);
         }
         #endregion
 
