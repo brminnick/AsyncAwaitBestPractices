@@ -21,6 +21,54 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
     - `AsyncCommand<T> : IAsyncCommand`
   - [Usage instructions](#asyncawaitbestpracticesmvvm)
 
+## Why Do I Need This?
+
+**tl;dr** Non-awaited Tasks dont' rethrow exceptions
+
+To understand why this library was created, it's important to first understand how the compiler generates code for an `async` method.
+
+## Compiler-Generated Code for Async Method
+
+![Compiler-Generated Code for Async Method](https://i.stack.imgur.com/c9im1.png)
+
+(Source: [Xamarin University: _Using Async and Await_](https://university.xamarin.com/classes/track/csharp#csc350-async))
+
+The compiler transforms an `async` method into an `IAsyncStateMachine` class which allows the .NET Runtime to "remember" what the method has accomplished.
+
+![Move Next](https://i.stack.imgur.com/JsmG1.png)
+
+(Source: [Xamarin University: _Using Async and Await_](https://university.xamarin.com/classes/track/csharp#csc350-async))
+
+The `IAsyncStateMachine` interface implements `MoveNext()`, a method the executes everytime the `await` operator is used inside of the `async` method.
+
+`MoveNext()` essentially runs your code until it reaches an `await` statement, then it `return`s while the `await`'d method executes. This is the mechanism that allows the current method to "pause", yielding its thread execution to another thread/Task.
+
+### Try/Catch in `MoveNext()`
+
+Look closely at `MoveNext()`; notice that it is wrapped in a `try/catch` block.
+
+Because the compiler creates `IAsyncStateMachine` for every `async` method and `MoveNext()` is _always_ wrapped in a `try/catch`, every exception thrown inside of an `async` method is caught!
+
+## How to Rethrow an Exception Caught By `MoveNext`
+
+Now the question becomes, if every `async` method catches every exception thrown, How can I rethrow the exception? 
+
+There are a few ways to rethrow exceptions that are thrown in an `async` method:
+
+ 1. Use the `await` keyword _(Prefered)_
+    - e.g. `await DoSomethingAsync()`
+ 2. Use `.GetAwaiter().GetResult()`
+    - e.g. `DoSomethingAsync().GetAwaiter().GetResult()`
+
+The `await` keyword is preferred because `await` allows the `Task` to run asynchronously on a different thread, and it will not lock-up the current thread.
+
+### What About `.Result` or `.Wait()`?
+
+Never, never, never, never, never use `.Result` or `.Wait()`:
+
+ 1. Both `.Result` and `.Wait()` will lock-up the current thread. If the current thread is the Main Thread (also known as the UI Thread), your UI will freeze until the `Task` has completed.
+ 2.`.Result` or `.Wait()` rethrow your exception as a `System.AggregateException`, which makes it difficult to find the actual exception.
+
 ## Setup
 
 ###  AsyncAwaitBestPractices
