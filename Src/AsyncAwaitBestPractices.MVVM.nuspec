@@ -19,7 +19,7 @@
     <releaseNotes>
       New In This Release:
         - Improved memory management
-        - Implemented WeakEventManager for AsyncCommand.CanExecuteChanged and AsyncCommand<T>.CanExecuteChanged
+        - Implemented WeakEventManager for AsyncCommand.CanExecuteChanged
     </releaseNotes>
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
