@@ -6,9 +6,12 @@ Extensions for `System.Threading.Tasks.Task`, inspired by [John Thiriet](https:/
 
 
 - AsyncAwaitBestPractices
-  - An extension method to safely fire-and-forget a `Task`:
-    - `SafeFireAndForget`
+    - `SafeFireAndForget`    
+      - An extension method to safely fire-and-forget a `Task`:
     - `WeakEventManager`
+      - Avoids memory leaks when events are not unsubscribed
+      - Used by `AsyncCommand` and `AsyncCommand<T>` in `AsyncAwaitBestPractices.MVVM`
+
   - [Usage instructions below](#asyncawaitbestpractices)
 - AsyncAwaitBestPractices.MVVM
   - Allows for `Task` to safely be used asynchronously with `ICommand`:
