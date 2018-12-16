@@ -38,7 +38,7 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
 
 ## Why Do I Need This?
 
-**tl;dr** A non-awaited `Task` don't rethrow exceptions
+**tl;dr** A non-awaited `Task` doesn't rethrow exceptions
 
 To understand why this library was created, it's important to first understand how the compiler generates code for an `async` method.
 
