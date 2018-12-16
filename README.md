@@ -6,13 +6,12 @@ Extensions for `System.Threading.Tasks.Task`.
 
 Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removing Async Void](https://johnthiriet.com/removing-async-void/) and [MVVM - Going Async With AsyncCommand](https://johnthiriet.com/mvvm-going-async-with-async-command/).
 
-
 - AsyncAwaitBestPractices
-    - `SafeFireAndForget`    
-      - An extension method to safely fire-and-forget a `Task`:
-    - `WeakEventManager`
-      - Avoids memory leaks when events are not unsubscribed
-      - Used by `AsyncCommand` and `AsyncCommand<T>`
+  - `SafeFireAndForget`
+    - An extension method to safely fire-and-forget a `Task`:
+  - `WeakEventManager`
+    - Avoids memory leaks when events are not unsubscribed
+    - Used by `AsyncCommand` and `AsyncCommand<T>`
   - [Usage instructions](#asyncawaitbestpractices)
 - AsyncAwaitBestPractices.MVVM
   - Allows for `Task` to safely be used asynchronously with `ICommand`:
@@ -21,9 +20,25 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
     - `AsyncCommand<T> : IAsyncCommand`
   - [Usage instructions](#asyncawaitbestpracticesmvvm)
 
+## Setup
+
+###  AsyncAwaitBestPractices
+
+[![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices/) [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.svg?label=Downloads)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
+
+- Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ 
+- Add to any project supporting .NET Standard 1.0
+
+### AsyncAwaitBestPractices.MVVM
+
+[![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.MVVM.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/) [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.MVVM.svg?label=Downloads)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
+
+- Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
+- Add to any project supporting .NET Standard 2.0
+
 ## Why Do I Need This?
 
-**tl;dr** Non-awaited Tasks dont' rethrow exceptions
+**tl;dr** A non-awaited `Task` don't rethrow exceptions
 
 To understand why this library was created, it's important to first understand how the compiler generates code for an `async` method.
 
@@ -39,7 +54,7 @@ The compiler transforms an `async` method into an `IAsyncStateMachine` class whi
 
 (Source: [Xamarin University: _Using Async and Await_](https://university.xamarin.com/classes/track/csharp#csc350-async))
 
-The `IAsyncStateMachine` interface implements `MoveNext()`, a method the executes everytime the `await` operator is used inside of the `async` method.
+The `IAsyncStateMachine` interface implements `MoveNext()`, a method the executes every time the `await` operator is used inside of the `async` method.
 
 `MoveNext()` essentially runs your code until it reaches an `await` statement, then it `return`s while the `await`'d method executes. This is the mechanism that allows the current method to "pause", yielding its thread execution to another thread/Task.
 
@@ -68,28 +83,13 @@ Never, never, never, never, never use `.Result` or `.Wait()`:
 
  1. Both `.Result` and `.Wait()` will lock-up the current thread. If the current thread is the Main Thread (also known as the UI Thread), your UI will freeze until the `Task` has completed.
  2.`.Result` or `.Wait()` rethrow your exception as a `System.AggregateException`, which makes it difficult to find the actual exception.
-
-## Setup
-
-###  AsyncAwaitBestPractices
-
-[![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices/) [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.svg?label=Downloads)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
-
-  - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ 
-  - Add to any project supporting .NET Standard 1.0
-
-### AsyncAwaitBestPractices.MVVM
-
-[![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.MVVM.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/) [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.MVVM.svg?label=Downloads)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
-
-  - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
-  - Add to any project supporting .NET Standard 2.0
   
-## Usage
+# Usage
 
-### AsyncAwaitBestPractices
+## AsyncAwaitBestPractices
 
 An extension method to safely fire-and-forget a `Task`:
+
 - `SafeFireAndForget`
 
 ```csharp
@@ -102,7 +102,7 @@ void HandleButtonTapped(object sender, EventArgs e)
     // Allows the async Task method to safely run on a different thread while not awaiting its completion
     // If an exception is thrown, Console.WriteLine
     ExampleAsyncMethod().SafeFireAndForget(onException: ex => Console.WriteLine(ex.Message));
-    
+
     // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` is running on a different thread
     // ...
 }
@@ -114,6 +114,7 @@ async Task ExampleAsyncMethod()
 ```
 
 An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents):
+
 - `WeakEventManager`
 
 ```csharp
@@ -128,13 +129,13 @@ public event EventHandler CanExecuteChanged
 public void RaiseCanExecuteChanged() => _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 ```
 
-### AsyncAwaitBestPractices.MVVM
+## AsyncAwaitBestPractices.MVVM
 
 Allows for `Task` to safely be used asynchronously with `ICommand`:
+
 - `AsyncCommand<T> : IAsyncCommand`
 - `AsyncCommand : IAsyncCommand`
 - `IAsyncCommand : ICommand`
-
 
 ```csharp
 public AsyncCommand(Func<T, Task> execute,
@@ -149,7 +150,6 @@ public AsyncCommand(Func<Task> execute,
                      Action<Exception> onException = null,
                      bool continueOnCapturedContext = true)
 ```
-        
 
 ```csharp
 public class ExampleClass
@@ -161,7 +161,7 @@ public class ExampleClass
         ExampleAsyncExceptionCommand = new AsyncCommand(ExampleAsyncMethodWithException, onException: ex => Console.WriteLine(ex.Message));
         ExampleAsyncCommandNotReturningToTheCallingThread = new AsyncCommand(ExampleAsyncMethod, continueOnCapturedContext: false);
     }
-    
+
     public IAsyncCommand ExampleAsyncCommand { get; }
     public IAsyncCommand ExampleAsyncIntCommand { get; }
     public IAsyncCommand ExampleAsyncExceptionCommand { get; }
@@ -176,13 +176,13 @@ public class ExampleClass
     {
         await Task.Delay(parameter);
     }
-    
+
     async Task ExampleAsyncMethodWithException()
     {
         await Task.Delay(1000);
         throw new Exception();
     }
-    
+
     void ExecuteCommands()
     {
         ExampleAsyncCommand.Execute(null);
