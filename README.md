@@ -38,9 +38,14 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
 
 ## Why Do I Need This?
 
-**tl;dr** A non-awaited `Task` doesn't rethrow exceptions
+Async/await is great *but* there are two problems that are subtle that can easily creep into code:
+1) Creating race conditions/concurrent execution (where you code things in the right order but the code executes in a different order than you expect) 
+2) Creating methods where the compiler recognizes exceptions but you the coder never see them (making it head-scratchingly annoying to debug *especially* if you accidentally introduced a race condition that you can’t see)  
+This library solves both of these problems.
 
-To understand why this library was created, it's important to first understand how the compiler generates code for an `async` method.
+To better understand why this library was created and the problem it solves, it’s important to first understand how the compiler generates code for an async method.  
+
+And by the way, **tl;dr** A non-awaited `Task` doesn't rethrow exceptions so use this library!
 
 ## Compiler-Generated Code for Async Method
 
