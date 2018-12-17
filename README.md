@@ -134,6 +134,20 @@ public event EventHandler CanExecuteChanged
 public void RaiseCanExecuteChanged() => _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 ```
 
+- `WeakEventManager<T>`
+
+```csharp
+readonly WeakEventManager<string> _errorOcurredEventManager = new WeakEventManager<string>();
+
+public event EventHandler<string> ErrorOcurred
+{
+    add => _errorOcurredEventManager.AddEventHandler(value);
+    remove => _errorOcurredEventManager.RemoveEventHandler(value);
+}
+
+public void RaiseErrorOcurred(string message) => _weakEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
+```
+
 ## AsyncAwaitBestPractices.MVVM
 
 Allows for `Task` to safely be used asynchronously with `ICommand`:
