@@ -26,6 +26,10 @@ namespace HackerNews
         }
         #endregion
 
+        #region Events
+        public event System.EventHandler<string> ErrorOcurred;
+        #endregion
+
         #region Properties
         //ToDo Refactor
         public ICommand RefreshCommand => _refreshCommand ??
@@ -79,20 +83,17 @@ namespace HackerNews
         }
 
         //ToDo Refactor
-        async Task<List<string>> GetTopStoryIDs()
+        async Task<StoryModel> GetStory(string storyId)
         {
-            return await GetDataObjectFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
+            return await GetDataObjectFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
         }
 
         //ToDo Refactor
-        async Task<StoryModel> GetStory(string storyId)
+        async Task<List<string>> GetTopStoryIDs()
         {
-            if (string.IsNullOrWhiteSpace(storyId))
-                return null;
-
             try
             {
-                return await GetDataObjectFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
+                return await GetDataObjectFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
             }
             catch (System.Exception e)
             {
@@ -108,6 +109,8 @@ namespace HackerNews
 
             return isRefreshing;
         }
+
+        void OnErrorOccurred(string message) => ErrorOcurred?.Invoke(this, message);
         #endregion
     }
 }
