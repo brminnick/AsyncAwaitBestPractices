@@ -106,7 +106,7 @@ void HandleButtonTapped(object sender, EventArgs e)
 {
     // Allows the async Task method to safely run on a different thread while not awaiting its completion
     // If an exception is thrown, Console.WriteLine
-    ExampleAsyncMethod().SafeFireAndForget(onException: ex => Console.WriteLine(ex.Message));
+    ExampleAsyncMethod().SafeFireAndForget(onException: ex => Console.WriteLine(ex.ToString()));
 
     // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` is running on a different thread
     // ...
@@ -163,7 +163,7 @@ public class ExampleClass
     {
         ExampleAsyncCommand = new AsyncCommand(ExampleAsyncMethod);
         ExampleAsyncIntCommand = new AsyncCommand<int>(ExampleAsyncMethodWithIntParameter);
-        ExampleAsyncExceptionCommand = new AsyncCommand(ExampleAsyncMethodWithException, onException: ex => Console.WriteLine(ex.Message));
+        ExampleAsyncExceptionCommand = new AsyncCommand(ExampleAsyncMethodWithException, onException: ex => Console.WriteLine(ex.ToString()));
         ExampleAsyncCommandNotReturningToTheCallingThread = new AsyncCommand(ExampleAsyncMethod, continueOnCapturedContext: false);
     }
 
