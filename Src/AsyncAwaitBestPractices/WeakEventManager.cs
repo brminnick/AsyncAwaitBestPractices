@@ -11,7 +11,7 @@ namespace AsyncAwaitBestPractices
     /// Weak event manager that allows for garbage collection when the EventHandler is still subscribed
     /// </summary>
     /// <typeparam name="TEventArgs">Event args type.</typeparam>
-    public class WeakEventManager<TEventArgs> : WeakEventManager
+    public class WeakEventManager<TEventArgs> : BaseWeakEventManager
     {
         /// <summary>
         /// Adds the event handler
@@ -57,11 +57,8 @@ namespace AsyncAwaitBestPractices
     /// <summary>
     /// Weak event manager that allows for garbage collection when the EventHandler is still subscribed
     /// </summary>
-    public class WeakEventManager
+    public class WeakEventManager : BaseWeakEventManager
     {
-        readonly Dictionary<string, List<Subscription>> _eventHandlers =
-            new Dictionary<string, List<Subscription>>();
-
         /// <summary>
         /// Adds the event handler
         /// </summary>
@@ -86,45 +83,6 @@ namespace AsyncAwaitBestPractices
         /// <param name="eventName">Event name</param>
         public void HandleEvent(object sender, object eventArgs, string eventName) => HandleEvent(eventName, sender, eventArgs);
 
-        protected void HandleEvent(string eventName, object sender, object eventArgs)
-        {
-            var toRaise = new List<Tuple<object, MethodInfo>>();
-            var toRemove = new List<Subscription>();
-
-            if (_eventHandlers.TryGetValue(eventName, out List<Subscription> target))
-            {
-                for (int i = 0; i < target.Count; i++)
-                {
-                    Subscription subscription = target[i];
-                    bool isStatic = subscription.Subscriber is null;
-                    if (isStatic)
-                    {
-                        toRaise.Add(Tuple.Create<object, MethodInfo>(null, subscription.Handler));
-                        continue;
-                    }
-
-                    object subscriber = subscription.Subscriber.Target;
-
-                    if (subscriber is null)
-                        toRemove.Add(subscription);
-                    else
-                        toRaise.Add(Tuple.Create(subscriber, subscription.Handler));
-                }
-
-                for (int i = 0; i < toRemove.Count; i++)
-                {
-                    Subscription subscription = toRemove[i];
-                    target.Remove(subscription);
-                }
-            }
-
-            for (int i = 0; i < toRaise.Count; i++)
-            {
-                Tuple<object, MethodInfo> tuple = toRaise[i];
-                tuple.Item2.Invoke(tuple.Item1, new[] { sender, eventArgs });
-            }
-        }
-
         /// <summary>
         /// Removes the event handler.
         /// </summary>
@@ -140,6 +98,12 @@ namespace AsyncAwaitBestPractices
 
             RemoveEventHandler(eventName, handler.Target, handler.GetMethodInfo());
         }
+    }
+
+    public abstract class BaseWeakEventManager
+    {
+        readonly Dictionary<string, List<Subscription>> _eventHandlers =
+             new Dictionary<string, List<Subscription>>();
 
         protected void AddEventHandler(string eventName, object handlerTarget, MethodInfo methodInfo)
         {
@@ -177,6 +141,45 @@ namespace AsyncAwaitBestPractices
 
                 subscriptions.Remove(current);
                 break;
+            }
+        }
+
+        protected void HandleEvent(string eventName, object sender, object eventArgs)
+        {
+            var toRaise = new List<Tuple<object, MethodInfo>>();
+            var toRemove = new List<Subscription>();
+
+            if (_eventHandlers.TryGetValue(eventName, out List<Subscription> target))
+            {
+                for (int i = 0; i < target.Count; i++)
+                {
+                    Subscription subscription = target[i];
+                    bool isStatic = subscription.Subscriber is null;
+                    if (isStatic)
+                    {
+                        toRaise.Add(Tuple.Create<object, MethodInfo>(null, subscription.Handler));
+                        continue;
+                    }
+
+                    object subscriber = subscription.Subscriber.Target;
+
+                    if (subscriber is null)
+                        toRemove.Add(subscription);
+                    else
+                        toRaise.Add(Tuple.Create(subscriber, subscription.Handler));
+                }
+
+                for (int i = 0; i < toRemove.Count; i++)
+                {
+                    Subscription subscription = toRemove[i];
+                    target.Remove(subscription);
+                }
+            }
+
+            for (int i = 0; i < toRaise.Count; i++)
+            {
+                Tuple<object, MethodInfo> tuple = toRaise[i];
+                tuple.Item2.Invoke(tuple.Item1, new[] { sender, eventArgs });
             }
         }
 
