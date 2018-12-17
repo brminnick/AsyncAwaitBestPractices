@@ -22,7 +22,6 @@ namespace AsyncAwaitBestPractices
         /// <param name="eventName">Event name</param>
         /// <typeparam name="TEventArgs">EventHandler type</typeparam>
         public void AddEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
-            where TEventArgs : EventArgs
         {
             if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
@@ -101,7 +100,6 @@ namespace AsyncAwaitBestPractices
         /// <param name="eventName">Event name</param>
         /// <typeparam name="TEventArgs">EventHandler type</typeparam>
         public void RemoveEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
-            where TEventArgs : EventArgs
         {
             if (IsNullOrEmpty(eventName))
                 throw new ArgumentNullException(nameof(eventName));
