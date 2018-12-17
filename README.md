@@ -38,9 +38,14 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
 
 ## Why Do I Need This?
 
-**tl;dr** A non-awaited `Task` doesn't rethrow exceptions
+Async/await is great *but* there are two problems that are subtle that can easily creep into code:
+1) Creating race conditions/concurrent execution (where you code things in the right order but the code executes in a different order than you expect) 
+2) Creating methods where the compiler recognizes exceptions but you the coder never see them (making it head-scratchingly annoying to debug *especially* if you accidentally introduced a race condition that you can’t see)  
+This library solves both of these problems.
 
-To understand why this library was created, it's important to first understand how the compiler generates code for an `async` method.
+To better understand why this library was created and the problem it solves, it’s important to first understand how the compiler generates code for an async method.  
+
+And by the way, **tl;dr** A non-awaited `Task` doesn't rethrow exceptions so use this library!
 
 ## Compiler-Generated Code for Async Method
 
@@ -66,7 +71,7 @@ Because the compiler creates `IAsyncStateMachine` for every `async` method and `
 
 ## How to Rethrow an Exception Caught By `MoveNext`
 
-Now the question becomes, if every `async` method catches every exception thrown, How can I rethrow the exception? 
+Now we see that the `async` method catches every exception thrown - that is to say, the exception is caught internally by the state machine, *but* you the coder will not see it.  In order for you to see it, you'll need to rethrow the exception to surface it in your debugging.  So the questions is - how do I rethrow the exception?
 
 There are a few ways to rethrow exceptions that are thrown in an `async` method:
 
