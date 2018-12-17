@@ -180,7 +180,7 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        protected struct Subscription
+        struct Subscription
         {
             public Subscription(WeakReference subscriber, MethodInfo handler)
             {
