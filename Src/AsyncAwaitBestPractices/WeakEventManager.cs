@@ -52,9 +52,18 @@ namespace AsyncAwaitBestPractices
         /// Executes the event
         /// </summary>
         /// <param name="sender">Sender</param>
-        /// <param name="args">Arguments</param>
+        /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(object sender, object args, string eventName)
+        /// <typeparam name="TEventArgs">Event args type.</typeparam>
+        public void HandleEvent<TEventArgs>(object sender, TEventArgs eventArgs, string eventName) => HandleEvent(sender, eventArgs, eventName);
+
+        /// <summary>
+        /// Executes the event
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="eventArgs">Event arguments</param>
+        /// <param name="eventName">Event name</param>
+        public void HandleEvent(object sender, object eventArgs, string eventName)
         {
             var toRaise = new List<Tuple<object, MethodInfo>>();
             var toRemove = new List<Subscription>();
@@ -89,7 +98,7 @@ namespace AsyncAwaitBestPractices
             for (int i = 0; i < toRaise.Count; i++)
             {
                 Tuple<object, MethodInfo> tuple = toRaise[i];
-                tuple.Item2.Invoke(tuple.Item1, new[] { sender, args });
+                tuple.Item2.Invoke(tuple.Item1, new[] { sender, eventArgs });
             }
         }
 
