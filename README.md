@@ -71,7 +71,7 @@ Because the compiler creates `IAsyncStateMachine` for every `async` method and `
 
 ## How to Rethrow an Exception Caught By `MoveNext`
 
-Now we see that the `async` method catches every exception thrown - that is to say, the exception is caught internally by the state machine, *but* you the coder will not see it.  In order for you to see it, you'll need to rethrow the exception to surface it in your debugging.  So the questions is - how do I rethrow the exception?
+Now we see that the `async` method catches every exception thrown - that is to say, the exception is caught internally by the state machine, *but* you the coder will not see it.  In order for you to see it, you'll need to rethrow the exception to surface it in your debugging.  So the questions is - how do I rethrow the exception? 
 
 There are a few ways to rethrow exceptions that are thrown in an `async` method:
 
