@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 using static System.String;
-using System.Runtime.CompilerServices;
 
 namespace AsyncAwaitBestPractices
 {
     /// <summary>
     /// Weak event manager that allows for garbage collection when the EventHandler is still subscribed
     /// </summary>
-    public class WeakEventManager
+    /// <typeparam name="TEventArgs">Event args type.</typeparam>
+    public class WeakEventManager<TEventArgs> : WeakEventManager
     {
-        readonly Dictionary<string, List<Subscription>> _eventHandlers =
-            new Dictionary<string, List<Subscription>>();
-
         /// <summary>
         /// Adds the event handler
         /// </summary>
         /// <param name="handler">Handler</param>
         /// <param name="eventName">Event name</param>
-        /// <typeparam name="TEventArgs">EventHandler type</typeparam>
-        public void AddEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
+        public void AddEventHandler(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
         {
             if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
@@ -31,6 +28,39 @@ namespace AsyncAwaitBestPractices
 
             AddEventHandler(eventName, handler.Target, handler.GetMethodInfo());
         }
+
+        /// <summary>
+        /// Removes the event handler
+        /// </summary>
+        /// <param name="handler">Handler</param>
+        /// <param name="eventName">Event name</param>
+        public void RemoveEventHandler(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
+        {
+            if (IsNullOrEmpty(eventName))
+                throw new ArgumentNullException(nameof(eventName));
+
+            if (handler is null)
+                throw new ArgumentNullException(nameof(handler));
+
+            RemoveEventHandler(eventName, handler.Target, handler.GetMethodInfo());
+        }
+
+        /// <summary>
+        /// Executes the event
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="eventArgs">Event arguments</param>
+        /// <param name="eventName">Event name</param>
+        public void HandleEvent(object sender, TEventArgs eventArgs, string eventName) => HandleEvent(eventName, sender, eventArgs);
+    }
+
+    /// <summary>
+    /// Weak event manager that allows for garbage collection when the EventHandler is still subscribed
+    /// </summary>
+    public class WeakEventManager
+    {
+        readonly Dictionary<string, List<Subscription>> _eventHandlers =
+            new Dictionary<string, List<Subscription>>();
 
         /// <summary>
         /// Adds the event handler
@@ -54,16 +84,9 @@ namespace AsyncAwaitBestPractices
         /// <param name="sender">Sender</param>
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
-        /// <typeparam name="TEventArgs">Event args type.</typeparam>
-        public void HandleEvent<TEventArgs>(object sender, TEventArgs eventArgs, string eventName) => HandleEvent(sender, eventArgs, eventName);
+        public void HandleEvent(object sender, object eventArgs, string eventName) => HandleEvent(eventName, sender, eventArgs);
 
-        /// <summary>
-        /// Executes the event
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="eventArgs">Event arguments</param>
-        /// <param name="eventName">Event name</param>
-        public void HandleEvent(object sender, object eventArgs, string eventName)
+        protected void HandleEvent(string eventName, object sender, object eventArgs)
         {
             var toRaise = new List<Tuple<object, MethodInfo>>();
             var toRemove = new List<Subscription>();
@@ -73,7 +96,7 @@ namespace AsyncAwaitBestPractices
                 for (int i = 0; i < target.Count; i++)
                 {
                     Subscription subscription = target[i];
-                    bool isStatic = subscription.Subscriber == null;
+                    bool isStatic = subscription.Subscriber is null;
                     if (isStatic)
                     {
                         toRaise.Add(Tuple.Create<object, MethodInfo>(null, subscription.Handler));
@@ -103,23 +126,6 @@ namespace AsyncAwaitBestPractices
         }
 
         /// <summary>
-        /// Removes the event handler
-        /// </summary>
-        /// <param name="handler">Handler</param>
-        /// <param name="eventName">Event name</param>
-        /// <typeparam name="TEventArgs">EventHandler type</typeparam>
-        public void RemoveEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
-        {
-            if (IsNullOrEmpty(eventName))
-                throw new ArgumentNullException(nameof(eventName));
-
-            if (handler is null)
-                throw new ArgumentNullException(nameof(handler));
-
-            RemoveEventHandler(eventName, handler.Target, handler.GetMethodInfo());
-        }
-
-        /// <summary>
         /// Removes the event handler.
         /// </summary>
         /// <param name="handler">Handler</param>
@@ -135,7 +141,7 @@ namespace AsyncAwaitBestPractices
             RemoveEventHandler(eventName, handler.Target, handler.GetMethodInfo());
         }
 
-        void AddEventHandler(string eventName, object handlerTarget, MethodInfo methodInfo)
+        protected void AddEventHandler(string eventName, object handlerTarget, MethodInfo methodInfo)
         {
             var doesContainSubscriptions = _eventHandlers.TryGetValue(eventName, out List<Subscription> targets);
             if (!doesContainSubscriptions)
@@ -144,9 +150,8 @@ namespace AsyncAwaitBestPractices
                 _eventHandlers.Add(eventName, targets);
             }
 
-            if (handlerTarget == null)
+            if (handlerTarget is null)
             {
-                // This event handler is a static method
                 targets.Add(new Subscription(null, methodInfo));
                 return;
             }
@@ -154,7 +159,7 @@ namespace AsyncAwaitBestPractices
             targets.Add(new Subscription(new WeakReference(handlerTarget), methodInfo));
         }
 
-        void RemoveEventHandler(string eventName, object handlerTarget, MemberInfo methodInfo)
+        protected void RemoveEventHandler(string eventName, object handlerTarget, MemberInfo methodInfo)
         {
             var doesContainSubscriptions = _eventHandlers.TryGetValue(eventName, out List<Subscription> subscriptions);
             if (!doesContainSubscriptions)
@@ -175,7 +180,7 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        struct Subscription
+        protected struct Subscription
         {
             public Subscription(WeakReference subscriber, MethodInfo handler)
             {
