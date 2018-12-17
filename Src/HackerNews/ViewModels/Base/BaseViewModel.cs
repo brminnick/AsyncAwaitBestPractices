@@ -61,10 +61,6 @@ namespace HackerNews
                     return await Task.Run(() => _serializer.Deserialize<TDataObject>(json)).ConfigureAwait(false);
                 }
             }
-            catch
-            {
-                return default;
-            }
             finally
             {
                 UpdateActivityIndicatorStatus(false);
