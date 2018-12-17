@@ -100,11 +100,19 @@ namespace AsyncAwaitBestPractices
         }
     }
 
+    /// <summary>
+    /// Abstract implementation of a weak event manager that allows for garbage collection when the EventHandler is still subscribed
+    /// </summary>
     public abstract class BaseWeakEventManager
     {
-        readonly Dictionary<string, List<Subscription>> _eventHandlers =
-             new Dictionary<string, List<Subscription>>();
+        readonly Dictionary<string, List<Subscription>> _eventHandlers = new Dictionary<string, List<Subscription>>();
 
+        /// <summary>
+        /// Adds the event handler
+        /// </summary>
+        /// <param name="eventName">Event name</param>
+        /// <param name="handlerTarget">Target of the event handler</param>
+        /// <param name="methodInfo">Method info of the event handler</param>
         protected void AddEventHandler(string eventName, object handlerTarget, MethodInfo methodInfo)
         {
             var doesContainSubscriptions = _eventHandlers.TryGetValue(eventName, out List<Subscription> targets);
@@ -123,6 +131,12 @@ namespace AsyncAwaitBestPractices
             targets.Add(new Subscription(new WeakReference(handlerTarget), methodInfo));
         }
 
+        /// <summary>
+        /// Removes the event handler
+        /// </summary>
+        /// <param name="eventName">Event name</param>
+        /// <param name="handlerTarget">Target of the event handler</param>
+        /// <param name="methodInfo">Method info of the event handler</param>
         protected void RemoveEventHandler(string eventName, object handlerTarget, MemberInfo methodInfo)
         {
             var doesContainSubscriptions = _eventHandlers.TryGetValue(eventName, out List<Subscription> subscriptions);
@@ -144,6 +158,12 @@ namespace AsyncAwaitBestPractices
             }
         }
 
+        /// <summary>
+        /// Executes the event
+        /// </summary>
+        /// <param name="eventName">Event name</param>
+        /// <param name="sender">Sender</param>
+        /// <param name="eventArgs">Event arguments</param>
         protected void HandleEvent(string eventName, object sender, object eventArgs)
         {
             var toRaise = new List<Tuple<object, MethodInfo>>();
