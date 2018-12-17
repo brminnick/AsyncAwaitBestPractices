@@ -17,7 +17,7 @@ namespace HackerNews
     {
         #region Constant Fields
         static readonly JsonSerializer _serializer = new JsonSerializer();
-        static readonly HttpClient _client = new HttpClient { Timeout = TimeSpan.FromSeconds(20) };
+        static readonly HttpClient _client = new HttpClient { Timeout = TimeSpan.FromSeconds(60) };
         #endregion
 
         #region Fields
