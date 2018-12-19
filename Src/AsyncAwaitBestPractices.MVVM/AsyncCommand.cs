@@ -74,8 +74,8 @@ namespace AsyncAwaitBestPractices.MVVM
                 ExecuteAsync(validParameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
             else if (parameter is null && !typeof(T).IsValueType)
                 ExecuteAsync((T)parameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
-
-            throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
+            else
+                throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
         }
         #endregion
     }
