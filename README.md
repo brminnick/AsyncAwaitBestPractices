@@ -16,9 +16,9 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
 - AsyncAwaitBestPractices.MVVM
   - Allows for `Task` to safely be used asynchronously with `ICommand`:
     - `IAsyncCommand : ICommand`
-    - `IAsyncCommand<T> : ICommand`
     - `AsyncCommand : IAsyncCommand`
-    - `AsyncCommand<T> : IAsyncCommand`
+    - `IAsyncCommand<T> : ICommand`    
+    - `AsyncCommand<T> : IAsyncCommand<T>`
   - [Usage instructions](#asyncawaitbestpracticesmvvm)
 
 ## Setup
