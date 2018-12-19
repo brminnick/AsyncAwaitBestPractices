@@ -145,7 +145,7 @@ namespace AsyncAwaitBestPractices.MVVM
 
         public Task ExecuteAsync() => _execute();
 
-        void ICommand.Execute(object parameter) => _execute()?.SafeFireAndForget(_continueOnCapturedContext, _onException);
+        void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_continueOnCapturedContext, _onException);
         #endregion
     }
 }
