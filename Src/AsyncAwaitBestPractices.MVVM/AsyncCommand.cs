@@ -71,9 +71,9 @@ namespace AsyncAwaitBestPractices.MVVM
         void ICommand.Execute(object parameter)
         {
             if (parameter is T validParameter)
-                ExecuteAsync(validParameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
+                ExecuteAsync(validParameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
             else if (parameter is null && !typeof(T).IsValueType)
-                ExecuteAsync((T)parameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
+                ExecuteAsync((T)parameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
 
             throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
         }
