@@ -4,8 +4,6 @@ using Xamarin.UITest;
 
 namespace HackerNews.UITests
 {
-    [TestFixture(Platform.Android)]
-    [TestFixture(Platform.iOS)]
     public class Tests : BaseTest
     {
 
