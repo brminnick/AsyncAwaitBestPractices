@@ -171,6 +171,98 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
+        public void WeakEventManager_AddEventHandler_NullHandler()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testWeakEventManager.AddEventHandler(null), "Value cannot be null.\nParameter name: handler");
+        }
+
+        [Test]
+        public void WeakEventManager_AddEventHandler_NullEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testWeakEventManager.AddEventHandler(null, null), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        [Test]
+        public void WeakEventManager_AddEventHandler_EmptyEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        [Test]
+        public void WeakEventManager_AddEventHandler_WhitespaceEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testWeakEventManager.AddEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        [Test]
+        public void WeakEventManager_RemoveventHandler_NullHandler()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testWeakEventManager.RemoveEventHandler(null), "Value cannot be null.\nParameter name: handler");
+        }
+
+        [Test]
+        public void WeakEventManager_RemoveventHandler_NullEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testWeakEventManager.RemoveEventHandler(null, null), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        [Test]
+        public void WeakEventManager_RemoveventHandler_EmptyEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testWeakEventManager.RemoveEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        [Test]
+        public void WeakEventManager_RemoveventHandler_WhiteSpaceEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testWeakEventManager.RemoveEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        /*****************************
+         * WeakEventManager<T> Tests *
+         *****************************/
+
+        [Test]
         public void WeakEventManagerTEventArgs_HandleEvent_ValidImplementation()
         {
             //Arrange
@@ -314,6 +406,95 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             //Assert
             Assert.IsFalse(didEventFire);
+        }
+
+        [Test]
+        public void WeakEventManagerT_AddEventHandler_NullHandler()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null), "Value cannot be null.\nParameter name: handler");
+        }
+
+        [Test]
+        public void WeakEventManagerT_AddEventHandler_NullEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, null), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        [Test]
+        public void WeakEventManagerT_AddEventHandler_EmptyEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        [Test]
+        public void WeakEventManagerT_AddEventHandler_WhiteSpaceEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        [Test]
+        public void WeakEventManagerT_RemoveventHandler_NullHandler()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.RemoveEventHandler(null), "Value cannot be null.\nParameter name: handler");
+        }
+
+
+        [Test]
+        public void WeakEventManagerT_RemoveventHandler_NullEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, null), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        [Test]
+        public void WeakEventManagerT_RemoveventHandler_EmptyEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
+        }
+
+        [Test]
+        public void WeakEventManagerT_RemoveventHandler_WhiteSpaceEventName()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
         }
     }
 }

@@ -36,7 +36,7 @@ namespace AsyncAwaitBestPractices
         /// <param name="eventName">Event name</param>
         public void RemoveEventHandler(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
         {
-            if (IsNullOrEmpty(eventName))
+            if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
 
             if (handler is null)
@@ -90,7 +90,7 @@ namespace AsyncAwaitBestPractices
         /// <param name="eventName">Event name</param>
         public void RemoveEventHandler(EventHandler handler, [CallerMemberName] string eventName = "")
         {
-            if (IsNullOrEmpty(eventName))
+            if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
 
             if (handler is null)
