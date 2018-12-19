@@ -19,11 +19,8 @@
             {
                 await task.ConfigureAwait(continueOnCapturedContext);
             }
-            catch (System.Exception ex)
+            catch (System.Exception ex) when (onException != null)
             {
-                if (onException is null)
-                    throw;
-
                 onException?.Invoke(ex);
             }
         }
