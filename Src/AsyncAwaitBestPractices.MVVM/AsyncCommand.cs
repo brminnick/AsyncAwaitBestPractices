@@ -30,9 +30,7 @@ namespace AsyncAwaitBestPractices.MVVM
                             Action<Exception> onException = null,
                             bool continueOnCapturedContext = true)
         {
-            if (execute == null)
-                throw new ArgumentNullException(paramName: nameof(execute), "command handler can't be null");
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
             _continueOnCapturedContext = continueOnCapturedContext;
             _onException = onException;
             _canExecute = canExecute ?? (_ => true);
