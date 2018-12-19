@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
@@ -9,6 +10,28 @@ namespace AsyncAwaitBestPractices.UnitTests
 {
     public class Tests_AsyncCommand : BaseTest
     {
+        [Test]
+        public void AsyncCommand_NullExecuteParameter()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => new AsyncCommand(null));
+        }
+
+        [Test]
+        public void AsyncCommandT_NullExecuteParameter()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => new AsyncCommand<object>(null));
+        }
+
         [TestCase(500)]
         [TestCase(default)]
         public async Task AsyncCommand_ExecuteAsync_IntParameter_Test(int parameter)
