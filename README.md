@@ -158,17 +158,17 @@ Allows for `Task` to safely be used asynchronously with `ICommand`:
 - `IAsyncCommand : ICommand`
 
 ```csharp
-public AsyncCommand(Func<T, Task> execute,
-                     Func<object, bool> canExecute = null,
-                     Action<Exception> onException = null,
-                     bool continueOnCapturedContext = true)   
-```
-
-```csharp
 public AsyncCommand(Func<Task> execute,
                      Func<object, bool> canExecute = null,
                      Action<Exception> onException = null,
                      bool continueOnCapturedContext = true)
+```
+
+```csharp
+public AsyncCommand<T>(Func<T, Task> execute,
+                         Func<object, bool> canExecute = null,
+                         Action<Exception> onException = null,
+                         bool continueOnCapturedContext = true)   
 ```
 
 ```csharp
