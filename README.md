@@ -184,7 +184,7 @@ public class ExampleClass
     }
 
     public IAsyncCommand ExampleAsyncCommand { get; }
-    public IAsyncCommand ExampleAsyncIntCommand { get; }
+    public IAsyncCommand<int> ExampleAsyncIntCommand { get; }
     public IAsyncCommand ExampleAsyncExceptionCommand { get; }
     public IAsyncCommand ExampleAsyncCommandNotReturningToTheCallingThread { get; }
 
