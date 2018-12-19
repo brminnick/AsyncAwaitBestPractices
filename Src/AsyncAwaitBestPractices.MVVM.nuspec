@@ -18,10 +18,10 @@
     </dependencies>
     <releaseNotes>
       New In This Release:
-        - IAsyncCommand<T>
-        - Breaking Change: The constructor for AsyncCommand now requires the parameter `Func<Task> execute` to be non-null
-        - Breaking Change: The constructor for AsyncCommand<T> now requires the parameter `Funct<T, Task> execute` to be non-null
-        - Breaking Change: IAsyncCommand.Execute(object parameter) has been changed to IAsyncCommand.Execute(). If a parameter is required, use IAsyncCommand<T>.Execute(T parameter).
+        - IAsyncCommand&lt;T&gt;
+        - Breaking Change: The constructor for AsyncCommand now requires the parameter `Func&lt;Task&gt; execute` to be non-null
+        - Breaking Change: The constructor for AsyncCommand&lt;T&gt; now requires the parameter `Funct&lt;T, Task&gt; execute` to be non-null
+        - Breaking Change: IAsyncCommand.Execute(object parameter) has been changed to IAsyncCommand.Execute(). If a parameter is required, use IAsyncCommand&lt;T&gt;.Execute(T parameter).
     </releaseNotes>
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
