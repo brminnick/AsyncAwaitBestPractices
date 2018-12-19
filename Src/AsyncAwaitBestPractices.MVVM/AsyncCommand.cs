@@ -7,7 +7,7 @@ namespace AsyncAwaitBestPractices.MVVM
     /// <summary>
     /// An implmentation of IAsyncCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public sealed class AsyncCommand<T> : IAsyncCommand
+    public sealed class AsyncCommand<T> : IAsyncCommand<T>
     {
         #region Constant Fields
         readonly Func<T, Task> _execute;
@@ -30,10 +30,10 @@ namespace AsyncAwaitBestPractices.MVVM
                             Action<Exception> onException = null,
                             bool continueOnCapturedContext = true)
         {
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
+            _canExecute = canExecute ?? (_ => true);
+            _onException = onException;
             _continueOnCapturedContext = continueOnCapturedContext;
-            _onException = (onException is null) ? (ex => throw ex) : onException;
-            _canExecute = (canExecute is null) ? _ => true : canExecute;
         }
         #endregion
 
@@ -54,7 +54,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object parameter) => _canExecute?.Invoke(parameter) ?? true;
+        public bool CanExecute(object parameter) => _canExecute(parameter);
 
         /// <summary>
         /// Raises the CanExecuteChanged event.
@@ -66,30 +66,14 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         /// <returns>The executed Task</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public Task ExecuteAsync(T parameter) => _execute?.Invoke(parameter);
-
-
-        /// <summary>
-        /// Executes the Command as a Task
-        /// </summary>
-        /// <returns>The executed Task</returns>
-        /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public Task ExecuteAsync(object parameter)
-        {
-            if (parameter is T validParameter)
-                return ExecuteAsync(validParameter);
-            else if (parameter is null && !typeof(T).IsValueType)
-                return ExecuteAsync((T)parameter);
-
-            throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
-        }
+        public Task ExecuteAsync(T parameter) => _execute(parameter);
 
         void ICommand.Execute(object parameter)
         {
             if (parameter is T validParameter)
-                _execute?.Invoke(validParameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
+                ExecuteAsync(validParameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
             else if (parameter is null && !typeof(T).IsValueType)
-                _execute?.Invoke((T)parameter)?.SafeFireAndForget(_continueOnCapturedContext, _onException);
+                ExecuteAsync((T)parameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
             else
                 throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
         }
@@ -122,10 +106,10 @@ namespace AsyncAwaitBestPractices.MVVM
                             Action<Exception> onException = null,
                             bool continueOnCapturedContext = true)
         {
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
+            _canExecute = canExecute ?? (_ => true);
+            _onException = onException;
             _continueOnCapturedContext = continueOnCapturedContext;
-            _onException = (onException is null) ? (ex => throw ex) : onException;
-            _canExecute = (canExecute is null) ? _ => true : canExecute;
         }
         #endregion
 
@@ -146,7 +130,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object parameter) => _canExecute?.Invoke(parameter) ?? true;
+        public bool CanExecute(object parameter) => _canExecute(parameter);
 
         /// <summary>
         /// Raises the CanExecuteChanged event.
@@ -159,9 +143,9 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <returns>The executed Task</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
 
-        public Task ExecuteAsync(object parameter) => _execute?.Invoke();
+        public Task ExecuteAsync() => _execute();
 
-        void ICommand.Execute(object parameter) => _execute?.Invoke()?.SafeFireAndForget(_continueOnCapturedContext, _onException);
+        void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_continueOnCapturedContext, _onException);
         #endregion
     }
 }
