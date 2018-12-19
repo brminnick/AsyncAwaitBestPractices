@@ -31,9 +31,9 @@ namespace AsyncAwaitBestPractices.MVVM
                             bool continueOnCapturedContext = true)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
-            _continueOnCapturedContext = continueOnCapturedContext;
-            _onException = onException;
             _canExecute = canExecute ?? (_ => true);
+            _onException = onException;
+            _continueOnCapturedContext = continueOnCapturedContext;
         }
         #endregion
 
@@ -107,9 +107,9 @@ namespace AsyncAwaitBestPractices.MVVM
                             bool continueOnCapturedContext = true)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
-            _continueOnCapturedContext = continueOnCapturedContext;
-            _onException = onException;
             _canExecute = canExecute ?? (_ => true);
+            _onException = onException;
+            _continueOnCapturedContext = continueOnCapturedContext;
         }
         #endregion
 
