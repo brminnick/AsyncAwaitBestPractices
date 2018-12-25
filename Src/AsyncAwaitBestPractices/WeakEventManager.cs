@@ -76,12 +76,20 @@ namespace AsyncAwaitBestPractices
         }
 
         /// <summary>
-        /// Executes the event
+        /// Adds the event handler
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="eventArgs">Event arguments</param>
+        /// <param name="handler">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(object sender, object eventArgs, string eventName) => HandleEvent(eventName, sender, eventArgs);
+        public void AddEventHandler(Delegate handler, [CallerMemberName] string eventName = "")
+        {
+            if (IsNullOrWhiteSpace(eventName))
+                throw new ArgumentNullException(nameof(eventName));
+
+            if (handler is null)
+                throw new ArgumentNullException(nameof(handler));
+
+            AddEventHandler(eventName, handler.Target, handler.GetMethodInfo());
+        }
 
         /// <summary>
         /// Removes the event handler.
@@ -98,6 +106,30 @@ namespace AsyncAwaitBestPractices
 
             RemoveEventHandler(eventName, handler.Target, handler.GetMethodInfo());
         }
+
+        /// <summary>
+        /// Removes the event handler.
+        /// </summary>
+        /// <param name="handler">Handler</param>
+        /// <param name="eventName">Event name</param>
+        public void RemoveEventHandler(Delegate handler, [CallerMemberName] string eventName = "")
+        {
+            if (IsNullOrWhiteSpace(eventName))
+                throw new ArgumentNullException(nameof(eventName));
+
+            if (handler is null)
+                throw new ArgumentNullException(nameof(handler));
+
+            RemoveEventHandler(eventName, handler.Target, handler.GetMethodInfo());
+        }
+
+        /// <summary>
+        /// Executes the event
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="eventArgs">Event arguments</param>
+        /// <param name="eventName">Event name</param>
+        public void HandleEvent(object sender, object eventArgs, string eventName) => HandleEvent(eventName, sender, eventArgs);
     }
 
     /// <summary>
