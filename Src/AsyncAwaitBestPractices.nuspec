@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>2.0.0</version>
+    <version>2.1.0-pre1</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -19,7 +19,8 @@
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
     <releaseNotes>
       New In This Release:
-        - Performance Improvements for SafeFireAndForget
+        - WaeakEventManager.AddEventHandler can now be used with Delegate
+        - WaeakEventManager.RemoveEventHandler can now be used with Delegate
     </releaseNotes>
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
