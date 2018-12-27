@@ -19,8 +19,8 @@
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
     <releaseNotes>
       New In This Release:
-        - WaeakEventManager.AddEventHandler can now be used with Delegate
-        - WaeakEventManager.RemoveEventHandler can now be used with Delegate
+        - WeakEventManager.AddEventHandler can now be used with Delegate
+        - WeakEventManager.RemoveEventHandler can now be used with Delegate
     </releaseNotes>
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
