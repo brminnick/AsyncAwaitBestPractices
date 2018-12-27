@@ -141,8 +141,6 @@ namespace AsyncAwaitBestPractices.MVVM
         /// Executes the Command as a Task
         /// </summary>
         /// <returns>The executed Task</returns>
-        /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-
         public Task ExecuteAsync() => _execute();
 
         void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_continueOnCapturedContext, _onException);
