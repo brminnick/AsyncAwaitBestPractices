@@ -12,14 +12,14 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
   - `WeakEventManager`
     - Avoids memory leaks when events are not unsubscribed
     - Used by `AsyncCommand` and `AsyncCommand<T>`
-  - [Usage instructions](#asyncawaitbestpractices)
+  - [Usage instructions](#asyncawaitbestpractices-2)
 - AsyncAwaitBestPractices.MVVM
   - Allows for `Task` to safely be used asynchronously with `ICommand`:
     - `IAsyncCommand : ICommand`
     - `AsyncCommand : IAsyncCommand`
     - `IAsyncCommand<T> : ICommand`    
     - `AsyncCommand<T> : IAsyncCommand<T>`
-  - [Usage instructions](#asyncawaitbestpracticesmvvm)
+  - [Usage instructions](#asyncawaitbestpracticesmvvm-1)
 
 ## Setup
 
