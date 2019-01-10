@@ -95,9 +95,8 @@ Never, never, never, never, never use `.Result` or `.Wait()`:
 
 ## AsyncAwaitBestPractices
 
+### `SafeFireAndForget`
 An extension method to safely fire-and-forget a `Task`:
-
-- `SafeFireAndForget`
 
 ```csharp
 public static async void SafeFireAndForget(this System.Threading.Tasks.Task task, bool continueOnCapturedContext = true, System.Action<System.Exception> onException = null)
@@ -120,9 +119,9 @@ async Task ExampleAsyncMethod()
 }
 ```
 
-An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs):
+### `WeakEventManager`
 
-- `WeakEventManager`
+An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs):
 
 ```csharp
 readonly WeakEventManager _weakEventManager = new WeakEventManager();
