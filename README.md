@@ -135,7 +135,7 @@ public event EventHandler CanExecuteChanged
 public void RaiseCanExecuteChanged() => _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 ```
 
-- `WeakEventManager<T>`
+### `WeakEventManager<T>`
 
 ```csharp
 readonly WeakEventManager<string> _errorOcurredEventManager = new WeakEventManager<string>();
@@ -153,9 +153,10 @@ public void RaiseErrorOcurred(string message) => _weakEventManager.HandleEvent(t
 
 Allows for `Task` to safely be used asynchronously with `ICommand`:
 
-- `AsyncCommand<T> : IAsyncCommand`
-- `AsyncCommand : IAsyncCommand`
-- `IAsyncCommand : ICommand`
+### `AsyncCommand<T> : IAsyncCommand<T>`
+### `IAsyncCommand<T> : ICommand`
+### `AsyncCommand : IAsyncCommand`
+### `IAsyncCommand : ICommand`
 
 ```csharp
 public AsyncCommand(Func<T, Task> execute,
