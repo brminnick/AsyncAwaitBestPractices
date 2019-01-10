@@ -12,27 +12,27 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
   - `WeakEventManager`
     - Avoids memory leaks when events are not unsubscribed
     - Used by `AsyncCommand` and `AsyncCommand<T>`
-  - [Usage instructions](#asyncawaitbestpractices)
+  - [Usage instructions](#asyncawaitbestpractices-2)
 - AsyncAwaitBestPractices.MVVM
   - Allows for `Task` to safely be used asynchronously with `ICommand`:
     - `IAsyncCommand : ICommand`
     - `AsyncCommand : IAsyncCommand`
     - `IAsyncCommand<T> : ICommand`    
     - `AsyncCommand<T> : IAsyncCommand<T>`
-  - [Usage instructions](#asyncawaitbestpracticesmvvm)
+  - [Usage instructions](#asyncawaitbestpracticesmvvm-1)
 
 ## Setup
 
 ###  AsyncAwaitBestPractices
 
-[![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices/) [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.svg?label=Downloads)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
+[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
 
 - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ 
 - Add to any project supporting .NET Standard 1.0
 
 ### AsyncAwaitBestPractices.MVVM
 
-[![NuGet](https://img.shields.io/nuget/v/AsyncAwaitBestPractices.MVVM.svg?label=NuGet)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/) [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.MVVM.svg?label=Downloads)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
+[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices.MVVM)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
 
 - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
 - Add to any project supporting .NET Standard 2.0
@@ -95,9 +95,8 @@ Never, never, never, never, never use `.Result` or `.Wait()`:
 
 ## AsyncAwaitBestPractices
 
+### `SafeFireAndForget`
 An extension method to safely fire-and-forget a `Task`:
-
-- `SafeFireAndForget`
 
 ```csharp
 public static async void SafeFireAndForget(this System.Threading.Tasks.Task task, bool continueOnCapturedContext = true, System.Action<System.Exception> onException = null)
@@ -120,9 +119,9 @@ async Task ExampleAsyncMethod()
 }
 ```
 
-An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs):
+### `WeakEventManager`
 
-- `WeakEventManager`
+An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs):
 
 ```csharp
 readonly WeakEventManager _weakEventManager = new WeakEventManager();
@@ -136,7 +135,7 @@ public event EventHandler CanExecuteChanged
 public void RaiseCanExecuteChanged() => _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 ```
 
-- `WeakEventManager<T>`
+### `WeakEventManager<T>`
 
 ```csharp
 readonly WeakEventManager<string> _errorOcurredEventManager = new WeakEventManager<string>();
@@ -152,9 +151,12 @@ public void RaiseErrorOcurred(string message) => _weakEventManager.HandleEvent(t
 
 ## AsyncAwaitBestPractices.MVVM
 
+### `AsyncCommand`
+
 Allows for `Task` to safely be used asynchronously with `ICommand`:
 
-- `AsyncCommand<T> : IAsyncCommand`
+- `AsyncCommand<T> : IAsyncCommand<T>`
+- `IAsyncCommand<T> : ICommand`
 - `AsyncCommand : IAsyncCommand`
 - `IAsyncCommand : ICommand`
 
