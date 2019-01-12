@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices.MVVM</id>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <title>Task Extensions for MVVM</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -14,7 +14,7 @@
     <summary>Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task.</summary>
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
     <dependencies>
-      <dependency id="AsyncAwaitBestPractices" version="2.0.0" />
+      <dependency id="AsyncAwaitBestPractices" version="2.1.0" />
     </dependencies>
     <releaseNotes>
       New In This Release:

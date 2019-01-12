@@ -13,4 +13,7 @@
     <ItemGroup>
         <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="WeakEventManager\" />
+    </ItemGroup>
 </Project>

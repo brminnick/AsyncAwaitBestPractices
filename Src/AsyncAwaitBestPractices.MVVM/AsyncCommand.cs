@@ -98,9 +98,9 @@ namespace AsyncAwaitBestPractices.MVVM
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
         /// </summary>
         /// <param name="execute">The Function executed when Execute or ExecuteAysnc is called. This does not check canExecute before executing and will execute even if canExecute is false</param>
-        /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
-        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
+        /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         public AsyncCommand(Func<Task> execute,
                             Func<object, bool> canExecute = null,
                             Action<Exception> onException = null,
@@ -141,8 +141,6 @@ namespace AsyncAwaitBestPractices.MVVM
         /// Executes the Command as a Task
         /// </summary>
         /// <returns>The executed Task</returns>
-        /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-
         public Task ExecuteAsync() => _execute();
 
         void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_continueOnCapturedContext, _onException);

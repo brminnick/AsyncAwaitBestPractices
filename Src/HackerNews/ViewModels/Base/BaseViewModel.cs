@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
+using AsyncAwaitBestPractices;
+
 using Newtonsoft.Json;
 
 using Xamarin.Forms;
@@ -18,6 +20,7 @@ namespace HackerNews
         #region Constant Fields
         static readonly JsonSerializer _serializer = new JsonSerializer();
         static readonly HttpClient _client = new HttpClient { Timeout = TimeSpan.FromSeconds(60) };
+        readonly WeakEventManager _propertyChangedEventManager = new WeakEventManager();
         #endregion
 
         #region Fields
@@ -25,7 +28,11 @@ namespace HackerNews
         #endregion
 
         #region Events
-        public event PropertyChangedEventHandler PropertyChanged;
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+        {
+            add => _propertyChangedEventManager.AddEventHandler(value);
+            remove => _propertyChangedEventManager.RemoveEventHandler(value);
+        }
         #endregion
 
         #region Methods
@@ -82,7 +89,7 @@ namespace HackerNews
         }
 
         void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            _propertyChangedEventManager?.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(INotifyPropertyChanged.PropertyChanged));
         #endregion
     }
 }
