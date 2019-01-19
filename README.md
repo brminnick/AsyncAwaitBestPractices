@@ -46,7 +46,7 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
 
 ## Why Do I Need This?
 
-Async/await is great *but* there are two problems that are subtle that can easily creep into code:
+Async/await is great *but* there are two subtle problems that can easily creep into code:
 1) Creating race conditions/concurrent execution (where you code things in the right order but the code executes in a different order than you expect) 
 2) Creating methods where the compiler recognizes exceptions but you the coder never see them (making it head-scratchingly annoying to debug *especially* if you accidentally introduced a race condition that you can’t see)  
 This library solves both of these problems.
