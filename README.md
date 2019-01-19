@@ -24,12 +24,13 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
 [![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices.MVVM)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
 
 - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
-  - Allows for `Task` to safely be used asynchronously with `ICommand`:
-    - `IAsyncCommand : ICommand`
-    - `AsyncCommand : IAsyncCommand`
-    - `IAsyncCommand<T> : ICommand`    
-    - `AsyncCommand<T> : IAsyncCommand<T>`
-  - [Usage instructions](#asyncawaitbestpracticesmvvm-1)
+
+- Allows for `Task` to safely be used asynchronously with `ICommand`:
+  - `IAsyncCommand : ICommand`
+  - `AsyncCommand : IAsyncCommand`
+  - `IAsyncCommand<T> : ICommand`    
+  - `AsyncCommand<T> : IAsyncCommand<T>`
+- [Usage instructions](#asyncawaitbestpracticesmvvm-1)
 
 ## Setup
 
