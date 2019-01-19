@@ -17,7 +17,7 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
   - `WeakEventManager`
     - Avoids memory leaks when events are not unsubscribed
     - Used by `AsyncCommand` and `AsyncCommand<T>`
-  - [Usage instructions](#asyncawaitbestpractices-2)
+  - [Usage instructions](#asyncawaitbestpractices-3)
   
 ### AsyncAwaitBestPractices.MVVM
 
@@ -30,7 +30,7 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
   - `AsyncCommand : IAsyncCommand`
   - `IAsyncCommand<T> : ICommand`    
   - `AsyncCommand<T> : IAsyncCommand<T>`
-- [Usage instructions](#asyncawaitbestpracticesmvvm-1)
+- [Usage instructions](#asyncawaitbestpracticesmvvm-2)
 
 ## Setup
 
