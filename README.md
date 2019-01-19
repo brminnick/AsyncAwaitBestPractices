@@ -6,14 +6,24 @@ Extensions for `System.Threading.Tasks.Task`.
 
 Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removing Async Void](https://johnthiriet.com/removing-async-void/) and [MVVM - Going Async With AsyncCommand](https://johnthiriet.com/mvvm-going-async-with-async-command/).
 
-- AsyncAwaitBestPractices
+###  AsyncAwaitBestPractices
+
+[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
+
+Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ 
+
   - `SafeFireAndForget`
     - An extension method to safely fire-and-forget a `Task`:
   - `WeakEventManager`
     - Avoids memory leaks when events are not unsubscribed
     - Used by `AsyncCommand` and `AsyncCommand<T>`
   - [Usage instructions](#asyncawaitbestpractices-2)
-- AsyncAwaitBestPractices.MVVM
+  
+### AsyncAwaitBestPractices.MVVM
+
+[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices.MVVM)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
+
+- Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
   - Allows for `Task` to safely be used asynchronously with `ICommand`:
     - `IAsyncCommand : ICommand`
     - `AsyncCommand : IAsyncCommand`
@@ -25,14 +35,10 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
 
 ###  AsyncAwaitBestPractices
 
-[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
-
 - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ 
 - Add to any project supporting .NET Standard 1.0
 
 ### AsyncAwaitBestPractices.MVVM
-
-[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices.MVVM)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
 
 - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
 - Add to any project supporting .NET Standard 2.0
