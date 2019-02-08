@@ -1,4 +1,4 @@
-﻿using Xamarin.Forms;
+using Xamarin.Forms;
 using HackerNews.Shared;
 
 namespace HackerNews
@@ -28,19 +28,19 @@ namespace HackerNews
             Content = _storiesListView;
         }
 
-        private void HandleErrorOcurred(object sender, string e) =>
+        void HandleErrorOcurred(object sender, string e) =>
             Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Error", e, "OK"));
 
         void HandleItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var listView = sender as ListView;
-            var storyTapped = e.Item as StoryModel;
-
-            Device.BeginInvokeOnMainThread(async () =>
+            if (sender is ListView listView && e?.Item is StoryModel storyTapped)
             {
-                listView.SelectedItem = null;
-                await DependencyService.Get<IBrowserServices>()?.OpenBrowser(storyTapped?.Url);
-            });
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    listView.SelectedItem = null;
+                    await DependencyService.Get<IBrowserServices>()?.OpenBrowser(storyTapped?.Url);
+                });
+            }
         }
     }
 }

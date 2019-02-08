@@ -6,7 +6,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-		<PackageReference Include="Xamarin.Forms" Version="3.4.0.1009999" />
+		<PackageReference Include="Xamarin.Forms" Version="3.5.0.129452" />
 		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
 	</ItemGroup>
 	<ItemGroup>
