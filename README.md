@@ -46,6 +46,12 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
 
 ## Why Do I Need This?
 
+### Video
+Update Conference 2018, Correcting Common Mistakes in Asynchronous .NET Code: 
+https://www.youtube.com/watch?v=yyT6dSjq-nE
+
+### Explaination
+
 Async/await is great *but* there are two subtle problems that can easily creep into code:
 1) Creating race conditions/concurrent execution (where you code things in the right order but the code executes in a different order than you expect) 
 2) Creating methods where the compiler recognizes exceptions but you the coder never see them (making it head-scratchingly annoying to debug *especially* if you accidentally introduced a race condition that you can’t see)  
