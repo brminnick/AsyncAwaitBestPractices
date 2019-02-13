@@ -102,7 +102,7 @@ Never, never, never, never, never use `.Result` or `.Wait()`:
 
 1. Both `.Result` and `.Wait()` will lock-up the current thread. If the current thread is the Main Thread (also known as the UI Thread), your UI will freeze until the `Task` has completed.
 
-2.`.Result` or `.Wait()` rethrow your exception as a `System.AggregateException`, which makes it difficult to find the actual exception.
+2. `.Result` or `.Wait()` rethrow your exception as a `System.AggregateException`, which makes it difficult to find the actual exception.
   
 # Usage
 
