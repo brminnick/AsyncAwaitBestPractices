@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
- 2>&1
 
 UITestProject=`find "$BuildPath" -name HackerNews.UITests.csproj`
 echo UITestProject: $UITestProject
@@ -30,8 +29,6 @@ echo TestCloudExeDirectory: $TestCloudExeDirectory
 
 APKFile=`find "$BuildPath" -name *.apk | head -1`
 echo APKFile: $APKFile
-
-npm install -g appcenter-cli
 
 appcenter login --token $1
 
