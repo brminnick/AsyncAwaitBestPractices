@@ -8,7 +8,7 @@ echo UITestPrereleaseVersionNumber: $UITestVersionNumber
 UITestVersionNumberSize=${#UITestVersionNumber} 
 echo UITestVersionNumberSize: $UITestVersionNumberSize
 
-if [ $UITestDevVersionNumberSize == 0 ]
+if [[ $UITestDevVersionNumberSize == 0 ]];
 then
     UITestVersionNumber=`grep '[0-9]' $UITestProject | grep Xamarin.UITest | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'`
     echo UITestVersionNumber: $UITestVersionNumber
