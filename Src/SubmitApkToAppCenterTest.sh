@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -x
+ 2>&1
 
 UITestProject=`find "$BuildPath" -name HackerNews.UITests.csproj`
 echo UITestProject: $UITestProject
