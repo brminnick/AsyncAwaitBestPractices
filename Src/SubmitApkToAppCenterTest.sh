@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
 
-UITestProject=`find "$BuildPath" -name HackerNews.UITests.csproj`
+set -e
+
+UITestProject=`find "$BuildPath" -name HackerNews.UITests.csproj` 2>&1
 echo UITestProject: $UITestProject
 
-UITestDLL=`find "$BuildPath" -name "HackerNews.UITests.dll" | grep bin`
+UITestDLL=`find "$BuildPath" -name "HackerNews.UITests.dll" | grep bin` 2>&1
 echo UITestDLL: $UITestDLL
 
-UITestBuildDir=`dirname $UITestDLL`
+UITestBuildDir=`dirname $UITestDLL` 2>&1
 echo UITestBuildDir: $UITestBuildDir
 
-UITestVersionNumber=`grep '[0-9]' $UITestProject | grep Xamarin.UITest|grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,10\}\-'dev`
+UITestVersionNumber=`grep '[0-9]' $UITestProject | grep Xamarin.UITest|grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,10\}\-'dev` 2>&1
 echo UITestPrereleaseVersionNumber: $UITestVersionNumber
 
-UITestVersionNumberSize=${#UITestVersionNumber} 
+UITestVersionNumberSize=${#UITestVersionNumber} 2>&1
 echo UITestVersionNumberSize: $UITestVersionNumberSize
 
 if [[ $UITestVersionNumberSize == 0 ]];
@@ -21,15 +23,17 @@ then
     echo UITestVersionNumber: $UITestVersionNumber
 fi
 
-TestCloudExe=`find "$NuGetPackagesPath" | grep test-cloud.exe | grep $UITestVersionNumber | head -1`
+TestCloudExe=`find "$NuGetPackagesPath" | grep test-cloud.exe | grep $UITestVersionNumber | head -1` 2>&1
 echo TestCloudExe: $TestCloudExe
 
-TestCloudExeDirectory=`dirname $TestCloudExe`
+TestCloudExeDirectory=`dirname $TestCloudExe` 2>&1
 echo TestCloudExeDirectory: $TestCloudExeDirectory
 
-APKFile=`find "$BuildPath" -name *.apk | head -1`
+APKFile=`find "$BuildPath" -name *.apk | head -1` 2>&1
 echo APKFile: $APKFile
 
-appcenter login --token $1
+npm install -g appcenter-cli 2>&1
 
-appcenter test run uitest --app "AsyncAwaitBestPractices/AsyncAwaitBestPractices.Droid" --devices "AsyncAwaitBestPractices/all-devices" --app-path $APKFile --test-series "master" --locale "en_US" --build-dir $UITestBuildDir --uitest-tools-dir $TestCloudExeDirectory
+appcenter login --token $1 2>&1
+
+appcenter test run uitest --app "AsyncAwaitBestPractices/AsyncAwaitBestPractices.Droid" --devices "AsyncAwaitBestPractices/all-devices" --app-path $APKFile --test-series "master" --locale "en_US" --build-dir $UITestBuildDir --uitest-tools-dir $TestCloudExeDirectory 2>&1
