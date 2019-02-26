@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
-UITestProject=`find "$1" -name HackerNews.UITests.csproj`
+UITestProject=`find "D:\a\1\s" -name HackerNews.UITests.csproj`
 echo UITestProject: $UITestProject
-
-UITestDLL=`find "$1" -name "HackerNews.UITests.dll" | grep bin`
-echo UITestDLL: $UITestDLL
-
-UITestBuildDir=`dirname $UITestDLL`
-echo UITestBuildDir: $UITestBuildDir
 
 UITestVersionNumber=`grep '[0-9]' $UITestProject | grep Xamarin.UITest | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,10\}\-'dev`
 echo UITestPrereleaseVersionNumber: $UITestVersionNumber
@@ -20,4 +14,4 @@ then
     echo UITestVersionNumber: $UITestVersionNumber
 fi
 
-##vso[task.setvariable variable=UITestVersionNumber;isSecret=false;isOutput=true;]value
+##vso[task.setvariable variable=UITestVersionNumber;isSecret=false;isOutput=true;]$UITestVersionNumber
