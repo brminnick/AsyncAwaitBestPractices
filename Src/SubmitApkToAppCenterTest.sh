@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-UITestProject=`find "$(Build.Repository.LocalPath)" -name HackerNews.UITests.csproj`
+UITestProject=`find "$BuildPath" -name HackerNews.UITests.csproj`
 echo UITestProject: $UITestProject
 
-UITestDLL=`find "$(Build.Repository.LocalPath)" -name "HackerNews.UITests.dll" | grep bin`
+UITestDLL=`find "$BuildPath" -name "HackerNews.UITests.dll" | grep bin`
 echo UITestDLL: $UITestDLL
 
 UITestBuildDir=`dirname $UITestDLL`
@@ -20,13 +20,13 @@ then
     echo UITestVersionNumber: $UITestVersionNumber
 fi
 
-TestCloudExe=`find "$(UserProfile)\.nuget\packages " | grep test-cloud.exe | grep $UITestVersionNumber | head -1`
+TestCloudExe=`find "$NuGetPackagesPath " | grep test-cloud.exe | grep $UITestVersionNumber | head -1`
 echo TestCloudExe: $TestCloudExe
 
 TestCloudExeDirectory=`dirname $TestCloudExe`
 echo TestCloudExeDirectory: $TestCloudExeDirectory
 
-APKFile=`find "$(Build.Repository.LocalPath)" -name *.apk | head -1`
+APKFile=`find "$BuildPath" -name *.apk | head -1`
 echo APKFile: $APKFile
 
 npm install -g appcenter-cli
