@@ -1,4 +1,4 @@
-﻿using HackerNews.Shared;
+using HackerNews.Shared;
 using NUnit.Framework;
 using Xamarin.UITest;
 
@@ -28,7 +28,8 @@ namespace HackerNews.UITests
             actualNumberOfStories = NewsPage.GetStoryList().Count;
 
             //Assert
-            Assert.AreEqual(expectedNumberOfStories, actualNumberOfStories);
+            Assert.LessOrEqual(actualNumberOfStories, expectedNumberOfStories);
+            Assert.Greater(actualNumberOfStories, 0);
         }
     }
 }
