@@ -20,7 +20,7 @@ then
     echo UITestVersionNumber: $UITestVersionNumber
 fi
 
-TestCloudExe=`find "$NuGetPackagesPath " | grep test-cloud.exe | grep $UITestVersionNumber | head -1`
+TestCloudExe=`find "$NuGetPackagesPath" | grep test-cloud.exe | grep $UITestVersionNumber | head -1`
 echo TestCloudExe: $TestCloudExe
 
 TestCloudExeDirectory=`dirname $TestCloudExe`
