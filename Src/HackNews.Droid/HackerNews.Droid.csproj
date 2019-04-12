@@ -54,7 +54,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-        <PackageReference Include="Xamarin.Forms" Version="3.6.0.220655" />
+        <PackageReference Include="Xamarin.Forms" Version="3.6.0.293080" />
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
         <PackageReference Include="Plugin.CurrentActivity">
           <Version>2.1.0.4</Version>
