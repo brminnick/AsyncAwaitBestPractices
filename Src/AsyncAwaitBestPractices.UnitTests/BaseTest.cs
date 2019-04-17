@@ -5,24 +5,24 @@ namespace AsyncAwaitBestPractices.UnitTests
 {
     public abstract class BaseTest
     {
-        #region Constant Fields
-        protected const int Delay = 500;
-        protected readonly WeakEventManager _testWeakEventManager = new WeakEventManager();
-        protected readonly WeakEventManager<string> _testStringWeakEventManager = new WeakEventManager<string>();
-        #endregion
-
         #region Events
         protected event EventHandler TestEvent
         {
-            add => _testWeakEventManager.AddEventHandler(value);
-            remove => _testWeakEventManager.RemoveEventHandler(value);
+            add => TestWeakEventManager.AddEventHandler(value);
+            remove => TestWeakEventManager.RemoveEventHandler(value);
         }
 
         protected event EventHandler<string> TestStringEvent
         {
-            add => _testStringWeakEventManager.AddEventHandler(value);
-            remove => _testStringWeakEventManager.RemoveEventHandler(value);
+            add => TestStringWeakEventManager.AddEventHandler(value);
+            remove => TestStringWeakEventManager.RemoveEventHandler(value);
         }
+        #endregion
+
+        #region Properties
+        protected const int Delay = 500;
+        protected WeakEventManager TestWeakEventManager { get; } = new WeakEventManager();
+        protected WeakEventManager<string> TestStringWeakEventManager { get; } = new WeakEventManager<string>();
         #endregion
 
         #region Methods

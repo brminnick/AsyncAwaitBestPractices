@@ -38,7 +38,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            _propertyChangedWeakEventManager?.HandleEvent(this, new PropertyChangedEventArgs("Test"), nameof(PropertyChanged));
+            _propertyChangedWeakEventManager.HandleEvent(this, new PropertyChangedEventArgs("Test"), nameof(PropertyChanged));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -61,7 +61,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            _propertyChangedWeakEventManager?.HandleEvent(null, new PropertyChangedEventArgs("Test"), nameof(PropertyChanged));
+            _propertyChangedWeakEventManager.HandleEvent(null, new PropertyChangedEventArgs("Test"), nameof(PropertyChanged));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -79,7 +79,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<ArgumentException>(() => _propertyChangedWeakEventManager?.HandleEvent(this, EventArgs.Empty, nameof(PropertyChanged)));
+            Assert.Throws<ArgumentException>(() => _propertyChangedWeakEventManager.HandleEvent(this, EventArgs.Empty, nameof(PropertyChanged)));
             Assert.IsFalse(didEventFire);
             PropertyChanged -= HandleDelegateTest;
         }
@@ -103,7 +103,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            _propertyChangedWeakEventManager?.HandleEvent(this, null, nameof(PropertyChanged));
+            _propertyChangedWeakEventManager.HandleEvent(this, null, nameof(PropertyChanged));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -119,7 +119,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleDelegateTest(object sender, PropertyChangedEventArgs e) => didEventFire = true;
 
             //Act
-            _propertyChangedWeakEventManager?.HandleEvent(this, new PropertyChangedEventArgs("Test"), nameof(TestStringEvent));
+            _propertyChangedWeakEventManager.HandleEvent(this, new PropertyChangedEventArgs("Test"), nameof(TestStringEvent));
 
             //Assert
             Assert.False(didEventFire);

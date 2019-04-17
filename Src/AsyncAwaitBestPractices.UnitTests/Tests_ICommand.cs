@@ -15,7 +15,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             ICommand command = new AsyncCommand<int>(IntParameterTask);
 
             //Act
-            command?.Execute(parameter);
+            command.Execute(parameter);
             await NoParameterTask();
 
             //Assert
@@ -30,7 +30,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             ICommand command = new AsyncCommand<string>(StringParameterTask);
 
             //Act
-            command?.Execute(parameter);
+            command.Execute(parameter);
             await NoParameterTask();
 
             //Assert
@@ -49,7 +49,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
             try
             {
-                command?.Execute(Delay);
+                command.Execute(Delay);
                 await NoParameterTask();
                 await NoParameterTask();
             }

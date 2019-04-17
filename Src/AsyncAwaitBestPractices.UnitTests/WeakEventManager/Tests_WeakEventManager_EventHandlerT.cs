@@ -27,7 +27,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            _testStringWeakEventManager?.HandleEvent(this, stringEventArg, nameof(TestStringEvent));
+            TestStringWeakEventManager.HandleEvent(this, stringEventArg, nameof(TestStringEvent));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -55,7 +55,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            _testStringWeakEventManager?.HandleEvent(null, stringEventArg, nameof(TestStringEvent));
+            TestStringWeakEventManager.HandleEvent(null, stringEventArg, nameof(TestStringEvent));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -80,7 +80,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            _testStringWeakEventManager?.HandleEvent(this, null, nameof(TestStringEvent));
+            TestStringWeakEventManager.HandleEvent(this, null, nameof(TestStringEvent));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -97,7 +97,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleTestEvent(object sender, string e) => didEventFire = true;
 
             //Act
-            _testStringWeakEventManager?.HandleEvent(this, "Test", nameof(TestEvent));
+            TestStringWeakEventManager.HandleEvent(this, "Test", nameof(TestEvent));
 
             //Assert
             Assert.False(didEventFire);
@@ -145,7 +145,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleTestEvent(object sender, string e) => didEventFire = true;
 
             //Act
-            _testStringWeakEventManager.HandleEvent(this, "Test", nameof(TestStringEvent));
+            TestStringWeakEventManager.HandleEvent(this, "Test", nameof(TestStringEvent));
 
             //Assert
             Assert.IsFalse(didEventFire);
@@ -159,7 +159,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null), "Value cannot be null.\nParameter name: handler");
+            Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.AddEventHandler(null), "Value cannot be null.\nParameter name: handler");
         }
 
         [Test]
@@ -170,7 +170,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, null), "Value cannot be null.\nParameter name: eventName");
+            Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.AddEventHandler(null, null), "Value cannot be null.\nParameter name: eventName");
         }
 
         [Test]
@@ -181,7 +181,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
+            Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
         }
 
         [Test]
@@ -192,7 +192,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
+            Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.AddEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
         }
 
         [Test]
@@ -203,7 +203,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.RemoveEventHandler(null), "Value cannot be null.\nParameter name: handler");
+            Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.RemoveEventHandler(null), "Value cannot be null.\nParameter name: handler");
         }
 
 
@@ -215,7 +215,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, null), "Value cannot be null.\nParameter name: eventName");
+            Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.AddEventHandler(null, null), "Value cannot be null.\nParameter name: eventName");
         }
 
         [Test]
@@ -226,7 +226,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
+            Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
         }
 
         [Test]
@@ -237,7 +237,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => _testStringWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
+            Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
         }
     }
 }
