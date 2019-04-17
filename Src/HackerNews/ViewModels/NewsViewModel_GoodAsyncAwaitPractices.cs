@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -25,7 +26,7 @@ namespace HackerNews
         #region Constructors
         public NewsViewModel_GoodAsyncAwaitPractices()
         {
-            ExecuteRefreshCommand().SafeFireAndForget();
+            ExecuteRefreshCommand().SafeFireAndForget(false, ex => Debug.WriteLine(ex));
         }
         #endregion
 
@@ -99,7 +100,7 @@ namespace HackerNews
             }
         }
 
-        void OnErrorOccurred(string message) => _errorOcurredEventManager?.HandleEvent(this, message, nameof(ErrorOcurred));
+        void OnErrorOccurred(string message) => _errorOcurredEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
         #endregion
     }
 }

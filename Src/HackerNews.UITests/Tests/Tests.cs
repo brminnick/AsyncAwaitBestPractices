@@ -6,7 +6,6 @@ namespace HackerNews.UITests
 {
     public class Tests : BaseTest
     {
-
         public Tests(Platform platform) : base(platform)
         {
         }
