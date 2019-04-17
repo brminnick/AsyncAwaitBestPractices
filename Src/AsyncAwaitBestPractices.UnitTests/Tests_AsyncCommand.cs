@@ -60,40 +60,6 @@ namespace AsyncAwaitBestPractices.UnitTests
 
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task AsyncCommand_ExecuteAsync_NoParameter_ContinueOnCapturedContext_Test(bool continueOnCapturedContext)
-        {
-            //Arrange
-            AsyncCommand command = new AsyncCommand(NoParameterTask, continueOnCapturedContext: continueOnCapturedContext);
-            var callingThreadId = Thread.CurrentThread.ManagedThreadId;
-
-            //Act
-            await command.ExecuteAsync();
-
-            var returningThreadId = Thread.CurrentThread.ManagedThreadId;
-
-            //Assert
-            Assert.AreNotEqual(callingThreadId, returningThreadId);
-        }
-
-        [TestCase(500, false)]
-        [TestCase(500, true)]
-        public async Task AsyncCommand_ExecuteAsync_Parameter_ContinueOnCapturedContext_Test(int parameter, bool continueOnCapturedContext)
-        {
-            //Arrange
-            AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, continueOnCapturedContext: continueOnCapturedContext);
-            var callingThreadId = Thread.CurrentThread.ManagedThreadId;
-
-            //Act
-            await command.ExecuteAsync(parameter);
-
-            var returningThreadId = Thread.CurrentThread.ManagedThreadId;
-
-            //Assert
-            Assert.AreNotEqual(callingThreadId, returningThreadId);
-        }
-
         [Test]
         public void AsyncCommand_Parameter_CanExecuteTrue_Test()
         {
