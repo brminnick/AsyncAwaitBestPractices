@@ -76,7 +76,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public void AsyncCommand_Parameter_CanExecuteFalse_Test()
         {
             //Arrange
-            AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, canExecute: CanExecuteFalse);
+            AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, CanExecuteFalse);
 
             //Act
 
@@ -88,7 +88,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public void AsyncCommand_NoParameter_CanExecuteTrue_Test()
         {
             //Arrange
-            AsyncCommand command = new AsyncCommand(NoParameterTask, canExecute: CanExecuteTrue);
+            AsyncCommand command = new AsyncCommand(NoParameterTask, CanExecuteTrue);
 
             //Act
 
@@ -100,7 +100,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public void AsyncCommand_NoParameter_CanExecuteFalse_Test()
         {
             //Arrange
-            AsyncCommand command = new AsyncCommand(NoParameterTask, canExecute: CanExecuteFalse);
+            AsyncCommand command = new AsyncCommand(NoParameterTask, CanExecuteFalse);
 
             //Act
 

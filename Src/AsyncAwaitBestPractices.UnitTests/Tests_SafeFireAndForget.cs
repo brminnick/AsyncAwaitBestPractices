@@ -13,7 +13,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             Exception exception = null;
 
             //Act
-            NoParameterExceptionTask().SafeFireAndForget(onException: ex => exception = ex);
+            NoParameterDelayedExceptionTask().SafeFireAndForget(onException: ex => exception = ex);
             await NoParameterTask();
             await NoParameterTask();
 

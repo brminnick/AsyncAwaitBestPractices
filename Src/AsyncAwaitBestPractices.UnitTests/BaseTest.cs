@@ -29,14 +29,16 @@ namespace AsyncAwaitBestPractices.UnitTests
         protected Task NoParameterTask() => Task.Delay(Delay);
         protected Task IntParameterTask(int delay) => Task.Delay(delay);
         protected Task StringParameterTask(string text) => Task.Delay(Delay);
+        protected Task NoParameterImmediateExceptionTask() => throw new Exception();
+        protected Task ParameterImmediateExceptionTask(int delay) => throw new Exception();
 
-        protected async Task NoParameterExceptionTask()
+        protected async Task NoParameterDelayedExceptionTask()
         {
             await Task.Delay(Delay);
             throw new Exception();
         }
 
-        protected async Task IntParameterExceptionTask(int delay)
+        protected async Task IntParameterDelayedExceptionTask(int delay)
         {
             await Task.Delay(delay);
             throw new Exception();
