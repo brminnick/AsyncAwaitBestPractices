@@ -60,40 +60,6 @@ namespace AsyncAwaitBestPractices.UnitTests
 
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task AsyncCommand_ExecuteAsync_NoParameter_ContinueOnCapturedContext_Test(bool continueOnCapturedContext)
-        {
-            //Arrange
-            AsyncCommand command = new AsyncCommand(NoParameterTask, continueOnCapturedContext: continueOnCapturedContext);
-            var callingThreadId = Thread.CurrentThread.ManagedThreadId;
-
-            //Act
-            await command.ExecuteAsync();
-
-            var returningThreadId = Thread.CurrentThread.ManagedThreadId;
-
-            //Assert
-            Assert.AreNotEqual(callingThreadId, returningThreadId);
-        }
-
-        [TestCase(500, false)]
-        [TestCase(500, true)]
-        public async Task AsyncCommand_ExecuteAsync_Parameter_ContinueOnCapturedContext_Test(int parameter, bool continueOnCapturedContext)
-        {
-            //Arrange
-            AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, continueOnCapturedContext: continueOnCapturedContext);
-            var callingThreadId = Thread.CurrentThread.ManagedThreadId;
-
-            //Act
-            await command.ExecuteAsync(parameter);
-
-            var returningThreadId = Thread.CurrentThread.ManagedThreadId;
-
-            //Assert
-            Assert.AreNotEqual(callingThreadId, returningThreadId);
-        }
-
         [Test]
         public void AsyncCommand_Parameter_CanExecuteTrue_Test()
         {
@@ -110,7 +76,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public void AsyncCommand_Parameter_CanExecuteFalse_Test()
         {
             //Arrange
-            AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, canExecute: CanExecuteFalse);
+            AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, CanExecuteFalse);
 
             //Act
 
@@ -122,7 +88,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public void AsyncCommand_NoParameter_CanExecuteTrue_Test()
         {
             //Arrange
-            AsyncCommand command = new AsyncCommand(NoParameterTask, canExecute: CanExecuteTrue);
+            AsyncCommand command = new AsyncCommand(NoParameterTask, CanExecuteTrue);
 
             //Act
 
@@ -134,7 +100,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public void AsyncCommand_NoParameter_CanExecuteFalse_Test()
         {
             //Arrange
-            AsyncCommand command = new AsyncCommand(NoParameterTask, canExecute: CanExecuteFalse);
+            AsyncCommand command = new AsyncCommand(NoParameterTask, CanExecuteFalse);
 
             //Act
 
