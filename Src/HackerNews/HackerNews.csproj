@@ -5,8 +5,8 @@
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-		<PackageReference Include="Xamarin.Forms" Version="3.6.0.293080" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+		<PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
 		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
 	</ItemGroup>
 	<ItemGroup>
