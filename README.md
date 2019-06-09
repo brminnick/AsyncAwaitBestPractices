@@ -134,10 +134,12 @@ async Task ExampleAsyncMethod()
 
 ### `WeakEventManager`
 
-An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs):
+An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs).
+
+Using `EventHandler`
 
 ```csharp
-readonly WeakEventManager _weakEventManager = new WeakEventManager();
+readonly WeakEventManager _canExecuteChangedEventManager = new WeakEventManager();
 
 public event EventHandler CanExecuteChanged
 {
@@ -145,10 +147,41 @@ public event EventHandler CanExecuteChanged
     remove => _weakEventManager.RemoveEventHandler(value);
 }
 
-public void RaiseCanExecuteChanged() => _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+public void RaiseCanExecuteChanged() => _canExecuteChangedEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+```
+
+Using `Delegate`
+
+```csharp
+readonly WeakEventManager _propertyChangedEventManager = new WeakEventManager();
+
+public event PropertyChangedEventHandler PropertyChanged
+{
+    add => _propertyChangedEventManager.AddEventHandler(value);
+    remove => _propertyChangedEventManager.RemoveEventHandler(value);
+}
+
+public void OnPropertyChanged([CallerMemberName]string propertyName = "") => _weakEventManager.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(PropertyChanged));
+```
+
+Using `Action`
+
+```csharp
+readonly WeakEventManager _weakActionEventManager = new WeakEventManager();
+
+public event Action ActionEvent
+{
+    add => _weakActionEventManager.AddEventHandler(value);
+    remove => _weakActionEventManager.RemoveEventHandler(value);
+}
+
+public void OnActionEvent(string message) => _weakActionEventManager.HandleEvent(message, nameof(ActionEvent));
 ```
 
 ### `WeakEventManager<T>`
+An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs).
+
+Using `EventHandler<T>`
 
 ```csharp
 readonly WeakEventManager<string> _errorOcurredEventManager = new WeakEventManager<string>();
@@ -159,7 +192,21 @@ public event EventHandler<string> ErrorOcurred
     remove => _errorOcurredEventManager.RemoveEventHandler(value);
 }
 
-public void RaiseErrorOcurred(string message) => _weakEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
+public void OnErrorOcurred(string message) => _errorOcurredEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
+```
+
+Using `Action<T>`
+
+```csharp
+readonly WeakEventManager _weakActionEventManager = new WeakEventManager();
+
+public event Action<string> ActionEvent
+{
+    add => _weakActionEventManager.AddEventHandler(value);
+    remove => _weakActionEventManager.RemoveEventHandler(value);
+}
+
+public void OnActionEvent(string message) => _weakActionEventManager.HandleEvent(message, nameof(ActionEvent));
 ```
 
 ## AsyncAwaitBestPractices.MVVM
