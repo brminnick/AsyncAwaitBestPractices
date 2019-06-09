@@ -44,8 +44,62 @@ namespace AsyncAwaitBestPractices
 
         internal static void HandleEvent(string eventName, object sender, object eventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
         {
-            var toRaise = new List<Tuple<object, MethodInfo>>();
+            AddRemoveEvents(eventName, eventHandlers, out var toRaise);
+
+            for (int i = 0; i < toRaise.Count; i++)
+            {
+                try
+                {
+                    Tuple<object, MethodInfo> tuple = toRaise[i];
+                    tuple.Item2.Invoke(tuple.Item1, new[] { sender, eventArgs });
+                }
+                catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
+                {
+                    throw new InvalidHandleEventException("Parameter count mismatch. If invoking an `event Action` use `HandleEvent(string eventName)` or if invoking an `event Action<T>` use `HandleEvent(object eventArgs, string eventName)`instead.", e);
+                }
+            }
+        }
+
+        internal static void HandleEvent(string eventName, object actionEventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
+        {
+            AddRemoveEvents(eventName, eventHandlers, out var toRaise);
+
+            for (int i = 0; i < toRaise.Count; i++)
+            {
+                try
+                {
+                    Tuple<object, MethodInfo> tuple = toRaise[i];
+                    tuple.Item2.Invoke(tuple.Item1, new[] { actionEventArgs });
+                }
+                catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
+                {
+                    throw new InvalidHandleEventException("Parameter count mismatch. If invoking an `event EventHandler` use `HandleEvent(object sender, TEventArgs eventArgs, string eventName)` or if invoking an `event Action` use `HandleEvent(string eventName)`instead.", e);
+                }
+            }
+        }
+
+        internal static void HandleEvent(string eventName, in Dictionary<string, List<Subscription>> eventHandlers)
+        {
+            AddRemoveEvents(eventName, eventHandlers, out var toRaise);
+
+            for (int i = 0; i < toRaise.Count; i++)
+            {
+                try
+                {
+                    Tuple<object, MethodInfo> tuple = toRaise[i];
+                    tuple.Item2.Invoke(tuple.Item1, null);
+                }
+                catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
+                {
+                    throw new InvalidHandleEventException("Parameter count mismatch. If invoking an `event EventHandler` use `HandleEvent(object sender, TEventArgs eventArgs, string eventName)` or if invoking an `event Action<T>` use `HandleEvent(object eventArgs, string eventName)`instead.", e);
+                }
+            }
+        }
+
+        static void AddRemoveEvents(in string eventName, in Dictionary<string, List<Subscription>> eventHandlers, out List<Tuple<object, MethodInfo>> toRaise)
+        {
             var toRemove = new List<Subscription>();
+            toRaise = new List<Tuple<object, MethodInfo>>();
 
             if (eventHandlers.TryGetValue(eventName, out List<Subscription> target))
             {
@@ -72,12 +126,6 @@ namespace AsyncAwaitBestPractices
                     Subscription subscription = toRemove[i];
                     target.Remove(subscription);
                 }
-            }
-
-            for (int i = 0; i < toRaise.Count; i++)
-            {
-                Tuple<object, MethodInfo> tuple = toRaise[i];
-                tuple.Item2.Invoke(tuple.Item1, new[] { sender, eventArgs });
             }
         }
     }

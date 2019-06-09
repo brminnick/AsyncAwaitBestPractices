@@ -32,6 +32,22 @@ namespace AsyncAwaitBestPractices
         }
 
         /// <summary>
+        /// Adds the event handler
+        /// </summary>
+        /// <param name="action">Handler</param>
+        /// <param name="eventName">Event name</param>
+        public void AddEventHandler(Action<TEventArgs> action, [CallerMemberName] string eventName = "")
+        {
+            if (IsNullOrWhiteSpace(eventName))
+                throw new ArgumentNullException(nameof(eventName));
+
+            if (action is null)
+                throw new ArgumentNullException(nameof(action));
+
+            EventManagerService.AddEventHandler(eventName, action.Target, action.GetMethodInfo(), _eventHandlers);
+        }
+
+        /// <summary>
         /// Removes the event handler
         /// </summary>
         /// <param name="handler">Handler</param>
@@ -48,13 +64,37 @@ namespace AsyncAwaitBestPractices
         }
 
         /// <summary>
+        /// Removes the event handler
+        /// </summary>
+        /// <param name="action">Handler</param>
+        /// <param name="eventName">Event name</param>
+        public void RemoveEventHandler(Action<TEventArgs> action, [CallerMemberName] string eventName = "")
+        {
+            if (IsNullOrWhiteSpace(eventName))
+                throw new ArgumentNullException(nameof(eventName));
+
+            if (action is null)
+                throw new ArgumentNullException(nameof(action));
+
+            EventManagerService.RemoveEventHandler(eventName, action.Target, action.GetMethodInfo(), _eventHandlers);
+        }
+
+        /// <summary>
         /// Executes the event
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(object sender, TEventArgs eventArgs, string eventName) => 
+        public void HandleEvent(object sender, TEventArgs eventArgs, string eventName) =>
             EventManagerService.HandleEvent(eventName, sender, eventArgs, _eventHandlers);
+
+        /// <summary>
+        /// Executes the event
+        /// </summary>
+        /// <param name="eventArgs">Event arguments</param>
+        /// <param name="eventName">Event name</param>
+        public void HandleEvent(TEventArgs eventArgs, string eventName) => 
+            EventManagerService.HandleEvent(eventName, eventArgs, _eventHandlers);
     }
 
     /// <summary>
@@ -102,7 +142,13 @@ namespace AsyncAwaitBestPractices
         /// <param name="sender">Sender</param>
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(object sender, object eventArgs, string eventName) => 
+        public void HandleEvent(object sender, object eventArgs, string eventName) =>
             EventManagerService.HandleEvent(eventName, sender, eventArgs, _eventHandlers);
+
+        /// <summary>
+        /// Executes the event
+        /// </summary>
+        /// <param name="eventName">Event name</param>
+        public void HandleEvent(string eventName) => EventManagerService.HandleEvent(eventName, _eventHandlers);
     }
 }
