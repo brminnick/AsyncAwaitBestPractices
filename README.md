@@ -147,7 +147,7 @@ public event EventHandler CanExecuteChanged
     remove => _weakEventManager.RemoveEventHandler(value);
 }
 
-public void RaiseCanExecuteChanged() => _canExecuteChangedEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+public void OnCanExecuteChanged() => _canExecuteChangedEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 ```
 
 Using `Delegate`:
