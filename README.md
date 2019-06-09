@@ -136,7 +136,7 @@ async Task ExampleAsyncMethod()
 
 An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs).
 
-Using `EventHandler`
+Using `EventHandler`:
 
 ```csharp
 readonly WeakEventManager _canExecuteChangedEventManager = new WeakEventManager();
@@ -150,7 +150,7 @@ public event EventHandler CanExecuteChanged
 public void RaiseCanExecuteChanged() => _canExecuteChangedEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 ```
 
-Using `Delegate`
+Using `Delegate`:
 
 ```csharp
 readonly WeakEventManager _propertyChangedEventManager = new WeakEventManager();
@@ -161,10 +161,10 @@ public event PropertyChangedEventHandler PropertyChanged
     remove => _propertyChangedEventManager.RemoveEventHandler(value);
 }
 
-public void OnPropertyChanged([CallerMemberName]string propertyName = "") => _weakEventManager.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(PropertyChanged));
+public void OnPropertyChanged([CallerMemberName]string propertyName = "") => _propertyChangedEventManager.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(PropertyChanged));
 ```
 
-Using `Action`
+Using `Action`:
 
 ```csharp
 readonly WeakEventManager _weakActionEventManager = new WeakEventManager();
@@ -181,7 +181,7 @@ public void OnActionEvent(string message) => _weakActionEventManager.HandleEvent
 ### `WeakEventManager<T>`
 An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs).
 
-Using `EventHandler<T>`
+Using `EventHandler<T>`:
 
 ```csharp
 readonly WeakEventManager<string> _errorOcurredEventManager = new WeakEventManager<string>();
@@ -195,10 +195,10 @@ public event EventHandler<string> ErrorOcurred
 public void OnErrorOcurred(string message) => _errorOcurredEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
 ```
 
-Using `Action<T>`
+Using `Action<T>`:
 
 ```csharp
-readonly WeakEventManager _weakActionEventManager = new WeakEventManager();
+readonly WeakEventManager<string> _weakActionEventManager = new WeakEventManager<string>();
 
 public event Action<string> ActionEvent
 {
@@ -224,7 +224,7 @@ Allows for `Task` to safely be used asynchronously with `ICommand`:
 public AsyncCommand(Func<T, Task> execute,
                      Func<object, bool> canExecute = null,
                      Action<Exception> onException = null,
-                     bool continueOnCapturedContext = true)   
+                     bool continueOnCapturedContext = true)
 ```
 
 ```csharp
