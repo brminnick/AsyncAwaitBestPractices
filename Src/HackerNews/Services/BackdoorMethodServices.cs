@@ -1,6 +1,5 @@
-﻿using Xamarin.Forms;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Xamarin.Forms;
 
 namespace HackerNews
 {
@@ -8,9 +7,7 @@ namespace HackerNews
     {
         public static string GetStoriesAsBase64String()
         {
-            var viewModel = GetViewModel();
-            var storyList = viewModel.TopStoryList;
-
+            var storyList = GetViewModel().TopStoryList;
             return JsonConvert.SerializeObject(storyList);
         }
 
@@ -21,6 +18,5 @@ namespace HackerNews
         }
 
         static NewsViewModel_GoodAsyncAwaitPractices GetViewModel() => GetNewsPage().BindingContext as NewsViewModel_GoodAsyncAwaitPractices;
-
     }
 }

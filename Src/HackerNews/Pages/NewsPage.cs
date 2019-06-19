@@ -1,5 +1,6 @@
 using Xamarin.Forms;
 using HackerNews.Shared;
+using Xamarin.Essentials;
 
 namespace HackerNews
 {
@@ -38,7 +39,14 @@ namespace HackerNews
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     listView.SelectedItem = null;
-                    await DependencyService.Get<IBrowserServices>()?.OpenBrowser(storyTapped?.Url);
+
+                    var browserOptions = new BrowserLaunchOptions
+                    {
+                        PreferredControlColor = ColorConstants.BrowserNavigationBarTextColor,
+                        PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
+                    };
+
+                    await Browser.OpenAsync(storyTapped.Url, browserOptions);
                 });
             }
         }
