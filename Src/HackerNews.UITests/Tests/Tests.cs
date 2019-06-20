@@ -26,6 +26,8 @@ namespace HackerNews.UITests
             //Act
             actualNumberOfStories = NewsPage.GetStoryList().Count;
 
+            App.Screenshot("Top Stories Downloaded");
+
             //Assert
             Assert.LessOrEqual(actualNumberOfStories, expectedNumberOfStories);
             Assert.Greater(actualNumberOfStories, 0);
