@@ -5,11 +5,11 @@ namespace AsyncAwaitBestPractices
 {
     /// <summary>
     /// Extension methods for System.Threading.Tasks.Task
-    /// </summary>
+    /// </summary> 
     public static class SafeFireAndForgetExtensions
     {
         static Action<Exception> _onException;
-        static bool _shouldAlwaysThrowException;
+        static bool _shouldAlwaysRethrowException;
 
         /// <summary>
         /// Safely execute the Task without waiting for it to complete before moving to the next line of code; commonly known as "Fire And Forget". Inspired by John Thiriet's blog post, "Removing Async Void": https://johnthiriet.com/removing-async-void/.
@@ -29,12 +29,12 @@ namespace AsyncAwaitBestPractices
         public static void SafeFireAndForget<TException>(this Task task, bool continueOnCapturedContext = false, Action<TException> onException = null) where TException : Exception => HandleSafeFireAndForget(task, continueOnCapturedContext, onException);
 
         /// <summary>
-        /// Initialize SafeFireAndForget to always rethrow an exception.
+        /// Initialize SafeFireAndForget
         ///
         /// Warning: When <c>true</c>, there is no way to catch this exception and it will always result in a crash. Recommended only for debugging purposes.
         /// </summary>
-        /// <param name="shouldAlwaysThrowException">If set to <c>true</c>, after the exception has been caught and handled, the exception will always be rethrown.</param>
-		public static void Initialize(in bool shouldAlwaysThrowException = false) => _shouldAlwaysThrowException = shouldAlwaysThrowException;
+        /// <param name="shouldAlwaysRethrowException">If set to <c>true</c>, after the exception has been caught and handled, the exception will always be rethrown.</param>
+		public static void Initialize(in bool shouldAlwaysRethrowException = false) => _shouldAlwaysRethrowException = shouldAlwaysRethrowException;
 
         /// <summary>
         /// Set the default actionfor SafeFireAndForget to handle every exception
@@ -54,7 +54,7 @@ namespace AsyncAwaitBestPractices
                 _onException?.Invoke(ex);
                 onException?.Invoke(ex);
 
-                if (_shouldAlwaysThrowException)
+                if (_shouldAlwaysRethrowException)
                     throw;
             }
         }

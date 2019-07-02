@@ -12,12 +12,13 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
 
 Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ 
 
-  - `SafeFireAndForget`
-    - An extension method to safely fire-and-forget a `Task`:
-  - `WeakEventManager`
+- `SafeFireAndForget`
+    - An extension method to safely fire-and-forget a `Task`
+    - Ensures the `Task` will rethrow an `Exception` if an `Exception` is caught in `IAsyncStateMachine.MoveNext()`
+- `WeakEventManager`
     - Avoids memory leaks when events are not unsubscribed
     - Used by `AsyncCommand` and `AsyncCommand<T>`
-  - [Usage instructions](#asyncawaitbestpractices-3)
+- [Usage instructions](#asyncawaitbestpractices-3)
   
 ### AsyncAwaitBestPractices.MVVM
 
@@ -112,15 +113,17 @@ Never, never, never, never, never use `.Result` or `.Wait()`:
 An extension method to safely fire-and-forget a `Task`:
 
 ```csharp
-public static async void SafeFireAndForget(this System.Threading.Tasks.Task task, bool continueOnCapturedContext = true, System.Action<System.Exception> onException = null)
+public static async void SafeFireAndForget(this System.Threading.Tasks.Task task, bool continueOnCapturedContext = false, System.Action<System.Exception> onException = null)
 ```
+
+#### Basic Usage
 
 ```csharp
 void HandleButtonTapped(object sender, EventArgs e)
 {
     // Allows the async Task method to safely run on a different thread while not awaiting its completion
-    // If an exception is thrown, Console.WriteLine
-    ExampleAsyncMethod().SafeFireAndForget(onException: ex => Console.WriteLine(ex.ToString()));
+    // onException: If an Exception is thrown, print it to the Console
+    ExampleAsyncMethod().SafeFireAndForget(onException: ex => Console.WriteLine(ex));
 
     // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` is running on a different thread
     // ...
@@ -132,11 +135,50 @@ async Task ExampleAsyncMethod()
 }
 ```
 
+#### Advanced Usage
+
+```csharp
+void InitializeSafeFireAndForget()
+{
+    // Initialize SafeFireAndForget
+    // Only use `shouldAlwaysRethrowException: true` when you want `.SafeFireAndForget()` to always rethrow every exception. This is not recommended, because there is no way to catch an Exception rethrown by `SafeFireAndForget()`; `shouldAlwaysRethrowException: true` should **not** be used in Production/Release builds.
+    SafeFireAndForgetExtensions.Initialize(shouldAlwaysRethrowException: false);
+
+    // SafeFireAndForget will print every exception to the Console
+    SafeFireAndForgetExtensions.SetDefaultExceptionHandling(ex => Console.WriteLine(ex));
+}
+
+void HandleButtonTapped(object sender, EventArgs e)
+{
+    // Allows the async Task method to safely run on a different thread while not awaiting its completion
+
+    // onException: If a WebException is thrown, print its StatusCode to the Console. **Note**: If a non-WebException is thrown, it will not be handled by `onException`
+
+    // Because we set `SetDefaultExceptionHandling` in `void InitializeSafeFireAndForget()`, the entire exception will also be printed to the Console
+    ExampleAsyncMethodThrowingAnException().SafeFireAndForget<WebException>(onException: ex =>
+    {
+        if(e.Response is HttpWebResponse webResponse)
+            Console.WriteLine($"Status Code: {webResponse.StatusCode}");
+    });
+
+    // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` is running on a different thread
+    // ...
+}
+
+async Task ExampleAsyncMethodThrowingAnException()
+{
+    await Task.Delay(1000);
+    throw new WebException();
+}
+```
+
 ### `WeakEventManager`
 
-An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs).
+An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents).
 
-Using `EventHandler`:
+Inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs).
+
+#### Using `EventHandler`
 
 ```csharp
 readonly WeakEventManager _canExecuteChangedEventManager = new WeakEventManager();
@@ -150,7 +192,7 @@ public event EventHandler CanExecuteChanged
 public void OnCanExecuteChanged() => _canExecuteChangedEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 ```
 
-Using `Delegate`:
+#### Using `Delegate`
 
 ```csharp
 readonly WeakEventManager _propertyChangedEventManager = new WeakEventManager();
@@ -164,7 +206,7 @@ public event PropertyChangedEventHandler PropertyChanged
 public void OnPropertyChanged([CallerMemberName]string propertyName = "") => _propertyChangedEventManager.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(PropertyChanged));
 ```
 
-Using `Action`:
+#### Using `Action`
 
 ```csharp
 readonly WeakEventManager _weakActionEventManager = new WeakEventManager();
@@ -181,7 +223,7 @@ public void OnActionEvent(string message) => _weakActionEventManager.HandleEvent
 ### `WeakEventManager<T>`
 An event implementation that enables the [garbage collector to collect an object without needing to unsubscribe event handlers](http://paulstovell.com/blog/weakevents), inspired by [Xamarin.Forms.WeakEventManager](https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Core/WeakEventManager.cs).
 
-Using `EventHandler<T>`:
+#### Using `EventHandler<T>`
 
 ```csharp
 readonly WeakEventManager<string> _errorOcurredEventManager = new WeakEventManager<string>();
@@ -195,7 +237,7 @@ public event EventHandler<string> ErrorOcurred
 public void OnErrorOcurred(string message) => _errorOcurredEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
 ```
 
-Using `Action<T>`:
+#### Using `Action<T>`
 
 ```csharp
 readonly WeakEventManager<string> _weakActionEventManager = new WeakEventManager<string>();
@@ -224,14 +266,14 @@ Allows for `Task` to safely be used asynchronously with `ICommand`:
 public AsyncCommand(Func<T, Task> execute,
                      Func<object, bool> canExecute = null,
                      Action<Exception> onException = null,
-                     bool continueOnCapturedContext = true)
+                     bool continueOnCapturedContext = false)
 ```
 
 ```csharp
 public AsyncCommand(Func<Task> execute,
                      Func<object, bool> canExecute = null,
                      Action<Exception> onException = null,
-                     bool continueOnCapturedContext = true)
+                     bool continueOnCapturedContext = false)
 ```
 
 ```csharp
