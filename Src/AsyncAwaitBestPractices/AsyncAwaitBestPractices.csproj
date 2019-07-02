@@ -10,6 +10,6 @@
         <DocumentationFile>bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml</DocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-      <Folder Include="WeakEventManager\" />
+        <Folder Include="WeakEventManager\" />
     </ItemGroup>
 </Project>

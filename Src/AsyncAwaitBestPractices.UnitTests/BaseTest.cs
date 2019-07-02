@@ -29,19 +29,19 @@ namespace AsyncAwaitBestPractices.UnitTests
         protected Task NoParameterTask() => Task.Delay(Delay);
         protected Task IntParameterTask(int delay) => Task.Delay(delay);
         protected Task StringParameterTask(string text) => Task.Delay(Delay);
-        protected Task NoParameterImmediateExceptionTask() => throw new Exception();
-        protected Task ParameterImmediateExceptionTask(int delay) => throw new Exception();
+        protected Task NoParameterImmediateNullReferenceExceptionTask() => throw new NullReferenceException();
+        protected Task ParameterImmediateNullReferenceExceptionTask(int delay) => throw new NullReferenceException();
 
-        protected async Task NoParameterDelayedExceptionTask()
+        protected async Task NoParameterDelayedNullReferenceExceptionTask()
         {
             await Task.Delay(Delay);
-            throw new Exception();
+            throw new NullReferenceException();
         }
 
-        protected async Task IntParameterDelayedExceptionTask(int delay)
+        protected async Task IntParameterDelayedNullReferenceExceptionTask(int delay)
         {
             await Task.Delay(delay);
-            throw new Exception();
+            throw new NullReferenceException();
         }
 
         protected bool CanExecuteTrue(object parameter) => true;
