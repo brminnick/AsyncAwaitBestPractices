@@ -31,7 +31,7 @@ namespace AsyncAwaitBestPractices
         /// <summary>
         /// Initialize SafeFireAndForget to always rethrow an exception.
         ///
-        /// Warning: When <c>true</c>, there is no way to catch this exception and it will always result in a crash. Recommend only using for debugging purposes.
+        /// Warning: When <c>true</c>, there is no way to catch this exception and it will always result in a crash. Recommended only for debugging purposes.
         /// </summary>
         /// <param name="shouldAlwaysThrowException">If set to <c>true</c>, after the exception has been caught and handled, the exception will always be rethrown.</param>
 		public static void Initialize(in bool shouldAlwaysThrowException = false) => _shouldAlwaysThrowException = shouldAlwaysThrowException;
