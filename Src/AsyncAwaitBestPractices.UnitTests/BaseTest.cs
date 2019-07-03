@@ -46,6 +46,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
         protected bool CanExecuteTrue(object parameter) => true;
         protected bool CanExecuteFalse(object parameter) => false;
+        protected bool CanExecuteDynamic(object booleanParameter) => (bool)booleanParameter;
         #endregion
     }
 }
