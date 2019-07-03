@@ -115,13 +115,14 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Arrange
             bool canCommandExecute = false;
             bool didCanExecuteChangeFire = false;
-            AsyncCommand command = new AsyncCommand(NoParameterTask, commandCanExecute);
 
-            Assert.False(command.CanExecute(null));
+            AsyncCommand command = new AsyncCommand(NoParameterTask, commandCanExecute);
             command.CanExecuteChanged += handleCanExecuteChanged;
 
             void handleCanExecuteChanged(object sender, EventArgs e) => didCanExecuteChangeFire = true;
             bool commandCanExecute(object parameter) => canCommandExecute;
+
+            Assert.False(command.CanExecute(null));
 
             //Act
             canCommandExecute = true;
