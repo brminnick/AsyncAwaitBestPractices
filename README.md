@@ -8,7 +8,7 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
 
 ###  AsyncAwaitBestPractices
 
-[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
+[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices?includePreReleases=true)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
 
 Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ 
 
@@ -21,7 +21,7 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
   
 ### AsyncAwaitBestPractices.MVVM
 
-[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices.MVVM)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
+[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices.MVVM?includePreReleases=true)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
 
 - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
 
