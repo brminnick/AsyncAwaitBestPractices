@@ -80,7 +80,7 @@ namespace AsyncAwaitBestPractices
         }
 
         /// <summary>
-        /// Executes the event EventHandler<TEventArgs>
+        /// Executes the event EventHandler
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="eventArgs">Event arguments</param>
@@ -89,7 +89,7 @@ namespace AsyncAwaitBestPractices
             EventManagerService.HandleEvent(eventName, sender, eventArgs, _eventHandlers);
 
         /// <summary>
-        /// Executes the event Action<TEventArgs>
+        /// Executes the event Action
         /// </summary>
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
