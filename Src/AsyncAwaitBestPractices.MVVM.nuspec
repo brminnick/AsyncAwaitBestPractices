@@ -14,7 +14,7 @@
     <summary>Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task.</summary>
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
     <dependencies>
-      <dependency id="AsyncAwaitBestPractices" version="3.0.0-pre3" />
+      <dependency id="AsyncAwaitBestPractices" version="3.0.0-pre4" />
     </dependencies>
     <releaseNotes>
       New In This Release:
