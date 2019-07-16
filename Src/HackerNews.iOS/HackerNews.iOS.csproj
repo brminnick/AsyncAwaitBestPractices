@@ -43,6 +43,7 @@
         <MtouchArch>ARM64</MtouchArch>
         <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
         <PlatformTarget>x86</PlatformTarget>
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
         <DebugType>pdbonly</DebugType>
@@ -91,7 +92,7 @@
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
         <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
         <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.8" />
         <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
     </ItemGroup>

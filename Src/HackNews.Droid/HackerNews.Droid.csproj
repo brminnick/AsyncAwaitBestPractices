@@ -30,6 +30,7 @@
         <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
         <AndroidTlsProvider>btls</AndroidTlsProvider>
         <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+        <AndroidDexTool>d8</AndroidDexTool>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -41,6 +42,12 @@
         <AndroidManagedSymbols>true</AndroidManagedSymbols>
         <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
         <AndroidTlsProvider>btls</AndroidTlsProvider>
+        <BundleAssemblies>true</BundleAssemblies>
+        <AotAssemblies>true</AotAssemblies>
+        <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
+        <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+        <AndroidDexTool>d8</AndroidDexTool>
+        <AndroidLinkTool>r8</AndroidLinkTool>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
@@ -56,8 +63,8 @@
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
         <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.0" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
         <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
     </ItemGroup>
     <ItemGroup>
