@@ -6,7 +6,7 @@ namespace AsyncAwaitBestPractices
     /// <summary>
     /// Represents errors that occur during WeakEventManager.HandleEvent execution.
     /// </summary>
-    public class InvalidHandleEventException : Exception
+    class InvalidHandleEventException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AsyncAwaitBestPractices.InvalidHandleEventException"/> class.

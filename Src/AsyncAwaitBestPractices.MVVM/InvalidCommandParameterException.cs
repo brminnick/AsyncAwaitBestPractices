@@ -5,7 +5,7 @@ namespace AsyncAwaitBestPractices.MVVM
     /// <summary>
     /// Represents errors that occur during IAsyncCommand execution.
     /// </summary>
-    public class InvalidCommandParameterException : Exception
+    class InvalidCommandParameterException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.InvalidCommandParameterException"/> class.
