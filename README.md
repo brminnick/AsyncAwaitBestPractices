@@ -47,8 +47,9 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
 ## Why Do I Need This?
 
 ### Video
-Update Conference 2018, Correcting Common Mistakes in Asynchronous .NET Code: 
-https://www.youtube.com/watch?v=yyT6dSjq-nE
+**NDC Oslo 2019**: Correcting Common Mistakes in Asynchronous .NET Code
+
+https://www.youtube.com/watch?v=J0mcYVxJEl0
 
 ### Explaination
 
