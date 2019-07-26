@@ -155,7 +155,7 @@ void HandleButtonTapped(object sender, EventArgs e)
     // onException: If a WebException is thrown, print its StatusCode to the Console. **Note**: If a non-WebException is thrown, it will not be handled by `onException`
 
     // Because we set `SetDefaultExceptionHandling` in `void InitializeSafeFireAndForget()`, the entire exception will also be printed to the Console
-    ExampleAsyncMethodThrowingAnException().SafeFireAndForget<WebException>(onException: ex =>
+    ExampleAsyncMethod().SafeFireAndForget<WebException>(onException: ex =>
     {
         if(e.Response is HttpWebResponse webResponse)
             Console.WriteLine($"Status Code: {webResponse.StatusCode}");
@@ -165,7 +165,7 @@ void HandleButtonTapped(object sender, EventArgs e)
     // ...
 }
 
-async Task ExampleAsyncMethodThrowingAnException()
+async Task ExampleAsyncMethod()
 {
     await Task.Delay(1000);
     throw new WebException();
