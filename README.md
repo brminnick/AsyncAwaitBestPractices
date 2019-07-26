@@ -284,13 +284,13 @@ public class ExampleClass
         ExampleAsyncCommand = new AsyncCommand(ExampleAsyncMethod);
         ExampleAsyncIntCommand = new AsyncCommand<int>(ExampleAsyncMethodWithIntParameter);
         ExampleAsyncExceptionCommand = new AsyncCommand(ExampleAsyncMethodWithException, onException: ex => Console.WriteLine(ex.ToString()));
-        ExampleAsyncCommandNotReturningToTheCallingThread = new AsyncCommand(ExampleAsyncMethod, continueOnCapturedContext: false);
+        ExampleAsyncCommandNotReturningToTheCallingThread = new AsyncCommand(ExampleAsyncMethod, continueOnCapturedContext: true);
     }
 
     public IAsyncCommand ExampleAsyncCommand { get; }
     public IAsyncCommand<int> ExampleAsyncIntCommand { get; }
     public IAsyncCommand ExampleAsyncExceptionCommand { get; }
-    public IAsyncCommand ExampleAsyncCommandNotReturningToTheCallingThread { get; }
+    public IAsyncCommand ExampleAsyncCommandReturningToTheCallingThread { get; }
 
     async Task ExampleAsyncMethod()
     {
@@ -313,7 +313,7 @@ public class ExampleClass
         ExampleAsyncCommand.Execute(null);
         ExampleAsyncIntCommand.Execute(1000);
         ExampleAsyncExceptionCommand.Execute(null);
-        ExampleAsyncCommandNotReturningToTheCallingThread.Execute(null);
+        ExampleAsyncCommandReturningToTheCallingThread.Execute(null);
     }
 }
 ```
