@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AsyncAwaitBestPractices.MVVM
+namespace AsyncAwaitBestPractices.MVVM.Shared
 {
     /// <summary>
     /// Represents errors that occur during IAsyncCommand execution.

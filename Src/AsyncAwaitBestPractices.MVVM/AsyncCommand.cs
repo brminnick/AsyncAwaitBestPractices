@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using AsyncAwaitBestPractices.MVVM.Shared;
 
 namespace AsyncAwaitBestPractices.MVVM
 {

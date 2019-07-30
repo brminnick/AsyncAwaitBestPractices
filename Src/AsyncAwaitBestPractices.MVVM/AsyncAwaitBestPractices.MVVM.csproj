@@ -15,4 +15,5 @@
     <ItemGroup>
       <ProjectReference Include="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj" />
     </ItemGroup>
+    <Import Project="..\AsyncAwaitBestPractices.MVVM.Shared\AsyncAwaitBestPractices.MVVM.Shared.projitems" Label="Shared" Condition="Exists('..\AsyncAwaitBestPractices.MVVM.Shared\AsyncAwaitBestPractices.MVVM.Shared.projitems')" />
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace AsyncAwaitBestPractices
+namespace AsyncAwaitBestPractices.Shared
 {
     /// <summary>
     /// Represents errors that occur during WeakEventManager.HandleEvent execution.

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using AsyncAwaitBestPractices.Shared;
 using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
