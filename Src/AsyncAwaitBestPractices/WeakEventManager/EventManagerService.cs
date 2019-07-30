@@ -42,7 +42,7 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        internal static void HandleEvent(string eventName, object? sender, object eventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void HandleEvent(string eventName, object? sender, object? eventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
 
@@ -60,7 +60,7 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        internal static void HandleEvent(string eventName, object actionEventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void HandleEvent(in string eventName, object? actionEventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
 
@@ -68,7 +68,7 @@ namespace AsyncAwaitBestPractices
             {
                 try
                 {
-                    Tuple<object, MethodInfo> tuple = toRaise[i];
+                    var tuple = toRaise[i];
                     tuple.Item2.Invoke(tuple.Item1, new[] { actionEventArgs });
                 }
                 catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
@@ -78,7 +78,7 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        internal static void HandleEvent(string eventName, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void HandleEvent(in string eventName, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
 
@@ -86,7 +86,7 @@ namespace AsyncAwaitBestPractices
             {
                 try
                 {
-                    Tuple<object, MethodInfo> tuple = toRaise[i];
+                    var tuple = toRaise[i];
                     tuple.Item2.Invoke(tuple.Item1, null);
                 }
                 catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
@@ -109,16 +109,16 @@ namespace AsyncAwaitBestPractices
                     bool isStatic = subscription.Subscriber is null;
                     if (isStatic)
                     {
-                        toRaise.Add(Tuple.Create<object, MethodInfo>(null, subscription.Handler));
+                        toRaise.Add(Tuple.Create<object?, MethodInfo>(null, subscription.Handler));
                         continue;
                     }
 
-                    object subscriber = subscription.Subscriber.Target;
+                    object? subscriber = subscription.Subscriber?.Target;
 
                     if (subscriber is null)
                         toRemove.Add(subscription);
                     else
-                        toRaise.Add(Tuple.Create(subscriber, subscription.Handler));
+                        toRaise.Add(Tuple.Create<object?, MethodInfo>(subscriber, subscription.Handler));
                 }
 
                 for (int i = 0; i < toRemove.Count; i++)

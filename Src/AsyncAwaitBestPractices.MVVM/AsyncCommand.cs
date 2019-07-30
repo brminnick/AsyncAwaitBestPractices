@@ -12,7 +12,7 @@ namespace AsyncAwaitBestPractices.MVVM
         #region Constant Fields
         readonly Func<T, Task> _execute;
         readonly Func<object, bool> _canExecute;
-        readonly Action<Exception> _onException;
+        readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
         readonly WeakEventManager _weakEventManager = new WeakEventManager();
         #endregion
@@ -26,8 +26,8 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         public AsyncCommand(Func<T, Task> execute,
-                            Func<object, bool> canExecute = null,
-                            Action<Exception> onException = null,
+                            Func<object, bool>? canExecute = null,
+                            Action<Exception>? onException = null,
                             bool continueOnCapturedContext = false)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
@@ -66,16 +66,18 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         /// <returns>The executed Task</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public Task ExecuteAsync(T parameter) => _execute(parameter);
+        public Task ExecuteAsync(in T parameter) => _execute(parameter);
 
         void ICommand.Execute(object parameter)
         {
             if (parameter is T validParameter)
                 ExecuteAsync(validParameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
+#pragma warning disable CS8601 //Possible null reference assignment
             else if (parameter is null && !typeof(T).IsValueType)
                 ExecuteAsync((T)parameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
+#pragma warning enable CS8601 
             else
-                throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
+                throw new InvalidCommandParameterException(typeof(T), parameter!.GetType());
         }
         #endregion
     }
@@ -88,7 +90,7 @@ namespace AsyncAwaitBestPractices.MVVM
         #region Constant Fields
         readonly Func<Task> _execute;
         readonly Func<object, bool> _canExecute;
-        readonly Action<Exception> _onException;
+        readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
         readonly WeakEventManager _weakEventManager = new WeakEventManager();
         #endregion
@@ -102,8 +104,8 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         public AsyncCommand(Func<Task> execute,
-                            Func<object, bool> canExecute = null,
-                            Action<Exception> onException = null,
+                            Func<object, bool>? canExecute = null,
+                            Action<Exception>? onException = null,
                             bool continueOnCapturedContext = false)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");

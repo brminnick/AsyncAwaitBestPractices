@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    public abstract class BaseTest
+    abstract class BaseTest
     {
         #region Events
         protected event EventHandler TestEvent

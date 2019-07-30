@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    public class Tests_WeakEventManager_EventHandler : BaseTest
+    class Tests_WeakEventManager_EventHandler : BaseTest
     {
         [Test]
         public void WeakEventManager_HandleEvent_ValidImplementation()

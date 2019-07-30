@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    public class Tests_WeakEventManager_ActionT : BaseTest
+    class Tests_WeakEventManager_ActionT : BaseTest
     {
         #region Constant Fields
         readonly WeakEventManager<string> _actionEventManager = new WeakEventManager<string>();

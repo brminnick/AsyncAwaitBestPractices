@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    public class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
+    class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
     {
         #region Constant Fields
         readonly WeakEventManager _propertyChangedWeakEventManager = new WeakEventManager();

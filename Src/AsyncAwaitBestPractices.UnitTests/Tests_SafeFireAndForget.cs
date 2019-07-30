@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    public class Tests_SafeFireAndForget : BaseTest
+    class Tests_SafeFireAndForget : BaseTest
     {
         [SetUp]
         public void BeforeEachTest()
