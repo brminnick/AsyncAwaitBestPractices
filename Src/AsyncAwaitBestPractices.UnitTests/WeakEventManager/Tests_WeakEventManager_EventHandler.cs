@@ -12,8 +12,11 @@ namespace AsyncAwaitBestPractices.UnitTests
             TestEvent += HandleTestEvent;
             bool didEventFire = false;
 
-            void HandleTestEvent(object sender, EventArgs e)
+            void HandleTestEvent(object? sender, EventArgs e)
             {
+                if (sender is null)
+                    throw new ArgumentNullException(nameof(sender));
+
                 Assert.IsNotNull(sender);
                 Assert.AreEqual(this.GetType(), sender.GetType());
 
@@ -37,7 +40,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             TestEvent += HandleTestEvent;
             bool didEventFire = false;
 
-            void HandleTestEvent(object sender, EventArgs e)
+            void HandleTestEvent(object? sender, EventArgs e)
             {
                 Assert.IsNull(sender);
                 Assert.IsNotNull(e);
@@ -60,8 +63,11 @@ namespace AsyncAwaitBestPractices.UnitTests
             TestEvent += HandleTestEvent;
             bool didEventFire = false;
 
-            void HandleTestEvent(object sender, EventArgs e)
+            void HandleTestEvent(object? sender, EventArgs e)
             {
+                if (sender is null)
+                    throw new ArgumentNullException(nameof(sender));
+
                 Assert.IsNotNull(sender);
                 Assert.AreEqual(this.GetType(), sender.GetType());
 
@@ -86,8 +92,11 @@ namespace AsyncAwaitBestPractices.UnitTests
             TestEvent += HandleTestEvent;
             bool didEventFire = false;
 
-            void HandleTestEvent(object sender, EventArgs e)
+            void HandleTestEvent(object? sender, EventArgs e)
             {
+                if (sender is null)
+                    throw new ArgumentNullException(nameof(sender));
+
                 Assert.IsNotNull(sender);
                 Assert.AreEqual(this.GetType(), sender.GetType());
 
@@ -98,7 +107,9 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
+#pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             TestWeakEventManager.HandleEvent(this, null, nameof(TestEvent));
+#pragma warning enable CS8625
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -111,7 +122,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             TestEvent += HandleTestEvent;
             bool didEventFire = false;
 
-            void HandleTestEvent(object sender, EventArgs e) => didEventFire = true;
+            void HandleTestEvent(object? sender, EventArgs e) => didEventFire = true;
 
             //Act
             TestWeakEventManager.HandleEvent(this, new EventArgs(), nameof(TestStringEvent));
@@ -129,7 +140,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             TestEvent += HandleTestEvent;
             TestEvent -= HandleTestEvent;
-            void HandleTestEvent(object sender, EventArgs e) => didEventFire = true;
+            void HandleTestEvent(object? sender, EventArgs e) => didEventFire = true;
 
             //Act
             TestWeakEventManager.HandleEvent(null, null, nameof(TestEvent));
@@ -146,7 +157,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             bool didEventFire = false;
 
             TestEvent += HandleTestEvent;
-            void HandleTestEvent(object sender, EventArgs e) => didEventFire = true;
+            void HandleTestEvent(object? sender, EventArgs e) => didEventFire = true;
 
             //Act
             unassignedEventManager.HandleEvent(null, null, nameof(TestEvent));

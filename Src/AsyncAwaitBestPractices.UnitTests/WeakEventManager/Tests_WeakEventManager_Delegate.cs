@@ -103,7 +103,9 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
+#pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             _propertyChangedWeakEventManager.HandleEvent(this, null, nameof(PropertyChanged));
+#pragma warning enable CS8625 //Cannot convert null literal to non-nullable reference type
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -137,7 +139,9 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleDelegateTest(object sender, PropertyChangedEventArgs e) => didEventFire = true;
 
             //Act
+#pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             _propertyChangedWeakEventManager.HandleEvent(null, null, nameof(PropertyChanged));
+#pragma warning enable CS8625 //Cannot convert null literal to non-nullable reference type
 
             //Assert
             Assert.IsFalse(didEventFire);

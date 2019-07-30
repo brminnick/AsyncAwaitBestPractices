@@ -20,7 +20,7 @@ namespace AsyncAwaitBestPractices
         /// </summary>
         /// <param name="handler">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void AddEventHandler(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
+        public void AddEventHandler(in EventHandler<TEventArgs> handler, [CallerMemberName] in string eventName = "")
         {
             if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
@@ -36,7 +36,7 @@ namespace AsyncAwaitBestPractices
         /// </summary>
         /// <param name="action">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void AddEventHandler(Action<TEventArgs> action, [CallerMemberName] string eventName = "")
+        public void AddEventHandler(in Action<TEventArgs> action, [CallerMemberName] in string eventName = "")
         {
             if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
@@ -52,7 +52,7 @@ namespace AsyncAwaitBestPractices
         /// </summary>
         /// <param name="handler">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void RemoveEventHandler(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "")
+        public void RemoveEventHandler(in EventHandler<TEventArgs> handler, [CallerMemberName] in string eventName = "")
         {
             if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
@@ -68,7 +68,7 @@ namespace AsyncAwaitBestPractices
         /// </summary>
         /// <param name="action">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void RemoveEventHandler(Action<TEventArgs> action, [CallerMemberName] string eventName = "")
+        public void RemoveEventHandler(in Action<TEventArgs> action, [CallerMemberName] in string eventName = "")
         {
             if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
@@ -85,7 +85,7 @@ namespace AsyncAwaitBestPractices
         /// <param name="sender">Sender</param>
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(object? sender, TEventArgs eventArgs, string eventName) =>
+        public void HandleEvent(in object? sender, in TEventArgs eventArgs, in string eventName) =>
             EventManagerService.HandleEvent(eventName, sender, eventArgs, _eventHandlers);
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace AsyncAwaitBestPractices
         /// </summary>
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(TEventArgs eventArgs, string eventName) => 
+        public void HandleEvent(in TEventArgs eventArgs, in string eventName) => 
             EventManagerService.HandleEvent(eventName, eventArgs, _eventHandlers);
     }
 
@@ -109,7 +109,7 @@ namespace AsyncAwaitBestPractices
         /// </summary>
         /// <param name="handler">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void AddEventHandler(Delegate handler, [CallerMemberName] string eventName = "")
+        public void AddEventHandler(in Delegate handler, [CallerMemberName] in string eventName = "")
         {
             if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
@@ -125,7 +125,7 @@ namespace AsyncAwaitBestPractices
         /// </summary>
         /// <param name="handler">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void RemoveEventHandler(Delegate handler, [CallerMemberName] string eventName = "")
+        public void RemoveEventHandler(in Delegate handler, [CallerMemberName] in string eventName = "")
         {
             if (IsNullOrWhiteSpace(eventName))
                 throw new ArgumentNullException(nameof(eventName));
@@ -142,13 +142,13 @@ namespace AsyncAwaitBestPractices
         /// <param name="sender">Sender</param>
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(object sender, object eventArgs, string eventName) =>
+        public void HandleEvent(in object? sender, in object? eventArgs, in string eventName) =>
             EventManagerService.HandleEvent(eventName, sender, eventArgs, _eventHandlers);
 
         /// <summary>
         /// Executes the event Action
         /// </summary>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(string eventName) => EventManagerService.HandleEvent(eventName, _eventHandlers);
+        public void HandleEvent(in string eventName) => EventManagerService.HandleEvent(eventName, _eventHandlers);
     }
 }

@@ -6,7 +6,7 @@ namespace AsyncAwaitBestPractices
 {
     static class EventManagerService
     {
-        internal static void AddEventHandler(string eventName, object? handlerTarget, MethodInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void AddEventHandler(in string eventName, in object? handlerTarget, in MethodInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription> targets);
             if (!doesContainSubscriptions)
@@ -21,7 +21,7 @@ namespace AsyncAwaitBestPractices
                 targets.Add(new Subscription(new WeakReference(handlerTarget), methodInfo));
         }
 
-        internal static void RemoveEventHandler(string eventName, object handlerTarget, MemberInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void RemoveEventHandler(in string eventName, in object handlerTarget, in MemberInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription> subscriptions);
             if (!doesContainSubscriptions)
@@ -42,7 +42,7 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        internal static void HandleEvent(string eventName, object? sender, object? eventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void HandleEvent(in string eventName, in object? sender, in object? eventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
 
@@ -60,7 +60,7 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        internal static void HandleEvent(in string eventName, object? actionEventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void HandleEvent(in string eventName, in object? actionEventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
 

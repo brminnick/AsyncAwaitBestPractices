@@ -14,8 +14,11 @@ namespace AsyncAwaitBestPractices.UnitTests
             const string stringEventArg = "Test";
             bool didEventFire = false;
 
-            void HandleTestEvent(object sender, string e)
+            void HandleTestEvent(object? sender, string? e)
             {
+                if (sender is null || e is null)
+                    throw new ArgumentNullException(nameof(sender));
+
                 Assert.IsNotNull(sender);
                 Assert.AreEqual(this.GetType(), sender.GetType());
 
@@ -43,7 +46,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             bool didEventFire = false;
 
-            void HandleTestEvent(object sender, string e)
+            void HandleTestEvent(object? sender, string e)
             {
                 Assert.IsNull(sender);
 
@@ -68,8 +71,11 @@ namespace AsyncAwaitBestPractices.UnitTests
             TestStringEvent += HandleTestEvent;
             bool didEventFire = false;
 
-            void HandleTestEvent(object sender, string e)
+            void HandleTestEvent(object? sender, string e)
             {
+                if (sender is null)
+                    throw new ArgumentNullException(nameof(sender));
+
                 Assert.IsNotNull(sender);
                 Assert.AreEqual(this.GetType(), sender.GetType());
 
@@ -80,7 +86,9 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
+#pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             TestStringWeakEventManager.HandleEvent(this, null, nameof(TestStringEvent));
+#pragma warning enable CS8625
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -94,7 +102,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             bool didEventFire = false;
 
-            void HandleTestEvent(object sender, string e) => didEventFire = true;
+            void HandleTestEvent(object? sender, string e) => didEventFire = true;
 
             //Act
             TestStringWeakEventManager.HandleEvent(this, "Test", nameof(TestEvent));
@@ -108,12 +116,14 @@ namespace AsyncAwaitBestPractices.UnitTests
         public void WeakEventManager_NullEventManager()
         {
             //Arrange
-            WeakEventManager unassignedEventManager = null;
+            WeakEventManager? unassignedEventManager = null;
 
             //Act
 
             //Assert
+#pragma warning disable CS8602 //Dereference of a possible null reference
             Assert.Throws<NullReferenceException>(() => unassignedEventManager.HandleEvent(null, null, nameof(TestEvent)));
+#pragma warning enable CS8602
         }
 
         [Test]
@@ -124,10 +134,12 @@ namespace AsyncAwaitBestPractices.UnitTests
             bool didEventFire = false;
 
             TestStringEvent += HandleTestEvent;
-            void HandleTestEvent(object sender, string e) => didEventFire = true;
+            void HandleTestEvent(object? sender, string e) => didEventFire = true;
 
             //Act
+#pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             unassignedEventManager.HandleEvent(null, null, nameof(TestStringEvent));
+#pragma warning enable CS8625
 
             //Assert
             Assert.IsFalse(didEventFire);
@@ -142,7 +154,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             TestStringEvent += HandleTestEvent;
             TestStringEvent -= HandleTestEvent;
-            void HandleTestEvent(object sender, string e) => didEventFire = true;
+            void HandleTestEvent(object? sender, string e) => didEventFire = true;
 
             //Act
             TestStringWeakEventManager.HandleEvent(this, "Test", nameof(TestStringEvent));
@@ -170,7 +182,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.AddEventHandler(s=> { var temp = s; }, null), "Value cannot be null.\nParameter name: eventName");
+            Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.AddEventHandler(s => { var temp = s; }, null), "Value cannot be null.\nParameter name: eventName");
         }
 
         [Test]

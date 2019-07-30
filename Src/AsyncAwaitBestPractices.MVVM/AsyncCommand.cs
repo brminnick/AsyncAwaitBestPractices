@@ -11,7 +11,7 @@ namespace AsyncAwaitBestPractices.MVVM
     {
         #region Constant Fields
         readonly Func<T, Task> _execute;
-        readonly Func<object, bool> _canExecute;
+        readonly Func<object?, bool> _canExecute;
         readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
         readonly WeakEventManager _weakEventManager = new WeakEventManager();
@@ -26,7 +26,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         public AsyncCommand(Func<T, Task> execute,
-                            Func<object, bool>? canExecute = null,
+                            Func<object?, bool>? canExecute = null,
                             Action<Exception>? onException = null,
                             bool continueOnCapturedContext = false)
         {
@@ -54,7 +54,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object parameter) => _canExecute(parameter);
+        public bool CanExecute(object? parameter) => _canExecute(parameter);
 
         /// <summary>
         /// Raises the CanExecuteChanged event.
@@ -89,7 +89,7 @@ namespace AsyncAwaitBestPractices.MVVM
     {
         #region Constant Fields
         readonly Func<Task> _execute;
-        readonly Func<object, bool> _canExecute;
+        readonly Func<object?, bool> _canExecute;
         readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
         readonly WeakEventManager _weakEventManager = new WeakEventManager();
@@ -104,7 +104,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         public AsyncCommand(Func<Task> execute,
-                            Func<object, bool>? canExecute = null,
+                            Func<object?, bool>? canExecute = null,
                             Action<Exception>? onException = null,
                             bool continueOnCapturedContext = false)
         {
@@ -132,7 +132,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object parameter) => _canExecute(parameter);
+        public bool CanExecute(object? parameter) => _canExecute(parameter);
 
         /// <summary>
         /// Raises the CanExecuteChanged event.

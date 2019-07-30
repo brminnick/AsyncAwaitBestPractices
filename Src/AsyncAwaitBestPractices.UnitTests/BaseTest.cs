@@ -44,9 +44,15 @@ namespace AsyncAwaitBestPractices.UnitTests
             throw new NullReferenceException();
         }
 
-        protected bool CanExecuteTrue(object parameter) => true;
-        protected bool CanExecuteFalse(object parameter) => false;
-        protected bool CanExecuteDynamic(object booleanParameter) => (bool)booleanParameter;
+        protected bool CanExecuteTrue(object? parameter) => true;
+        protected bool CanExecuteFalse(object? parameter) => false;
+        protected bool CanExecuteDynamic(object? booleanParameter)
+        {
+            if (booleanParameter is bool parameter)
+                return parameter;
+
+            throw new InvalidCastException();
+        }
         #endregion
     }
 }
