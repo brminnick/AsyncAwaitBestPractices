@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices.MVVM</id>
-    <version>2.1.1</version>
+    <version>3.0.0</version>
     <title>Task Extensions for MVVM</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
-    <licenseUrl>https://github.com/brminnick/AsyncAwaitBestPractices/blob/master/LICENSE.md</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</projectUrl>
     <!-- <iconUrl>TBD</iconUrl> -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -14,17 +14,22 @@
     <summary>Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task.</summary>
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
     <dependencies>
-      <dependency id="AsyncAwaitBestPractices" version="2.1.1" />
+      <dependency id="AsyncAwaitBestPractices" version="3.0.0" />
     </dependencies>
     <releaseNotes>
       New In This Release:
-        - Performance improvements to SafeFireAndForget
+        - Added support for `event Action` and `event Action&lt;T&gt;`
+        - Added support for `.SafeFireAndForget&lt;TException&gt;()`
+        - Added `SafeFireAndForgetExtensions.SetDefaultExceptionHandling(Action&lt;Exception&gt; onException)` to set a default action for every call to `SafeFireAndForget`
+        - Added `SafeFireAndForgetExtensions.Initialize(bool shouldAlwaysRethrowException = false)`. When set to `true` will rethrow every exception caught by `SafeFireAndForget`. Warning: `SafeFireAndForgetExtensions.Initialize(true)` is only recommended for DEBUG environments.
+        - Added support for `Exception innerException` to `InvalidCommandParameterException`
+        - Breaking Change: Changed default value to `continueOnCapturedContext = false`. This improves performance by not requiring a context switch when `.SafeFireAndForget()` and `IAsyncCommand` have completed.
     </releaseNotes>
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
-     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard2.0\AsyncAwaitBestPractices.MVVM.pdb" target="lib\netstandard\AsyncAwaitBestPractices.MVVM.pdb" /> 
-     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard2.0\AsyncAwaitBestPractices.MVVM.dll" target="lib\netstandard\AsyncAwaitBestPractices.MVVM.dll" /> 
-     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard2.0\AsyncAwaitBestPractices.MVVM.xml" target="lib\netstandard\AsyncAwaitBestPractices.MVVM.xml" /> 
+     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard2.0\AsyncAwaitBestPractices.MVVM.pdb" target="lib\netstandard2.0\AsyncAwaitBestPractices.MVVM.pdb" /> 
+     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard2.0\AsyncAwaitBestPractices.MVVM.dll" target="lib\netstandard2.0\AsyncAwaitBestPractices.MVVM.dll" /> 
+     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard2.0\AsyncAwaitBestPractices.MVVM.xml" target="lib\netstandard2.0\AsyncAwaitBestPractices.MVVM.xml" /> 
    </files>
 </package>

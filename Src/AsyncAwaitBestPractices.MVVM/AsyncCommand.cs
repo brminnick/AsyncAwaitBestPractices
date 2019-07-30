@@ -28,7 +28,7 @@ namespace AsyncAwaitBestPractices.MVVM
         public AsyncCommand(Func<T, Task> execute,
                             Func<object, bool> canExecute = null,
                             Action<Exception> onException = null,
-                            bool continueOnCapturedContext = true)
+                            bool continueOnCapturedContext = false)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
             _canExecute = canExecute ?? (_ => true);
@@ -104,7 +104,7 @@ namespace AsyncAwaitBestPractices.MVVM
         public AsyncCommand(Func<Task> execute,
                             Func<object, bool> canExecute = null,
                             Action<Exception> onException = null,
-                            bool continueOnCapturedContext = true)
+                            bool continueOnCapturedContext = false)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
             _canExecute = canExecute ?? (_ => true);

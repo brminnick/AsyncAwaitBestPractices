@@ -17,10 +17,11 @@
         <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
         <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
         <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
+        <DebugType>portable</DebugType>
         <Optimize>false</Optimize>
         <OutputPath>bin\Debug</OutputPath>
         <DefineConstants>DEBUG;</DefineConstants>
@@ -29,10 +30,11 @@
         <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
         <AndroidTlsProvider>btls</AndroidTlsProvider>
         <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+        <AndroidDexTool>d8</AndroidDexTool>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
-        <DebugType>pdbonly</DebugType>
+        <DebugType></DebugType>
         <Optimize>true</Optimize>
         <OutputPath>bin\Release</OutputPath>
         <ErrorReport>prompt</ErrorReport>
@@ -40,6 +42,12 @@
         <AndroidManagedSymbols>true</AndroidManagedSymbols>
         <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
         <AndroidTlsProvider>btls</AndroidTlsProvider>
+        <BundleAssemblies>true</BundleAssemblies>
+        <AotAssemblies>true</AotAssemblies>
+        <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
+        <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+        <AndroidDexTool>d8</AndroidDexTool>
+        <AndroidLinkTool>r8</AndroidLinkTool>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
@@ -54,12 +62,10 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="Xamarin.Forms" Version="4.0.0.497661" />
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.0" />
-        <PackageReference Include="Xamarin.Essentials">
-          <Version>1.1.0</Version>
-        </PackageReference>
+        <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="MainActivity.cs" />

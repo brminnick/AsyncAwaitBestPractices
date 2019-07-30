@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    public class Tests_ICommand : BaseTest
+     public class Tests_ICommand   : BaseTest
     {
         [TestCase(500)]
         [TestCase(default)]
@@ -99,7 +99,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.IsTrue(command.CanExecute(null));
+            Assert.True(command.CanExecute(null));
         }
 
         [Test]
@@ -115,18 +115,6 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public void ICommand_NoParameter_CanExecuteTrue_Test()
-        {
-            //Arrange
-            ICommand command = new AsyncCommand(NoParameterTask, CanExecuteTrue);
-
-            //Act
-
-            //Assert
-            Assert.IsTrue(command.CanExecute(null));
-        }
-
-        [Test]
         public void ICommand_NoParameter_CanExecuteFalse_Test()
         {
             //Arrange
@@ -136,6 +124,32 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             //Assert
             Assert.False(command.CanExecute(null));
+        }
+
+        [Test]
+        public void ICommand_Parameter_CanExecuteDynamic_Test()
+        {
+            //Arrange
+            ICommand command = new AsyncCommand<int>(IntParameterTask, CanExecuteDynamic);
+
+            //Act
+
+            //Assert
+            Assert.True(command.CanExecute(true));
+            Assert.False(command.CanExecute(false));
+        }
+
+        [Test]
+        public void ICommand_Parameter_CanExecuteChanged_Test()
+        {
+            //Arrange
+            ICommand command = new AsyncCommand<int>(IntParameterTask, CanExecuteDynamic);
+
+            //Act
+
+            //Assert
+            Assert.True(command.CanExecute(true));
+            Assert.False(command.CanExecute(false));
         }
     }
 }

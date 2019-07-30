@@ -110,7 +110,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public void WeakEventManagerDelegate_HandleEvent_InvalidHandleEvent()
+        public void WeakEventManagerDelegate_HandleEvent_InvalidHandleEventEventName()
         {
             //Arrange
             PropertyChanged += HandleDelegateTest;
@@ -157,6 +157,23 @@ namespace AsyncAwaitBestPractices.UnitTests
             unassignedEventManager.HandleEvent(null, null, nameof(PropertyChanged));
 
             //Assert
+            Assert.IsFalse(didEventFire);
+            PropertyChanged -= HandleDelegateTest;
+        }
+
+        [Test]
+        public void WeakEventManagerDelegate_HandleEvent_InvalidHandleEvent()
+        {
+            //Arrange
+            PropertyChanged += HandleDelegateTest;
+            bool didEventFire = false;
+
+            void HandleDelegateTest(object sender, PropertyChangedEventArgs e) => didEventFire = true;
+
+            //Act
+
+            //Assert
+            Assert.Throws<InvalidHandleEventException>(() => _propertyChangedWeakEventManager.HandleEvent(nameof(PropertyChanged)));
             Assert.IsFalse(didEventFire);
             PropertyChanged -= HandleDelegateTest;
         }

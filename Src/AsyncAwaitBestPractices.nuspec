@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>2.1.1</version>
+    <version>3.0.0</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
-    <licenseUrl>https://github.com/brminnick/AsyncAwaitBestPractices/blob/master/LICENSE.md</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</projectUrl>
     <!-- <iconUrl>TBD</iconUrl> -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -19,13 +19,17 @@
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
     <releaseNotes>
       New In This Release:
-        - Performance improvements to SafeFireAndForget
+        - Added support for `event Action` and `event Action&lt;T&gt;`
+        - Added support for `.SafeFireAndForget&lt;TException&gt;()`
+        - Added `SafeFireAndForgetExtensions.SetDefaultExceptionHandling(Action&lt;Exception&gt; onException)` to set a default action for every call to `SafeFireAndForget`
+        - Added `SafeFireAndForgetExtensions.Initialize(bool shouldAlwaysRethrowException = false)`. When set to `true` will rethrow every exception caught by `SafeFireAndForget`. Warning: `SafeFireAndForgetExtensions.Initialize(true)` is only recommended for DEBUG environments.
+        - Breaking Change: Changed default value to `continueOnCapturedContext = false`. This improves performance by not requiring a context switch when `.SafeFireAndForget()` has completed.
     </releaseNotes>
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
-     <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.pdb" target="lib\netstandard\AsyncAwaitBestPractices.pdb" /> 
-     <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.dll" target="lib\netstandard\AsyncAwaitBestPractices.dll" /> 
-     <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml" target="lib\netstandard\AsyncAwaitBestPractices.xml" /> 
+     <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.pdb" /> 
+     <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.dll" /> 
+     <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.xml" /> 
    </files>
 </package>
