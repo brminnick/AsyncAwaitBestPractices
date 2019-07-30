@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using AsyncAwaitBestPractices.MVVM;
-using AsyncAwaitBestPractices.MVVM.Shared;
 using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-     public class Tests_ICommand   : BaseTest
+    public class Tests_ICommand : BaseTest
     {
         [TestCase(500)]
         [TestCase(default)]

@@ -1,5 +1,4 @@
 ﻿using System;
-using AsyncAwaitBestPractices.Shared;
 using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests

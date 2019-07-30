@@ -17,5 +17,4 @@
     <ItemGroup>
         <Folder Include="WeakEventManager\" />
     </ItemGroup>
-    <Import Project="..\AsyncAwaitBestPractices.Shared\AsyncAwaitBestPractices.Shared.projitems" Label="Shared" Condition="Exists('..\AsyncAwaitBestPractices.Shared\AsyncAwaitBestPractices.Shared.projitems')" />
 </Project>

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Reflection;
 
-namespace AsyncAwaitBestPractices.Shared
+namespace AsyncAwaitBestPractices
 {
     /// <summary>
     /// Represents errors that occur during WeakEventManager.HandleEvent execution.
     /// </summary>
-    class InvalidHandleEventException : Exception
+    public class InvalidHandleEventException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AsyncAwaitBestPractices.InvalidHandleEventException"/> class.

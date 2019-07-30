@@ -37,7 +37,7 @@ namespace AsyncAwaitBestPractices
 		public static void Initialize(in bool shouldAlwaysRethrowException = false) => _shouldAlwaysRethrowException = shouldAlwaysRethrowException;
 
         /// <summary>
-        /// Set the default actionfor SafeFireAndForget to handle every exception
+        /// Set the default action for SafeFireAndForget to handle every exception
         /// </summary>
         /// <param name="onException">If an exception is thrown in the Task using SafeFireAndForget, <c>onException</c> will execute</param>
         public static void SetDefaultExceptionHandling(in Action<Exception> onException)
@@ -47,6 +47,11 @@ namespace AsyncAwaitBestPractices
 
             _onException = onException;
         }
+
+        /// <summary>
+        /// Remove the default action for SafeFireAndForget
+        /// </summary>
+        public static void RemoveDefaultExceptionHandling() => _onException = null;
 
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
         static async void HandleSafeFireAndForget<TException>(Task task, bool continueOnCapturedContext, Action<TException>? onException) where TException : Exception
