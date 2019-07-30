@@ -6,7 +6,7 @@ namespace AsyncAwaitBestPractices
 {
     static class EventManagerService
     {
-        internal static void AddEventHandler(string eventName, object handlerTarget, MethodInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void AddEventHandler(string eventName, object? handlerTarget, MethodInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription> targets);
             if (!doesContainSubscriptions)
@@ -42,7 +42,7 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        internal static void HandleEvent(string eventName, object sender, object eventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void HandleEvent(string eventName, object? sender, object eventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
 
@@ -50,7 +50,7 @@ namespace AsyncAwaitBestPractices
             {
                 try
                 {
-                    Tuple<object, MethodInfo> tuple = toRaise[i];
+                    Tuple<object?, MethodInfo> tuple = toRaise[i];
                     tuple.Item2.Invoke(tuple.Item1, new[] { sender, eventArgs });
                 }
                 catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
@@ -96,10 +96,10 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        static void AddRemoveEvents(in string eventName, in Dictionary<string, List<Subscription>> eventHandlers, out List<Tuple<object, MethodInfo>> toRaise)
+        static void AddRemoveEvents(in string eventName, in Dictionary<string, List<Subscription>> eventHandlers, out List<Tuple<object?, MethodInfo>> toRaise)
         {
             var toRemove = new List<Subscription>();
-            toRaise = new List<Tuple<object, MethodInfo>>();
+            toRaise = new List<Tuple<object?, MethodInfo>>();
 
             if (eventHandlers.TryGetValue(eventName, out List<Subscription> target))
             {
