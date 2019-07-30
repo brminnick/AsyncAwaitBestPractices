@@ -25,6 +25,7 @@
         - Added `SafeFireAndForgetExtensions.Initialize(bool shouldAlwaysRethrowException = false)`. When set to `true` will rethrow every exception caught by `SafeFireAndForget`. Warning: `SafeFireAndForgetExtensions.Initialize(true)` is only recommended for DEBUG environments.
         - Breaking Change: Changed default value to `continueOnCapturedContext = false`. This improves performance by not requiring a context switch when `.SafeFireAndForget()` has completed.
     </releaseNotes>
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="e768a96e2ceddc7644eee54d60cbd9343ca857b7" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
