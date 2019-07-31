@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>3.1.0-pre1</version>
+    <version>3.1.0-pre2</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -19,9 +19,9 @@
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
     <releaseNotes>
       New In This Release:
-        - Added `SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling()`
+        - Added `SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling`
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="e768a96e2ceddc7644eee54d60cbd9343ca857b7" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="Release-v3.1.0" commit="2ec750b7f1182ee33c60a10705db3cd09c8bddff" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
