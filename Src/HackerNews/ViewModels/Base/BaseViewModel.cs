@@ -15,7 +15,7 @@ using Xamarin.Forms;
 
 namespace HackerNews
 {
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    abstract class BaseViewModel : INotifyPropertyChanged
     {
         #region Constant Fields
         static readonly JsonSerializer _serializer = new JsonSerializer();
@@ -36,7 +36,7 @@ namespace HackerNews
         #endregion
 
         #region Methods
-        protected void SetProperty<T>(ref T backingStore, T value, Action onChanged = null, [CallerMemberName] string propertyname = "")
+        protected void SetProperty<T>(ref T backingStore, in T value, in Action onChanged = null, [CallerMemberName] in string propertyname = "")
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return;
@@ -52,12 +52,12 @@ namespace HackerNews
         {
             var stringPayload = string.Empty;
 
-            var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
 
             UpdateActivityIndicatorStatus(true);
 
             try
             {
+                using (var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json"))
                 using (var stream = await _client.GetStreamAsync(apiUrl).ConfigureAwait(false))
                 using (var reader = new StreamReader(stream))
                 using (var json = new JsonTextReader(reader))
@@ -88,8 +88,8 @@ namespace HackerNews
             }
         }
 
-        void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
-            _propertyChangedEventManager?.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(INotifyPropertyChanged.PropertyChanged));
+        void OnPropertyChanged([CallerMemberName]in string propertyName = "") =>
+            _propertyChangedEventManager.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(INotifyPropertyChanged.PropertyChanged));
         #endregion
     }
 }

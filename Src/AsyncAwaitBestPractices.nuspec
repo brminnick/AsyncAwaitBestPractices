@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>3.0.0</version>
+    <version>3.1.0-pre1</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -19,11 +19,7 @@
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
     <releaseNotes>
       New In This Release:
-        - Added support for `event Action` and `event Action&lt;T&gt;`
-        - Added support for `.SafeFireAndForget&lt;TException&gt;()`
-        - Added `SafeFireAndForgetExtensions.SetDefaultExceptionHandling(Action&lt;Exception&gt; onException)` to set a default action for every call to `SafeFireAndForget`
-        - Added `SafeFireAndForgetExtensions.Initialize(bool shouldAlwaysRethrowException = false)`. When set to `true` will rethrow every exception caught by `SafeFireAndForget`. Warning: `SafeFireAndForgetExtensions.Initialize(true)` is only recommended for DEBUG environments.
-        - Breaking Change: Changed default value to `continueOnCapturedContext = false`. This improves performance by not requiring a context switch when `.SafeFireAndForget()` has completed.
+        - Added `SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling()`
     </releaseNotes>
     <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="e768a96e2ceddc7644eee54d60cbd9343ca857b7" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>

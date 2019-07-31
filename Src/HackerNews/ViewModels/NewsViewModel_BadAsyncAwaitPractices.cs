@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace HackerNews
 {
-    public class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
+    class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
     {
         #region Fields
         bool _isListRefreshing;

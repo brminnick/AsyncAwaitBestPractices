@@ -11,7 +11,7 @@ using HackerNews.Shared;
 
 namespace HackerNews
 {
-    public class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
+    class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
     {
         #region Constant Fields
         readonly WeakEventManager<string> _errorOcurredEventManager = new WeakEventManager<string>();
@@ -40,7 +40,7 @@ namespace HackerNews
 
         #region Properties
         public IAsyncCommand RefreshCommand => _refreshCommand ??
-            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand, continueOnCapturedContext: false));
+            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand));
 
         public List<StoryModel> TopStoryList
         {
