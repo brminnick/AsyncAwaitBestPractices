@@ -49,7 +49,9 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
 
 ### Video
 
-**NDC Oslo 2019**: Correcting Common Mistakes in Asynchronous .NET Code
+**NDC Oslo 2019**
+
+Correcting Common Async Await Mistakes in .NET
 
 [![](http://img.youtube.com/vi/J0mcYVxJEl0/0.jpg)](http://www.youtube.com/watch?v=J0mcYVxJEl0 "Correcting Common Async Await Mistakes in .NET")
 
