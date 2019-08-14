@@ -259,5 +259,22 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
             Assert.Throws<ArgumentNullException>(() => TestStringWeakEventManager.AddEventHandler(s => { var temp = s; }, string.Empty), "Value cannot be null.\nParameter name: eventName");
         }
+
+        [Test]
+        public void WeakEventManagerT_HandleEvent_InvalidHandleEvent()
+        {
+            //Arrange
+            TestStringEvent += HandleTestStringEvent;
+            bool didEventFire = false;
+
+            void HandleTestStringEvent(object sender, string e) => didEventFire = true;
+
+            //Act
+
+            //Assert
+            Assert.Throws<InvalidHandleEventException>(() => TestStringWeakEventManager.HandleEvent("", nameof(TestStringEvent)));
+            Assert.IsFalse(didEventFire);
+            TestStringEvent -= HandleTestStringEvent;
+        }
     }
 }

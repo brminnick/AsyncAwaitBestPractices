@@ -53,13 +53,14 @@ namespace AsyncAwaitBestPractices
                     Tuple<object?, MethodInfo> tuple = toRaise[i];
                     tuple.Item2.Invoke(tuple.Item1, new[] { sender, eventArgs });
                 }
-                catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
+                catch (TargetParameterCountException e)
                 {
                     throw new InvalidHandleEventException("Parameter count mismatch. If invoking an `event Action` use `HandleEvent(string eventName)` or if invoking an `event Action<T>` use `HandleEvent(object eventArgs, string eventName)`instead.", e);
                 }
             }
         }
 
+        //From ViewModel
         internal static void HandleEvent(in string eventName, in object? actionEventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
@@ -71,7 +72,7 @@ namespace AsyncAwaitBestPractices
                     var tuple = toRaise[i];
                     tuple.Item2.Invoke(tuple.Item1, new[] { actionEventArgs });
                 }
-                catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
+                catch (TargetParameterCountException e)
                 {
                     throw new InvalidHandleEventException("Parameter count mismatch. If invoking an `event EventHandler` use `HandleEvent(object sender, TEventArgs eventArgs, string eventName)` or if invoking an `event Action` use `HandleEvent(string eventName)`instead.", e);
                 }
@@ -89,7 +90,7 @@ namespace AsyncAwaitBestPractices
                     var tuple = toRaise[i];
                     tuple.Item2.Invoke(tuple.Item1, null);
                 }
-                catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
+                catch (TargetParameterCountException e)
                 {
                     throw new InvalidHandleEventException("Parameter count mismatch. If invoking an `event EventHandler` use `HandleEvent(object sender, TEventArgs eventArgs, string eventName)` or if invoking an `event Action<T>` use `HandleEvent(object eventArgs, string eventName)`instead.", e);
                 }

@@ -44,7 +44,7 @@ namespace HackerNews
             get => _isListRefreshing;
             set => SetProperty(ref _isListRefreshing, value);
         }
- 
+
         async Task ExecuteRefreshCommand()
         {
             IsListRefreshing = true;
@@ -87,7 +87,7 @@ namespace HackerNews
             catch (Exception e)
             {
                 OnErrorOccurred(e.Message);
-                return new List<string>();
+                return Enumerable.Empty<string>().ToList();
             }
         }
 

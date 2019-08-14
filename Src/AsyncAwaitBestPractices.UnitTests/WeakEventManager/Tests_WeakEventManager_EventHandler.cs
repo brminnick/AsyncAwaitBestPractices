@@ -116,7 +116,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public void WeakEventManager_HandleEvent_InvalidHandleEvent()
+        public void WeakEventManager_HandleEvent_InvalidHandleEventName()
         {
             //Arrange
             TestEvent += HandleTestEvent;
@@ -269,6 +269,23 @@ namespace AsyncAwaitBestPractices.UnitTests
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => TestWeakEventManager.RemoveEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
 #pragma warning enable CS8625
+        }
+
+        [Test]
+        public void WeakEventManager_HandleEvent_InvalidHandleEvent()
+        {
+            //Arrange
+            TestEvent += HandleTestEvent;
+            bool didEventFire = false;
+
+            void HandleTestEvent(object sender, EventArgs e) => didEventFire = true;
+
+            //Act
+
+            //Assert
+            Assert.Throws<InvalidHandleEventException>(() => TestWeakEventManager.HandleEvent(nameof(TestEvent)));
+            Assert.IsFalse(didEventFire);
+            TestEvent -= HandleTestEvent;
         }
     }
 }
