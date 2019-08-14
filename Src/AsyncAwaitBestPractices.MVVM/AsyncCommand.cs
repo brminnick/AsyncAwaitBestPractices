@@ -9,15 +9,12 @@ namespace AsyncAwaitBestPractices.MVVM
     /// </summary>
     public sealed class AsyncCommand<T> : IAsyncCommand<T>
     {
-        #region Constant Fields
         readonly Func<T, Task> _execute;
         readonly Func<object?, bool> _canExecute;
         readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
         readonly WeakEventManager _weakEventManager = new WeakEventManager();
-        #endregion
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
         /// </summary>
@@ -35,9 +32,7 @@ namespace AsyncAwaitBestPractices.MVVM
             _onException = onException;
             _continueOnCapturedContext = continueOnCapturedContext;
         }
-        #endregion
 
-        #region Events
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute
         /// </summary>
@@ -46,9 +41,7 @@ namespace AsyncAwaitBestPractices.MVVM
             add => _weakEventManager.AddEventHandler(value);
             remove => _weakEventManager.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Determines whether the command can execute in its current state
         /// </summary>
@@ -79,7 +72,6 @@ namespace AsyncAwaitBestPractices.MVVM
             else
                 throw new InvalidCommandParameterException(typeof(T), parameter!.GetType());
         }
-        #endregion
     }
 
     /// <summary>
@@ -87,15 +79,12 @@ namespace AsyncAwaitBestPractices.MVVM
     /// </summary>
     public sealed class AsyncCommand : IAsyncCommand
     {
-        #region Constant Fields
         readonly Func<Task> _execute;
         readonly Func<object?, bool> _canExecute;
         readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
         readonly WeakEventManager _weakEventManager = new WeakEventManager();
-        #endregion
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
         /// </summary>
@@ -113,9 +102,7 @@ namespace AsyncAwaitBestPractices.MVVM
             _onException = onException;
             _continueOnCapturedContext = continueOnCapturedContext;
         }
-        #endregion
 
-        #region Events
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute
         /// </summary>
@@ -124,9 +111,7 @@ namespace AsyncAwaitBestPractices.MVVM
             add => _weakEventManager.AddEventHandler(value);
             remove => _weakEventManager.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Determines whether the command can execute in its current state
         /// </summary>
@@ -146,6 +131,5 @@ namespace AsyncAwaitBestPractices.MVVM
         public Task ExecuteAsync() => _execute();
 
         void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_continueOnCapturedContext, _onException);
-        #endregion
     }
 }

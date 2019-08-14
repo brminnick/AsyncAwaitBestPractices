@@ -6,19 +6,14 @@ namespace AsyncAwaitBestPractices.UnitTests
 {
     class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
     {
-        #region Constant Fields
         readonly WeakEventManager _propertyChangedWeakEventManager = new WeakEventManager();
-        #endregion
 
-        #region Events
         public event PropertyChangedEventHandler PropertyChanged
         {
             add => _propertyChangedWeakEventManager.AddEventHandler(value);
             remove => _propertyChangedWeakEventManager.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Methods
         [Test]
         public void WeakEventManagerDelegate_HandleEvent_ValidImplementation()
         {
@@ -285,6 +280,5 @@ namespace AsyncAwaitBestPractices.UnitTests
             Assert.Throws<ArgumentNullException>(() => _propertyChangedWeakEventManager.RemoveEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
 #pragma warning enable CS8625
         }
-        #endregion
     }
 }

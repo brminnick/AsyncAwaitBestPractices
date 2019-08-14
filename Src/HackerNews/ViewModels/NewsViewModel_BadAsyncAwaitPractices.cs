@@ -12,25 +12,18 @@ namespace HackerNews
 {
     class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
     {
-        #region Fields
         bool _isListRefreshing;
         ICommand _refreshCommand;
         List<StoryModel> _topStoryList;
-        #endregion
 
-        #region Constructors
         public NewsViewModel_BadAsyncAwaitPractices()
         {
             //ToDo Refactor
             ExecuteRefreshCommand();
         }
-        #endregion
 
-        #region Events
         public event System.EventHandler<string> ErrorOcurred;
-        #endregion
 
-        #region Properties
         //ToDo Refactor
         public ICommand RefreshCommand => _refreshCommand ??
             (_refreshCommand = new Command(async () => await ExecuteRefreshCommand()));
@@ -46,9 +39,7 @@ namespace HackerNews
             get => _isListRefreshing;
             set => SetProperty(ref _isListRefreshing, value);
         }
-        #endregion
 
-        #region Methods
         async Task ExecuteRefreshCommand()
         {
             //ToDo Refactor
@@ -111,6 +102,5 @@ namespace HackerNews
         }
 
         void OnErrorOccurred(string message) => ErrorOcurred?.Invoke(this, message);
-        #endregion
     }
 }

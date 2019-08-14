@@ -8,20 +8,13 @@ namespace HackerNews.UITests
     [TestFixture(Platform.iOS)]
     public abstract class BaseTest
     {
-        #region Constant Fields
         readonly Platform _platform;
-        #endregion
 
-        #region Constructors
         protected BaseTest(Platform platform) => _platform = platform;
-        #endregion
 
-        #region Properties
         protected IApp App { get; private set; }
         protected NewsPage NewsPage { get; private set; }
-        #endregion
 
-        #region Methods
         [SetUp]
         public virtual void BeforeEachTest()
         {
@@ -32,7 +25,10 @@ namespace HackerNews.UITests
 
             NewsPage.WaitForPageToLoad();
         }
-        #endregion
+
+        [Test]
+        [Ignore("Only used for testing")]
+        public void ReplTest() => App.Repl();
     }
 }
 

@@ -5,19 +5,14 @@ namespace AsyncAwaitBestPractices.UnitTests
 {
     class Tests_WeakEventManager_ActionT : BaseTest
     {
-        #region Constant Fields
         readonly WeakEventManager<string> _actionEventManager = new WeakEventManager<string>();
-        #endregion
 
-        #region Events
         public event Action<string> ActionEvent
         {
             add => _actionEventManager.AddEventHandler(value);
             remove => _actionEventManager.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Methods
         [Test]
         public void WeakEventManagerActionT_HandleEvent_ValidImplementation()
         {
@@ -237,6 +232,5 @@ namespace AsyncAwaitBestPractices.UnitTests
             Assert.Throws<ArgumentNullException>(() => _actionEventManager.RemoveEventHandler(s => { var temp = s; }, " "), "Value cannot be null.\nParameter name: eventName");
 #pragma warning enable CS8625
         }
-        #endregion
     }
 }
