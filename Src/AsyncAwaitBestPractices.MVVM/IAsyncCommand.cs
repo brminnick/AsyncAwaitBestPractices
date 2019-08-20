@@ -10,7 +10,7 @@
         /// </summary>
         /// <returns>The executed Task</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        System.Threading.Tasks.Task ExecuteAsync(in T parameter);
+        System.Threading.Tasks.Task ExecuteAsync(T parameter);
     }
 
     /// <summary>

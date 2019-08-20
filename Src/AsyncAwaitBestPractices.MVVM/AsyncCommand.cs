@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -59,18 +60,20 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         /// <returns>The executed Task</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public Task ExecuteAsync(in T parameter) => _execute(parameter);
+        public Task ExecuteAsync(T parameter) => _execute(parameter);
 
         void ICommand.Execute(object parameter)
         {
             if (parameter is T validParameter)
                 ExecuteAsync(validParameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
 #pragma warning disable CS8601 //Possible null reference assignment
-            else if (parameter is null && !typeof(T).IsValueType)
+            else if (parameter is null && !typeof(T).GetTypeInfo().IsValueType)
                 ExecuteAsync((T)parameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
-#pragma warning enable CS8601 
+#pragma warning restore CS8601
+            else if (parameter is null)
+                throw new InvalidCommandParameterException(typeof(T));
             else
-                throw new InvalidCommandParameterException(typeof(T), parameter!.GetType());
+                throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
         }
     }
 

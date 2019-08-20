@@ -91,6 +91,33 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
+        public async Task ICommand_ExecuteAsync_ValueTypeParameter_Test()
+        {
+            //Arrange
+            InvalidCommandParameterException? actualInvalidCommandParameterException = null;
+            InvalidCommandParameterException expectedInvalidCommandParameterException = new InvalidCommandParameterException(typeof(int));
+
+
+            ICommand command = new AsyncCommand<int>(IntParameterTask);
+
+            //Act
+            try
+            {
+                command.Execute(null);
+                await NoParameterTask();
+                await NoParameterTask();
+            }
+            catch (InvalidCommandParameterException e)
+            {
+                actualInvalidCommandParameterException = e;
+            }
+
+            //Assert
+            Assert.IsNotNull(actualInvalidCommandParameterException);
+            Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+        }
+
+        [Test]
         public void ICommand_Parameter_CanExecuteTrue_Test()
         {
             //Arrange
