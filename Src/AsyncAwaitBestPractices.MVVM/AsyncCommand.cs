@@ -64,16 +64,24 @@ namespace AsyncAwaitBestPractices.MVVM
 
         void ICommand.Execute(object parameter)
         {
-            if (parameter is T validParameter)
-                ExecuteAsync(validParameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
+            switch (parameter)
+            {
+                case T validParameter:
+                    ExecuteAsync(validParameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
+                    break;
+
 #pragma warning disable CS8601 //Possible null reference assignment
-            else if (parameter is null && !typeof(T).GetTypeInfo().IsValueType)
-                ExecuteAsync((T)parameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
+                case null when !typeof(T).GetTypeInfo().IsValueType:
+                    ExecuteAsync((T)parameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
+                    break;
 #pragma warning restore CS8601
-            else if (parameter is null)
-                throw new InvalidCommandParameterException(typeof(T));
-            else
-                throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
+
+                case null:
+                    throw new InvalidCommandParameterException(typeof(T));
+
+                default:
+                    throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
+            }
         }
     }
 
