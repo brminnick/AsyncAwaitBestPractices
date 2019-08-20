@@ -43,7 +43,7 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
 ### AsyncAwaitBestPractices.MVVM
 
 - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
-- Add to any project supporting .NET Standard 2.0
+- Add to any project supporting .NET Standard 1.0
 
 ## Why Do I Need This?
 
