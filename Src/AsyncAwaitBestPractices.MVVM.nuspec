@@ -23,7 +23,7 @@
         - Fixed `NullReferenceException` when calling `ICommand.Execute`
         - Improved .NET Standard Dependency to .NET Standard 1.0
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="Release-v3.1.0" commit="c13174438950d3e1adc54d2911dc900df877a4de" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="3a9522e651a8c5842172cb5c6cc5bf47de9d86af" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>

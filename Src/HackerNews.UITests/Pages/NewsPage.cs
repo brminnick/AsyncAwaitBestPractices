@@ -19,16 +19,13 @@ namespace HackerNews.UITests
         {
             get
             {
-                switch (App)
+                return App switch
                 {
-                    case AndroidApp androidApp:
-                        return (bool)(App.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling").Invoke("isRefreshing")).FirstOrDefault() ?? false);
-                    case iOSApp iosApp:
-                        return App.Query(x => x.Class("UIRefreshControl")).Any();
+                    AndroidApp androidApp => (bool)(App.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling").Invoke("isRefreshing")).FirstOrDefault() ?? false),
+                    iOSApp iosApp => App.Query(x => x.Class("UIRefreshControl")).Any(),
 
-                    default:
-                        throw new NotSupportedException();
-                }
+                    _ => throw new NotSupportedException(),
+                };
             }
         }
 
