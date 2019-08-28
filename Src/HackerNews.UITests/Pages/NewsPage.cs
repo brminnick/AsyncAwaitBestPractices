@@ -22,7 +22,7 @@ namespace HackerNews.UITests
                 switch (App)
                 {
                     case AndroidApp androidApp:
-                        return (bool)(App.Query(x => x.Class("SwipeRefreshLayout").Invoke("isRefreshing")).FirstOrDefault() ?? false);
+                        return (bool)(App.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling").Invoke("isRefreshing")).FirstOrDefault() ?? false);
                     case iOSApp iosApp:
                         return App.Query(x => x.Class("UIRefreshControl")).Any();
 
