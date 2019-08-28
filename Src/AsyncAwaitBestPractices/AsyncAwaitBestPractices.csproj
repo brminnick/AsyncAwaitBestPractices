@@ -4,6 +4,10 @@
         <TargetFramework>netstandard1.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+        <LangVersion>8.0</LangVersion>
+        <Nullable>enable</Nullable>
+        <NullableContextOptions>enable</NullableContextOptions>
+        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>

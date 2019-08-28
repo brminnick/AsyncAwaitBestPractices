@@ -11,36 +11,27 @@ using HackerNews.Shared;
 
 namespace HackerNews
 {
-    public class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
+    class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
     {
-        #region Constant Fields
         readonly WeakEventManager<string> _errorOcurredEventManager = new WeakEventManager<string>();
-        #endregion
 
-        #region Fields
         bool _isListRefreshing;
         IAsyncCommand _refreshCommand;
         List<StoryModel> _topStoryList;
-        #endregion
 
-        #region Constructors
         public NewsViewModel_GoodAsyncAwaitPractices()
         {
             ExecuteRefreshCommand().SafeFireAndForget(false, ex => Debug.WriteLine(ex));
         }
-        #endregion
 
-        #region Events
         public event EventHandler<string> ErrorOcurred
         {
             add => _errorOcurredEventManager.AddEventHandler(value);
             remove => _errorOcurredEventManager.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Properties
         public IAsyncCommand RefreshCommand => _refreshCommand ??
-            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand, continueOnCapturedContext: false));
+            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand));
 
         public List<StoryModel> TopStoryList
         {
@@ -53,12 +44,12 @@ namespace HackerNews
             get => _isListRefreshing;
             set => SetProperty(ref _isListRefreshing, value);
         }
-        #endregion
 
-        #region Methods
         async Task ExecuteRefreshCommand()
         {
             IsListRefreshing = true;
+
+            await Task.Delay(5000);
 
             try
             {
@@ -96,11 +87,10 @@ namespace HackerNews
             catch (Exception e)
             {
                 OnErrorOccurred(e.Message);
-                return new List<string>();
+                return Enumerable.Empty<string>().ToList();
             }
         }
 
         void OnErrorOccurred(string message) => _errorOcurredEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
-        #endregion
     }
 }

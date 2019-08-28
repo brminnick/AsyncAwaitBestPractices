@@ -15,28 +15,21 @@ using Xamarin.Forms;
 
 namespace HackerNews
 {
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    abstract class BaseViewModel : INotifyPropertyChanged
     {
-        #region Constant Fields
         static readonly JsonSerializer _serializer = new JsonSerializer();
         static readonly HttpClient _client = new HttpClient { Timeout = TimeSpan.FromSeconds(60) };
         readonly WeakEventManager _propertyChangedEventManager = new WeakEventManager();
-        #endregion
 
-        #region Fields
         static int _networkIndicatorCount = 0;
-        #endregion
 
-        #region Events
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
             add => _propertyChangedEventManager.AddEventHandler(value);
             remove => _propertyChangedEventManager.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Methods
-        protected void SetProperty<T>(ref T backingStore, T value, Action onChanged = null, [CallerMemberName] string propertyname = "")
+        protected void SetProperty<T>(ref T backingStore, in T value, in Action onChanged = null, [CallerMemberName] in string propertyname = "")
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return;
@@ -52,12 +45,12 @@ namespace HackerNews
         {
             var stringPayload = string.Empty;
 
-            var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
 
-            UpdateActivityIndicatorStatus(true);
+            await UpdateActivityIndicatorStatus(true).ConfigureAwait(false);
 
             try
             {
+                using (var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json"))
                 using (var stream = await _client.GetStreamAsync(apiUrl).ConfigureAwait(false))
                 using (var reader = new StreamReader(stream))
                 using (var json = new JsonTextReader(reader))
@@ -70,26 +63,25 @@ namespace HackerNews
             }
             finally
             {
-                UpdateActivityIndicatorStatus(false);
+                await UpdateActivityIndicatorStatus(false).ConfigureAwait(false);
             }
         }
 
-        void UpdateActivityIndicatorStatus(bool isActivityInidicatorRunning)
+        async Task UpdateActivityIndicatorStatus(bool isActivityInidicatorRunning)
         {
             if (isActivityInidicatorRunning)
             {
-                Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.IsBusy = true);
+                await Device.InvokeOnMainThreadAsync(() => Application.Current.MainPage.IsBusy = true).ConfigureAwait(false);
                 _networkIndicatorCount++;
             }
             else if (--_networkIndicatorCount <= 0)
             {
-                Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.IsBusy = false);
+                await Device.InvokeOnMainThreadAsync(() => Application.Current.MainPage.IsBusy = false).ConfigureAwait(false);
                 _networkIndicatorCount = 0;
             }
         }
 
-        void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
-            _propertyChangedEventManager?.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(INotifyPropertyChanged.PropertyChanged));
-        #endregion
+        void OnPropertyChanged([CallerMemberName]in string propertyName = "") =>
+            _propertyChangedEventManager.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(INotifyPropertyChanged.PropertyChanged));
     }
 }

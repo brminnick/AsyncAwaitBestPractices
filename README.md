@@ -43,7 +43,7 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
 ### AsyncAwaitBestPractices.MVVM
 
 - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
-- Add to any project supporting .NET Standard 2.0
+- Add to any project supporting .NET Standard 1.0
 
 ## Why Do I Need This?
 
@@ -152,12 +152,16 @@ void InitializeSafeFireAndForget()
     SafeFireAndForgetExtensions.SetDefaultExceptionHandling(ex => Console.WriteLine(ex));
 }
 
+void UninitializeSafeFireAndForget()
+{
+    // Remove default exception handling
+    SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling()
+}
+
 void HandleButtonTapped(object sender, EventArgs e)
 {
     // Allows the async Task method to safely run on a different thread while not awaiting its completion
-
     // onException: If a WebException is thrown, print its StatusCode to the Console. **Note**: If a non-WebException is thrown, it will not be handled by `onException`
-
     // Because we set `SetDefaultExceptionHandling` in `void InitializeSafeFireAndForget()`, the entire exception will also be printed to the Console
     ExampleAsyncMethod().SafeFireAndForget<WebException>(onException: ex =>
     {
@@ -166,7 +170,6 @@ void HandleButtonTapped(object sender, EventArgs e)
     });
 
     // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` is running on a different thread
-    // ...
 }
 
 async Task ExampleAsyncMethod()
@@ -193,7 +196,7 @@ public event EventHandler CanExecuteChanged
     remove => _weakEventManager.RemoveEventHandler(value);
 }
 
-public void OnCanExecuteChanged() => _canExecuteChangedEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+void OnCanExecuteChanged() => _canExecuteChangedEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 ```
 
 #### Using `Delegate`
@@ -207,7 +210,7 @@ public event PropertyChangedEventHandler PropertyChanged
     remove => _propertyChangedEventManager.RemoveEventHandler(value);
 }
 
-public void OnPropertyChanged([CallerMemberName]string propertyName = "") => _propertyChangedEventManager.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(PropertyChanged));
+void OnPropertyChanged([CallerMemberName]string propertyName = "") => _propertyChangedEventManager.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(PropertyChanged));
 ```
 
 #### Using `Action`
@@ -221,7 +224,7 @@ public event Action ActionEvent
     remove => _weakActionEventManager.RemoveEventHandler(value);
 }
 
-public void OnActionEvent(string message) => _weakActionEventManager.HandleEvent(message, nameof(ActionEvent));
+void OnActionEvent(string message) => _weakActionEventManager.HandleEvent(message, nameof(ActionEvent));
 ```
 
 ### `WeakEventManager<T>`
@@ -238,7 +241,7 @@ public event EventHandler<string> ErrorOcurred
     remove => _errorOcurredEventManager.RemoveEventHandler(value);
 }
 
-public void OnErrorOcurred(string message) => _errorOcurredEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
+void OnErrorOcurred(string message) => _errorOcurredEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
 ```
 
 #### Using `Action<T>`
@@ -252,7 +255,7 @@ public event Action<string> ActionEvent
     remove => _weakActionEventManager.RemoveEventHandler(value);
 }
 
-public void OnActionEvent(string message) => _weakActionEventManager.HandleEvent(message, nameof(ActionEvent));
+void OnActionEvent(string message) => _weakActionEventManager.HandleEvent(message, nameof(ActionEvent));
 ```
 
 ## AsyncAwaitBestPractices.MVVM

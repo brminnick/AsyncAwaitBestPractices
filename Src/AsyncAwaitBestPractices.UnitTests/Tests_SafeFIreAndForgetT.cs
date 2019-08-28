@@ -4,27 +4,27 @@ using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    public class Tests_SafeFireAndForgetT : BaseTest
+    class Tests_SafeFireAndForgetT : BaseTest
     {
         [SetUp]
         public void BeforeEachTest()
         {
             SafeFireAndForgetExtensions.Initialize(false);
-            SafeFireAndForgetExtensions.SetDefaultExceptionHandling(null);
+            SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling();
         }
 
         [TearDown]
         public void AfterEachTest()
         {
             SafeFireAndForgetExtensions.Initialize(false);
-            SafeFireAndForgetExtensions.SetDefaultExceptionHandling(null);
+            SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling();
         }
 
         [Test]
         public async Task SafeFireAndForget_HandledException()
         {
             //Arrange
-            NullReferenceException exception = null;
+            NullReferenceException? exception = null;
 
             //Act
             NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget<NullReferenceException>(onException: ex => exception = ex);
@@ -39,7 +39,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public async Task SafeFireAndForgetT_SetDefaultExceptionHandling_NoParams()
         {
             //Arrange
-            Exception exception = null;
+            Exception? exception = null;
             SafeFireAndForgetExtensions.SetDefaultExceptionHandling(ex => exception = ex);
 
             //Act
@@ -49,16 +49,14 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             //Assert
             Assert.IsNotNull(exception);
-
-            SafeFireAndForgetExtensions.SetDefaultExceptionHandling(null);
         }
 
         [Test]
         public async Task SafeFireAndForgetT_SetDefaultExceptionHandling_WithParams()
         {
             //Arrange
-            Exception exception1 = null;
-            NullReferenceException exception2 = null;
+            Exception? exception1 = null;
+            NullReferenceException? exception2 = null;
             SafeFireAndForgetExtensions.SetDefaultExceptionHandling(ex => exception1 = ex);
 
             //Act
@@ -69,8 +67,6 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
             Assert.IsNotNull(exception1);
             Assert.IsNotNull(exception2);
-
-            SafeFireAndForgetExtensions.SetDefaultExceptionHandling(null);
         }
     }
 }

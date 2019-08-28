@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -9,15 +10,12 @@ namespace AsyncAwaitBestPractices.MVVM
     /// </summary>
     public sealed class AsyncCommand<T> : IAsyncCommand<T>
     {
-        #region Constant Fields
         readonly Func<T, Task> _execute;
-        readonly Func<object, bool> _canExecute;
-        readonly Action<Exception> _onException;
+        readonly Func<object?, bool> _canExecute;
+        readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
         readonly WeakEventManager _weakEventManager = new WeakEventManager();
-        #endregion
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
         /// </summary>
@@ -26,8 +24,8 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         public AsyncCommand(Func<T, Task> execute,
-                            Func<object, bool> canExecute = null,
-                            Action<Exception> onException = null,
+                            Func<object?, bool>? canExecute = null,
+                            Action<Exception>? onException = null,
                             bool continueOnCapturedContext = false)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
@@ -35,9 +33,7 @@ namespace AsyncAwaitBestPractices.MVVM
             _onException = onException;
             _continueOnCapturedContext = continueOnCapturedContext;
         }
-        #endregion
 
-        #region Events
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute
         /// </summary>
@@ -46,15 +42,13 @@ namespace AsyncAwaitBestPractices.MVVM
             add => _weakEventManager.AddEventHandler(value);
             remove => _weakEventManager.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Determines whether the command can execute in its current state
         /// </summary>
         /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object parameter) => _canExecute(parameter);
+        public bool CanExecute(object? parameter) => _canExecute(parameter);
 
         /// <summary>
         /// Raises the CanExecuteChanged event.
@@ -70,14 +64,25 @@ namespace AsyncAwaitBestPractices.MVVM
 
         void ICommand.Execute(object parameter)
         {
-            if (parameter is T validParameter)
-                ExecuteAsync(validParameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
-            else if (parameter is null && !typeof(T).IsValueType)
-                ExecuteAsync((T)parameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
-            else
-                throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
+            switch (parameter)
+            {
+                case T validParameter:
+                    ExecuteAsync(validParameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
+                    break;
+
+#pragma warning disable CS8601 //Possible null reference assignment
+                case null when !typeof(T).GetTypeInfo().IsValueType:
+                    ExecuteAsync((T)parameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
+                    break;
+#pragma warning restore CS8601
+
+                case null:
+                    throw new InvalidCommandParameterException(typeof(T));
+
+                default:
+                    throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
+            }
         }
-        #endregion
     }
 
     /// <summary>
@@ -85,15 +90,12 @@ namespace AsyncAwaitBestPractices.MVVM
     /// </summary>
     public sealed class AsyncCommand : IAsyncCommand
     {
-        #region Constant Fields
         readonly Func<Task> _execute;
-        readonly Func<object, bool> _canExecute;
-        readonly Action<Exception> _onException;
+        readonly Func<object?, bool> _canExecute;
+        readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
         readonly WeakEventManager _weakEventManager = new WeakEventManager();
-        #endregion
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
         /// </summary>
@@ -102,8 +104,8 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         public AsyncCommand(Func<Task> execute,
-                            Func<object, bool> canExecute = null,
-                            Action<Exception> onException = null,
+                            Func<object?, bool>? canExecute = null,
+                            Action<Exception>? onException = null,
                             bool continueOnCapturedContext = false)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
@@ -111,9 +113,7 @@ namespace AsyncAwaitBestPractices.MVVM
             _onException = onException;
             _continueOnCapturedContext = continueOnCapturedContext;
         }
-        #endregion
 
-        #region Events
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute
         /// </summary>
@@ -122,15 +122,13 @@ namespace AsyncAwaitBestPractices.MVVM
             add => _weakEventManager.AddEventHandler(value);
             remove => _weakEventManager.RemoveEventHandler(value);
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Determines whether the command can execute in its current state
         /// </summary>
         /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object parameter) => _canExecute(parameter);
+        public bool CanExecute(object? parameter) => _canExecute(parameter);
 
         /// <summary>
         /// Raises the CanExecuteChanged event.
@@ -144,6 +142,5 @@ namespace AsyncAwaitBestPractices.MVVM
         public Task ExecuteAsync() => _execute();
 
         void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_continueOnCapturedContext, _onException);
-        #endregion
     }
 }

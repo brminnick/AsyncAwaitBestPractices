@@ -18,7 +18,7 @@ namespace HackerNews
 
             if (BindingContext is StoryModel story)
             {
-                Text = story?.Title;
+                Text = story.Title;
                 Detail = $"{story.Score} Points by {story.Author} {GetAgeOfStory(story.CreatedAt_DateTimeOffset)} ago";
             }
         }

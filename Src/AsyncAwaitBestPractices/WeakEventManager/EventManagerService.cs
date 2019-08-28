@@ -6,7 +6,7 @@ namespace AsyncAwaitBestPractices
 {
     static class EventManagerService
     {
-        internal static void AddEventHandler(string eventName, object handlerTarget, MethodInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void AddEventHandler(in string eventName, in object? handlerTarget, in MethodInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription> targets);
             if (!doesContainSubscriptions)
@@ -21,7 +21,7 @@ namespace AsyncAwaitBestPractices
                 targets.Add(new Subscription(new WeakReference(handlerTarget), methodInfo));
         }
 
-        internal static void RemoveEventHandler(string eventName, object handlerTarget, MemberInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void RemoveEventHandler(in string eventName, in object handlerTarget, in MemberInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription> subscriptions);
             if (!doesContainSubscriptions)
@@ -42,7 +42,7 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        internal static void HandleEvent(string eventName, object sender, object eventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void HandleEvent(in string eventName, in object? sender, in object? eventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
 
@@ -50,17 +50,18 @@ namespace AsyncAwaitBestPractices
             {
                 try
                 {
-                    Tuple<object, MethodInfo> tuple = toRaise[i];
+                    Tuple<object?, MethodInfo> tuple = toRaise[i];
                     tuple.Item2.Invoke(tuple.Item1, new[] { sender, eventArgs });
                 }
-                catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
+                catch (TargetParameterCountException e)
                 {
                     throw new InvalidHandleEventException("Parameter count mismatch. If invoking an `event Action` use `HandleEvent(string eventName)` or if invoking an `event Action<T>` use `HandleEvent(object eventArgs, string eventName)`instead.", e);
                 }
             }
         }
 
-        internal static void HandleEvent(string eventName, object actionEventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
+        //From ViewModel
+        internal static void HandleEvent(in string eventName, in object? actionEventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
 
@@ -68,17 +69,17 @@ namespace AsyncAwaitBestPractices
             {
                 try
                 {
-                    Tuple<object, MethodInfo> tuple = toRaise[i];
+                    var tuple = toRaise[i];
                     tuple.Item2.Invoke(tuple.Item1, new[] { actionEventArgs });
                 }
-                catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
+                catch (TargetParameterCountException e)
                 {
                     throw new InvalidHandleEventException("Parameter count mismatch. If invoking an `event EventHandler` use `HandleEvent(object sender, TEventArgs eventArgs, string eventName)` or if invoking an `event Action` use `HandleEvent(string eventName)`instead.", e);
                 }
             }
         }
 
-        internal static void HandleEvent(string eventName, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void HandleEvent(in string eventName, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
 
@@ -86,20 +87,20 @@ namespace AsyncAwaitBestPractices
             {
                 try
                 {
-                    Tuple<object, MethodInfo> tuple = toRaise[i];
+                    var tuple = toRaise[i];
                     tuple.Item2.Invoke(tuple.Item1, null);
                 }
-                catch (TargetParameterCountException e) when (e.Message.Contains("Parameter count mismatch"))
+                catch (TargetParameterCountException e)
                 {
                     throw new InvalidHandleEventException("Parameter count mismatch. If invoking an `event EventHandler` use `HandleEvent(object sender, TEventArgs eventArgs, string eventName)` or if invoking an `event Action<T>` use `HandleEvent(object eventArgs, string eventName)`instead.", e);
                 }
             }
         }
 
-        static void AddRemoveEvents(in string eventName, in Dictionary<string, List<Subscription>> eventHandlers, out List<Tuple<object, MethodInfo>> toRaise)
+        static void AddRemoveEvents(in string eventName, in Dictionary<string, List<Subscription>> eventHandlers, out List<Tuple<object?, MethodInfo>> toRaise)
         {
             var toRemove = new List<Subscription>();
-            toRaise = new List<Tuple<object, MethodInfo>>();
+            toRaise = new List<Tuple<object?, MethodInfo>>();
 
             if (eventHandlers.TryGetValue(eventName, out List<Subscription> target))
             {
@@ -109,16 +110,16 @@ namespace AsyncAwaitBestPractices
                     bool isStatic = subscription.Subscriber is null;
                     if (isStatic)
                     {
-                        toRaise.Add(Tuple.Create<object, MethodInfo>(null, subscription.Handler));
+                        toRaise.Add(Tuple.Create<object?, MethodInfo>(null, subscription.Handler));
                         continue;
                     }
 
-                    object subscriber = subscription.Subscriber.Target;
+                    object? subscriber = subscription.Subscriber?.Target;
 
                     if (subscriber is null)
                         toRemove.Add(subscription);
                     else
-                        toRaise.Add(Tuple.Create(subscriber, subscription.Handler));
+                        toRaise.Add(Tuple.Create<object?, MethodInfo>(subscriber, subscription.Handler));
                 }
 
                 for (int i = 0; i < toRemove.Count; i++)

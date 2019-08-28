@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
@@ -8,7 +7,7 @@ using AsyncAwaitBestPractices.MVVM;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    public class Tests_AsyncCommand : BaseTest
+    class Tests_AsyncCommand : BaseTest
     {
         [Test]
         public void AsyncCommand_NullExecuteParameter()
@@ -18,7 +17,9 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
+#pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             Assert.Throws<ArgumentNullException>(() => new AsyncCommand(null));
+#pragma warning enable CS8625
         }
 
         [Test]
@@ -29,7 +30,9 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
+#pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             Assert.Throws<ArgumentNullException>(() => new AsyncCommand<object>(null));
+#pragma warning enable CS8625
         }
 
         [TestCase(500)]
@@ -69,6 +72,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
+
             Assert.IsTrue(command.CanExecute(null));
         }
 
@@ -119,8 +123,8 @@ namespace AsyncAwaitBestPractices.UnitTests
             AsyncCommand command = new AsyncCommand(NoParameterTask, commandCanExecute);
             command.CanExecuteChanged += handleCanExecuteChanged;
 
-            void handleCanExecuteChanged(object sender, EventArgs e) => didCanExecuteChangeFire = true;
-            bool commandCanExecute(object parameter) => canCommandExecute;
+            void handleCanExecuteChanged(object? sender, EventArgs e) => didCanExecuteChangeFire = true;
+            bool commandCanExecute(object? parameter) => canCommandExecute;
 
             Assert.False(command.CanExecute(null));
 

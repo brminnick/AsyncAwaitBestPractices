@@ -22,8 +22,7 @@ namespace HackerNews.UITests
                 switch (App)
                 {
                     case AndroidApp androidApp:
-                        return (bool)App.Query(x => x.Class("SwipeRefreshLayout").Invoke("isRefreshing")).FirstOrDefault();
-
+                        return (bool)(App.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling").Invoke("isRefreshing")).FirstOrDefault() ?? false);
                     case iOSApp iosApp:
                         return App.Query(x => x.Class("UIRefreshControl")).Any();
 
@@ -31,6 +30,13 @@ namespace HackerNews.UITests
                         throw new NotSupportedException();
                 }
             }
+        }
+
+        public override void WaitForPageToLoad()
+        {
+            base.WaitForPageToLoad();
+
+            WaitForNoActivityIndicator();
         }
 
         public void WaitForNoActivityIndicator(int timeoutInSeconds = 25)
@@ -44,13 +50,6 @@ namespace HackerNews.UITests
                 if (counter >= timeoutInSeconds)
                     throw new Exception($"Loading the list took longer than {timeoutInSeconds}");
             }
-        }
-
-        public override void WaitForPageToLoad()
-        {
-            base.WaitForPageToLoad();
-
-            WaitForNoActivityIndicator();
         }
 
         public List<StoryModel> GetStoryList()

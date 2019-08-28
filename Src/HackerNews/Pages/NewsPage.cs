@@ -4,29 +4,25 @@ using Xamarin.Essentials;
 
 namespace HackerNews
 {
-    public class NewsPage : BaseContentPage<NewsViewModel_GoodAsyncAwaitPractices>
+    class NewsPage : BaseContentPage<NewsViewModel_GoodAsyncAwaitPractices>
     {
-        #region Constant Fields
-        readonly ListView _storiesListView;
-        #endregion
-
         public NewsPage() : base(PageTitleConstants.NewsPageTitle)
         {
             ViewModel.ErrorOcurred += HandleErrorOcurred;
 
-            _storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
+            var storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
             {
                 ItemTemplate = new DataTemplate(typeof(StoryTextCell)),
                 IsPullToRefreshEnabled = true,
                 BackgroundColor = Color.FromHex("F6F6EF"),
                 SeparatorVisibility = SeparatorVisibility.None
             };
-            _storiesListView.ItemTapped += HandleItemTapped;
-            _storiesListView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.TopStoryList));
-            _storiesListView.SetBinding(ListView.IsRefreshingProperty, nameof(ViewModel.IsListRefreshing));
-            _storiesListView.SetBinding(ListView.RefreshCommandProperty, nameof(ViewModel.RefreshCommand));
+            storiesListView.ItemTapped += HandleItemTapped;
+            storiesListView.SetBinding(ListView.ItemsSourceProperty, nameof(ViewModel.TopStoryList));
+            storiesListView.SetBinding(ListView.IsRefreshingProperty, nameof(ViewModel.IsListRefreshing));
+            storiesListView.SetBinding(ListView.RefreshCommandProperty, nameof(ViewModel.RefreshCommand));
 
-            Content = _storiesListView;
+            Content = storiesListView;
         }
 
         void HandleErrorOcurred(object sender, string e) =>
