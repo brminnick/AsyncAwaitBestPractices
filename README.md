@@ -165,7 +165,7 @@ void HandleButtonTapped(object sender, EventArgs e)
     // Because we set `SetDefaultExceptionHandling` in `void InitializeSafeFireAndForget()`, the entire exception will also be printed to the Console
     ExampleAsyncMethod().SafeFireAndForget<WebException>(onException: ex =>
     {
-        if(e.Response is HttpWebResponse webResponse)
+        if(ex.Response is HttpWebResponse webResponse)
             Console.WriteLine($"Status Code: {webResponse.StatusCode}");
     });
 
