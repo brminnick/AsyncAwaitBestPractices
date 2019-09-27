@@ -30,8 +30,7 @@ namespace HackerNews
             remove => _errorOcurredEventManager.RemoveEventHandler(value);
         }
 
-        public IAsyncCommand RefreshCommand => _refreshCommand ??
-            (_refreshCommand = new AsyncCommand(ExecuteRefreshCommand));
+        public IAsyncCommand RefreshCommand => _refreshCommand ??= new AsyncCommand(ExecuteRefreshCommand);
 
         public List<StoryModel> TopStoryList
         {
@@ -48,8 +47,6 @@ namespace HackerNews
         async Task ExecuteRefreshCommand()
         {
             IsListRefreshing = true;
-
-            await Task.Delay(5000);
 
             try
             {

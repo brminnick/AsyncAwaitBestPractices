@@ -15,25 +15,41 @@ namespace HackerNews.UITests
         {
         }
 
-        public bool IsRefreshActivityIndicatorDisplayed
+        public bool IsRefreshActivityIndicatorDisplayed => App switch
         {
-            get
-            {
-                return App switch
-                {
-                    AndroidApp androidApp => (bool)(App.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling").Invoke("isRefreshing")).FirstOrDefault() ?? false),
-                    iOSApp iosApp => App.Query(x => x.Class("UIRefreshControl")).Any(),
+            AndroidApp androidApp => (bool)(androidApp.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling").Invoke("isRefreshing")).FirstOrDefault() ?? false),
+            iOSApp iosApp => iosApp.Query(x => x.Class("UIRefreshControl")).Any(),
 
-                    _ => throw new NotSupportedException(),
-                };
-            }
-        }
+            _ => throw new NotSupportedException(),
+        };
 
         public override void WaitForPageToLoad()
         {
             base.WaitForPageToLoad();
 
+            try
+            {
+                WaitForActivityIndicator(5);
+            }
+            catch
+            {
+            }
+
+
             WaitForNoActivityIndicator();
+        }
+
+        public void WaitForActivityIndicator(int timeoutInSeconds = 25)
+        {
+            int counter = 0;
+            while (!IsRefreshActivityIndicatorDisplayed && counter < timeoutInSeconds)
+            {
+                Thread.Sleep(1000);
+                counter++;
+
+                if (counter >= timeoutInSeconds)
+                    throw new Exception($"Loading the list took longer than {timeoutInSeconds}");
+            }
         }
 
         public void WaitForNoActivityIndicator(int timeoutInSeconds = 25)
@@ -51,19 +67,12 @@ namespace HackerNews.UITests
 
         public List<StoryModel> GetStoryList()
         {
-            string storyListAsBase64String;
-
-            switch (App)
+            var storyListAsBase64String = App switch
             {
-                case iOSApp iosApp:
-                    storyListAsBase64String = iosApp.Invoke("getStoriesAsBase64String:", "").ToString();
-                    break;
-                case AndroidApp androidApp:
-                    storyListAsBase64String = androidApp.Invoke("GetStoriesAsBase64String").ToString();
-                    break;
-                default:
-                    throw new Exception("Platform Not Supported");
-            }
+                iOSApp iosApp => iosApp.Invoke("getStoriesAsBase64String:", "").ToString(),
+                AndroidApp androidApp => androidApp.Invoke("GetStoriesAsBase64String").ToString(),
+                _ => throw new Exception("Platform Not Supported"),
+            };
 
             return Newtonsoft.Json.JsonConvert.DeserializeObject<List<StoryModel>>(storyListAsBase64String);
         }
