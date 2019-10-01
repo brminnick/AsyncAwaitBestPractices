@@ -8,6 +8,8 @@ using HackerNews.Shared;
 
 using Xamarin.Forms;
 
+using AsyncAwaitBestPractices;
+
 namespace HackerNews
 {
     class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
@@ -25,7 +27,8 @@ namespace HackerNews
         public event System.EventHandler<string> ErrorOcurred;
 
         //ToDo Refactor
-        public ICommand RefreshCommand => _refreshCommand ??= new Command(async () => await ExecuteRefreshCommand());
+        public ICommand RefreshCommand => _refreshCommand ??
+            (_refreshCommand = new Command(async () => await ExecuteRefreshCommand()));
 
         public List<StoryModel> TopStoryList
         {
