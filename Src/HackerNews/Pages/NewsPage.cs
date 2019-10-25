@@ -30,21 +30,28 @@ namespace HackerNews
 
         void HandleItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (sender is ListView listView && e?.Item is StoryModel storyTapped)
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                Device.BeginInvokeOnMainThread(async () =>
+                if (sender is ListView listView && e?.Item is StoryModel storyTapped)
                 {
-                    listView.SelectedItem = null;
-
-                    var browserOptions = new BrowserLaunchOptions
+                    if (string.IsNullOrWhiteSpace(storyTapped.Url))
                     {
-                        PreferredControlColor = ColorConstants.BrowserNavigationBarTextColor,
-                        PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
-                    };
+                        await DisplayAlert("No Website", "Ask HN articles do not contain a URL", "OK");
+                    }
+                    else
+                    {
+                        listView.SelectedItem = null;
 
-                    await Browser.OpenAsync(storyTapped.Url, browserOptions);
-                });
-            }
+                        var browserOptions = new BrowserLaunchOptions
+                        {
+                            PreferredControlColor = ColorConstants.BrowserNavigationBarTextColor,
+                            PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
+                        };
+
+                        await Browser.OpenAsync(storyTapped.Url, browserOptions);
+                    }
+                }
+            });
         }
     }
 }
