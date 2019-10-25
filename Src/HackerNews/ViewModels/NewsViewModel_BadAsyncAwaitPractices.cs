@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq; 
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using HackerNews.Shared;
 using Xamarin.Forms;
 
 using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 
 namespace HackerNews
 {
