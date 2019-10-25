@@ -19,7 +19,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             Assert.Throws<ArgumentNullException>(() => new AsyncCommand(null));
-#pragma warning enable CS8625
+#pragma warning restore CS8625
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             Assert.Throws<ArgumentNullException>(() => new AsyncCommand<object>(null));
-#pragma warning enable CS8625
+#pragma warning restore CS8625
         }
 
         [TestCase(500)]

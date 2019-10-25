@@ -109,7 +109,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 #pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             TestWeakEventManager.HandleEvent(this, null, nameof(TestEvent));
-#pragma warning enable CS8625
+#pragma warning restore CS8625
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -177,7 +177,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => TestWeakEventManager.AddEventHandler(null), "Value cannot be null.\nParameter name: handler");
-#pragma warning enable CS8625
+#pragma warning restore CS8625
         }
 
         [Test]
@@ -190,7 +190,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => TestWeakEventManager.AddEventHandler(null, null), "Value cannot be null.\nParameter name: eventName");
-#pragma warning enable CS8625
+#pragma warning restore CS8625
         }
 
         [Test]
@@ -203,7 +203,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => TestWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
-#pragma warning enable CS8625
+#pragma warning restore CS8625
         }
 
         [Test]
@@ -216,7 +216,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => TestWeakEventManager.AddEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
-#pragma warning enable CS8625
+#pragma warning restore CS8625
         }
 
         [Test]
@@ -229,7 +229,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => TestWeakEventManager.RemoveEventHandler(null), "Value cannot be null.\nParameter name: handler");
-#pragma warning enable CS8625 
+#pragma warning restore CS8625 
         }
 
         [Test]
@@ -242,7 +242,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => TestWeakEventManager.RemoveEventHandler(null, null), "Value cannot be null.\nParameter name: eventName");
-#pragma warning enable CS8625 
+#pragma warning restore CS8625 
         }
 
         [Test]
@@ -255,7 +255,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => TestWeakEventManager.RemoveEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
-#pragma warning enable CS8625
+#pragma warning restore CS8625
         }
 
         [Test]
@@ -268,7 +268,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => TestWeakEventManager.RemoveEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
-#pragma warning enable CS8625
+#pragma warning restore CS8625
         }
 
         [Test]
@@ -278,7 +278,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             TestEvent += HandleTestEvent;
             bool didEventFire = false;
 
-            void HandleTestEvent(object sender, EventArgs e) => didEventFire = true;
+            void HandleTestEvent(object? sender, EventArgs e) => didEventFire = true;
 
             //Act
 
