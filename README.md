@@ -308,8 +308,11 @@ public class ExampleClass
         get => _isBusy;
         set
         {
-            _isBusy = value;
-            ExampleAsyncCommandWithCanExecuteChanged.RaiseCanExecuteChanged();
+            if (_isBusy != value)
+            {
+                _isBusy = value;
+                ExampleAsyncCommandWithCanExecuteChanged.RaiseCanExecuteChanged();
+            }
         }
     }
 
