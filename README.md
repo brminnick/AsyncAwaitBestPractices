@@ -307,7 +307,7 @@ public class ExampleClass
     public IAsyncCommand ExampleAsyncCommandWithCanExecuteChanged { get; }
     public IAsyncCommand ExampleAsyncCommandReturningToTheCallingThread { get; }
     
-    public Bool IsBusy
+    public bool IsBusy
     {
         get => _isBusy;
         set
