@@ -114,7 +114,9 @@ Never, never, never, never, never use `.Result` or `.Wait()`:
 ## AsyncAwaitBestPractices
 
 ### `SafeFireAndForget`
-An extension method to safely fire-and-forget a `Task`:
+An extension method to safely fire-and-forget a `Task`.
+
+`SafeFireAndForget` allows a Task to safely run on a different thread while the calling thread does not awaiting its completion.
 
 ```csharp
 public static async void SafeFireAndForget(this System.Threading.Tasks.Task task, bool continueOnCapturedContext = false, System.Action<System.Exception> onException = null)
@@ -125,7 +127,7 @@ public static async void SafeFireAndForget(this System.Threading.Tasks.Task task
 ```csharp
 void HandleButtonTapped(object sender, EventArgs e)
 {
-    // Allows the async Task method to safely run on a different thread while not awaiting its completion
+    // Allows the async Task method to safely run on a different thread while the calling thread continues, not awaiting its completion
     // onException: If an Exception is thrown, print it to the Console
     ExampleAsyncMethod().SafeFireAndForget(onException: ex => Console.WriteLine(ex));
 
