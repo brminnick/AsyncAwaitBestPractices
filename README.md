@@ -286,18 +286,36 @@ public AsyncCommand(Func<Task> execute,
 ```csharp
 public class ExampleClass
 {
+    bool _isBusy;
+
     public ExampleClass()
     {
         ExampleAsyncCommand = new AsyncCommand(ExampleAsyncMethod);
+        
         ExampleAsyncIntCommand = new AsyncCommand<int>(ExampleAsyncMethodWithIntParameter);
+        
         ExampleAsyncExceptionCommand = new AsyncCommand(ExampleAsyncMethodWithException, onException: ex => Console.WriteLine(ex.ToString()));
+        
+        ExampleAsyncCommandWithCanExecuteChanged = new AsyncCommand(ExampleAsyncMethod, _ => !IsBusy);
+        
         ExampleAsyncCommandReturningToTheCallingThread = new AsyncCommand(ExampleAsyncMethod, continueOnCapturedContext: true);
     }
 
     public IAsyncCommand ExampleAsyncCommand { get; }
     public IAsyncCommand<int> ExampleAsyncIntCommand { get; }
     public IAsyncCommand ExampleAsyncExceptionCommand { get; }
+    public IAsyncCommand ExampleAsyncCommandWithCanExecuteChanged { get; }
     public IAsyncCommand ExampleAsyncCommandReturningToTheCallingThread { get; }
+    
+    public Bool IsBusy
+    {
+        get => _isBusy;
+        set
+        {
+            _isBusy = value;
+            ExampleAsyncCommandWithCanExecuteChanged.RaiseCanExecuteChanged();
+        }
+    }
 
     async Task ExampleAsyncMethod()
     {
@@ -317,10 +335,22 @@ public class ExampleClass
 
     void ExecuteCommands()
     {
-        ExampleAsyncCommand.Execute(null);
-        ExampleAsyncIntCommand.Execute(1000);
-        ExampleAsyncExceptionCommand.Execute(null);
-        ExampleAsyncCommandReturningToTheCallingThread.Execute(null);
+        _isBusy = true;
+    
+        try
+        {
+            ExampleAsyncCommand.Execute(null);
+            ExampleAsyncIntCommand.Execute(1000);
+            ExampleAsyncExceptionCommand.Execute(null);
+            ExampleAsyncCommandReturningToTheCallingThread.Execute(null);
+            
+            if(ExampleAsyncCommandWithCanExecuteChanged.CanExecute(null))
+                ExampleAsyncCommandWithCanExecuteChanged.Execute(null);
+        }
+        finally
+        {
+            _isBusy = false;
+        }
     }
 }
 ```
