@@ -58,25 +58,26 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
 ### Explaination
 
 Async/await is great *but* there are two subtle problems that can easily creep into code:
-1) Creating race conditions/concurrent execution (where you code things in the right order but the code executes in a different order than you expect) 
-2) Creating methods where the compiler recognizes exceptions but you the coder never see them (making it head-scratchingly annoying to debug *especially* if you accidentally introduced a race condition that you can’t see)  
+1. Creating race conditions/concurrent execution (where you code things in the right order but the code executes in a different order than you expect) 
+2. Creating methods where the compiler recognizes exceptions but you the coder never see them (making it head-scratchingly annoying to debug *especially* if you accidentally introduced a race condition that you can’t see).
+
 This library solves both of these problems.
 
 To better understand why this library was created and the problem it solves, it’s important to first understand how the compiler generates code for an async method.  
 
-And by the way, **tl;dr** A non-awaited `Task` doesn't rethrow exceptions so use this library!
+**tl;dr** A non-awaited `Task` doesn't rethrow exceptions and `AsyncAwaitBestPractices.SafeFireAndForget` ensures it will
 
 ## Compiler-Generated Code for Async Method
 
 ![Compiler-Generated Code for Async Method](https://i.stack.imgur.com/c9im1.png)
 
-(Source: [Xamarin University: _Using Async and Await_](https://university.xamarin.com/classes/track/csharp#csc350-async))
+(Source: [Xamarin University: _Using Async and Await_](https://github.com/XamarinUniversity/CSC350))
 
 The compiler transforms an `async` method into an `IAsyncStateMachine` class which allows the .NET Runtime to "remember" what the method has accomplished.
 
 ![Move Next](https://i.stack.imgur.com/JsmG1.png)
 
-(Source: [Xamarin University: _Using Async and Await_](https://university.xamarin.com/classes/track/csharp#csc350-async))
+(Source: [Xamarin University: _Using Async and Await_](https://github.com/XamarinUniversity/CSC350))
 
 The `IAsyncStateMachine` interface implements `MoveNext()`, a method the executes every time the `await` operator is used inside of the `async` method.
 
