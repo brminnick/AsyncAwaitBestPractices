@@ -7,7 +7,7 @@ using AsyncAwaitBestPractices.MVVM;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    class Tests_AsyncCommand : BaseTest
+    class Tests_AsyncCommand : BaseAsyncCommandTest
     {
         [Test]
         public void AsyncCommand_NullExecuteParameter()

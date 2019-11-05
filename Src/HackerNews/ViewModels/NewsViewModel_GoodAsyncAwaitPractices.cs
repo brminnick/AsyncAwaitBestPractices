@@ -75,8 +75,11 @@ namespace HackerNews
 
         Task<StoryModel> GetStory(string storyId) => GetDataObjectFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
 
-        async Task<List<string>> GetTopStoryIDs()
+        async ValueTask<List<string>> GetTopStoryIDs()
         {
+            if (TopStoryList.Any())
+                return TopStoryList.Select(x => x.Id.ToString()).ToList();
+
             try
             {
                 return await GetDataObjectFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty").ConfigureAwait(false);

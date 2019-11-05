@@ -17,6 +17,10 @@
         <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="WeakEventManager\" />
+      <Folder Include="WeakEventManager Tests\" />
+      <Folder Include="SafeFireAndForget Tests\" />
+      <Folder Include="Command Tests\" />
+      <Folder Include="Command Tests\AsyncCommand\" />
+      <Folder Include="Command Tests\AsyncValueCommand\" />
     </ItemGroup>
 </Project>

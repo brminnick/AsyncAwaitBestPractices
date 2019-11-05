@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netstandard1.0</TargetFramework>
-        <LangVersion>8.0</LangVersion>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
-        <NullableContextOptions>enable</NullableContextOptions>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
