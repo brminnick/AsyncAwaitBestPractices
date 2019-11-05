@@ -24,8 +24,15 @@
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
-     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard2.1\AsyncAwaitBestPractices.MVVM.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.pdb" /> 
-     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard2.1\AsyncAwaitBestPractices.MVVM.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.dll" /> 
-     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard2.1\AsyncAwaitBestPractices.MVVM.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.xml" /> 
+
+    <!--.NET Standard 2.0-->
+    <file src="AsyncAwaitBestPractices.MVVM.Netstandard21\bin\Release\netstandard2.1\AsyncAwaitBestPractices.MVVM.Netstandard21.pdb" target="lib\netstandard2.1\AsyncAwaitBestPractices.MVVM.pdb" /> 
+    <file src="AsyncAwaitBestPractices.MVVM.Netstandard21\bin\Release\netstandard2.1\AsyncAwaitBestPractices.MVVM.Netstandard21.dll" target="lib\netstandard2.1\AsyncAwaitBestPractices.MVVM.dll" /> 
+    <file src="AsyncAwaitBestPractices.MVVM.Netstandard21\bin\Release\netstandard2.1\AsyncAwaitBestPractices.MVVM.xml" target="lib\netstandard2.1\AsyncAwaitBestPractices.MVVM.xml" /> 
+    
+    <!--.NET Standard 1.0-->
+    <file src="AsyncAwaitBestPractices.MVVM.Netstandard10\bin\Release\netstandard1.0\AsyncAwaitBestPractices.MVVM.Netstandard10.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.pdb" /> 
+    <file src="AsyncAwaitBestPractices.MVVM.Netstandard10\bin\Release\netstandard1.0\AsyncAwaitBestPractices.MVVM.Netstandard10.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.dll" /> 
+    <file src="AsyncAwaitBestPractices.MVVM.Netstandard10\bin\Release\netstandard1.0\AsyncAwaitBestPractices.MVVM.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.xml" /> 
    </files>
 </package>

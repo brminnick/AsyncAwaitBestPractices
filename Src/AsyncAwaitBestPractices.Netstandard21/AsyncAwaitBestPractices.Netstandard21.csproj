@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
+        <DocumentationFile>bin\Release\netstandard2.1\AsyncAwaitBestPractices.xml</DocumentationFile>
+    </PropertyGroup>
+    <Import Project="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.projitems" Label="Shared" Condition="Exists('..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.projitems')" />
+</Project>

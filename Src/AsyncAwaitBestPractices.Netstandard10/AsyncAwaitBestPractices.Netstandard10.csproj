@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+        <TargetFramework>netstandard1.0</TargetFramework>
+        <LangVersion>8.0</LangVersion>
         <Nullable>enable</Nullable>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     </PropertyGroup>
@@ -12,6 +12,7 @@
         <DocumentationFile>bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml</DocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-        <Folder Include="WeakEventManager\" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
     </ItemGroup>
+    <Import Project="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.projitems" Label="Shared" Condition="Exists('..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.projitems')" />
 </Project>

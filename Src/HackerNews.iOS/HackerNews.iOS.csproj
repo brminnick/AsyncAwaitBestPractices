@@ -122,6 +122,10 @@
             <Project>{C3D6DE1F-ED08-4CA0-A092-56785BB3CB4D}</Project>
             <Name>HackerNews</Name>
         </ProjectReference>
+        <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM.Netstandard21\AsyncAwaitBestPractices.MVVM.Netstandard21.csproj">
+          <Project>{12D74485-2C47-4FF2-8CD3-BB0DEB9FDF53}</Project>
+          <Name>AsyncAwaitBestPractices.MVVM.Netstandard21</Name>
+        </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

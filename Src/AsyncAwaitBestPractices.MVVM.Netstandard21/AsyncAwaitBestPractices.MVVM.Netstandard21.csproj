@@ -11,6 +11,7 @@
       <DocumentationFile>bin\Release\netstandard2.0\AsyncAwaitBestPractices.MVVM.xml</DocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-      <ProjectReference Include="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj" />
+      <ProjectReference Include="..\AsyncAwaitBestPractices.Netstandard21\AsyncAwaitBestPractices.Netstandard21.csproj" />
     </ItemGroup>
+    <Import Project="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.projitems" Label="Shared" Condition="Exists('..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.projitems')" />
 </Project>

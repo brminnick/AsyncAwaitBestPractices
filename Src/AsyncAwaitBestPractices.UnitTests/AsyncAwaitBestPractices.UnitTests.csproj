@@ -2,9 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
-        <LangVersion>8.0</LangVersion>
         <Nullable>enable</Nullable>
-        <NullableContextOptions>enable</NullableContextOptions>
         <IsPackable>false</IsPackable>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     </PropertyGroup>
@@ -13,14 +11,6 @@
         <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
     </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="WeakEventManager Tests\" />
-      <Folder Include="SafeFireAndForget Tests\" />
-      <Folder Include="Command Tests\" />
-      <Folder Include="Command Tests\AsyncCommand\" />
-      <Folder Include="Command Tests\AsyncValueCommand\" />
-    </ItemGroup>
+    <Import Project="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.projitems" Label="Shared" Condition="Exists('..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.projitems')" />
+    <Import Project="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.projitems" Label="Shared" Condition="Exists('..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.projitems')" />
 </Project>

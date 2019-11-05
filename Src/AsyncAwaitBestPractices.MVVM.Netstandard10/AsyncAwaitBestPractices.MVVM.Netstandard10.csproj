@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard1.0</TargetFramework>
+        <LangVersion>8.0</LangVersion>
+        <Nullable>enable</Nullable>
+        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
+        <DocumentationFile>bin\Release\netstandard2.0\AsyncAwaitBestPractices.MVVM.xml</DocumentationFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\AsyncAwaitBestPractices.Netstandard10\AsyncAwaitBestPractices.Netstandard10.csproj" />
+    </ItemGroup>
+    <Import Project="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.projitems" Label="Shared" Condition="Exists('..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.projitems')" />
+</Project>

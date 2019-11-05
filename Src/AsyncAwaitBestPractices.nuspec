@@ -53,8 +53,15 @@
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
-     <file src="AsyncAwaitBestPractices\bin\Release\netstandard2.1\AsyncAwaitBestPractices.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.pdb" /> 
-     <file src="AsyncAwaitBestPractices\bin\Release\netstandard2.1\AsyncAwaitBestPractices.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.dll" /> 
-     <file src="AsyncAwaitBestPractices\bin\Release\netstandard2.1\AsyncAwaitBestPractices.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.xml" /> 
+
+    <!--.NET Standard 2.0-->
+    <file src="AsyncAwaitBestPractices.Netstandard21\bin\Release\netstandard2.1\AsyncAwaitBestPractices.Netstandard21.pdb" target="lib\netstandard2.1\AsyncAwaitBestPractices.pdb" /> 
+    <file src="AsyncAwaitBestPractices.Netstandard21\bin\Release\netstandard2.1\AsyncAwaitBestPractices.Netstandard21.dll" target="lib\netstandard2.1\AsyncAwaitBestPractices.dll" /> 
+    <file src="AsyncAwaitBestPractices.Netstandard21\bin\Release\netstandard2.1\AsyncAwaitBestPractices.xml" target="lib\netstandard2.1\AsyncAwaitBestPractices.xml" /> 
+
+    <!--.NET Standard 1.0-->
+    <file src="AsyncAwaitBestPractices.Netstandard10\bin\Release\netstandard1.0\AsyncAwaitBestPractices.Netstandard10.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.pdb" /> 
+    <file src="AsyncAwaitBestPractices.Netstandard10\bin\Release\netstandard1.0\AsyncAwaitBestPractices.Netstandard10.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.dll" /> 
+    <file src="AsyncAwaitBestPractices.Netstandard10\bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.xml" /> 
    </files>
 </package>
