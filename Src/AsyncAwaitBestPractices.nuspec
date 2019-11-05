@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>3.1.0</version>
+    <version>4.0.0-pre1</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -17,17 +17,44 @@
       Includes an extension method to safely fire-and-forget a Task       
     </summary>
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
+      <dependencies>  
+      <group targetFramework="netstandard1.0">
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+      </group>
+      <group targetFramework="netstandard1.1">
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+      </group>
+      <group targetFramework="netstandard1.2">
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+      </group>
+      <group targetFramework="netstandard1.3">
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+      </group>
+      <group targetFramework="netstandard1.4">
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+      </group>
+      <group targetFramework="netstandard1.5">
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+      </group>
+      <group targetFramework="netstandard1.6">
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+      </group>
+      <group targetFramework="netstandard2.0">
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+      </group>
+      <group targetFramework="netstandard2.1">
+      </group>
+    </dependencies>
     <releaseNotes>
       New In This Release:
-        - Added `SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling`
-        - Fixed `InvalidHandleEventException` bug when using the incorrect overload for `WeakEventManager&lt;T&gt;.HandleEvent`
+        - Added Support for ValueTask
     </releaseNotes>
     <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="3a9522e651a8c5842172cb5c6cc5bf47de9d86af" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
-     <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.pdb" /> 
-     <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.dll" /> 
-     <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.xml" /> 
+     <file src="AsyncAwaitBestPractices\bin\Release\netstandard2.1\AsyncAwaitBestPractices.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.pdb" /> 
+     <file src="AsyncAwaitBestPractices\bin\Release\netstandard2.1\AsyncAwaitBestPractices.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.dll" /> 
+     <file src="AsyncAwaitBestPractices\bin\Release\netstandard2.1\AsyncAwaitBestPractices.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.xml" /> 
    </files>
 </package>
