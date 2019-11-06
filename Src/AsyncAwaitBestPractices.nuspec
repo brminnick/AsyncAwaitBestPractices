@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</projectUrl>
     <!-- <iconUrl>TBD</iconUrl> -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description> An extension method to safely fire-and-forget a Task </description>
+    <description> An extension methods to safely fire-and-forget a Task and a ValueTask</description>
     <summary>
       Task Extensions for System.Threading.Tasks
 
@@ -53,15 +53,8 @@
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
-
-    <!--.NET Standard 2.0-->
-    <file src="AsyncAwaitBestPractices.Netstandard21\bin\Release\netstandard2.1\AsyncAwaitBestPractices.Netstandard21.pdb" target="lib\netstandard2.1\AsyncAwaitBestPractices.pdb" /> 
-    <file src="AsyncAwaitBestPractices.Netstandard21\bin\Release\netstandard2.1\AsyncAwaitBestPractices.Netstandard21.dll" target="lib\netstandard2.1\AsyncAwaitBestPractices.dll" /> 
-    <file src="AsyncAwaitBestPractices.Netstandard21\bin\Release\netstandard2.1\AsyncAwaitBestPractices.xml" target="lib\netstandard2.1\AsyncAwaitBestPractices.xml" /> 
-
-    <!--.NET Standard 1.0-->
-    <file src="AsyncAwaitBestPractices.Netstandard10\bin\Release\netstandard1.0\AsyncAwaitBestPractices.Netstandard10.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.pdb" /> 
-    <file src="AsyncAwaitBestPractices.Netstandard10\bin\Release\netstandard1.0\AsyncAwaitBestPractices.Netstandard10.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.dll" /> 
-    <file src="AsyncAwaitBestPractices.Netstandard10\bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.xml" /> 
+    <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.pdb" /> 
+    <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.dll" /> 
+    <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.xml" /> 
    </files>
 </package>

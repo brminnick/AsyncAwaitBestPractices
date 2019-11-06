@@ -11,6 +11,8 @@
         <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     </ItemGroup>
-    <Import Project="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.projitems" Label="Shared" Condition="Exists('..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.projitems')" />
-    <Import Project="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.projitems" Label="Shared" Condition="Exists('..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.projitems')" />
+    <ItemGroup>
+      <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
+      <ProjectReference Include="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj" />
+    </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@
 	  <Folder Include="Constants\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM.Netstandard21\AsyncAwaitBestPractices.MVVM.Netstandard21.csproj" />
+	  <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
 	</ItemGroup>
 	<Import Project="..\HackerNews.Shared\HackerNews.Shared.projitems" Label="Shared" Condition="Exists('..\HackerNews.Shared\HackerNews.Shared.projitems')" />
 </Project>
