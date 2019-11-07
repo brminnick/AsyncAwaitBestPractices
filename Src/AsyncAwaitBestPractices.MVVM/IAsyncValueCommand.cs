@@ -11,6 +11,11 @@
         /// <returns>The ValueTask to execute</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
         System.Threading.Tasks.ValueTask ExecuteAsync(T parameter);
+
+        /// <summary>
+        /// Raises the CanExecuteChanged event.
+        /// </summary>
+        void RaiseCanExecuteChanged();
     }
 
     /// <summary>
@@ -23,5 +28,10 @@
         /// </summary>
         /// <returns>The ValueTask to execute</returns>
         System.Threading.Tasks.ValueTask ExecuteAsync();
+
+        /// <summary>
+        /// Raises the CanExecuteChanged event.
+        /// </summary>
+        void RaiseCanExecuteChanged();
     }
 }
