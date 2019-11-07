@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices.MVVM</id>
-    <version>4.0.0-pre1</version>
+    <version>4.0.0-pre2</version>
     <title>Task Extensions for MVVM</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -14,13 +14,18 @@
     <summary>Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task.</summary>
     <tags>task, valuetask, fire and forget, threading, extensions, system.threading.tasks, async, await</tags>
     <dependencies>
-      <dependency id="AsyncAwaitBestPractices" version="4.0.0-pre1" />
+      <dependency id="AsyncAwaitBestPractices" version="4.0.0-pre2" />
     </dependencies>
     <releaseNotes>
       New In This Release:
         - Added Support for ValueTask
+        - Added `IAsyncValueCommand : ICommand`
+        - Added `AsyncValueCommand : IAsyncValueCommand`
+        - Added `IAsyncValueCommand&lt;T&gt; : ICommand`
+        - Added `AsyncValueCommand&lt;T&gt; : IAsyncValueCommand&lt;T&gt;`
+        - Added RaiseCanExecuteChanged to IAsyncCommand and IAsyncValueCommand
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="3a9522e651a8c5842172cb5c6cc5bf47de9d86af" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="Release-v4.0.0" commit="5f169aa1baca5282cc30f268222e1c6c206386a2" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>

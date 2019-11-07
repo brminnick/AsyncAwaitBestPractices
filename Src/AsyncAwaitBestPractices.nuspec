@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>4.0.0-pre1</version>
+    <version>4.0.0-pre2</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -47,9 +47,9 @@
     </dependencies>
     <releaseNotes>
       New In This Release:
-        - Added Support for ValueTask
+        - Added Support for ValueTask in SafeFireAndForget
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="3a9522e651a8c5842172cb5c6cc5bf47de9d86af" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="Release-v4.0.0" commit="5f169aa1baca5282cc30f268222e1c6c206386a2" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
