@@ -13,11 +13,11 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removi
 Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ 
 
 - `SafeFireAndForget`
-    - An extension method to safely fire-and-forget a `Task`
+    - An extension method to safely fire-and-forget a `Task` or a `ValueTask`
     - Ensures the `Task` will rethrow an `Exception` if an `Exception` is caught in `IAsyncStateMachine.MoveNext()`
 - `WeakEventManager`
     - Avoids memory leaks when events are not unsubscribed
-    - Used by `AsyncCommand` and `AsyncCommand<T>`
+    - Used by `AsyncCommand`, `AsyncCommand<T>`, `AsyncValueCommand`, `AsyncValueCommand<T>`
 - [Usage instructions](#asyncawaitbestpractices-3)
   
 ### AsyncAwaitBestPractices.MVVM
