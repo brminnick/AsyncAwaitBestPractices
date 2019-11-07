@@ -444,7 +444,7 @@ public class ExampleClass
     {
         ExampleValueTaskCommand = new AsyncValueCommand(ExampleValueTaskMethod);
         ExampleValueTaskIntCommand = new AsyncValueCommand<int>(ExampleValueTaskMethodWithIntParameter);
-        ExampleValueTaskExceptionCommand = new AsyncValueCommand(ExampleValueTaskMethodWithException, onException: ex => Console.WriteLine(ex.ToString()));
+        ExampleValueTaskExceptionCommand = new AsyncValueCommand(ExampleValueTaskMethodWithException, onException: ex => Debug.WriteLine(ex.ToString()));
         ExampleValueTaskCommandWithCanExecuteChanged = new AsyncValueCommand(ExampleValueTaskMethod, _ => !IsBusy);
         ExampleValueTaskCommandReturningToTheCallingThread = new AsyncValueCommand(ExampleValueTaskMethod, continueOnCapturedContext: true);
     }
@@ -454,7 +454,7 @@ public class ExampleClass
     public IAsyncValueCommand ExampleValueTaskExceptionCommand { get; }
     public IAsyncValueCommand ExampleValueTaskCommandWithCanExecuteChanged { get; }
     public IAsyncValueCommand ExampleValueTaskCommandReturningToTheCallingThread { get; }
-    
+
     public bool IsBusy
     {
         get => _isBusy;
@@ -463,39 +463,46 @@ public class ExampleClass
             if (_isBusy != value)
             {
                 _isBusy = value;
-                ExampleAsyncValueCommandWithCanExecuteChanged.RaiseCanExecuteChanged();
+                ExampleValueTaskCommandWithCanExecuteChanged.RaiseCanExecuteChanged();
             }
         }
     }
 
-    async Task ExampleValueTaskMethod()
+    async ValueTask ExampleValueTaskMethod()
     {
-        await Task.Delay(1000);
-    }
-  
-    async Task ExampleValueTaskMethodWithIntParameter(int parameter)
-    {
-        await Task.Delay(parameter);
+        var random = new Random();
+        if (random.Next(10) > 9)
+            await Task.Delay(1000);
     }
 
-    async Task ExampleValueTaskMethodWithException()
+    async ValueTask ExampleValueTaskMethodWithIntParameter(int parameter)
     {
-        await Task.Delay(1000);
+        var random = new Random();
+        if (random.Next(10) > 9)
+            await Task.Delay(parameter);
+    }
+
+    async ValueTask ExampleValueTaskMethodWithException()
+    {
+        var random = new Random();
+        if (random.Next(10) > 9)
+            await Task.Delay(1000);
+
         throw new Exception();
     }
 
     void ExecuteCommands()
     {
         _isBusy = true;
-    
+
         try
         {
             ExampleValueTaskCommand.Execute(null);
             ExampleValueTaskIntCommand.Execute(1000);
             ExampleValueTaskExceptionCommand.Execute(null);
             ExampleValueTaskCommandReturningToTheCallingThread.Execute(null);
-            
-            if(ExampleValueTaskCommandWithCanExecuteChanged.CanExecute(null))
+
+            if (ExampleValueTaskCommandWithCanExecuteChanged.CanExecute(null))
                 ExampleValueTaskCommandWithCanExecuteChanged.Execute(null);
         }
         finally
