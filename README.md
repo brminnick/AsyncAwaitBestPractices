@@ -135,7 +135,6 @@ public static async void SafeFireAndForget(this System.Threading.Tasks.ValueTask
 
 #### Basic Usage - Task
 
-
 ```csharp
 void HandleButtonTapped(object sender, EventArgs e)
 {
@@ -153,9 +152,9 @@ async Task ExampleAsyncMethod()
 }
 ```
 
-### Basic Usage - ValueTask
+#### Basic Usage - ValueTask
 
-New to `ValueTask`? Check out this great write-up, [Understanding the Whys, Whats, and Whens of ValueTask
+If you're new to ValueTask, check out this great write-up, [Understanding the Whys, Whats, and Whens of ValueTask
 ](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask?WT.mc_id=asyncawaitbestpractices-github-bramin).
 
 ```csharp
@@ -413,7 +412,7 @@ public class ExampleClass
 
 Allows for `ValueTask` to safely be used asynchronously with `ICommand`.
 
-New to `ValueTask`? Check out this great write-up, [Understanding the Whys, Whats, and Whens of ValueTask
+If you're new to ValueTask, check out this great write-up, [Understanding the Whys, Whats, and Whens of ValueTask
 ](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask?WT.mc_id=asyncawaitbestpractices-github-bramin).
 
 - `AsyncValueCommand<T> : IAsyncValueCommand<T>`
