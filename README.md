@@ -31,6 +31,12 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
   - `AsyncCommand : IAsyncCommand`
   - `IAsyncCommand<T> : ICommand`    
   - `AsyncCommand<T> : IAsyncCommand<T>`
+  
+- Allows for `ValueTask` to safely be used asynchronously with `ICommand`:
+  - `IAsyncValueCommand : ICommand`
+  - `AsyncValueCommand : IAsyncValueCommand`
+  - `IAsyncValueCommand<T> : ICommand`    
+  - `AsyncValueCommand<T> : IAsyncValueCommand<T>`
 - [Usage instructions](#asyncawaitbestpracticesmvvm-2)
 
 ## Setup
