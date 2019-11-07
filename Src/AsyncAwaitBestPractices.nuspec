@@ -10,11 +10,17 @@
     <projectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</projectUrl>
     <!-- <iconUrl>TBD</iconUrl> -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description> An extension methods to safely fire-and-forget a Task and a ValueTask</description>
+    <description> 
+      Task Extensions for System.Threading.Tasks
+
+      Includes extension methods to safely fire-and-forget a Task and/or a ValueTask
+      Includes WeakEventManger which avoids memory leaks when events are not unsubscribed
+    </description>
     <summary>
       Task Extensions for System.Threading.Tasks
 
-      Includes an extension method to safely fire-and-forget a Task       
+      Includes extension methods to safely fire-and-forget a Task and/or a ValueTask
+      Includes WeakEventManger which avoids memory leaks when events are not unsubscribed
     </summary>
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
       <dependencies>  
