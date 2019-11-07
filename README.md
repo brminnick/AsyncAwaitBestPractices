@@ -129,7 +129,12 @@ An extension method to safely fire-and-forget a `Task`.
 public static async void SafeFireAndForget(this System.Threading.Tasks.Task task, bool continueOnCapturedContext = false, System.Action<System.Exception> onException = null)
 ```
 
-#### Basic Usage
+```csharp
+public static async void SafeFireAndForget(this System.Threading.Tasks.ValueTask task, bool continueOnCapturedContext = false, System.Action<System.Exception> onException = null)
+```
+
+#### Basic Usage - Task
+
 
 ```csharp
 void HandleButtonTapped(object sender, EventArgs e)
@@ -145,6 +150,30 @@ void HandleButtonTapped(object sender, EventArgs e)
 async Task ExampleAsyncMethod()
 {
     await Task.Delay(1000);
+}
+```
+
+### Basic Usage - ValueTask
+
+New to `ValueTask`? Check out this great write-up, [Understanding the Whys, Whats, and Whens of ValueTask
+](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask?WT.mc_id=asyncawaitbestpractices-github-bramin).
+
+```csharp
+void HandleButtonTapped(object sender, EventArgs e)
+{
+    // Allows the async ValueTask method to safely run on a different thread while the calling thread continues, not awaiting its completion
+    // onException: If an Exception is thrown, print it to the Console
+    ExampleValueTaskMethod().SafeFireAndForget(onException: ex => Console.WriteLine(ex));
+
+    // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` is running on a different thread
+    // ...
+}
+
+async ValueTask ExampleValueTaskMethod()
+{
+    var random = new Random();
+    if (random.Next(10) > 9)
+        await Task.Delay(1000);
 }
 ```
 
@@ -175,15 +204,30 @@ void HandleButtonTapped(object sender, EventArgs e)
     ExampleAsyncMethod().SafeFireAndForget<WebException>(onException: ex =>
     {
         if(ex.Response is HttpWebResponse webResponse)
-            Console.WriteLine($"Status Code: {webResponse.StatusCode}");
+            Console.WriteLine($"Task Exception\n Status Code: {webResponse.StatusCode}");
+    });
+    
+    ExampleValueTaskMethod().SafeFireAndForget<WebException>(onException: ex =>
+    {
+        if(ex.Response is HttpWebResponse webResponse)
+            Console.WriteLine($"ValueTask Error\n Status Code: {webResponse.StatusCode}");
     });
 
-    // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` is running on a different thread
+    // HandleButtonTapped continues execution here while `ExampleAsyncMethod()` and `ExampleValueTaskMethod()` run in the background
 }
 
 async Task ExampleAsyncMethod()
 {
     await Task.Delay(1000);
+    throw new WebException();
+}
+
+async ValueTask ExampleValueTaskMethod()
+{
+    var random = new Random();
+    if (random.Next(10) > 9)
+        await Task.Delay(1000);
+        
     throw new WebException();
 }
 ```
@@ -273,12 +317,16 @@ void OnActionEvent(string message) => _weakActionEventManager.HandleEvent(messag
 
 ### `AsyncCommand`
 
-Allows for `Task` to safely be used asynchronously with `ICommand`:
+Allows for `Task` and `ValueTask` to safely be used asynchronously with `ICommand`:
 
 - `AsyncCommand<T> : IAsyncCommand<T>`
 - `IAsyncCommand<T> : ICommand`
 - `AsyncCommand : IAsyncCommand`
 - `IAsyncCommand : ICommand`
+- `AsyncValueCommand<T> : IAsyncValueCommand<T>`
+- `IAsyncValueCommand<T> : ICommand`
+- `AsyncValueCommand : IAsyncValueCommand`
+- `IAsyncValueCommand : ICommand`
 
 ```csharp
 public AsyncCommand(Func<T, Task> execute,
