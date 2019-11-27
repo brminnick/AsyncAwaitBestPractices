@@ -47,6 +47,12 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
 
 ## Why Do I Need This?
 
+### Podcasts
+
+[No Dogma Podcast](https://nodogmapodcast.bryanhogan.net), Hosted by [Bryan Hogan](https://twitter.com/bryanjhogan)
+- [Episode #133 Brandon Minnick, Async Await – Common Mistakes, Part 1](https://nodogmapodcast.bryanhogan.net/133-brandon-minnick-async-await-common-mistakes-part-1/)
+- [Episode #134 Brandon Minnick, Async Await – Common Mistakes, Part 2](https://nodogmapodcast.bryanhogan.net/134-brandon-minnick-async-await-common-mistakes-part-2/)
+
 ### Video
 
 **NDC Oslo 2019**
