@@ -35,7 +35,7 @@
         - Added `AsyncValueCommand&lt;T&gt; : IAsyncValueCommand&lt;T&gt;`
         - Added `RaiseCanExecuteChanged` to `IAsyncCommand` and `IAsyncValueCommand`
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="Release-v4.0.0" commit="5f169aa1baca5282cc30f268222e1c6c206386a2" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="Release-v4.0.0" commit="5e0e9614bf493f51e2044b4c7182d90e4e1d9828" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
