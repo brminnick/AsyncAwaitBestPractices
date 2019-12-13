@@ -5,7 +5,7 @@ namespace AsyncAwaitBestPractices
 {
     internal struct Subscription
     {
-        public Subscription(in WeakReference? subscriber, in MethodInfo handler)
+        public Subscription(in WeakReference? subscriber, in MethodInfo? handler)
         {
             Subscriber = subscriber;
             Handler = handler ?? throw new ArgumentNullException(nameof(handler));

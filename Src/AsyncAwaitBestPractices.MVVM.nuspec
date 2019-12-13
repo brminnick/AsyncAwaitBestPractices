@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices.MVVM</id>
-    <version>4.0.0</version>
+    <version>4.0.1</version>
     <title>Async Extensions for ICommand</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -10,25 +10,37 @@
     <projectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</projectUrl>
     <!-- <iconUrl>TBD</iconUrl> -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task.</description>
-    <summary>Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task.</summary>
-    <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
+    <description>
+      Async Extensions for ICommand
+
+      Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task. 
+      Includes AsyncValueCommand and IAsyncValueCommand which allows ICommand to safely be used asynchronously with ValueTask
+    </description>
+    <summary>
+      Async Extensions for ICommand
+    
+      Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task.
+      Includes AsyncValueCommand and IAsyncValueCommand which allows ICommand to safely be used asynchronously with ValueTask.
+    </summary>
+    <tags>task, valuetask, fire and forget, threading, extensions, system.threading.tasks, async, await</tags>
     <dependencies>
-      <dependency id="AsyncAwaitBestPractices" version="4.0.0" />
+      <dependency id="AsyncAwaitBestPractices" version="4.0.1" />
     </dependencies>
     <releaseNotes>
       New In This Release:
-        - Added `SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling`
-        - Fixed InvalidHandleEventException bug when using the incorrect overload for `WeakEventManager&lt;T&gt;.HandleEvent`
-        - Fixed `NullReferenceException` when calling `ICommand.Execute`
-        - Improved .NET Standard Dependency to .NET Standard 1.0
+        - Added Support for ValueTask
+        - Added `IAsyncValueCommand : ICommand`
+        - Added `AsyncValueCommand : IAsyncValueCommand`
+        - Added `IAsyncValueCommand&lt;T&gt; : ICommand`
+        - Added `AsyncValueCommand&lt;T&gt; : IAsyncValueCommand&lt;T&gt;`
+        - Added `RaiseCanExecuteChanged` to `IAsyncCommand` and `IAsyncValueCommand`
     </releaseNotes>
     <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="f3d4139c98477bc46e4f4b386b9cd8bdd116142d" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
-     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard1.0\AsyncAwaitBestPractices.MVVM.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.pdb" /> 
-     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard1.0\AsyncAwaitBestPractices.MVVM.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.dll" /> 
-     <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard1.0\AsyncAwaitBestPractices.MVVM.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.xml" /> 
+    <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard1.0\AsyncAwaitBestPractices.MVVM.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.pdb" /> 
+    <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard1.0\AsyncAwaitBestPractices.MVVM.dll" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.dll" /> 
+    <file src="AsyncAwaitBestPractices.MVVM\bin\Release\netstandard1.0\AsyncAwaitBestPractices.MVVM.xml" target="lib\netstandard1.0\AsyncAwaitBestPractices.MVVM.xml" /> 
    </files>
 </package>

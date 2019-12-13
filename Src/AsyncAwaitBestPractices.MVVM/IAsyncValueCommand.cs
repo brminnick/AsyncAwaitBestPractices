@@ -1,16 +1,16 @@
 ﻿namespace AsyncAwaitBestPractices.MVVM
 {
     /// <summary>
-    /// An Async implmentation of ICommand for Task
+    /// An Async implmentation of ICommand for ValueTask
     /// </summary>
-    public interface IAsyncCommand<T> : System.Windows.Input.ICommand
+    public interface IAsyncValueCommand<T> : System.Windows.Input.ICommand
     {
         /// <summary>
-        /// Executes the Command as a Task
+        /// Executes the Command as a ValueTask
         /// </summary>
-        /// <returns>The Task to execute</returns>
+        /// <returns>The ValueTask to execute</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        System.Threading.Tasks.Task ExecuteAsync(T parameter);
+        System.Threading.Tasks.ValueTask ExecuteAsync(T parameter);
 
         /// <summary>
         /// Raises the CanExecuteChanged event.
@@ -19,15 +19,15 @@
     }
 
     /// <summary>
-    /// An Async implmentation of ICommand for Task
+    /// An Async implmentation of ICommand for ValueTask
     /// </summary>
-    public interface IAsyncCommand : System.Windows.Input.ICommand
+    public interface IAsyncValueCommand : System.Windows.Input.ICommand
     {
         /// <summary>
-        /// Executes the Command as a Task
+        /// Executes the Command as a ValueTask
         /// </summary>
-        /// <returns>The Task to execute</returns>
-        System.Threading.Tasks.Task ExecuteAsync();
+        /// <returns>The ValueTask to execute</returns>
+        System.Threading.Tasks.ValueTask ExecuteAsync();
 
         /// <summary>
         /// Raises the CanExecuteChanged event.
