@@ -2,11 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard1.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
         <LangVersion>8.0</LangVersion>
         <Nullable>enable</Nullable>
-        <NullableContextOptions>enable</NullableContextOptions>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -15,6 +12,9 @@
         <DocumentationFile>bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml</DocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-        <Folder Include="WeakEventManager\" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="WeakEventManager\" />
     </ItemGroup>
 </Project>

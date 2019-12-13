@@ -8,7 +8,7 @@
         <OutputType>Library</OutputType>
         <RootNamespace>HackerNews.Droid</RootNamespace>
         <AssemblyName>HackerNews.Droid</AssemblyName>
-        <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
         <AndroidApplication>True</AndroidApplication>
         <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
         <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -62,8 +62,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="Xamarin.Forms" Version="4.3.0.908675" />
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
+        <PackageReference Include="Xamarin.Forms" Version="4.4.0.936621-pre1" />
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" />
         <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
     </ItemGroup>
@@ -90,6 +89,10 @@
         <ProjectReference Include="..\HackerNews\HackerNews.csproj">
             <Project>{C3D6DE1F-ED08-4CA0-A092-56785BB3CB4D}</Project>
             <Name>HackerNews</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj">
+          <Project>{C13ECD67-1C93-42AE-88A1-3AFA6DD7E116}</Project>
+          <Name>AsyncAwaitBestPractices.MVVM</Name>
         </ProjectReference>
     </ItemGroup>
     <ItemGroup />

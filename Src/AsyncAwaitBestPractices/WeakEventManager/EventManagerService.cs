@@ -6,10 +6,10 @@ namespace AsyncAwaitBestPractices
 {
     static class EventManagerService
     {
-        internal static void AddEventHandler(in string eventName, in object? handlerTarget, in MethodInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void AddEventHandler(in string eventName, in object? handlerTarget, in MethodInfo? methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
         {
-            var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription> targets);
-            if (!doesContainSubscriptions)
+            var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription>? targets);
+            if (!doesContainSubscriptions || targets is null)
             {
                 targets = new List<Subscription>();
                 eventHandlers.Add(eventName, targets);
@@ -21,10 +21,10 @@ namespace AsyncAwaitBestPractices
                 targets.Add(new Subscription(new WeakReference(handlerTarget), methodInfo));
         }
 
-        internal static void RemoveEventHandler(in string eventName, in object handlerTarget, in MemberInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
+        internal static void RemoveEventHandler(in string eventName, in object? handlerTarget, in MemberInfo? methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
         {
-            var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription> subscriptions);
-            if (!doesContainSubscriptions)
+            var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription>? subscriptions);
+            if (!doesContainSubscriptions || subscriptions is null)
                 return;
 
             for (int n = subscriptions.Count; n > 0; n--)
@@ -32,7 +32,7 @@ namespace AsyncAwaitBestPractices
                 Subscription current = subscriptions[n - 1];
 
                 if (current.Subscriber?.Target != handlerTarget
-                    || current.Handler.Name != methodInfo.Name)
+                    || current.Handler.Name != methodInfo?.Name)
                 {
                     continue;
                 }
@@ -102,7 +102,8 @@ namespace AsyncAwaitBestPractices
             var toRemove = new List<Subscription>();
             toRaise = new List<Tuple<object?, MethodInfo>>();
 
-            if (eventHandlers.TryGetValue(eventName, out List<Subscription> target))
+            var doesContainEventName = eventHandlers.TryGetValue(eventName, out List<Subscription>? target);
+            if (doesContainEventName && target != null)
             {
                 for (int i = 0; i < target.Count; i++)
                 {

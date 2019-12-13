@@ -2,21 +2,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
-        <LangVersion>8.0</LangVersion>
         <Nullable>enable</Nullable>
-        <NullableContextOptions>enable</NullableContextOptions>
         <IsPackable>false</IsPackable>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="nunit" Version="3.12.0" />
         <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="WeakEventManager\" />
+      <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
+      <ProjectReference Include="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj" />
     </ItemGroup>
 </Project>
