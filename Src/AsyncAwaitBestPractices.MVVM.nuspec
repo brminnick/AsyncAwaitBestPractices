@@ -2,8 +2,8 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices.MVVM</id>
-    <version>3.1.0</version>
-    <title>Task Extensions for MVVM</title>
+    <version>4.0.0</version>
+    <title>Async Extensions for ICommand</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
     <license type="expression">MIT</license>
@@ -14,7 +14,7 @@
     <summary>Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task.</summary>
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
     <dependencies>
-      <dependency id="AsyncAwaitBestPractices" version="3.1.0" />
+      <dependency id="AsyncAwaitBestPractices" version="4.0.0" />
     </dependencies>
     <releaseNotes>
       New In This Release:
@@ -23,7 +23,7 @@
         - Fixed `NullReferenceException` when calling `ICommand.Execute`
         - Improved .NET Standard Dependency to .NET Standard 1.0
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="3a9522e651a8c5842172cb5c6cc5bf47de9d86af" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="f3d4139c98477bc46e4f4b386b9cd8bdd116142d" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>

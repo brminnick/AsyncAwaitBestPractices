@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>3.1.0</version>
+    <version>4.0.0</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -22,7 +22,7 @@
         - Added `SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling`
         - Fixed `InvalidHandleEventException` bug when using the incorrect overload for `WeakEventManager&lt;T&gt;.HandleEvent`
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="3a9522e651a8c5842172cb5c6cc5bf47de9d86af" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="f3d4139c98477bc46e4f4b386b9cd8bdd116142d" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
