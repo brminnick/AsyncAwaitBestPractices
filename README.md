@@ -371,7 +371,7 @@ public class ExampleClass
             if (_isBusy != value)
             {
                 _isBusy = value;
-                ((AsyncCommand)ExampleAsyncCommandWithCanExecuteChanged).RaiseCanExecuteChanged();
+                ExampleAsyncCommandWithCanExecuteChanged.RaiseCanExecuteChanged();
             }
         }
     }
