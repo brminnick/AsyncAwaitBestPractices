@@ -21,7 +21,7 @@ namespace HackerNews
 
         public NewsViewModel_GoodAsyncAwaitPractices()
         {
-            ExecuteRefreshCommand().SafeFireAndForget(onException:  ex => Debug.WriteLine(ex));
+            ExecuteRefreshCommand().SafeFireAndForget(ex => Debug.WriteLine(ex));
         }
 
         public event EventHandler<string> ErrorOcurred
