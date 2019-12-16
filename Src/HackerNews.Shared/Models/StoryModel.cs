@@ -7,19 +7,16 @@ namespace HackerNews.Shared
 {
     public class StoryModel
     {
+        public StoryModel(long id, string by, long score, long time, string title, string url) =>
+            (Id, Author, Score, CreatedAt_UnixTime, Title, Url) = (id, by, score, time, title, url);
+
         public DateTimeOffset CreatedAt_DateTimeOffset => UnixTimeStampToDateTimeOffset(CreatedAt_UnixTime);
-
-        [JsonProperty("by")]
-        public string Author { get; set; }
-
-        [JsonProperty("descendants")]
-        public long Descendants { get; set; }
 
         [JsonProperty("id")]
         public long Id { get; set; }
 
-        [JsonProperty("kids")]
-        public List<long> Kids { get; set; }
+        [JsonProperty("by")]
+        public string Author { get; set; }
 
         [JsonProperty("score")]
         public long Score { get; set; }
@@ -29,9 +26,6 @@ namespace HackerNews.Shared
 
         [JsonProperty("title")]
         public string Title { get; set; }
-
-        [JsonProperty("type")]
-        public string PurpleType { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }

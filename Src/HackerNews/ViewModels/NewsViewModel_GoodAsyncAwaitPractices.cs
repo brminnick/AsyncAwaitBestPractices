@@ -16,12 +16,12 @@ namespace HackerNews
         readonly WeakEventManager<string> _errorOcurredEventManager = new WeakEventManager<string>();
 
         bool _isListRefreshing;
-        IAsyncCommand _refreshCommand;
-        List<StoryModel> _topStoryList;
+        IAsyncCommand? _refreshCommand;
+        IReadOnlyList<StoryModel> _topStoryList = new List<StoryModel>().ToList();
 
         public NewsViewModel_GoodAsyncAwaitPractices()
         {
-            ExecuteRefreshCommand().SafeFireAndForget(false, ex => Debug.WriteLine(ex));
+            ExecuteRefreshCommand().SafeFireAndForget(onException:  ex => Debug.WriteLine(ex));
         }
 
         public event EventHandler<string> ErrorOcurred
@@ -32,7 +32,7 @@ namespace HackerNews
 
         public IAsyncCommand RefreshCommand => _refreshCommand ??= new AsyncCommand(ExecuteRefreshCommand);
 
-        public List<StoryModel> TopStoryList
+        public IReadOnlyList<StoryModel> TopStoryList
         {
             get => _topStoryList;
             set => SetProperty(ref _topStoryList, value);

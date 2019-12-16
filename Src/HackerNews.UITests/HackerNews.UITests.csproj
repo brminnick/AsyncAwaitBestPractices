@@ -32,8 +32,8 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="NUnit" Version="3.12.0" />
-        <PackageReference Include="Xamarin.UITest" Version="3.0.4-dev4" />
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+        <PackageReference Include="Xamarin.UITest" Version="3.0.5" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="AppInitializer.cs" />

@@ -17,8 +17,8 @@ namespace HackerNews
     class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
     {
         bool _isListRefreshing;
-        ICommand _refreshCommand;
-        List<StoryModel> _topStoryList;
+        ICommand? _refreshCommand;
+        List<StoryModel> _topStoryList = new List<StoryModel>();
 
         public NewsViewModel_BadAsyncAwaitPractices()
         {
@@ -26,7 +26,7 @@ namespace HackerNews
             ExecuteRefreshCommand();
         }
 
-        public event System.EventHandler<string> ErrorOcurred;
+        public event EventHandler<string>? ErrorOcurred;
 
         //ToDo Refactor
         public ICommand RefreshCommand => _refreshCommand ??
@@ -67,11 +67,14 @@ namespace HackerNews
             //ToDo Refactor
             var topStoryIds = await GetTopStoryIDs();
 
-            for (int i = 0; i < numberOfStories; i++)
+            if (topStoryIds != null)
             {
-                //ToDo Refactor
-                var story = await GetStory(topStoryIds[i]);
-                topStoryList.Add(story);
+                for (int i = 0; i < numberOfStories; i++)
+                {
+                    //ToDo Refactor
+                    var story = await GetStory(topStoryIds[i]);
+                    topStoryList.Add(story);
+                }
             }
 
             return topStoryList.Where(x => x != null).OrderByDescending(x => x.Score).ToList();
@@ -84,13 +87,13 @@ namespace HackerNews
         }
 
         //ToDo Refactor
-        async Task<List<string>> GetTopStoryIDs()
+        async Task<List<string>?> GetTopStoryIDs()
         {
             try
             {
                 return await GetDataObjectFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
                 return null;

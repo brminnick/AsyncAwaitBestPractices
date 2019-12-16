@@ -16,11 +16,10 @@ namespace HackerNews
         {
             base.OnBindingContextChanged();
 
-            if (BindingContext is StoryModel story)
-            {
-                Text = story.Title;
-                Detail = $"{story.Score} Points by {story.Author} {GetAgeOfStory(story.CreatedAt_DateTimeOffset)} ago";
-            }
+            var story = (StoryModel)BindingContext;
+
+            Text = story.Title;
+            Detail = $"{story.Score} Points by {story.Author} {GetAgeOfStory(story.CreatedAt_DateTimeOffset)} ago";
         }
 
         string GetAgeOfStory(DateTimeOffset storyCreatedAt)
