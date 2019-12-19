@@ -54,7 +54,7 @@ namespace AsyncAwaitBestPractices
         /// <param name="task">ValueTask.</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         /// <param name="onException">If an exception is thrown in the ValueTask, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
-        [Obsolete("Use Overloaded Method: SafeFireAndForget(Action<Exception> onException, bool continueOnCapturedContext)")]
+        [Obsolete("Use SafeFireAndForget(Action<Exception> onException, bool continueOnCapturedContext)")]
         public static void SafeFireAndForget(this ValueTask task, in bool continueOnCapturedContext, in Action<Exception>? onException) => HandleSafeFireAndForget(task, continueOnCapturedContext, onException);
 
 
@@ -65,7 +65,7 @@ namespace AsyncAwaitBestPractices
         /// <param name="continueOnCapturedContext">If set to <c>true</c>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <typeparam name="TException">Exception type. If an exception is thrown of a different type, it will not be handled</typeparam>
-        [Obsolete("Use Overloaded Method: SafeFireAndForget<TException>(Action<TException> onException, bool continueOnCapturedContext)")]
+        [Obsolete("Use SafeFireAndForget<TException>(Action<TException> onException, bool continueOnCapturedContext)")]
         public static void SafeFireAndForget<TException>(this ValueTask task, in bool continueOnCapturedContext, in Action<TException>? onException) where TException : Exception => HandleSafeFireAndForget(task, continueOnCapturedContext, onException);
 
 
@@ -75,7 +75,7 @@ namespace AsyncAwaitBestPractices
         /// <param name="task">Task.</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
-        [Obsolete("Use Overloaded Method: SafeFireAndForget(Action<Exception> onException, bool continueOnCapturedContext)")]
+        [Obsolete("Use SafeFireAndForget(Action<Exception> onException, bool continueOnCapturedContext)")]
         public static void SafeFireAndForget(this Task task, in bool continueOnCapturedContext, in Action<Exception>? onException) => HandleSafeFireAndForget(task, continueOnCapturedContext, onException);
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace AsyncAwaitBestPractices
         /// <param name="continueOnCapturedContext">If set to <c>true</c>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <typeparam name="TException">Exception type. If an exception is thrown of a different type, it will not be handled</typeparam>
-        [Obsolete("Use Overloaded Method: SafeFireAndForget<TException>(Action<TException> onException, bool continueOnCapturedContext)")]
+        [Obsolete("Use SafeFireAndForget<TException>(Action<TException> onException, bool continueOnCapturedContext)")]
         public static void SafeFireAndForget<TException>(this Task task, in bool continueOnCapturedContext, in Action<TException>? onException) where TException : Exception => HandleSafeFireAndForget(task, continueOnCapturedContext, onException);
         #endregion
 
