@@ -134,11 +134,11 @@ An extension method to safely fire-and-forget a `Task`.
 `SafeFireAndForget` allows a Task to safely run on a different thread while the calling thread does not wait for its completion.
 
 ```csharp
-public static async void SafeFireAndForget(this System.Threading.Tasks.Task task, bool continueOnCapturedContext = false, System.Action<System.Exception>? onException = null)
+public static async void SafeFireAndForget(this System.Threading.Tasks.Task task, System.Action<System.Exception>? onException = null, bool continueOnCapturedContext = false)
 ```
 
 ```csharp
-public static async void SafeFireAndForget(this System.Threading.Tasks.ValueTask task, bool continueOnCapturedContext = false, System.Action<System.Exception>? onException = null)
+public static async void SafeFireAndForget(this System.Threading.Tasks.ValueTask task, System.Action<System.Exception>? onException = null, bool continueOnCapturedContext = false)
 ```
 
 #### Basic Usage - Task
