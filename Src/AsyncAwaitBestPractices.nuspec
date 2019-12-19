@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>4.0.1</version>
+    <version>4.1.0-pre1</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -53,9 +53,12 @@
     </dependencies>
     <releaseNotes>
       New In This Release:
-        - Added Support for ValueTask in SafeFireAndForget
+        - Add SafeFireAndForget(Action&lt;Exception&gt; onException, bool continueOnCapturedContext)
+        - Add SafeFireAndForget&lt;TException&gt;(Action&lt;Exception&gt; onException, bool continueOnCapturedContext)
+        - Obsolete: SafeFireAndForget(bool continueOnCapturedContext, Action&lt;Exception&gt; onException)
+        - Obsolete: SafeFireAndForget&lt;TException&gt;(bool continueOnCapturedContext, Action&lt;TException&gt; onException)
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="5e0e9614bf493f51e2044b4c7182d90e4e1d9828" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="Release-v4.1.0" commit="972b708eadf8c8a8c9ab32d38e53d2f3b09679e0" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
