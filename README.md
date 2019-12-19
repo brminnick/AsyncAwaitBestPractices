@@ -4,7 +4,9 @@
 
 Extensions for `System.Threading.Tasks.Task`.
 
-Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: [Removing Async Void](https://johnthiriet.com/removing-async-void/) and [MVVM - Going Async With AsyncCommand](https://johnthiriet.com/mvvm-going-async-with-async-command/).
+Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: 
+- [Removing Async Void](https://johnthiriet.com/removing-async-void/)
+- [MVVM - Going Async With AsyncCommand](https://johnthiriet.com/mvvm-going-async-with-async-command/).
 
 ###  AsyncAwaitBestPractices
 

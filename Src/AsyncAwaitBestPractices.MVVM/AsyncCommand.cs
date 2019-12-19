@@ -8,7 +8,7 @@ namespace AsyncAwaitBestPractices.MVVM
     /// <summary>
     /// An implmentation of IAsyncCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public sealed class AsyncCommand<T> : IAsyncCommand<T>
+    public class AsyncCommand<T> : IAsyncCommand<T>
     {
         readonly Func<T, Task> _execute;
         readonly Func<object?, bool> _canExecute;
@@ -88,7 +88,7 @@ namespace AsyncAwaitBestPractices.MVVM
     /// <summary>
     /// An implmentation of IAsyncCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public sealed class AsyncCommand : IAsyncCommand
+    public class AsyncCommand : IAsyncCommand
     {
         readonly Func<Task> _execute;
         readonly Func<object?, bool> _canExecute;
