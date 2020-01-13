@@ -26,7 +26,7 @@ namespace HackerNews
             ExecuteRefreshCommand();
         }
 
-        public event EventHandler<string>? ErrorOcurred;
+        public event EventHandler<string>? ErrorOccurred;
 
         //ToDo Refactor
         public ICommand RefreshCommand => _refreshCommand ??
@@ -108,6 +108,6 @@ namespace HackerNews
             return isRefreshing;
         }
 
-        void OnErrorOccurred(string message) => ErrorOcurred?.Invoke(this, message);
+        void OnErrorOccurred(string message) => ErrorOccurred?.Invoke(this, message);
     }
 }

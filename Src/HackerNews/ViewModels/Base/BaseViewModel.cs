@@ -26,7 +26,7 @@ namespace HackerNews
             remove => _propertyChangedEventManager.RemoveEventHandler(value);
         }
 
-        protected void SetProperty<T>(ref T backingStore, in T value, in Action? onChanged = null, [CallerMemberName] in string propertyname = "")
+        protected void SetProperty<T>(ref T backingStore, in T value, in Action? onChanged = null, [CallerMemberName] in string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return;
@@ -35,7 +35,7 @@ namespace HackerNews
 
             onChanged?.Invoke();
 
-            OnPropertyChanged(propertyname);
+            OnPropertyChanged(propertyName);
         }
 
         protected async Task<TDataObject> GetDataObjectFromAPI<TDataObject>(string apiUrl)
@@ -56,9 +56,9 @@ namespace HackerNews
             }
         }
 
-        async Task UpdateActivityIndicatorStatus(bool isActivityInidicatorRunning)
+        async Task UpdateActivityIndicatorStatus(bool isActivityIndicatorRunning)
         {
-            if (isActivityInidicatorRunning)
+            if (isActivityIndicatorRunning)
             {
                 _networkIndicatorCount++;
                 await Device.InvokeOnMainThreadAsync(() => Application.Current.MainPage.IsBusy = true).ConfigureAwait(false);
