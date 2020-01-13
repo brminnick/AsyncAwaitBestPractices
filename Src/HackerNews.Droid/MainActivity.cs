@@ -22,12 +22,14 @@ namespace HackerNews.Droid
             base.OnCreate(savedInstanceState);
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState); 
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
             LoadApplication(new App());
         }
 
+#if DEBUG
         [Preserve, Java.Interop.Export(nameof(GetStoriesAsBase64String))]
         public string GetStoriesAsBase64String() => BackdoorMethodServices.GetStoriesAsBase64String();
+#endif
     }
 }

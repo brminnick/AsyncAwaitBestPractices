@@ -17,8 +17,10 @@ namespace HackerNews.iOS
             return base.FinishedLaunching(uiApplication, launchOptions);
         }
 
+#if DEBUG
         [Preserve, Export("getStoriesAsBase64String:")]
         public NSString GetStoriesAsBase64String(NSString noValue) =>
             new NSString(BackdoorMethodServices.GetStoriesAsBase64String());
+#endif
     }
 }
