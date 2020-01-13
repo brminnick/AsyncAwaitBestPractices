@@ -1,7 +1,7 @@
 ﻿namespace AsyncAwaitBestPractices.MVVM
 {
     /// <summary>
-    /// An Async implmentation of ICommand for ValueTask
+    /// An Async implementation of ICommand for ValueTask
     /// </summary>
     public interface IAsyncValueCommand<T> : System.Windows.Input.ICommand
     {
@@ -19,7 +19,7 @@
     }
 
     /// <summary>
-    /// An Async implmentation of ICommand for ValueTask
+    /// An Async implementation of ICommand for ValueTask
     /// </summary>
     public interface IAsyncValueCommand : System.Windows.Input.ICommand
     {

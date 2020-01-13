@@ -155,7 +155,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public void WeakEventManagerAction_RemoveventHandler_NullHandler()
+        public void WeakEventManagerAction_RemoveEventHandler_NullHandler()
         {
             //Arrange
 
@@ -168,7 +168,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public void WeakEventManagerAction_RemoveventHandler_NullEventName()
+        public void WeakEventManagerAction_RemoveEventHandler_NullEventName()
         {
             //Arrange
 
@@ -181,7 +181,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public void WeakEventManagerAction_RemoveventHandler_EmptyEventName()
+        public void WeakEventManagerAction_RemoveEventHandler_EmptyEventName()
         {
             //Arrange
 
@@ -194,7 +194,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public void WeakEventManagerAction_RemoveventHandler_WhiteSpaceEventName()
+        public void WeakEventManagerAction_RemoveEventHandler_WhiteSpaceEventName()
         {
             //Arrange
 

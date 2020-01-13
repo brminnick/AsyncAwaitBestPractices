@@ -10,10 +10,10 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.InvalidCommandParameterException"/> class.
         /// </summary>
-        /// <param name="excpectedType">Excpected parameter type for AsyncCommand.Execute.</param>
+        /// <param name="expectedType">Expected parameter type for AsyncCommand.Execute.</param>
         /// <param name="actualType">Actual parameter type for AsyncCommand.Execute.</param>
         /// <param name="innerException">Inner Exception</param>
-        public InvalidCommandParameterException(Type excpectedType, Type actualType, Exception innerException) : base(CreateErrorMessage(excpectedType, actualType), innerException)
+        public InvalidCommandParameterException(Type expectedType, Type actualType, Exception innerException) : base(CreateErrorMessage(expectedType, actualType), innerException)
         {
 
         }
@@ -21,9 +21,9 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.InvalidCommandParameterException"/> class.
         /// </summary>
-        /// <param name="excpectedType">Excpected parameter type for AsyncCommand.Execute.</param>
+        /// <param name="expectedType">Expected parameter type for AsyncCommand.Execute.</param>
         /// <param name="actualType">Actual parameter type for AsyncCommand.Execute.</param>
-        public InvalidCommandParameterException(Type excpectedType, Type actualType) : base(CreateErrorMessage(excpectedType, actualType))
+        public InvalidCommandParameterException(Type expectedType, Type actualType) : base(CreateErrorMessage(expectedType, actualType))
         {
 
         }
@@ -31,9 +31,9 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.InvalidCommandParameterException"/> class.
         /// </summary>
-        /// <param name="excpectedType">Excpected parameter type for AsyncCommand.Execute.</param>
+        /// <param name="expectedType">Expected parameter type for AsyncCommand.Execute.</param>
         /// <param name="innerException">Inner Exception</param>
-        public InvalidCommandParameterException(Type excpectedType, Exception innerException) : base(CreateErrorMessage(excpectedType), innerException)
+        public InvalidCommandParameterException(Type expectedType, Exception innerException) : base(CreateErrorMessage(expectedType), innerException)
         {
 
         }
@@ -41,14 +41,14 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.InvalidCommandParameterException"/> class.
         /// </summary>
-        /// <param name="excpectedType">Excpected parameter type for AsyncCommand.Execute.</param>
-        public InvalidCommandParameterException(Type excpectedType) : base(CreateErrorMessage(excpectedType))
+        /// <param name="expectedType">Expected parameter type for AsyncCommand.Execute.</param>
+        public InvalidCommandParameterException(Type expectedType) : base(CreateErrorMessage(expectedType))
         {
 
         }
 
-        static string CreateErrorMessage(Type excpectedType) => $"Invalid type for parameter. Expected Type {excpectedType}";
+        static string CreateErrorMessage(Type expectedType) => $"Invalid type for parameter. Expected Type {expectedType}";
 
-        static string CreateErrorMessage(Type excpectedType, Type actualType) => $"Invalid type for parameter. Expected Type {excpectedType}, but received Type {actualType}";
+        static string CreateErrorMessage(Type expectedType, Type actualType) => $"Invalid type for parameter. Expected Type {expectedType}, but received Type {actualType}";
     }
 }
