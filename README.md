@@ -1,7 +1,5 @@
 # AsyncAwaitBestPractices
 
-[![Build Status](https://brminnick.visualstudio.com/AsyncAwaitBestPractices/_apis/build/status/AsyncAwaitBestPractices-.NET%20Desktop-CI)](https://brminnick.visualstudio.com/AsyncAwaitBestPractices/_build/latest?definitionId=5)
-
 Extensions for `System.Threading.Tasks.Task`.
 
 Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts: 
