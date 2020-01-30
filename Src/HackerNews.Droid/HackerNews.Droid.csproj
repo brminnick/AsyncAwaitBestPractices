@@ -92,7 +92,7 @@
             <Name>HackerNews</Name>
         </ProjectReference>
         <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj">
-          <Project>{C13ECD67-1C93-42AE-88A1-3AFA6DD7E116}</Project>
+          <Project>{1CE5B22A-F52E-4CBA-9F12-C1FF48970DD3}</Project>
           <Name>AsyncAwaitBestPractices.MVVM</Name>
         </ProjectReference>
     </ItemGroup>
