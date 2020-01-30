@@ -4,7 +4,6 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AsyncAwaitBestPracticesUnitTests.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
