@@ -53,7 +53,7 @@
         <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
         <Private>False</Private>
       </ProjectReference>
-      <ProjectReference Include="..\HackNews.Droid\HackerNews.Droid.csproj">
+      <ProjectReference Include="..\HackerNews.Droid\HackerNews.Droid.csproj">
         <Project>{E419B244-E072-4EAB-B1C7-07886925C217}</Project>
         <Name>HackerNews.Droid</Name>
         <ReferenceOutputAssembly>False</ReferenceOutputAssembly>

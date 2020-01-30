@@ -8,7 +8,7 @@ namespace HackerNews
     {
         public NewsPage() : base(PageTitleConstants.NewsPageTitle)
         {
-            ViewModel.ErrorOcurred += HandleErrorOcurred;
+            ViewModel.ErrorOccurred += HandleErrorOccurred;
 
             var storiesListView = new ListView(ListViewCachingStrategy.RecycleElement)
             {
@@ -25,7 +25,7 @@ namespace HackerNews
             Content = storiesListView;
         }
 
-        void HandleErrorOcurred(object sender, string e) =>
+        void HandleErrorOccurred(object sender, string e) =>
             Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Error", e, "OK"));
 
         void HandleItemTapped(object sender, ItemTappedEventArgs e)

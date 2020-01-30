@@ -8,7 +8,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="Xamarin.Forms" Version="4.5.0.142-pre1" />
+		<PackageReference Include="Xamarin.Forms" Version="4.4.0.991537" />
 		<PackageReference Include="Xamarin.Essentials" Version="1.4.0-pre2" />
 	</ItemGroup>
 	<ItemGroup>

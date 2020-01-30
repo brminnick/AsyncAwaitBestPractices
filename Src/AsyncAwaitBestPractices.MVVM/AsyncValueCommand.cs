@@ -6,9 +6,9 @@ using System.Windows.Input;
 namespace AsyncAwaitBestPractices.MVVM
 {
     /// <summary>
-    /// An implmentation of IAsyncValueCommand. Allows Commands to safely be used asynchronously with Task.
+    /// An implementation of IAsyncValueCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public sealed class AsyncValueCommand<T> : IAsyncValueCommand<T>
+    public class AsyncValueCommand<T> : IAsyncValueCommand<T>
     {
         readonly Func<T, ValueTask> _execute;
         readonly Func<object?, bool> _canExecute;
@@ -19,7 +19,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
         /// </summary>
-        /// <param name="execute">The Function executed when Execute or ExecuteAysnc is called. This does not check canExecute before executing and will execute even if canExecute is false</param>
+        /// <param name="execute">The Function executed when Execute or ExecuteAsync is called. This does not check canExecute before executing and will execute even if canExecute is false</param>
         /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
@@ -67,12 +67,12 @@ namespace AsyncAwaitBestPractices.MVVM
             switch (parameter)
             {
                 case T validParameter:
-                    ExecuteAsync(validParameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
+                    ExecuteAsync(validParameter).SafeFireAndForget(_onException, _continueOnCapturedContext);
                     break;
 
 #pragma warning disable CS8601 //Possible null reference assignment
                 case null when !typeof(T).GetTypeInfo().IsValueType:
-                    ExecuteAsync((T)parameter).SafeFireAndForget(_continueOnCapturedContext, _onException);
+                    ExecuteAsync((T)parameter).SafeFireAndForget(_onException, _continueOnCapturedContext);
                     break;
 #pragma warning restore CS8601
 
@@ -86,9 +86,9 @@ namespace AsyncAwaitBestPractices.MVVM
     }
 
     /// <summary>
-    /// An implmentation of IAsyncValueCommand. Allows Commands to safely be used asynchronously with Task.
+    /// An implementation of IAsyncValueCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public sealed class AsyncValueCommand : IAsyncValueCommand
+    public class AsyncValueCommand : IAsyncValueCommand
     {
         readonly Func<ValueTask> _execute;
         readonly Func<object?, bool> _canExecute;
@@ -99,7 +99,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
         /// </summary>
-        /// <param name="execute">The Function executed when Execute or ExecuteAysnc is called. This does not check canExecute before executing and will execute even if canExecute is false</param>
+        /// <param name="execute">The Function executed when Execute or ExecuteAsync is called. This does not check canExecute before executing and will execute even if canExecute is false</param>
         /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
@@ -141,6 +141,6 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <returns>The executed Task</returns>
         public ValueTask ExecuteAsync() => _execute();
 
-        void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_continueOnCapturedContext, _onException);
+        void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_onException, _continueOnCapturedContext);
     }
 }

@@ -27,7 +27,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             NullReferenceException? exception = null;
 
             //Act
-            NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget<NullReferenceException>(onException: ex => exception = ex);
+            NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget<NullReferenceException>(ex => exception = ex);
             await NoParameterTask();
             await NoParameterTask();
 
@@ -60,7 +60,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             SafeFireAndForgetExtensions.SetDefaultExceptionHandling(ex => exception1 = ex);
 
             //Act
-            NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget<NullReferenceException>(onException: ex => exception2 = ex);
+            NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget<NullReferenceException>(ex => exception2 = ex);
             await NoParameterTask();
             await NoParameterTask();
 

@@ -20,6 +20,7 @@
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+        <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -64,7 +65,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-        <PackageReference Include="Xamarin.Forms" Version="4.5.0.142-pre1" />
+        <PackageReference Include="Xamarin.Forms" Version="4.4.0.991537" />
         <PackageReference Include="Xamarin.Essentials" Version="1.4.0-pre2" />
     </ItemGroup>
     <ItemGroup>
@@ -92,7 +93,7 @@
             <Name>HackerNews</Name>
         </ProjectReference>
         <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj">
-          <Project>{C13ECD67-1C93-42AE-88A1-3AFA6DD7E116}</Project>
+          <Project>{1CE5B22A-F52E-4CBA-9F12-C1FF48970DD3}</Project>
           <Name>AsyncAwaitBestPractices.MVVM</Name>
         </ProjectReference>
     </ItemGroup>

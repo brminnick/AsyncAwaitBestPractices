@@ -13,7 +13,7 @@ namespace HackerNews
 {
     class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
     {
-        readonly WeakEventManager<string> _errorOcurredEventManager = new WeakEventManager<string>();
+        readonly WeakEventManager<string> _errorOccurredEventManager = new WeakEventManager<string>();
 
         bool _isListRefreshing;
         IAsyncCommand? _refreshCommand;
@@ -21,13 +21,13 @@ namespace HackerNews
 
         public NewsViewModel_GoodAsyncAwaitPractices()
         {
-            ExecuteRefreshCommand().SafeFireAndForget(onException:  ex => Debug.WriteLine(ex));
+            ExecuteRefreshCommand().SafeFireAndForget(ex => Debug.WriteLine(ex));
         }
 
-        public event EventHandler<string> ErrorOcurred
+        public event EventHandler<string> ErrorOccurred
         {
-            add => _errorOcurredEventManager.AddEventHandler(value);
-            remove => _errorOcurredEventManager.RemoveEventHandler(value);
+            add => _errorOccurredEventManager.AddEventHandler(value);
+            remove => _errorOccurredEventManager.RemoveEventHandler(value);
         }
 
         public IAsyncCommand RefreshCommand => _refreshCommand ??= new AsyncCommand(ExecuteRefreshCommand);
@@ -91,6 +91,6 @@ namespace HackerNews
             }
         }
 
-        void OnErrorOccurred(string message) => _errorOcurredEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
+        void OnErrorOccurred(string message) => _errorOccurredEventManager.HandleEvent(this, message, nameof(ErrorOccurred));
     }
 }

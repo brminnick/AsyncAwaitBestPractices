@@ -1,7 +1,7 @@
 ﻿namespace AsyncAwaitBestPractices.MVVM
 {
     /// <summary>
-    /// An Async implmentation of ICommand for Task
+    /// An Async implementation of ICommand for Task
     /// </summary>
     public interface IAsyncCommand<T> : System.Windows.Input.ICommand
     {
@@ -19,7 +19,7 @@
     }
 
     /// <summary>
-    /// An Async implmentation of ICommand for Task
+    /// An Async implementation of ICommand for Task
     /// </summary>
     public interface IAsyncCommand : System.Windows.Input.ICommand
     {
