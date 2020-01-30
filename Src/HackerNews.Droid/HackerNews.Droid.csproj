@@ -20,6 +20,7 @@
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+        <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
