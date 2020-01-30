@@ -46,8 +46,6 @@
         <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
         <AndroidTlsProvider>btls</AndroidTlsProvider>
         <BundleAssemblies>true</BundleAssemblies>
-        <AotAssemblies>true</AotAssemblies>
-        <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
         <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
         <AndroidDexTool>d8</AndroidDexTool>
         <AndroidLinkTool>r8</AndroidLinkTool>
