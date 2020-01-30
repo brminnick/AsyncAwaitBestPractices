@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>4.1.0-pre2</version>
+    <version>4.1.0</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -59,7 +59,7 @@
         - Obsolete: SafeFireAndForget&lt;TException&gt;(bool continueOnCapturedContext, Action&lt;TException&gt; onException)
         - Include Assembly Signing
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="Release-v4.1.0" commit="fad5284ab4b72010ab0c07863bca99c3b7791ee7" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="8966e2ec7aa3e325256dd4c8acd01073646471de" />
     <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
    </metadata>
    <files>
