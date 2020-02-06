@@ -32,7 +32,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="NUnit" Version="3.12.0" />
-        <PackageReference Include="Xamarin.UITest" Version="3.0.6-dev1" />
+        <PackageReference Include="Xamarin.UITest" Version="3.0.6" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup>
@@ -45,6 +45,20 @@
     <ItemGroup>
         <Folder Include="Pages\" />
         <Folder Include="Tests\" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\HackerNews.iOS\HackerNews.iOS.csproj">
+        <Project>{6F319699-D810-4441-AF9F-4880C6AA2B03}</Project>
+        <Name>HackerNews.iOS</Name>
+        <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+        <Private>False</Private>
+      </ProjectReference>
+      <ProjectReference Include="..\HackerNews.Droid\HackerNews.Droid.csproj">
+        <Project>{E419B244-E072-4EAB-B1C7-07886925C217}</Project>
+        <Name>HackerNews.Droid</Name>
+        <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+        <Private>False</Private>
+      </ProjectReference>
     </ItemGroup>
     <Import Project="..\HackerNews.Shared\HackerNews.Shared.projitems" Label="Shared" Condition="Exists('..\HackerNews.Shared\HackerNews.Shared.projitems')" />
     <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
