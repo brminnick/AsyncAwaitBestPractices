@@ -14,7 +14,7 @@ echo UITestBuildDir: $UITestBuildDir
 UITestVersionNumber=`grep '[0-9]' $UITestProject | grep Xamarin.UITest|grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'`
 echo UITestVersionNumber: $UITestVersionNumber
 
-TestCloudExe=`find "$NuGetPackagesPath" | grep test-cloud.exe | grep $UITestVersionNumber | head -1`
+TestCloudExe=`find "~/.nuget" | grep test-cloud.exe | grep $UITestVersionNumber | head -1`
 echo TestCloudExe: $TestCloudExe
 
 TestCloudExeDirectory=`dirname $TestCloudExe`
