@@ -109,7 +109,7 @@ namespace AsyncAwaitBestPractices
         public static void SetDefaultExceptionHandling(in Action<Exception> onException)
         {
             if (onException is null)
-                throw new ArgumentNullException(nameof(onException), $"{onException} cannot be null");
+                throw new ArgumentNullException(nameof(onException));
 
             _onException = onException;
         }
