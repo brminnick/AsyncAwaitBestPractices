@@ -48,7 +48,7 @@ namespace HackerNews
                 using var reader = new StreamReader(stream);
                 using var json = new JsonTextReader(reader);
 
-                return _serializer.Deserialize<TDataObject>(json);
+                return _serializer.Deserialize<TDataObject>(json) ?? throw new NullReferenceException();
             }
             finally
             {
