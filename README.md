@@ -252,8 +252,8 @@ readonly WeakEventManager _canExecuteChangedEventManager = new WeakEventManager(
 
 public event EventHandler CanExecuteChanged
 {
-    add => _weakEventManager.AddEventHandler(value);
-    remove => _weakEventManager.RemoveEventHandler(value);
+    add => _canExecuteChangedEventManager.AddEventHandler(value);
+    remove => _canExecuteChangedEventManager.RemoveEventHandler(value);
 }
 
 void OnCanExecuteChanged() => _canExecuteChangedEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
