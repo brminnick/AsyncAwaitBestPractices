@@ -23,6 +23,12 @@ namespace HackerNews.UITests
             _ => throw new NotSupportedException(),
         };
 
+        public bool IsBrowserOpen => App switch
+        {
+            iOSApp iOSApp => iOSApp.Query(x => x.Class("SFSafariView")).Any(),
+            _ => throw new NotSupportedException("Browser Can Only Be Verified on iOS")
+        };
+
         public override void WaitForPageToLoad()
         {
             base.WaitForPageToLoad();
