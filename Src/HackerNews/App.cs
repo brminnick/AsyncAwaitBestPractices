@@ -1,16 +1,20 @@
-﻿using Xamarin.Forms;
+﻿using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace HackerNews
 {
-    public class App : Application
+    public class App : Xamarin.Forms.Application
     {
         public App()
         {
-            MainPage = new NavigationPage(new NewsPage())
+            var navigationPage = new Xamarin.Forms.NavigationPage(new NewsPage())
             {
                 BarBackgroundColor = ColorConstants.NavigationBarBackgroundColor,
                 BarTextColor = ColorConstants.NavigationBarTextColor
             };
+            navigationPage.On<iOS>().SetPrefersLargeTitles(true);
+
+            MainPage = navigationPage;
         }
     }
 }

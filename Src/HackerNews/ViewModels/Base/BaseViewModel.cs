@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Newtonsoft.Json;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace HackerNews
@@ -61,12 +62,20 @@ namespace HackerNews
             if (isActivityIndicatorRunning)
             {
                 _networkIndicatorCount++;
-                await Device.InvokeOnMainThreadAsync(() => Application.Current.MainPage.IsBusy = true).ConfigureAwait(false);
+                await setIsBusy(true).ConfigureAwait(false);
             }
             else if (--_networkIndicatorCount <= 0)
             {
                 _networkIndicatorCount = 0;
-                await Device.InvokeOnMainThreadAsync(() => Application.Current.MainPage.IsBusy = false).ConfigureAwait(false);
+                await setIsBusy(false).ConfigureAwait(false);
+            }
+
+            static Task setIsBusy(bool isBusy)
+            {
+                if (Application.Current?.MainPage != null)
+                    return MainThread.InvokeOnMainThreadAsync(() => Application.Current.MainPage.IsBusy = true);
+
+                return Task.CompletedTask;
             }
         }
 

@@ -69,12 +69,11 @@ namespace AsyncAwaitBestPractices.MVVM
                 case T validParameter:
                     ExecuteAsync(validParameter).SafeFireAndForget(_onException, _continueOnCapturedContext);
                     break;
-
-#pragma warning disable CS8601 //Possible null reference assignment
+#pragma warning disable CS8604 // Possible null reference argument.
                 case null when !typeof(T).GetTypeInfo().IsValueType:
                     ExecuteAsync((T)parameter).SafeFireAndForget(_onException, _continueOnCapturedContext);
                     break;
-#pragma warning restore CS8601
+#pragma warning restore CS8604 // Possible null reference argument.
 
                 case null:
                     throw new InvalidCommandParameterException(typeof(T));
