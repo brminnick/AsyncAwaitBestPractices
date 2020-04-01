@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>4.1.1</version>
+    <version>4.1.1-pre1</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -55,7 +55,7 @@
       New In This Release:
         - Add Extension Methods Without `in` Keyword (provides support for older versions of Visual Studio)
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="8966e2ec7aa3e325256dd4c8acd01073646471de" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="e0e50bde1287f24d25cc23162c5023cd29f3d3ff" />
     <copyright>Copyright (c) 2020 Brandon Minnick</copyright>
    </metadata>
    <files>
