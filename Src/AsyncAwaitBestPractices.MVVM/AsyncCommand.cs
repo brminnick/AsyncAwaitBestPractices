@@ -67,12 +67,12 @@ namespace AsyncAwaitBestPractices.MVVM
             switch (parameter)
             {
                 case T validParameter:
-                    ExecuteAsync(validParameter).SafeFireAndForget(_onException, _continueOnCapturedContext);
+                    ExecuteAsync(validParameter).SafeFireAndForget(_onException, in _continueOnCapturedContext);
                     break;
 
 #pragma warning disable CS8604 // Possible null reference argument.
                 case null when !typeof(T).GetTypeInfo().IsValueType:
-                    ExecuteAsync((T)parameter).SafeFireAndForget(_onException, _continueOnCapturedContext);
+                    ExecuteAsync((T)parameter).SafeFireAndForget(_onException, in _continueOnCapturedContext);
                     break;
 #pragma warning restore CS8604 // Possible null reference argument.
 
@@ -141,6 +141,6 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <returns>The executed Task</returns>
         public Task ExecuteAsync() => _execute();
 
-        void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_onException, _continueOnCapturedContext);
+        void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_onException, in _continueOnCapturedContext);
     }
 }

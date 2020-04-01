@@ -24,9 +24,9 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         public AsyncValueCommand(Func<T, ValueTask> execute,
-                            Func<object?, bool>? canExecute = null,
-                            Action<Exception>? onException = null,
-                            bool continueOnCapturedContext = false)
+                                    Func<object?, bool>? canExecute = null,
+                                    Action<Exception>? onException = null,
+                                    bool continueOnCapturedContext = false)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
             _canExecute = canExecute ?? (_ => true);
@@ -67,11 +67,11 @@ namespace AsyncAwaitBestPractices.MVVM
             switch (parameter)
             {
                 case T validParameter:
-                    ExecuteAsync(validParameter).SafeFireAndForget(_onException, _continueOnCapturedContext);
+                    ExecuteAsync(validParameter).SafeFireAndForget(_onException, in _continueOnCapturedContext);
                     break;
 #pragma warning disable CS8604 // Possible null reference argument.
                 case null when !typeof(T).GetTypeInfo().IsValueType:
-                    ExecuteAsync((T)parameter).SafeFireAndForget(_onException, _continueOnCapturedContext);
+                    ExecuteAsync((T)parameter).SafeFireAndForget(_onException, in _continueOnCapturedContext);
                     break;
 #pragma warning restore CS8604 // Possible null reference argument.
 
@@ -103,9 +103,9 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
         /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
         public AsyncValueCommand(Func<ValueTask> execute,
-                            Func<object?, bool>? canExecute = null,
-                            Action<Exception>? onException = null,
-                            bool continueOnCapturedContext = false)
+                                    Func<object?, bool>? canExecute = null,
+                                    Action<Exception>? onException = null,
+                                    bool continueOnCapturedContext = false)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
             _canExecute = canExecute ?? (_ => true);
@@ -140,6 +140,6 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <returns>The executed Task</returns>
         public ValueTask ExecuteAsync() => _execute();
 
-        void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_onException, _continueOnCapturedContext);
+        void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_onException, in _continueOnCapturedContext);
     }
 }

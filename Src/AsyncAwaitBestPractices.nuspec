@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>4.1.0</version>
+    <version>4.1.1</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -25,42 +25,38 @@
     <tags>task,fire and forget, threading, extensions, system.threading.tasks,async,await</tags>
       <dependencies>  
       <group targetFramework="netstandard1.0">
-        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
       </group>
       <group targetFramework="netstandard1.1">
-        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
       </group>
       <group targetFramework="netstandard1.2">
-        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
       </group>
       <group targetFramework="netstandard1.3">
-        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
       </group>
       <group targetFramework="netstandard1.4">
-        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
       </group>
       <group targetFramework="netstandard1.5">
-        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
       </group>
       <group targetFramework="netstandard1.6">
-        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
       </group>
       <group targetFramework="netstandard2.0">
-        <dependency id="System.Threading.Tasks.Extensions" version="4.5.3"/>
+        <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
       </group>
       <group targetFramework="netstandard2.1">
       </group>
     </dependencies>
     <releaseNotes>
       New In This Release:
-        - Add SafeFireAndForget(Action&lt;Exception&gt; onException, bool continueOnCapturedContext)
-        - Add SafeFireAndForget&lt;TException&gt;(Action&lt;Exception&gt; onException, bool continueOnCapturedContext)
-        - Obsolete: SafeFireAndForget(bool continueOnCapturedContext, Action&lt;Exception&gt; onException)
-        - Obsolete: SafeFireAndForget&lt;TException&gt;(bool continueOnCapturedContext, Action&lt;TException&gt; onException)
-        - Include Assembly Signing
+        - Add Extension Methods Without `in` Keyword (provides support for older versions of Visual Studio)
     </releaseNotes>
     <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="8966e2ec7aa3e325256dd4c8acd01073646471de" />
-    <copyright>Copyright (c) 2018 Brandon Minnick</copyright>
+    <copyright>Copyright (c) 2020 Brandon Minnick</copyright>
    </metadata>
    <files>
     <file src="AsyncAwaitBestPractices\bin\Release\netstandard1.0\AsyncAwaitBestPractices.pdb" target="lib\netstandard1.0\AsyncAwaitBestPractices.pdb" /> 
