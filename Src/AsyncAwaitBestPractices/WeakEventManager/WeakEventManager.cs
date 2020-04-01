@@ -11,7 +11,7 @@ namespace AsyncAwaitBestPractices
     /// Weak event manager that allows for garbage collection when the EventHandler is still subscribed
     /// </summary>
     /// <typeparam name="TEventArgs">Event args type.</typeparam>
-    public class WeakEventManager<TEventArgs>
+    public partial class WeakEventManager<TEventArgs>
     {
         readonly Dictionary<string, List<Subscription>> _eventHandlers = new Dictionary<string, List<Subscription>>();
 
@@ -100,7 +100,7 @@ namespace AsyncAwaitBestPractices
     /// <summary>
     /// Weak event manager that allows for garbage collection when the EventHandler is still subscribed
     /// </summary>
-    public class WeakEventManager
+    public partial class WeakEventManager
     {
         readonly Dictionary<string, List<Subscription>> _eventHandlers = new Dictionary<string, List<Subscription>>();
 

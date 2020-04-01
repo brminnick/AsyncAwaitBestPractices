@@ -14,7 +14,7 @@
         <DocumentationFile>bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml</DocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="WeakEventManager\" />
