@@ -71,16 +71,6 @@ namespace HackerNews.UITests
             }
         }
 
-        public List<StoryModel> GetStoryList()
-        {
-            var storyListAsBase64String = App switch
-            {
-                iOSApp iosApp => iosApp.Invoke("getStoriesAsBase64String:", "").ToString(),
-                AndroidApp androidApp => androidApp.Invoke("GetStoriesAsBase64String").ToString(),
-                _ => throw new Exception("Platform Not Supported"),
-            };
-
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<StoryModel>>(storyListAsBase64String);
-        }
+        public List<StoryModel> GetStoryList() => App.InvokeBackdoorMethod<List<StoryModel>>(BackdoorMethodConstants.GetStoriesAsBase64String);
     }
 }

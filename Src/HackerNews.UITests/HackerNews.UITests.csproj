@@ -11,6 +11,8 @@
         <RootNamespace>HackerNews.UITests</RootNamespace>
         <AssemblyName>HackerNews.UITests</AssemblyName>
         <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -32,7 +34,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="NUnit" Version="3.12.0" />
-        <PackageReference Include="Xamarin.UITest" Version="3.0.7" />
+        <PackageReference Include="Xamarin.UITest" Version="3.0.8-dev1" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup>
@@ -41,6 +43,7 @@
         <Compile Include="Pages\NewsPage.cs" />
         <Compile Include="Tests\BaseTest.cs" />
         <Compile Include="Tests\Tests.cs" />
+        <Compile Include="BackdoorServices.cs" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Pages\" />

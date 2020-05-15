@@ -1,5 +1,4 @@
-﻿#if DEBUG
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace HackerNews
@@ -21,4 +20,3 @@ namespace HackerNews
 		static NewsViewModel_GoodAsyncAwaitPractices GetViewModel() => (NewsViewModel_GoodAsyncAwaitPractices)GetNewsPage().BindingContext;
 	}
 }
-#endif

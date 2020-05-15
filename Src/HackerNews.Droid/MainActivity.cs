@@ -6,7 +6,7 @@ using Android.Runtime;
 namespace HackerNews.Droid
 {
     [Activity(Label = "HackerNews.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public partial class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
@@ -26,10 +26,5 @@ namespace HackerNews.Droid
 
             LoadApplication(new App());
         }
-
-#if DEBUG
-        [Preserve, Java.Interop.Export(nameof(GetStoriesAsBase64String))]
-        public string GetStoriesAsBase64String() => BackdoorMethodServices.GetStoriesAsBase64String();
-#endif
     }
 }

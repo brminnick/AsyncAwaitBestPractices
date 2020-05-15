@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants\PageTitleConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\StoriesConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StoryModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\BackdoorMethodConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
