@@ -55,7 +55,7 @@
       New In This Release:
         - Add Extension Methods Without `in` Keyword (provides support for older versions of Visual Studio)
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="e0e50bde1287f24d25cc23162c5023cd29f3d3ff" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="03b93e2ac2dd9bc3d16c7cb73c8e0922d9b65ad7" />
     <copyright>Copyright (c) 2020 Brandon Minnick</copyright>
    </metadata>
    <files>
