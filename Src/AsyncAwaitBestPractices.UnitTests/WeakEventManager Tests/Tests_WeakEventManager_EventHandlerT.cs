@@ -30,7 +30,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            TestStringWeakEventManager.HandleEvent(this, stringEventArg, nameof(TestStringEvent));
+            TestStringWeakEventManager.RaiseEvent(this, stringEventArg, nameof(TestStringEvent));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -58,7 +58,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            TestStringWeakEventManager.HandleEvent(null, stringEventArg, nameof(TestStringEvent));
+            TestStringWeakEventManager.RaiseEvent(null, stringEventArg, nameof(TestStringEvent));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -87,7 +87,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             //Act
 #pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
-            TestStringWeakEventManager.HandleEvent(this, null, nameof(TestStringEvent));
+            TestStringWeakEventManager.RaiseEvent(this, null, nameof(TestStringEvent));
 #pragma warning restore CS8625
 
             //Assert
@@ -105,7 +105,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleTestEvent(object? sender, string e) => didEventFire = true;
 
             //Act
-            TestStringWeakEventManager.HandleEvent(this, "Test", nameof(TestEvent));
+            TestStringWeakEventManager.RaiseEvent(this, "Test", nameof(TestEvent));
 
             //Assert
             Assert.False(didEventFire);
@@ -122,7 +122,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             //Assert
 #pragma warning disable CS8602 //Dereference of a possible null reference
-            Assert.Throws<NullReferenceException>(() => unassignedEventManager.HandleEvent(null, null, nameof(TestEvent)));
+            Assert.Throws<NullReferenceException>(() => unassignedEventManager.RaiseEvent(null, null, nameof(TestEvent)));
 #pragma warning restore CS8602
         }
 
@@ -138,7 +138,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             //Act
 #pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
-            unassignedEventManager.HandleEvent(null, null, nameof(TestStringEvent));
+            unassignedEventManager.RaiseEvent(null, null, nameof(TestStringEvent));
 #pragma warning restore CS8625
 
             //Assert
@@ -157,7 +157,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleTestEvent(object? sender, string e) => didEventFire = true;
 
             //Act
-            TestStringWeakEventManager.HandleEvent(this, "Test", nameof(TestStringEvent));
+            TestStringWeakEventManager.RaiseEvent(this, "Test", nameof(TestStringEvent));
 
             //Assert
             Assert.IsFalse(didEventFire);
@@ -272,7 +272,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<InvalidHandleEventException>(() => TestStringWeakEventManager.HandleEvent("", nameof(TestStringEvent)));
+            Assert.Throws<InvalidHandleEventException>(() => TestStringWeakEventManager.RaiseEvent("", nameof(TestStringEvent)));
             Assert.IsFalse(didEventFire);
             TestStringEvent -= HandleTestStringEvent;
         }

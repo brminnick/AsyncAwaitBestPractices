@@ -80,21 +80,38 @@ namespace AsyncAwaitBestPractices
         }
 
         /// <summary>
-        /// Executes the event EventHandler
+        /// Invokes the event EventHandler
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(in object? sender, in TEventArgs eventArgs, in string eventName) =>
+        public void RaiseEvent(in object? sender, in TEventArgs eventArgs, in string eventName) =>
             EventManagerService.HandleEvent(eventName, sender, eventArgs, _eventHandlers);
 
         /// <summary>
-        /// Executes the event Action
+        /// Invokes the event Action
         /// </summary>
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(in TEventArgs eventArgs, in string eventName) => 
+        public void RaiseEvent(in TEventArgs eventArgs, in string eventName) =>
             EventManagerService.HandleEvent(eventName, eventArgs, _eventHandlers);
+
+        /// <summary>
+        /// Invokes the event EventHandler
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="eventArgs">Event arguments</param>
+        /// <param name="eventName">Event name</param>
+        [Obsolete("Use RaiseEvent instead")]
+        public void HandleEvent(in object? sender, in TEventArgs eventArgs, in string eventName) => RaiseEvent(sender, eventArgs, eventName);
+
+        /// <summary>
+        /// Invokes the event Action
+        /// </summary>
+        /// <param name="eventArgs">Event arguments</param>
+        /// <param name="eventName">Event name</param>
+        [Obsolete("Use RaiseEvent instead")]
+        public void HandleEvent(in TEventArgs eventArgs, in string eventName) => RaiseEvent(eventArgs, eventName);
     }
 
     /// <summary>
@@ -137,18 +154,34 @@ namespace AsyncAwaitBestPractices
         }
 
         /// <summary>
-        /// Executes the event EventHandler
+        /// Invokes the event EventHandler
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(in object? sender, in object? eventArgs, in string eventName) =>
+        public void RaiseEvent(in object? sender, in object? eventArgs, in string eventName) =>
             EventManagerService.HandleEvent(eventName, sender, eventArgs, _eventHandlers);
 
         /// <summary>
-        /// Executes the event Action
+        /// Invokes the event Action
         /// </summary>
         /// <param name="eventName">Event name</param>
-        public void HandleEvent(in string eventName) => EventManagerService.HandleEvent(eventName, _eventHandlers);
+        public void RaiseEvent(in string eventName) => EventManagerService.HandleEvent(eventName, _eventHandlers);
+
+        /// <summary>
+        /// Invokes the event EventHandler
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="eventArgs">Event arguments</param>
+        /// <param name="eventName">Event name</param>
+        [Obsolete("Use RaiseEvent instead")]
+        public void HandleEvent(in object? sender, in object? eventArgs, in string eventName) => RaiseEvent(sender, eventArgs, eventName);
+
+        /// <summary>
+        /// Invokes the event Action
+        /// </summary>
+        /// <param name="eventName">Event name</param>
+        [Obsolete("Use RaiseEvent instead")]
+        public void HandleEvent(in string eventName) => RaiseEvent(eventName);
     }
 }

@@ -27,7 +27,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            _actionEventManager.HandleEvent(nameof(ActionEvent));
+            _actionEventManager.RaiseEvent(nameof(ActionEvent));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -43,7 +43,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleDelegateTest() => didEventFire = true;
 
             //Act
-            _actionEventManager.HandleEvent(nameof(TestStringEvent));
+            _actionEventManager.RaiseEvent(nameof(TestStringEvent));
 
             //Assert
             Assert.False(didEventFire);
@@ -61,7 +61,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleDelegateTest() => didEventFire = true;
 
             //Act
-            _actionEventManager.HandleEvent(nameof(ActionEvent));
+            _actionEventManager.RaiseEvent(nameof(ActionEvent));
 
             //Assert
             Assert.IsFalse(didEventFire);
@@ -78,7 +78,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleDelegateTest() => didEventFire = true;
 
             //Act
-            unassignedEventManager.HandleEvent(nameof(ActionEvent));
+            unassignedEventManager.RaiseEvent(nameof(ActionEvent));
 
             //Assert
             Assert.IsFalse(didEventFire);
@@ -97,7 +97,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<InvalidHandleEventException>(() => _actionEventManager.HandleEvent(this, EventArgs.Empty, nameof(ActionEvent)));
+            Assert.Throws<InvalidHandleEventException>(() => _actionEventManager.RaiseEvent(this, EventArgs.Empty, nameof(ActionEvent)));
             Assert.IsFalse(didEventFire);
             ActionEvent -= HandleDelegateTest;
         }

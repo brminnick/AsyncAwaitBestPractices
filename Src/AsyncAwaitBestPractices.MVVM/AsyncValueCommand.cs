@@ -53,7 +53,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Raises the CanExecuteChanged event.
         /// </summary>
-        public void RaiseCanExecuteChanged() => _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+        public void RaiseCanExecuteChanged() => _weakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
         /// <summary>
         /// Executes the Command as a Task
@@ -132,7 +132,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <summary>
         /// Raises the CanExecuteChanged event.
         /// </summary>
-        public void RaiseCanExecuteChanged() => _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+        public void RaiseCanExecuteChanged() => _weakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
         /// <summary>
         /// Executes the Command as a Task

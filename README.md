@@ -256,7 +256,7 @@ public event EventHandler CanExecuteChanged
     remove => _canExecuteChangedEventManager.RemoveEventHandler(value);
 }
 
-void OnCanExecuteChanged() => _canExecuteChangedEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+void OnCanExecuteChanged() => _canExecuteChangedEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 ```
 
 #### Using `Delegate`
@@ -270,7 +270,7 @@ public event PropertyChangedEventHandler PropertyChanged
     remove => _propertyChangedEventManager.RemoveEventHandler(value);
 }
 
-void OnPropertyChanged([CallerMemberName]string propertyName = "") => _propertyChangedEventManager.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(PropertyChanged));
+void OnPropertyChanged([CallerMemberName]string propertyName = "") => _propertyChangedEventManager.RaiseEvent(this, new PropertyChangedEventArgs(propertyName), nameof(PropertyChanged));
 ```
 
 #### Using `Action`
@@ -284,7 +284,7 @@ public event Action ActionEvent
     remove => _weakActionEventManager.RemoveEventHandler(value);
 }
 
-void OnActionEvent(string message) => _weakActionEventManager.HandleEvent(message, nameof(ActionEvent));
+void OnActionEvent(string message) => _weakActionEventManager.RaiseEvent(message, nameof(ActionEvent));
 ```
 
 ### `WeakEventManager<T>`
@@ -303,7 +303,7 @@ public event EventHandler<string> ErrorOcurred
     remove => _errorOcurredEventManager.RemoveEventHandler(value);
 }
 
-void OnErrorOcurred(string message) => _errorOcurredEventManager.HandleEvent(this, message, nameof(ErrorOcurred));
+void OnErrorOcurred(string message) => _errorOcurredEventManager.RaiseEvent(this, message, nameof(ErrorOcurred));
 ```
 
 #### Using `Action<T>`
@@ -317,7 +317,7 @@ public event Action<string> ActionEvent
     remove => _weakActionEventManager.RemoveEventHandler(value);
 }
 
-void OnActionEvent(string message) => _weakActionEventManager.HandleEvent(message, nameof(ActionEvent));
+void OnActionEvent(string message) => _weakActionEventManager.RaiseEvent(message, nameof(ActionEvent));
 ```
 
 ## AsyncAwaitBestPractices.MVVM

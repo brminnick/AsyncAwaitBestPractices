@@ -27,7 +27,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            TestWeakEventManager.HandleEvent(this, new EventArgs(), nameof(TestEvent));
+            TestWeakEventManager.RaiseEvent(this, new EventArgs(), nameof(TestEvent));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -50,7 +50,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            TestWeakEventManager.HandleEvent(null, new EventArgs(), nameof(TestEvent));
+            TestWeakEventManager.RaiseEvent(null, new EventArgs(), nameof(TestEvent));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -79,7 +79,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-            TestWeakEventManager.HandleEvent(this, EventArgs.Empty, nameof(TestEvent));
+            TestWeakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(TestEvent));
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -108,7 +108,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             //Act
 #pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
-            TestWeakEventManager.HandleEvent(this, null, nameof(TestEvent));
+            TestWeakEventManager.RaiseEvent(this, null, nameof(TestEvent));
 #pragma warning restore CS8625
 
             //Assert
@@ -125,7 +125,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleTestEvent(object? sender, EventArgs e) => didEventFire = true;
 
             //Act
-            TestWeakEventManager.HandleEvent(this, new EventArgs(), nameof(TestStringEvent));
+            TestWeakEventManager.RaiseEvent(this, new EventArgs(), nameof(TestStringEvent));
 
             //Assert
             Assert.False(didEventFire);
@@ -143,7 +143,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleTestEvent(object? sender, EventArgs e) => didEventFire = true;
 
             //Act
-            TestWeakEventManager.HandleEvent(null, null, nameof(TestEvent));
+            TestWeakEventManager.RaiseEvent(null, null, nameof(TestEvent));
 
             //Assert
             Assert.IsFalse(didEventFire);
@@ -160,7 +160,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleTestEvent(object? sender, EventArgs e) => didEventFire = true;
 
             //Act
-            unassignedEventManager.HandleEvent(null, null, nameof(TestEvent));
+            unassignedEventManager.RaiseEvent(null, null, nameof(TestEvent));
 
             //Assert
             Assert.IsFalse(didEventFire);
@@ -283,7 +283,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-            Assert.Throws<InvalidHandleEventException>(() => TestWeakEventManager.HandleEvent(nameof(TestEvent)));
+            Assert.Throws<InvalidHandleEventException>(() => TestWeakEventManager.RaiseEvent(nameof(TestEvent)));
             Assert.IsFalse(didEventFire);
             TestEvent -= HandleTestEvent;
         }

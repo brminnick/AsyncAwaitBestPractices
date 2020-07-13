@@ -91,6 +91,6 @@ namespace HackerNews
             }
         }
 
-        void OnErrorOccurred(string message) => _errorOccurredEventManager.HandleEvent(this, message, nameof(ErrorOccurred));
+        void OnErrorOccurred(string message) => _errorOccurredEventManager.RaiseEvent(this, message, nameof(ErrorOccurred));
     }
 }
