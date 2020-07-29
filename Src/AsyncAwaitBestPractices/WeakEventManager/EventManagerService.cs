@@ -1,11 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace AsyncAwaitBestPractices
 {
     static class EventManagerService
     {
+        internal static bool IsLightweightMethod(this MethodBase method)
+        {
+            TypeInfo typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
+            return method is DynamicMethod || typeInfoRTDynamicMethod.IsAssignableFrom(method.GetType().GetTypeInfo());
+        }
+
+        internal static DynamicMethod? TryGetDynamicMethod(MethodInfo rtDynamicMethod)
+        {
+            TypeInfo typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
+            Type? typeRTDynamicMethod = typeInfoRTDynamicMethod.AsType();
+
+            return typeInfoRTDynamicMethod.IsAssignableFrom(rtDynamicMethod.GetType().GetTypeInfo())
+                ? (DynamicMethod)typeRTDynamicMethod.GetRuntimeFields().First(f => f.Name == "m_owner").GetValue(rtDynamicMethod)
+                : null;
+        }
+
         internal static void AddEventHandler(in string eventName, in object? handlerTarget, in MethodInfo? methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription>? targets);
@@ -51,7 +69,15 @@ namespace AsyncAwaitBestPractices
                 try
                 {
                     Tuple<object?, MethodInfo> tuple = toRaise[i];
-                    tuple.Item2.Invoke(tuple.Item1, new[] { sender, eventArgs });
+                    if (tuple.Item2.IsLightweightMethod())
+                    {
+                        var method = TryGetDynamicMethod(tuple.Item2);
+                        method?.Invoke(tuple.Item1, new[] { sender, eventArgs });
+                    }
+                    else
+                    {
+                        tuple.Item2.Invoke(tuple.Item1, new[] { sender, eventArgs });
+                    }
                 }
                 catch (TargetParameterCountException e)
                 {
@@ -69,8 +95,16 @@ namespace AsyncAwaitBestPractices
             {
                 try
                 {
-                    var tuple = toRaise[i];
-                    tuple.Item2.Invoke(tuple.Item1, new[] { actionEventArgs });
+                    Tuple<object?, MethodInfo> tuple = toRaise[i];
+                    if (tuple.Item2.IsLightweightMethod())
+                    {
+                        var method = TryGetDynamicMethod(tuple.Item2);
+                        method?.Invoke(tuple.Item1, new[] { actionEventArgs });
+                    }
+                    else
+                    {
+                        tuple.Item2.Invoke(tuple.Item1, new[] { actionEventArgs });
+                    }
                 }
                 catch (TargetParameterCountException e)
                 {
@@ -87,8 +121,16 @@ namespace AsyncAwaitBestPractices
             {
                 try
                 {
-                    var tuple = toRaise[i];
-                    tuple.Item2.Invoke(tuple.Item1, null);
+                    Tuple<object?, MethodInfo> tuple = toRaise[i];
+                    if (tuple.Item2.IsLightweightMethod())
+                    {
+                        var method = TryGetDynamicMethod(tuple.Item2);
+                        method?.Invoke(tuple.Item1, null);
+                    }
+                    else
+                    {
+                        tuple.Item2.Invoke(tuple.Item1, null);
+                    }
                 }
                 catch (TargetParameterCountException e)
                 {

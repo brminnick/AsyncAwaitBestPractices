@@ -15,6 +15,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+      <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="WeakEventManager\" />
