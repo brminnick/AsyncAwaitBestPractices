@@ -124,6 +124,23 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
+        public void WeakEventManagerDelegate_HandleEvent_DynamicMethod()
+        {
+            //Arrange
+            var dynamicMethod = new System.Reflection.Emit.DynamicMethod(string.Empty, typeof(void), new[] { typeof(object), typeof(PropertyChangedEventArgs) });
+            var ilGenerator = dynamicMethod.GetILGenerator();
+            ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ret);
+            var handler = dynamicMethod.CreateDelegate(typeof(PropertyChangedEventHandler)) as PropertyChangedEventHandler;
+            PropertyChanged += handler;
+
+            //Act
+
+            //Assert
+            Assert.DoesNotThrow(() => _propertyChangedWeakEventManager.RaiseEvent(this, new PropertyChangedEventArgs("Test"), nameof(PropertyChanged)));
+            PropertyChanged -= handler;
+        }
+
+        [Test]
         public void WeakEventManagerDelegate_UnassignedEvent()
         {
             //Arrange
