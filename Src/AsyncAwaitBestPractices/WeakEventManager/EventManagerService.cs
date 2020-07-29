@@ -156,12 +156,12 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        static DynamicMethod? TryGetDynamicMethod(MethodInfo rtDynamicMethod)
+        static DynamicMethod? TryGetDynamicMethod(in MethodInfo rtDynamicMethod)
         {
             var typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
-            var typeRTDynamicMethod = typeInfoRTDynamicMethod.AsType();
+            var typeRTDynamicMethod = typeInfoRTDynamicMethod?.AsType();
 
-            return typeInfoRTDynamicMethod.IsAssignableFrom(rtDynamicMethod.GetType().GetTypeInfo())
+            return (typeInfoRTDynamicMethod?.IsAssignableFrom(rtDynamicMethod.GetType().GetTypeInfo()) ?? false)
                 ? (DynamicMethod)typeRTDynamicMethod.GetRuntimeFields().First(f => f.Name is "m_owner").GetValue(rtDynamicMethod)
                 : null;
         }
@@ -169,7 +169,7 @@ namespace AsyncAwaitBestPractices
         static bool IsLightweightMethod(this MethodBase method)
         {
             var typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
-            return method is DynamicMethod || typeInfoRTDynamicMethod.IsAssignableFrom(method.GetType().GetTypeInfo());
+            return method is DynamicMethod || (typeInfoRTDynamicMethod?.IsAssignableFrom(method.GetType().GetTypeInfo()) ?? false);
         }
     }
 }
