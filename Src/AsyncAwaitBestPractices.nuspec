@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>4.2.0</version>
+    <version>4.3.0-pre1</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -26,34 +26,42 @@
       <dependencies>  
         <group targetFramework="netstandard1.0">
           <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
+          <dependency id="System.Reflection.Emit.Lightweight" version="4.7.0" />
         </group>
         <group targetFramework="netstandard1.1">
           <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
+          <dependency id="System.Reflection.Emit.Lightweight" version="4.7.0" />
         </group>
         <group targetFramework="netstandard1.2">
           <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
+          <dependency id="System.Reflection.Emit.Lightweight" version="4.7.0" />
         </group>
         <group targetFramework="netstandard1.3">
           <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
+          <dependency id="System.Reflection.Emit.Lightweight" version="4.7.0" />
         </group>
         <group targetFramework="netstandard1.4">
           <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
+          <dependency id="System.Reflection.Emit.Lightweight" version="4.7.0" />
         </group>
         <group targetFramework="netstandard1.5">
           <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
+          <dependency id="System.Reflection.Emit.Lightweight" version="4.7.0" />
         </group>
         <group targetFramework="netstandard1.6">
           <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
+          <dependency id="System.Reflection.Emit.Lightweight" version="4.7.0" />
         </group>
         <group targetFramework="netstandard2.0">
           <dependency id="System.Threading.Tasks.Extensions" version="4.5.4"/>
+          <dependency id="System.Reflection.Emit.Lightweight" version="4.7.0" />
         </group>
         <group targetFramework="netstandard2.1">
         </group>
       </dependencies>
     <releaseNotes>
       New In This Release:
-        - Deprecate WeakEventManager.HandleEvent API, replacing it with WeakEventManager.RaiseEvent
+        - Add support for Dynamic Methods
     </releaseNotes>
     <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="8290ad37b3232b693a07ea4ee186d7943b836880" />
     <copyright>Copyright (c) 2020 Brandon Minnick</copyright>

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices.MVVM</id>
-    <version>4.2.0</version>
+    <version>4.3.0-pre1</version>
     <title>Async Extensions for ICommand</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -24,11 +24,11 @@
     </summary>
     <tags>task, valuetask, fire and forget, threading, extensions, system.threading.tasks, async, await</tags>
     <dependencies>
-      <dependency id="AsyncAwaitBestPractices" version="4.2.0" />
+      <dependency id="AsyncAwaitBestPractices" version="4.3.0-pre1" />
     </dependencies>
     <releaseNotes>
       New In This Release:
-        - Deprecate WeakEventManager.HandleEvent API, Replacing it with WeakEventManager.RaiseEvent
+        - Add support for Dynamic Methods
     </releaseNotes>
     <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="8290ad37b3232b693a07ea4ee186d7943b836880" />
     <copyright>Copyright (c) 2020 Brandon Minnick</copyright>
