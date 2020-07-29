@@ -124,7 +124,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public void WeakEventManagerDelegate_HandleEvent_DynamicMethod()
+        public void WeakEventManagerDelegate_HandleEvent_DynamicMethod_ValidImplementation()
         {
             //Arrange
             var dynamicMethod = new System.Reflection.Emit.DynamicMethod(string.Empty, typeof(void), new[] { typeof(object), typeof(PropertyChangedEventArgs) });

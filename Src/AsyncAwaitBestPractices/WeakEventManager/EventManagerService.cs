@@ -8,13 +8,13 @@ namespace AsyncAwaitBestPractices
 {
     static class EventManagerService
     {
-        public static bool IsLightweightMethod(this MethodBase method)
+        internal static bool IsLightweightMethod(this MethodBase method)
         {
             TypeInfo typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
             return method is DynamicMethod || typeInfoRTDynamicMethod.IsAssignableFrom(method.GetType().GetTypeInfo());
         }
 
-        public static DynamicMethod? TryGetDynamicMethod(MethodInfo rtDynamicMethod)
+        internal static DynamicMethod? TryGetDynamicMethod(MethodInfo rtDynamicMethod)
         {
             TypeInfo typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
             Type? typeRTDynamicMethod = typeInfoRTDynamicMethod.AsType();
