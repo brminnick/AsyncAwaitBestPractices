@@ -8,22 +8,6 @@ namespace AsyncAwaitBestPractices
 {
     static class EventManagerService
     {
-        internal static bool IsLightweightMethod(this MethodBase method)
-        {
-            TypeInfo typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
-            return method is DynamicMethod || typeInfoRTDynamicMethod.IsAssignableFrom(method.GetType().GetTypeInfo());
-        }
-
-        internal static DynamicMethod? TryGetDynamicMethod(MethodInfo rtDynamicMethod)
-        {
-            TypeInfo typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
-            Type? typeRTDynamicMethod = typeInfoRTDynamicMethod.AsType();
-
-            return typeInfoRTDynamicMethod.IsAssignableFrom(rtDynamicMethod.GetType().GetTypeInfo())
-                ? (DynamicMethod)typeRTDynamicMethod.GetRuntimeFields().First(f => f.Name == "m_owner").GetValue(rtDynamicMethod)
-                : null;
-        }
-
         internal static void AddEventHandler(in string eventName, in object? handlerTarget, in MethodInfo? methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription>? targets);
@@ -86,7 +70,6 @@ namespace AsyncAwaitBestPractices
             }
         }
 
-        //From ViewModel
         internal static void HandleEvent(in string eventName, in object? actionEventArgs, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             AddRemoveEvents(eventName, eventHandlers, out var toRaise);
@@ -171,6 +154,22 @@ namespace AsyncAwaitBestPractices
                     target.Remove(subscription);
                 }
             }
+        }
+
+        static DynamicMethod? TryGetDynamicMethod(in MethodInfo rtDynamicMethod)
+        {
+            var typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
+            var typeRTDynamicMethod = typeInfoRTDynamicMethod?.AsType();
+
+            return (typeInfoRTDynamicMethod?.IsAssignableFrom(rtDynamicMethod.GetType().GetTypeInfo()) ?? false)
+                ? (DynamicMethod)typeRTDynamicMethod.GetRuntimeFields().First(f => f.Name is "m_owner").GetValue(rtDynamicMethod)
+                : null;
+        }
+
+        static bool IsLightweightMethod(this MethodBase method)
+        {
+            var typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
+            return method is DynamicMethod || (typeInfoRTDynamicMethod?.IsAssignableFrom(method.GetType().GetTypeInfo()) ?? false);
         }
     }
 }
