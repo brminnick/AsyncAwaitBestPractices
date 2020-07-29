@@ -130,7 +130,8 @@ namespace AsyncAwaitBestPractices.UnitTests
             var dynamicMethod = new System.Reflection.Emit.DynamicMethod(string.Empty, typeof(void), new[] { typeof(object), typeof(PropertyChangedEventArgs) });
             var ilGenerator = dynamicMethod.GetILGenerator();
             ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ret);
-            var handler = dynamicMethod.CreateDelegate(typeof(PropertyChangedEventHandler)) as PropertyChangedEventHandler;
+
+            var handler = (PropertyChangedEventHandler)dynamicMethod.CreateDelegate(typeof(PropertyChangedEventHandler));
             PropertyChanged += handler;
 
             //Act
