@@ -8,7 +8,6 @@ namespace AsyncAwaitBestPractices
 {
     static class EventManagerService
     {
-                : null;
         internal static void AddEventHandler(in string eventName, in object? handlerTarget, in MethodInfo? methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
         {
             var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out List<Subscription>? targets);
