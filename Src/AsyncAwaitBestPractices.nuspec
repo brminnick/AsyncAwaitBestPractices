@@ -63,7 +63,7 @@
       New In This Release:
         - Add support for Dynamic Methods
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="8290ad37b3232b693a07ea4ee186d7943b836880" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="d181baba422398faa6e7992ac212c261547c1f91" />
     <copyright>Copyright (c) 2020 Brandon Minnick</copyright>
    </metadata>
    <files>
