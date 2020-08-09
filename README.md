@@ -1,6 +1,6 @@
 # AsyncAwaitBestPractices
 
-[![Build Status](https://brminnick.visualstudio.com/AsyncAwaitBestPractices/_apis/build/status/AsyncAwaitBestPractices-.NET%20Desktop-CI)](https://brminnick.visualstudio.com/AsyncAwaitBestPractices/_build/latest?definitionId=5)
+[![Build Status](https://brminnick.visualstudio.com/AsyncAwaitBestPractices/_apis/build/status/AsyncAwaitBestPractices-.NET Desktop-CI?WT.mc_id=asyncawaitbestpractices-github-bramin)](https://brminnick.visualstudio.com/AsyncAwaitBestPractices/_build/latest?definitionId=5&WT.mc_id=asyncawaitbestpractices-github-bramin)
 
 Extensions for `System.Threading.Tasks.Task`.
 
@@ -525,8 +525,8 @@ public class ExampleClass
 ## Learn More
 - [Removing Async Void](https://johnthiriet.com/removing-async-void/)
 - [MVVM Going Async with Async Command](https://johnthiriet.com/mvvm-going-async-with-async-command/)
-- [Asynchronous Programming in .NET](https://docs.microsoft.com/dotnet/csharp/async?WT.mc_id=AsyncAwaitBestPractices-github-bramin)
-- [The Managed Thread Pool](https://docs.microsoft.com/dotnet/standard/threading/the-managed-thread-pool?WT.mc_id=AsyncAwaitBestPractices-github-bramin)
-- [Understanding the Whys, Whats, and Whens of ValueTask](https://devblogs.microsoft.com/dotnet/understanding-the-whys-whats-and-whens-of-valuetask/?WT.mc_id=AsyncAwaitBestPractices-github-bramin)
+- [Asynchronous Programming in .NET](https://docs.microsoft.com/dotnet/csharp/async?WT.mc_id=asyncawaitbestpractices-github-bramin)
+- [The Managed Thread Pool](https://docs.microsoft.com/dotnet/standard/threading/the-managed-thread-pool?WT.mc_id=asyncawaitbestpractices-github-bramin)
+- [Understanding the Whys, Whats, and Whens of ValueTask](https://devblogs.microsoft.com/dotnet/understanding-the-whys-whats-and-whens-of-valuetask/?WT.mc_id=asyncawaitbestpractices-github-bramin)
 - [Async/Await Best Practices Video](https://www.youtube.com/watch?v=yyT6dSjq-nE&feature=youtu.be)
 - [What is Synchronization Context?](http://hamidmosalla.com/2018/06/24/what-is-synchronizationcontext/)
