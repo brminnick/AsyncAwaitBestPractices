@@ -36,7 +36,7 @@ jobs:
 
     - name: Build
       run: |
-          nuget restore          
+          nuget restore ./Src/AsyncAwaitBestPractices.sln       
           msbuild ./Src/AsyncAwaitBestPractices/AsyncAwaitBestPractices.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
           msbuild ./Src/AsyncAwaitBestPractices.MVVM/AsyncAwaitBestPractices.MVVM.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
 
