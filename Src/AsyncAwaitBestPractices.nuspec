@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.5">
     <id>AsyncAwaitBestPractices</id>
-    <version>4.3.0-pre1</version>
+    <version>4.3.0</version>
     <title>Task Extensions for System.Threading.Tasks</title>
     <authors>Brandon Minnick, John Thiriet</authors>
     <owners>Brandon Minnick</owners>
@@ -63,7 +63,7 @@
       New In This Release:
         - Add support for Dynamic Methods
     </releaseNotes>
-    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="d181baba422398faa6e7992ac212c261547c1f91" />
+    <repository type="git" url="https://github.com/brminnick/AsyncAwaitBestPractices.git" branch="master" commit="053b37a7441862df0283a3dbf6da4f8775c76421" />
     <copyright>Copyright (c) 2020 Brandon Minnick</copyright>
    </metadata>
    <files>
