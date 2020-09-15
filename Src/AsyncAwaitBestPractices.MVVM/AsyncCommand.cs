@@ -70,7 +70,6 @@ namespace AsyncAwaitBestPractices.MVVM
         readonly Func<Task> _execute;
         readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
-        readonly WeakEventManager _weakEventManager = new WeakEventManager();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
@@ -96,6 +95,6 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <returns>The executed Task</returns>
         public Task ExecuteAsync() => _execute();
 
-        void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_onException, in _continueOnCapturedContext);
+        void ICommand.Execute(object parameter) => ExecuteAsync().SafeFireAndForget(_onException, in _continueOnCapturedContext);
     }
 }

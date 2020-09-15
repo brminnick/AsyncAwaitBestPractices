@@ -94,6 +94,6 @@ namespace AsyncAwaitBestPractices.MVVM
         /// <returns>The executed Task</returns>
         public ValueTask ExecuteAsync() => _execute();
 
-        void ICommand.Execute(object parameter) => _execute().SafeFireAndForget(_onException, in _continueOnCapturedContext);
+        void ICommand.Execute(object parameter) => ExecuteAsync().SafeFireAndForget(_onException, in _continueOnCapturedContext);
     }
 }
