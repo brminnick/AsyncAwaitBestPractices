@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    abstract class BaseValueTaskTest : BaseTest
+    abstract class BaseAsyncValueCommandTest : BaseTest
     {
         protected new ValueTask NoParameterTask() => ValueTaskDelay(Delay);
         protected new ValueTask IntParameterTask(int delay) => ValueTaskDelay(delay);

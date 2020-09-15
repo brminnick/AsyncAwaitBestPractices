@@ -8,13 +8,11 @@ namespace AsyncAwaitBestPractices.MVVM
     /// <summary>
     /// An implementation of IAsyncCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public class AsyncCommand<T> : IAsyncCommand<T>
+    public class AsyncCommand<T> : BaseCommand, IAsyncCommand<T>
     {
         readonly Func<T, Task> _execute;
-        readonly Func<object?, bool> _canExecute;
         readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
-        readonly WeakEventManager _weakEventManager = new WeakEventManager();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
@@ -27,33 +25,12 @@ namespace AsyncAwaitBestPractices.MVVM
                             Func<object?, bool>? canExecute = null,
                             Action<Exception>? onException = null,
                             bool continueOnCapturedContext = false)
+            : base(canExecute)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
-            _canExecute = canExecute ?? (_ => true);
             _onException = onException;
             _continueOnCapturedContext = continueOnCapturedContext;
         }
-
-        /// <summary>
-        /// Occurs when changes occur that affect whether or not the command should execute
-        /// </summary>
-        public event EventHandler CanExecuteChanged
-        {
-            add => _weakEventManager.AddEventHandler(value);
-            remove => _weakEventManager.RemoveEventHandler(value);
-        }
-
-        /// <summary>
-        /// Determines whether the command can execute in its current state
-        /// </summary>
-        /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
-        /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object? parameter) => _canExecute(parameter);
-
-        /// <summary>
-        /// Raises the CanExecuteChanged event.
-        /// </summary>
-        public void RaiseCanExecuteChanged() => _weakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
         /// <summary>
         /// Executes the Command as a Task
@@ -88,10 +65,9 @@ namespace AsyncAwaitBestPractices.MVVM
     /// <summary>
     /// An implementation of IAsyncCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public class AsyncCommand : IAsyncCommand
+    public class AsyncCommand : BaseCommand, IAsyncCommand
     {
         readonly Func<Task> _execute;
-        readonly Func<object?, bool> _canExecute;
         readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
         readonly WeakEventManager _weakEventManager = new WeakEventManager();
@@ -107,33 +83,12 @@ namespace AsyncAwaitBestPractices.MVVM
                             Func<object?, bool>? canExecute = null,
                             Action<Exception>? onException = null,
                             bool continueOnCapturedContext = false)
+            : base (canExecute)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
-            _canExecute = canExecute ?? (_ => true);
             _onException = onException;
             _continueOnCapturedContext = continueOnCapturedContext;
         }
-
-        /// <summary>
-        /// Occurs when changes occur that affect whether or not the command should execute
-        /// </summary>
-        public event EventHandler CanExecuteChanged
-        {
-            add => _weakEventManager.AddEventHandler(value);
-            remove => _weakEventManager.RemoveEventHandler(value);
-        }
-
-        /// <summary>
-        /// Determines whether the command can execute in its current state
-        /// </summary>
-        /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
-        /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object? parameter) => _canExecute(parameter);
-
-        /// <summary>
-        /// Raises the CanExecuteChanged event.
-        /// </summary>
-        public void RaiseCanExecuteChanged() => _weakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
         /// <summary>
         /// Executes the Command as a Task

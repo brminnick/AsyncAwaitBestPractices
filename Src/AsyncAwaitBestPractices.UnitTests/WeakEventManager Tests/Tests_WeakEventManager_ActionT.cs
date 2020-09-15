@@ -194,7 +194,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             //Assert
 #pragma warning disable CS8604 //Possible null reference argument for parameter
-            Assert.Throws<ArgumentNullException>(() => _actionEventManager.RemoveEventHandler(nullAction, "Value cannot be null.\nParameter name: handler"));
+            Assert.Throws<ArgumentNullException>(() => _actionEventManager.RemoveEventHandler(nullAction), "Value cannot be null.\nParameter name: handler");
 #pragma warning restore CS8604 
         }
 

@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    class Tests_ValueTask_SafeFireAndForgetT : BaseValueTaskTest
+    class Tests_ValueTask_SafeFireAndForgetT : BaseAsyncValueCommandTest
     {
         [SetUp]
         public void BeforeEachTest()

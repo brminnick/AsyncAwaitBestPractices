@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
 {
-    class Tests_ICommand_AsyncValueCommand : BaseValueTaskTest
+    class Tests_ICommand_AsyncValueCommand : BaseAsyncValueCommandTest
     {
         [TestCase(500)]
         [TestCase(default)]

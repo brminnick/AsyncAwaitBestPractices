@@ -8,16 +8,14 @@ namespace AsyncAwaitBestPractices.MVVM
     /// <summary>
     /// An implementation of IAsyncValueCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public class AsyncValueCommand<T> : IAsyncValueCommand<T>
+    public class AsyncValueCommand<T> : BaseCommand, IAsyncValueCommand<T>
     {
         readonly Func<T, ValueTask> _execute;
-        readonly Func<object?, bool> _canExecute;
         readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
-        readonly WeakEventManager _weakEventManager = new WeakEventManager();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
+        /// Initializes a new instance of the <see cref="T:AsyncAwaitBestPractices.MVVM.AsyncCommand`1"/> class.
         /// </summary>
         /// <param name="execute">The Function executed when Execute or ExecuteAsync is called. This does not check canExecute before executing and will execute even if canExecute is false</param>
         /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
@@ -27,33 +25,12 @@ namespace AsyncAwaitBestPractices.MVVM
                                     Func<object?, bool>? canExecute = null,
                                     Action<Exception>? onException = null,
                                     bool continueOnCapturedContext = false)
+            : base(canExecute)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
-            _canExecute = canExecute ?? (_ => true);
             _onException = onException;
             _continueOnCapturedContext = continueOnCapturedContext;
         }
-
-        /// <summary>
-        /// Occurs when changes occur that affect whether or not the command should execute
-        /// </summary>
-        public event EventHandler CanExecuteChanged
-        {
-            add => _weakEventManager.AddEventHandler(value);
-            remove => _weakEventManager.RemoveEventHandler(value);
-        }
-
-        /// <summary>
-        /// Determines whether the command can execute in its current state
-        /// </summary>
-        /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
-        /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object? parameter) => _canExecute(parameter);
-
-        /// <summary>
-        /// Raises the CanExecuteChanged event.
-        /// </summary>
-        public void RaiseCanExecuteChanged() => _weakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
         /// <summary>
         /// Executes the Command as a Task
@@ -87,16 +64,14 @@ namespace AsyncAwaitBestPractices.MVVM
     /// <summary>
     /// An implementation of IAsyncValueCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public class AsyncValueCommand : IAsyncValueCommand
+    public class AsyncValueCommand : BaseCommand, IAsyncValueCommand
     {
         readonly Func<ValueTask> _execute;
-        readonly Func<object?, bool> _canExecute;
         readonly Action<Exception>? _onException;
         readonly bool _continueOnCapturedContext;
-        readonly WeakEventManager _weakEventManager = new WeakEventManager();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:TaskExtensions.MVVM.AsyncCommand`1"/> class.
+        /// Initializes a new instance of the <see cref="AsyncCommand"/> class.
         /// </summary>
         /// <param name="execute">The Function executed when Execute or ExecuteAsync is called. This does not check canExecute before executing and will execute even if canExecute is false</param>
         /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
@@ -106,33 +81,12 @@ namespace AsyncAwaitBestPractices.MVVM
                                     Func<object?, bool>? canExecute = null,
                                     Action<Exception>? onException = null,
                                     bool continueOnCapturedContext = false)
+            : base(canExecute)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
-            _canExecute = canExecute ?? (_ => true);
             _onException = onException;
             _continueOnCapturedContext = continueOnCapturedContext;
         }
-
-        /// <summary>
-        /// Occurs when changes occur that affect whether or not the command should execute
-        /// </summary>
-        public event EventHandler CanExecuteChanged
-        {
-            add => _weakEventManager.AddEventHandler(value);
-            remove => _weakEventManager.RemoveEventHandler(value);
-        }
-
-        /// <summary>
-        /// Determines whether the command can execute in its current state
-        /// </summary>
-        /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
-        /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object? parameter) => _canExecute(parameter);
-
-        /// <summary>
-        /// Raises the CanExecuteChanged event.
-        /// </summary>
-        public void RaiseCanExecuteChanged() => _weakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
         /// <summary>
         /// Executes the Command as a Task
