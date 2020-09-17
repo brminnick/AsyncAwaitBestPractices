@@ -559,7 +559,7 @@ public class ExampleClass
             if (ExampleValueTaskCommandWithCanExecuteChanged.CanExecute(null))
                 ExampleValueTaskCommandWithCanExecuteChanged.Execute(null);
 
-            if(ExampleValueTaskIntCommandWithCanExecute(2))
+            if(ExampleValueTaskIntCommandWithCanExecute.CanExecute(2))
                 ExampleValueTaskIntCommandWithCanExecute.Execute(2);
         }
         finally
