@@ -92,10 +92,6 @@
             <Project>{C3D6DE1F-ED08-4CA0-A092-56785BB3CB4D}</Project>
             <Name>HackerNews</Name>
         </ProjectReference>
-        <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj">
-          <Project>{1CE5B22A-F52E-4CBA-9F12-C1FF48970DD3}</Project>
-          <Name>AsyncAwaitBestPractices.MVVM</Name>
-        </ProjectReference>
     </ItemGroup>
     <ItemGroup />
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

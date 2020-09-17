@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-	</PropertyGroup>
-	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
-		<PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Pages\Base\" />
-	  <Folder Include="ViewModels\Base\" />
-	  <Folder Include="Views\" />
-	  <Folder Include="Views\News\" />
-	  <Folder Include="Services\" />
-	  <Folder Include="Constants\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
-	</ItemGroup>
-	<Import Project="..\HackerNews.Shared\HackerNews.Shared.projitems" Label="Shared" Condition="Exists('..\HackerNews.Shared\HackerNews.Shared.projitems')" />
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Pages\Base\" />
+        <Folder Include="ViewModels\Base\" />
+        <Folder Include="Views\" />
+        <Folder Include="Views\News\" />
+        <Folder Include="Services\" />
+        <Folder Include="Constants\" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
+        <ProjectReference Include="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj" />
+    </ItemGroup>
+    <Import Project="..\HackerNews.Shared\HackerNews.Shared.projitems" Label="Shared" Condition="Exists('..\HackerNews.Shared\HackerNews.Shared.projitems')" />
 </Project>

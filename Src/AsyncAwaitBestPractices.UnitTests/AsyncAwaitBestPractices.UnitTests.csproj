@@ -5,17 +5,18 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <SignAssembly>true</SignAssembly>
+        <LangVersion>latest</LangVersion>
         <AssemblyOriginatorKeyFile>AsyncAwaitBestPracticesUnitTests.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="nunit" Version="3.12.0" />
-        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0"><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-<PrivateAssets>all</PrivateAssets>
-</PackageReference>
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
-      <ProjectReference Include="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj" />
+        <ProjectReference Include="..\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
     </ItemGroup>
 </Project>
