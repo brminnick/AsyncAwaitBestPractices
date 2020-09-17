@@ -348,14 +348,14 @@ public AsyncCommand(Func<TExecute, Task> execute,
 
 ```csharp
 public AsyncCommand(Func<T, Task> execute,
-                     Func<object, bool>? canExecute = null,
+                     Func<object?, bool>? canExecute = null,
                      Action<Exception>? onException = null,
                      bool continueOnCapturedContext = false)
 ```
 
 ```csharp
 public AsyncCommand(Func<Task> execute,
-                     Func<object, bool>? canExecute = null,
+                     Func<object?, bool>? canExecute = null,
                      Action<Exception>? onException = null,
                      bool continueOnCapturedContext = false)
 ```
