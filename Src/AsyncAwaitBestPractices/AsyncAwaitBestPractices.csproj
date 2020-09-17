@@ -30,7 +30,7 @@
         </Description>
         <PackageReleaseNotes>
             New In This Release:
-- `WeakEventManager` performance improvements (implement `ValueTask`)
+- `WeakEventManager` performance improvements by implementing `ValueTuple`
 - Implement SourceLink
         </PackageReleaseNotes>
         <Version>5.0.0-pre2</Version>
