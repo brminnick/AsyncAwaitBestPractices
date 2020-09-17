@@ -3,7 +3,20 @@
     /// <summary>
     /// An Async implementation of ICommand for ValueTask
     /// </summary>
-    public interface IAsyncValueCommand<T> : System.Windows.Input.ICommand
+    public interface IAsyncValueCommand<in TExecute, in TCanExecute> : IAsyncValueCommand<TExecute>
+    {
+        /// <summary>
+        /// Determines whether the command can execute in its current state
+        /// </summary>
+        /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
+        /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
+        bool CanExecute(TCanExecute parameter);
+    }
+
+    /// <summary>
+    /// An Async implementation of ICommand for ValueTask
+    /// </summary>
+    public interface IAsyncValueCommand<in T> : System.Windows.Input.ICommand
     {
         /// <summary>
         /// Executes the Command as a ValueTask

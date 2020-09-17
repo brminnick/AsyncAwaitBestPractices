@@ -16,4 +16,8 @@
     <ItemGroup>
       <ProjectReference Include="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="AsyncCommand\" />
+      <Folder Include="AsyncValueCommand\" />
+    </ItemGroup>
 </Project>

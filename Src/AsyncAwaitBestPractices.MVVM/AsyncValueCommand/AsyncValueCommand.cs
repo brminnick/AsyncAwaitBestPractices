@@ -1,19 +1,41 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace AsyncAwaitBestPractices.MVVM
 {
     /// <summary>
     /// An implementation of IAsyncValueCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public class AsyncValueCommand<T> : BaseCommand, IAsyncValueCommand<T>
+    public class AsyncValueCommand<TExecute, TCanExecute> : BaseAsyncValueCommand<TExecute, TCanExecute>, IAsyncValueCommand<TExecute>
     {
-        readonly Func<T, ValueTask> _execute;
-        readonly Action<Exception>? _onException;
-        readonly bool _continueOnCapturedContext;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AsyncAwaitBestPractices.MVVM.AsyncCommand`1"/> class.
+        /// </summary>
+        /// <param name="execute">The Function executed when Execute or ExecuteAsync is called. This does not check canExecute before executing and will execute even if canExecute is false</param>
+        /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
+        /// <param name="continueOnCapturedContext">If set to <c>true</c> continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c> continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
+        public AsyncValueCommand(Func<TExecute, ValueTask> execute,
+                                    Func<TCanExecute, bool>? canExecute = null,
+                                    Action<Exception>? onException = null,
+                                    bool continueOnCapturedContext = false)
+            : base(execute, canExecute, onException, continueOnCapturedContext)
+        {
 
+        }
+
+        /// <summary>
+        /// Executes the Command as a Task
+        /// </summary>
+        /// <returns>The executed Task</returns>
+        public new ValueTask ExecuteAsync(TExecute parameter) => base.ExecuteAsync(parameter);
+    }
+
+    /// <summary>
+    /// An implementation of IAsyncValueCommand. Allows Commands to safely be used asynchronously with Task.
+    /// </summary>
+    public class AsyncValueCommand<T> : BaseAsyncValueCommand<T, object?>, IAsyncValueCommand<T>
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AsyncAwaitBestPractices.MVVM.AsyncCommand`1"/> class.
         /// </summary>
@@ -25,51 +47,22 @@ namespace AsyncAwaitBestPractices.MVVM
                                     Func<object?, bool>? canExecute = null,
                                     Action<Exception>? onException = null,
                                     bool continueOnCapturedContext = false)
-            : base(canExecute)
+            : base(execute, canExecute, onException, continueOnCapturedContext)
         {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
-            _onException = onException;
-            _continueOnCapturedContext = continueOnCapturedContext;
         }
 
         /// <summary>
         /// Executes the Command as a Task
         /// </summary>
         /// <returns>The executed Task</returns>
-        /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public ValueTask ExecuteAsync(T parameter) => _execute(parameter);
-
-        void ICommand.Execute(object parameter)
-        {
-            switch (parameter)
-            {
-                case T validParameter:
-                    ExecuteAsync(validParameter).SafeFireAndForget(_onException, in _continueOnCapturedContext);
-                    break;
-#pragma warning disable CS8604 // Possible null reference argument.
-                case null when !typeof(T).GetTypeInfo().IsValueType:
-                    ExecuteAsync((T)parameter).SafeFireAndForget(_onException, in _continueOnCapturedContext);
-                    break;
-#pragma warning restore CS8604 // Possible null reference argument.
-
-                case null:
-                    throw new InvalidCommandParameterException(typeof(T));
-
-                default:
-                    throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
-            }
-        }
+        public new ValueTask ExecuteAsync(T parameter) => base.ExecuteAsync(parameter);
     }
 
     /// <summary>
     /// An implementation of IAsyncValueCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public class AsyncValueCommand : BaseCommand, IAsyncValueCommand
+    public class AsyncValueCommand : BaseAsyncValueCommand<object?, object?>, IAsyncValueCommand
     {
-        readonly Func<ValueTask> _execute;
-        readonly Action<Exception>? _onException;
-        readonly bool _continueOnCapturedContext;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncCommand"/> class.
         /// </summary>
@@ -81,19 +74,22 @@ namespace AsyncAwaitBestPractices.MVVM
                                     Func<object?, bool>? canExecute = null,
                                     Action<Exception>? onException = null,
                                     bool continueOnCapturedContext = false)
-            : base(canExecute)
+            : base(ConvertExecute(execute), canExecute, onException, continueOnCapturedContext)
         {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute), $"{nameof(execute)} cannot be null");
-            _onException = onException;
-            _continueOnCapturedContext = continueOnCapturedContext;
         }
 
         /// <summary>
         /// Executes the Command as a Task
         /// </summary>
         /// <returns>The executed Task</returns>
-        public ValueTask ExecuteAsync() => _execute();
+        public ValueTask ExecuteAsync() => ExecuteAsync(null);
 
-        void ICommand.Execute(object parameter) => ExecuteAsync().SafeFireAndForget(_onException, in _continueOnCapturedContext);
+        static Func<object?, ValueTask>? ConvertExecute(Func<ValueTask>? execute)
+        {
+            if (execute is null)
+                return null;
+
+            return _ => execute();
+        }
     }
 }
