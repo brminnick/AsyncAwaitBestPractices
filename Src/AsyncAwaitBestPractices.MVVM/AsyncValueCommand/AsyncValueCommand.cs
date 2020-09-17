@@ -6,7 +6,7 @@ namespace AsyncAwaitBestPractices.MVVM
     /// <summary>
     /// An implementation of IAsyncValueCommand. Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public class AsyncValueCommand<TExecute, TCanExecute> : BaseAsyncValueCommand<TExecute, TCanExecute>, IAsyncValueCommand<TExecute>
+    public class AsyncValueCommand<TExecute, TCanExecute> : BaseAsyncValueCommand<TExecute, TCanExecute>, IAsyncValueCommand<TExecute, TCanExecute>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AsyncAwaitBestPractices.MVVM.AsyncCommand`1"/> class.
