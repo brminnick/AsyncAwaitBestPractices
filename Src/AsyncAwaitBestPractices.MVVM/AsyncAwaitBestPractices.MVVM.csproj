@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras/2.0.54">
     <PropertyGroup>
-        <TargetFramework>netstandard1.0</TargetFramework>
+        <TargetFrameworks>netstandard1.0;netstandard2.0</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
@@ -10,13 +10,15 @@
         <AssemblyName>AsyncAwaitBestPractices.MVVM</AssemblyName>
         <RootNamespace>AsyncAwaitBestPractices.MVVM</RootNamespace>
         <PackageId>AsyncAwaitBestPractices.MVVM</PackageId>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <Summary>
             Async Extensions for ICommand
 
             Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task. 
             Includes AsyncValueCommand and IAsyncValueCommand which allows ICommand to safely be used asynchronously with ValueTask
         </Summary>
-        <PackageTag>task,fire and forget, threading, extensions, system.threading.tasks, async, await, command, icommand, asynccommand, valuetask, asyncvaluecommand</PackageTag>
+        <PackageTags>task, fire and forget, threading, extensions, system.threading.tasks, async, await, command, icommand, asynccommand, valuetask, asyncvaluecommand</PackageTags>
         <Title>Async Extensions for ICommand</Title>
         <Description>
             Async Extensions for ICommand
@@ -24,18 +26,25 @@
             Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task. 
             Includes AsyncValueCommand and IAsyncValueCommand which allows ICommand to safely be used asynchronously with ValueTask
         </Description>
+        <PackageReleaseNotes>
+            New in this release:
+- Add `IAsyncCommand&lt;TExecute, TCanExecute&gt;`
+- Add `IAsyncValueCommand&lt;TExecute, TCanExecute&gt;`
+- Add `AsyncCommand&lt;TExecute, TCanExecute&gt;`
+- Add `AsyncValueCommand&lt;TExecute, TCanExecute&gt;`
+- Implement SourceLink
+        </PackageReleaseNotes>
+        <Version>5.0.0-pre2</Version>
+        <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
         <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
-        <Version>5.0.0-pre1</Version>
         <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
         <Authors>Brandon Minnick, John Thiriet</Authors>
         <Owners>Brandon Minnick</Owners>
         <NeutralLanguage>en</NeutralLanguage>
         <Copyright>©Copyright 2020 Brandon Minnick. All rights reserved.</Copyright>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <PackageReleaseNotes>
-        </PackageReleaseNotes>
         <DefineConstants>$(DefineConstants);</DefineConstants>
         <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
@@ -52,51 +61,17 @@
     <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
         <!-- Manage TargetFrameworks for distribution (Release Mode) -->
     </PropertyGroup>
-    <ItemGroup Condition=" '$(Configuration)'=='Debug' ">
-    </ItemGroup>
     <ItemGroup Condition=" '$(Configuration)'=='Release' ">
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Build.TypeRedirector" Version="0.1.2-preview" PrivateAssets="all" />
         <Compile Include="**/*.shared.cs" />
         <Compile Include="**/*.shared.*.cs" />
-        <Compile Include="BaseCommand.shared.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' ">
-            <SubType>
-            </SubType>
-        </Compile>
-        <Compile Include="InvalidCommandParameterException.shared.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' ">
-            <SubType>
-            </SubType>
-        </Compile>
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="AsyncCommand\IAsyncCommand.shared.cs">
-            <SubType>
-            </SubType>
-        </Compile>
-        <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="AsyncValueCommand\IAsyncValueCommand.shared.cs">
-            <SubType>
-            </SubType>
-        </Compile>
-        <Compile Update="AsyncCommand\BaseAsyncCommand.shared.cs">
-            <SubType>
-            </SubType>
-        </Compile>
-        <Compile Update="AsyncCommand\AsyncCommand.shared.cs">
-            <SubType>
-            </SubType>
-        </Compile>
-        <Compile Update="AsyncValueCommand\AsyncValueCommand.shared.cs">
-            <SubType>
-            </SubType>
-        </Compile>
-        <Compile Update="AsyncValueCommand\BaseAsyncValueCommand.shared.cs">
-            <SubType>
-            </SubType>
-        </Compile>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
     </ItemGroup>
 </Project>
