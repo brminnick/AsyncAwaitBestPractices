@@ -11,13 +11,13 @@ namespace AsyncAwaitBestPractices
 		internal static void AddEventHandler(in string eventName, in object? handlerTarget, in MethodInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
 		{
 			var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out var targets);
-			if (!doesContainSubscriptions || targets == null)
+			if (!doesContainSubscriptions || targets is null)
 			{
 				targets = new List<Subscription>();
 				eventHandlers.Add(eventName, targets);
 			}
 
-			if (handlerTarget == null)
+			if (handlerTarget is null)
 				targets.Add(new Subscription(null, methodInfo));
 			else
 				targets.Add(new Subscription(new WeakReference(handlerTarget), methodInfo));
@@ -26,7 +26,7 @@ namespace AsyncAwaitBestPractices
 		internal static void RemoveEventHandler(in string eventName, in object? handlerTarget, in MemberInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
 		{
 			var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out var subscriptions);
-			if (!doesContainSubscriptions || subscriptions == null)
+			if (!doesContainSubscriptions || subscriptions is null)
 				return;
 
 			for (var n = subscriptions.Count; n > 0; n--)
@@ -133,7 +133,7 @@ namespace AsyncAwaitBestPractices
 				for (var i = 0; i < target.Count; i++)
 				{
 					var subscription = target[i];
-					var isStatic = subscription.Subscriber == null;
+					var isStatic = subscription.Subscriber is null;
 
 					if (isStatic)
 					{
@@ -143,7 +143,7 @@ namespace AsyncAwaitBestPractices
 
 					var subscriber = subscription.Subscriber?.Target;
 
-					if (subscriber == null)
+					if (subscriber is null)
 						toRemove.Add(subscription);
 					else
 						toRaise.Add((subscriber, subscription.Handler));

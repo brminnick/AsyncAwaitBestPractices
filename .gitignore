@@ -17,6 +17,9 @@ fastlane/screenshots/screenshots.html
 # scan temporary files
 fastlane/test_output
 
+**/__*.json
+**/local.settings.json
+
 
 ### XamarinStudio ###
 bin/
@@ -316,7 +319,6 @@ rcf/
 # Windows Store app package directories and files
 AppPackages/
 BundleArtifacts/
-Package.StoreAssociation.xml
 _pkginfo.txt
 
 # Visual Studio cache files
@@ -664,6 +666,8 @@ sysinfo.txt
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+# MFractor
+.mfractor/
 
 ### VisualStudio ###
 ## Ignore Visual Studio temporary files, build results, and

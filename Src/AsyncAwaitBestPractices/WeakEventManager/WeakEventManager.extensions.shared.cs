@@ -47,23 +47,6 @@ namespace AsyncAwaitBestPractices
         /// <param name="eventArgs">Event arguments</param>
         /// <param name="eventName">Event name</param>
         public void RaiseEvent(TEventArgs eventArgs, string eventName) => RaiseEvent(in eventArgs, in eventName);
-
-        /// <summary>
-        /// Invokes the event EventHandler
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="eventArgs">Event arguments</param>
-        /// <param name="eventName">Event name</param>
-        [Obsolete("Use RaiseEvent instead")]
-        public void HandleEvent(object? sender, TEventArgs eventArgs, string eventName) => RaiseEvent(sender, eventArgs, eventName);
-
-        /// <summary>
-        /// Invokes the event Action
-        /// </summary>
-        /// <param name="eventArgs">Event arguments</param>
-        /// <param name="eventName">Event name</param>
-        [Obsolete("Use RaiseEvent instead")]
-        public void HandleEvent(TEventArgs eventArgs, string eventName) => RaiseEvent(eventArgs, eventName);
     }
 
     /// <summary>
@@ -98,21 +81,5 @@ namespace AsyncAwaitBestPractices
         /// </summary>
         /// <param name="eventName">Event name</param>
         public void RaiseEvent(string eventName) => RaiseEvent(in eventName);
-
-        /// <summary>
-        /// Invokes the event EventHandler
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="eventArgs">Event arguments</param>
-        /// <param name="eventName">Event name</param>
-        [Obsolete("Use RaiseEvent instead")]
-        public void HandleEvent(object? sender, object? eventArgs, string eventName) => RaiseEvent(sender, eventArgs, eventName);
-
-        /// <summary>
-        /// Invokes the event Action
-        /// </summary>
-        /// <param name="eventName">Event name</param>
-        [Obsolete("Use RaiseEvent instead")]
-        public void HandleEvent(string eventName) => RaiseEvent(eventName);
     }
 }
