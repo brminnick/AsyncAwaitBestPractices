@@ -64,8 +64,8 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-        <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1487-pre1" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre1" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="MainActivity.cs" />
