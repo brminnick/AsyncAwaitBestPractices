@@ -165,7 +165,7 @@ async Task ExampleAsyncMethod()
 #### Basic Usage - ValueTask
 
 If you're new to ValueTask, check out this great write-up, [Understanding the Whys, Whats, and Whens of ValueTask
-](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask?WT.mc_id=asyncawaitbestpractices-github-bramin).
+](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask?WT.mc_id=mobile-0000-bramin).
 
 ```csharp
 void HandleButtonTapped(object sender, EventArgs e)
@@ -423,7 +423,7 @@ public class ExampleClass
 Allows for `ValueTask` to safely be used asynchronously with `ICommand`.
 
 If you're new to ValueTask, check out this great write-up, [Understanding the Whys, Whats, and Whens of ValueTask
-](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask?WT.mc_id=asyncawaitbestpractices-github-bramin).
+](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask?WT.mc_id=mobile-0000-bramin).
 
 - `AsyncValueCommand<T> : IAsyncValueCommand<T>`
 - `IAsyncValueCommand<T> : ICommand`
@@ -525,8 +525,8 @@ public class ExampleClass
 ## Learn More
 - [Removing Async Void](https://johnthiriet.com/removing-async-void/)
 - [MVVM Going Async with Async Command](https://johnthiriet.com/mvvm-going-async-with-async-command/)
-- [Asynchronous Programming in .NET](https://docs.microsoft.com/dotnet/csharp/async?WT.mc_id=AsyncAwaitBestPractices-github-bramin)
-- [The Managed Thread Pool](https://docs.microsoft.com/dotnet/standard/threading/the-managed-thread-pool?WT.mc_id=AsyncAwaitBestPractices-github-bramin)
-- [Understanding the Whys, Whats, and Whens of ValueTask](https://devblogs.microsoft.com/dotnet/understanding-the-whys-whats-and-whens-of-valuetask/?WT.mc_id=AsyncAwaitBestPractices-github-bramin)
+- [Asynchronous Programming in .NET](https://docs.microsoft.com/dotnet/csharp/async?WT.mc_id=mobile-0000-bramin)
+- [The Managed Thread Pool](https://docs.microsoft.com/dotnet/standard/threading/the-managed-thread-pool?WT.mc_id=mobile-0000-bramin)
+- [Understanding the Whys, Whats, and Whens of ValueTask](https://devblogs.microsoft.com/dotnet/understanding-the-whys-whats-and-whens-of-valuetask/?WT.mc_id=mobile-0000-bramin)
 - [Async/Await Best Practices Video](https://www.youtube.com/watch?v=yyT6dSjq-nE&feature=youtu.be)
 - [What is Synchronization Context?](http://hamidmosalla.com/2018/06/24/what-is-synchronizationcontext/)
