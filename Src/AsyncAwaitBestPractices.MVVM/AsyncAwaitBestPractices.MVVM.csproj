@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>netstandard1.0;netstandard2.0</TargetFrameworks>
+        <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
@@ -34,7 +34,7 @@
 - Add `AsyncValueCommand&lt;TExecute, TCanExecute&gt;`
 - Implement SourceLink
         </PackageReleaseNotes>
-        <Version>5.0.0-pre2</Version>
+        <Version>5.0.0</Version>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -57,9 +57,6 @@
     <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
         <!-- Manage TargetFrameworks for development (Debug Mode) -->
         <DebugSymbols>true</DebugSymbols>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
-        <!-- Manage TargetFrameworks for distribution (Release Mode) -->
     </PropertyGroup>
     <ItemGroup Condition=" '$(Configuration)'=='Release' ">
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
