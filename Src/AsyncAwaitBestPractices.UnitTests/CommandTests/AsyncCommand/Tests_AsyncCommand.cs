@@ -19,19 +19,8 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
 #pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             Assert.Throws<ArgumentNullException>(() => new AsyncCommand(null));
-#pragma warning restore CS8625
-        }
-
-        [Test]
-        public void AsyncCommandT_NullExecuteParameter()
-        {
-            //Arrange
-
-            //Act
-
-            //Assert
-#pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
-            Assert.Throws<ArgumentNullException>(() => new AsyncCommand<object>(null));
+            Assert.Throws<ArgumentNullException>(() => new AsyncCommand<string>(null));
+            Assert.Throws<ArgumentNullException>(() => new AsyncCommand<string, string?>(null));
 #pragma warning restore CS8625
         }
 
@@ -41,9 +30,11 @@ namespace AsyncAwaitBestPractices.UnitTests
         {
             //Arrange
             AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask);
+            AsyncCommand<int, int> command2 = new AsyncCommand<int, int>(IntParameterTask);
 
             //Act
             await command.ExecuteAsync(parameter);
+            await command2.ExecuteAsync(parameter);
 
             //Assert
 
@@ -55,9 +46,11 @@ namespace AsyncAwaitBestPractices.UnitTests
         {
             //Arrange
             AsyncCommand<string> command = new AsyncCommand<string>(StringParameterTask);
+            AsyncCommand<string, string> command2 = new AsyncCommand<string, string>(StringParameterTask);
 
             //Act
             await command.ExecuteAsync(parameter);
+            await command2.ExecuteAsync(parameter);
 
             //Assert
 
@@ -68,14 +61,13 @@ namespace AsyncAwaitBestPractices.UnitTests
         {
             //Arrange
             AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, CanExecuteTrue);
+            AsyncCommand<int, bool> command2 = new AsyncCommand<int, bool>(IntParameterTask, CanExecuteTrue);
 
             //Act
 
             //Assert
-
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             Assert.IsTrue(command.CanExecute(null));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+            Assert.IsTrue(command2.CanExecute(true));
         }
 
         [Test]
@@ -83,13 +75,14 @@ namespace AsyncAwaitBestPractices.UnitTests
         {
             //Arrange
             AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, CanExecuteFalse);
+            AsyncCommand<int, int> command2 = new AsyncCommand<int, int>(IntParameterTask, CanExecuteFalse);
 
             //Act
 
             //Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+
             Assert.False(command.CanExecute(null));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+            Assert.False(command2.CanExecute(0));
         }
 
         [Test]
@@ -101,9 +94,8 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+
             Assert.IsTrue(command.CanExecute(null));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         }
 
         [Test]
@@ -115,9 +107,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             Assert.False(command.CanExecute(null));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         }
 
 
@@ -134,17 +124,17 @@ namespace AsyncAwaitBestPractices.UnitTests
             void handleCanExecuteChanged(object? sender, EventArgs e) => didCanExecuteChangeFire = true;
             bool commandCanExecute(object? parameter) => canCommandExecute;
 
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+
             Assert.False(command.CanExecute(null));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+
 
             //Act
             canCommandExecute = true;
 
             //Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+
             Assert.True(command.CanExecute(null));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+
             Assert.False(didCanExecuteChangeFire);
 
             //Act
@@ -152,9 +142,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             //Assert
             Assert.True(didCanExecuteChangeFire);
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             Assert.True(command.CanExecute(null));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         }
     }
 }

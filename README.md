@@ -35,12 +35,16 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
   - `AsyncCommand : IAsyncCommand`
   - `IAsyncCommand<T> : ICommand`    
   - `AsyncCommand<T> : IAsyncCommand<T>`
+  - `IAsyncCommand<TExecute, TCanExecute> : IAsyncCommand<TExecute>`    
+  - `AsyncCommand<TExecute, TCanExecute> : IAsyncCommand<TExecute, TCanExecute>`    
   
 - Allows for `ValueTask` to safely be used asynchronously with `ICommand`:
   - `IAsyncValueCommand : ICommand`
   - `AsyncValueCommand : IAsyncValueCommand`
   - `IAsyncValueCommand<T> : ICommand`    
   - `AsyncValueCommand<T> : IAsyncValueCommand<T>`
+  - `IAsyncValueCommand<TExecute, TCanExecute> : IAsyncValueCommand<TExecute>`    
+  - `AsyncValueCommand<TExecute, TCanExecute> : IAsyncValueCommand<TExecute, TCanExecute>`   
 - [Usage instructions](#asyncawaitbestpracticesmvvm-2)
 
 ## Setup
@@ -328,21 +332,30 @@ void OnActionEvent(string message) => _weakActionEventManager.RaiseEvent(message
 
 Allows for `Task` to safely be used asynchronously with `ICommand`:
 
+- `AsyncCommand<TExecute, TCanExecute> : IAsyncCommand<TExecute, TCanExecute>`
+- `IAsyncCommand<TExecute, TCanExecute> : IAsyncCommand<TExecute>`
 - `AsyncCommand<T> : IAsyncCommand<T>`
 - `IAsyncCommand<T> : ICommand`
 - `AsyncCommand : IAsyncCommand`
 - `IAsyncCommand : ICommand`
 
 ```csharp
+public AsyncCommand(Func<TExecute, Task> execute,
+                     Func<TCanExecute, bool>? canExecute = null,
+                     Action<Exception>? onException = null,
+                     bool continueOnCapturedContext = false)
+```
+
+```csharp
 public AsyncCommand(Func<T, Task> execute,
-                     Func<object, bool>? canExecute = null,
+                     Func<object?, bool>? canExecute = null,
                      Action<Exception>? onException = null,
                      bool continueOnCapturedContext = false)
 ```
 
 ```csharp
 public AsyncCommand(Func<Task> execute,
-                     Func<object, bool>? canExecute = null,
+                     Func<object?, bool>? canExecute = null,
                      Action<Exception>? onException = null,
                      bool continueOnCapturedContext = false)
 ```
@@ -356,6 +369,7 @@ public class ExampleClass
     {
         ExampleAsyncCommand = new AsyncCommand(ExampleAsyncMethod);
         ExampleAsyncIntCommand = new AsyncCommand<int>(ExampleAsyncMethodWithIntParameter);
+        ExampleAsyncIntCommandWithCanExecute = new AsyncCommand<int, int>(ExampleAsyncMethodWithIntParameter, CanExecuteInt);
         ExampleAsyncExceptionCommand = new AsyncCommand(ExampleAsyncMethodWithException, onException: ex => Console.WriteLine(ex.ToString()));
         ExampleAsyncCommandWithCanExecuteChanged = new AsyncCommand(ExampleAsyncMethod, _ => !IsBusy);
         ExampleAsyncCommandReturningToTheCallingThread = new AsyncCommand(ExampleAsyncMethod, continueOnCapturedContext: true);
@@ -363,6 +377,7 @@ public class ExampleClass
 
     public IAsyncCommand ExampleAsyncCommand { get; }
     public IAsyncCommand<int> ExampleAsyncIntCommand { get; }
+    public IAsyncCommand<int, int> ExampleAsyncIntCommandWithCanExecute { get; }
     public IAsyncCommand ExampleAsyncExceptionCommand { get; }
     public IAsyncCommand ExampleAsyncCommandWithCanExecuteChanged { get; }
     public IAsyncCommand ExampleAsyncCommandReturningToTheCallingThread { get; }
@@ -396,6 +411,14 @@ public class ExampleClass
         throw new Exception();
     }
 
+    bool CanExecuteInt(int count)
+    {
+        if(count > 2)
+            return true;
+        
+        return false;
+    }
+
     void ExecuteCommands()
     {
         _isBusy = true;
@@ -409,6 +432,9 @@ public class ExampleClass
             
             if(ExampleAsyncCommandWithCanExecuteChanged.CanExecute(null))
                 ExampleAsyncCommandWithCanExecuteChanged.Execute(null);
+            
+            if(ExampleAsyncIntCommandWithCanExecute.CanExecute(1))
+                ExampleAsyncIntCommandWithCanExecute.Execute(1);
         }
         finally
         {
@@ -425,21 +451,30 @@ Allows for `ValueTask` to safely be used asynchronously with `ICommand`.
 If you're new to ValueTask, check out this great write-up, [Understanding the Whys, Whats, and Whens of ValueTask
 ](https://blogs.msdn.microsoft.com/dotnet/2018/11/07/understanding-the-whys-whats-and-whens-of-valuetask?WT.mc_id=mobile-0000-bramin).
 
+- `AsyncValueCommand<TExecute, TCanExecute> : IAsyncValueCommand<TExecute, TCanExecute>`
+- `IAsyncValueCommand<TExecute, TCanExecute> : IAsyncValueCommand<TExecute>`
 - `AsyncValueCommand<T> : IAsyncValueCommand<T>`
 - `IAsyncValueCommand<T> : ICommand`
 - `AsyncValueCommand : IAsyncValueCommand`
 - `IAsyncValueCommand : ICommand`
 
 ```csharp
+public AsyncValueCommand(Func<TExecute, ValueTask> execute,
+                            Func<TCanExecute, bool>? canExecute = null,
+                            Action<Exception>? onException = null,
+                            bool continueOnCapturedContext = false)
+```
+
+```csharp
 public AsyncValueCommand(Func<T, ValueTask> execute,
-                            Func<object, bool>? canExecute = null,
+                            Func<object?, bool>? canExecute = null,
                             Action<Exception>? onException = null,
                             bool continueOnCapturedContext = false)
 ```
 
 ```csharp
 public AsyncValueCommand(Func<ValueTask> execute,
-                            Func<object, bool>? canExecute = null,
+                            Func<object?, bool>? canExecute = null,
                             Action<Exception>? onException = null,
                             bool continueOnCapturedContext = false)
 ```
@@ -453,6 +488,7 @@ public class ExampleClass
     {
         ExampleValueTaskCommand = new AsyncValueCommand(ExampleValueTaskMethod);
         ExampleValueTaskIntCommand = new AsyncValueCommand<int>(ExampleValueTaskMethodWithIntParameter);
+        ExampleValueTaskIntCommandWithCanExecute = new AsyncValueCommand<int, int>(ExampleValueTaskMethodWithIntParameter, CanExecuteInt);
         ExampleValueTaskExceptionCommand = new AsyncValueCommand(ExampleValueTaskMethodWithException, onException: ex => Debug.WriteLine(ex.ToString()));
         ExampleValueTaskCommandWithCanExecuteChanged = new AsyncValueCommand(ExampleValueTaskMethod, _ => !IsBusy);
         ExampleValueTaskCommandReturningToTheCallingThread = new AsyncValueCommand(ExampleValueTaskMethod, continueOnCapturedContext: true);
@@ -460,6 +496,7 @@ public class ExampleClass
 
     public IAsyncValueCommand ExampleValueTaskCommand { get; }
     public IAsyncValueCommand<int> ExampleValueTaskIntCommand { get; }
+    public IAsyncCommand<int, int> ExampleValueTaskIntCommandWithCanExecute { get; }
     public IAsyncValueCommand ExampleValueTaskExceptionCommand { get; }
     public IAsyncValueCommand ExampleValueTaskCommandWithCanExecuteChanged { get; }
     public IAsyncValueCommand ExampleValueTaskCommandReturningToTheCallingThread { get; }
@@ -500,6 +537,14 @@ public class ExampleClass
         throw new Exception();
     }
 
+    bool CanExecuteInt(int count)
+    {
+        if(count > 2)
+            return true;
+        
+        return false;
+    }
+
     void ExecuteCommands()
     {
         _isBusy = true;
@@ -513,6 +558,9 @@ public class ExampleClass
 
             if (ExampleValueTaskCommandWithCanExecuteChanged.CanExecute(null))
                 ExampleValueTaskCommandWithCanExecuteChanged.Execute(null);
+
+            if(ExampleValueTaskIntCommandWithCanExecute.CanExecute(2))
+                ExampleValueTaskIntCommandWithCanExecute.Execute(2);
         }
         finally
         {

@@ -5,7 +5,6 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using AsyncAwaitBestPractices;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -17,7 +16,7 @@ namespace HackerNews
         static readonly JsonSerializer _serializer = new JsonSerializer();
         static readonly HttpClient _client = new HttpClient { Timeout = TimeSpan.FromSeconds(60) };
 
-        readonly WeakEventManager _propertyChangedEventManager = new WeakEventManager();
+        readonly AsyncAwaitBestPractices.WeakEventManager _propertyChangedEventManager = new AsyncAwaitBestPractices.WeakEventManager();
 
         static int _networkIndicatorCount;
 

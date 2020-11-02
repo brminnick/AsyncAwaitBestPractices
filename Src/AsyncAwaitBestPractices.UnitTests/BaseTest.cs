@@ -39,8 +39,16 @@ namespace AsyncAwaitBestPractices.UnitTests
             throw new NullReferenceException();
         }
 
+        protected bool CanExecuteTrue(bool parameter) => true;
+        protected bool CanExecuteTrue(int parameter) => true;
+        protected bool CanExecuteTrue(string parameter) => true;
         protected bool CanExecuteTrue(object? parameter) => true;
+
+        protected bool CanExecuteFalse(bool parameter) => false;
+        protected bool CanExecuteFalse(int parameter) => false;
+        protected bool CanExecuteFalse(string parameter) => false;
         protected bool CanExecuteFalse(object? parameter) => false;
+
         protected bool CanExecuteDynamic(object? booleanParameter)
         {
             if (booleanParameter is bool parameter)

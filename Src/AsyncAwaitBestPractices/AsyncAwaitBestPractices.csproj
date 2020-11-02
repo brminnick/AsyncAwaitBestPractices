@@ -1,23 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netstandard1.0</TargetFramework>
+        <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AsyncAwaitBestPractices.snk</AssemblyOriginatorKeyFile>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <DebugSymbols>true</DebugSymbols>
+        <AssemblyName>AsyncAwaitBestPractices</AssemblyName>
+        <RootNamespace>AsyncAwaitBestPractices</RootNamespace>
+        <PackageId>AsyncAwaitBestPractices</PackageId>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <Summary>
+            Extensions for System.Threading.Tasks
+
+            Includes extension methods to safely fire-and-forget a Task and/or a ValueTask
+            Includes WeakEventManger which avoids memory leaks when events are not unsubscribed
+        </Summary>
+        <PackageTags>task, fire and forget, threading, extensions, system.threading.tasks, async, await</PackageTags>
+        <Title>Extensions for System.Threading.Tasks</Title>
+        <Description>
+            Extensions for System.Threading.Tasks
+
+            Includes extension methods to safely fire-and-forget a Task and/or a ValueTask
+            Includes WeakEventManger which avoids memory leaks when events are not unsubscribed
+        </Description>
+        <PackageReleaseNotes>
+            New In This Release:
+- `WeakEventManager` performance improvements by implementing `ValueTuple`
+- Implement SourceLink
+        </PackageReleaseNotes>
+        <Version>5.0.0</Version>
+        <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
+        <Product>$(AssemblyName) ($(TargetFramework))</Product>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
+        <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
+        <Authors>Brandon Minnick, John Thiriet</Authors>
+        <Owners>Brandon Minnick</Owners>
+        <NeutralLanguage>en</NeutralLanguage>
+        <Copyright>©Copyright 2020 Brandon Minnick. All rights reserved.</Copyright>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <DefineConstants>$(DefineConstants);</DefineConstants>
+        <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</PackageProjectUrl>
         <DebugType>portable</DebugType>
-        <DocumentationFile>bin\Release\netstandard1.0\AsyncAwaitBestPractices.xml</DocumentationFile>
+        <Configurations>Debug;Release</Configurations>
+        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-      <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
+    <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+        <!-- Manage TargetFrameworks for development (Debug Mode) -->
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
+        <!-- Manage TargetFrameworks for distribution (Release Mode) -->
+    </PropertyGroup>
+    <ItemGroup Condition=" '$(Configuration)'=='Release' ">
+         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="WeakEventManager\" />
+        <Compile Include="**/*.shared.cs" />
+        <Compile Include="**/*.shared.*.cs" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard1.0')) ">
+        <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+        <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard2.0')) ">
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+        <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard2.1')) ">
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
     </ItemGroup>
 </Project>

@@ -7,16 +7,16 @@ namespace AsyncAwaitBestPractices.MVVM
     /// Abstract Base Class for AsyncCommand and AsyncValueCommand
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class BaseCommand
+    public abstract class BaseCommand<TCanExecute>
     {
-        readonly Func<object, bool> _canExecute;
+        readonly Func<TCanExecute, bool> _canExecute;
         readonly WeakEventManager weakEventManager = new WeakEventManager();
 
         /// <summary>
         /// Initializes BaseCommand
         /// </summary>
         /// <param name="canExecute"></param>
-        public BaseCommand(Func<object, bool>? canExecute) => _canExecute = canExecute ?? (_ => true);
+        public BaseCommand(Func<TCanExecute, bool>? canExecute) => _canExecute = canExecute ?? (_ => true);
 
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute
@@ -32,7 +32,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(object parameter) => _canExecute(parameter);
+        public bool CanExecute(TCanExecute parameter) => _canExecute(parameter);
 
         /// <summary>
         /// Raises the CanExecuteChanged event.
