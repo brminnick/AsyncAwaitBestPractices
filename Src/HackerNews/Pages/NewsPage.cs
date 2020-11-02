@@ -26,11 +26,11 @@ namespace HackerNews
         }
 
         void HandleErrorOccurred(object sender, string e) =>
-            Device.BeginInvokeOnMainThread(async () => await DisplayAlert("Error", e, "OK"));
+            MainThread.BeginInvokeOnMainThread(async () => await DisplayAlert("Error", e, "OK"));
 
         void HandleItemTapped(object sender, ItemTappedEventArgs e)
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            MainThread.BeginInvokeOnMainThread(async () =>
             {
                 if (sender is ListView listView && e?.Item is StoryModel storyTapped)
                 {

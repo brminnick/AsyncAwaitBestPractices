@@ -49,6 +49,14 @@
         <Folder Include="Pages\" />
         <Folder Include="Tests\" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\HackerNews.Droid\HackerNews.Droid.csproj">
+        <Project>{E419B244-E072-4EAB-B1C7-07886925C217}</Project>
+        <Name>HackerNews.Droid</Name>
+        <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+        <Private>False</Private>
+      </ProjectReference>
+    </ItemGroup>
     <Import Project="..\HackerNews.Shared\HackerNews.Shared.projitems" Label="Shared" Condition="Exists('..\HackerNews.Shared\HackerNews.Shared.projitems')" />
     <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

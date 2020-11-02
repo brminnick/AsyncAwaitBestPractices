@@ -28,9 +28,7 @@ namespace HackerNews
 
         public event EventHandler<string>? ErrorOccurred;
 
-        //ToDo Refactor
-        public ICommand RefreshCommand => _refreshCommand ??
-            (_refreshCommand = new Command(async () => await ExecuteRefreshCommand()));
+        public ICommand RefreshCommand => _refreshCommand ??= new Command(async () => await ExecuteRefreshCommand());
 
         public List<StoryModel> TopStoryList
         {

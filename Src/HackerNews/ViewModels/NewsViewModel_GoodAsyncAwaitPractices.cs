@@ -13,11 +13,11 @@ namespace HackerNews
 {
     class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
     {
-        readonly WeakEventManager<string> _errorOccurredEventManager = new WeakEventManager<string>();
+        readonly WeakEventManager<string> _errorOccurredEventManager = new();
 
         bool _isListRefreshing;
         IAsyncCommand? _refreshCommand;
-        IReadOnlyList<StoryModel> _topStoryList = new List<StoryModel>().ToList();
+        IReadOnlyList<StoryModel> _topStoryList = Array.Empty<StoryModel>();
 
         public NewsViewModel_GoodAsyncAwaitPractices()
         {
