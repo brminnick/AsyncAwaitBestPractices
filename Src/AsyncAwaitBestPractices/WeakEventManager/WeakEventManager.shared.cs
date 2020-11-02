@@ -13,7 +13,7 @@ namespace AsyncAwaitBestPractices
     /// <typeparam name="TEventArgs">Event args type.</typeparam>
     public partial class WeakEventManager<TEventArgs>
     {
-        readonly Dictionary<string, List<Subscription>> _eventHandlers = new Dictionary<string, List<Subscription>>();
+        readonly Dictionary<string, List<Subscription>> _eventHandlers = new();
 
         /// <summary>
         /// Adds the event handler
@@ -102,7 +102,7 @@ namespace AsyncAwaitBestPractices
     /// </summary>
     public partial class WeakEventManager
     {
-        readonly Dictionary<string, List<Subscription>> _eventHandlers = new Dictionary<string, List<Subscription>>();
+        readonly Dictionary<string, List<Subscription>> _eventHandlers = new();
 
         /// <summary>
         /// Adds the event handler

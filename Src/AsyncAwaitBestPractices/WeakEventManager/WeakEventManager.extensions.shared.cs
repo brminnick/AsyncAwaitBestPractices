@@ -10,28 +10,28 @@ namespace AsyncAwaitBestPractices
         /// </summary>
         /// <param name="handler">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void AddEventHandler(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "") => AddEventHandler(in handler, in eventName);
+        public void AddEventHandler(EventHandler<TEventArgs>? handler, [CallerMemberName] string eventName = "") => AddEventHandler(in handler, in eventName);
 
         /// <summary>
         /// Adds the event handler
         /// </summary>
         /// <param name="action">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void AddEventHandler(Action<TEventArgs> action, [CallerMemberName] string eventName = "") => AddEventHandler(in action, in eventName);
+        public void AddEventHandler(Action<TEventArgs>? action, [CallerMemberName] string eventName = "") => AddEventHandler(in action, in eventName);
 
         /// <summary>
         /// Removes the event handler
         /// </summary>
         /// <param name="handler">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void RemoveEventHandler(EventHandler<TEventArgs> handler, [CallerMemberName] string eventName = "") => RemoveEventHandler(in handler, in eventName);
+        public void RemoveEventHandler(EventHandler<TEventArgs>? handler, [CallerMemberName] string eventName = "") => RemoveEventHandler(in handler, in eventName);
 
         /// <summary>
         /// Removes the event handler
         /// </summary>
         /// <param name="action">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void RemoveEventHandler(Action<TEventArgs> action, [CallerMemberName] string eventName = "") => RemoveEventHandler(in action, in eventName);
+        public void RemoveEventHandler(Action<TEventArgs>? action, [CallerMemberName] string eventName = "") => RemoveEventHandler(in action, in eventName);
 
         /// <summary>
         /// Invokes the event EventHandler

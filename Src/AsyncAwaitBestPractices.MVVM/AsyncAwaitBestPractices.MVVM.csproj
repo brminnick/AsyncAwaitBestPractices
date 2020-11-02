@@ -35,7 +35,7 @@
 - Implement SourceLink
 - Support .NET 5
         </PackageReleaseNotes>
-        <Version>5.0.1</Version>
+        <Version>5.0.2</Version>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
