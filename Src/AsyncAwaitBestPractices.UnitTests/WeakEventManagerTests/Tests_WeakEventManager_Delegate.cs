@@ -8,7 +8,7 @@ namespace AsyncAwaitBestPractices.UnitTests
     {
         readonly WeakEventManager _propertyChangedWeakEventManager = new WeakEventManager();
 
-        public event PropertyChangedEventHandler PropertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged
         {
             add => _propertyChangedWeakEventManager.AddEventHandler(value);
             remove => _propertyChangedWeakEventManager.RemoveEventHandler(value);
@@ -21,10 +21,10 @@ namespace AsyncAwaitBestPractices.UnitTests
             PropertyChanged += HandleDelegateTest;
             bool didEventFire = false;
 
-            void HandleDelegateTest(object sender, PropertyChangedEventArgs e)
+            void HandleDelegateTest(object? sender, PropertyChangedEventArgs e)
             {
                 Assert.IsNotNull(sender);
-                Assert.AreEqual(this.GetType(), sender.GetType());
+                Assert.AreEqual(this.GetType(), sender?.GetType());
 
                 Assert.IsNotNull(e);
 
@@ -46,7 +46,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             PropertyChanged += HandleDelegateTest;
             bool didEventFire = false;
 
-            void HandleDelegateTest(object sender, PropertyChangedEventArgs e)
+            void HandleDelegateTest(object? sender, PropertyChangedEventArgs e)
             {
                 Assert.IsNull(sender);
                 Assert.IsNotNull(e);
@@ -69,7 +69,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             PropertyChanged += HandleDelegateTest;
             bool didEventFire = false;
 
-            void HandleDelegateTest(object sender, PropertyChangedEventArgs e) => didEventFire = true;
+            void HandleDelegateTest(object? sender, PropertyChangedEventArgs e) => didEventFire = true;
 
             //Act
 
@@ -86,10 +86,10 @@ namespace AsyncAwaitBestPractices.UnitTests
             PropertyChanged += HandleDelegateTest;
             bool didEventFire = false;
 
-            void HandleDelegateTest(object sender, PropertyChangedEventArgs e)
+            void HandleDelegateTest(object? sender, PropertyChangedEventArgs e)
             {
                 Assert.IsNotNull(sender);
-                Assert.AreEqual(this.GetType(), sender.GetType());
+                Assert.AreEqual(this.GetType(), sender?.GetType());
 
                 Assert.IsNull(e);
 
@@ -113,7 +113,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             PropertyChanged += HandleDelegateTest;
             bool didEventFire = false;
 
-            void HandleDelegateTest(object sender, PropertyChangedEventArgs e) => didEventFire = true;
+            void HandleDelegateTest(object? sender, PropertyChangedEventArgs e) => didEventFire = true;
 
             //Act
             _propertyChangedWeakEventManager.RaiseEvent(this, new PropertyChangedEventArgs("Test"), nameof(TestStringEvent));
@@ -149,7 +149,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
             PropertyChanged += HandleDelegateTest;
             PropertyChanged -= HandleDelegateTest;
-            void HandleDelegateTest(object sender, PropertyChangedEventArgs e) => didEventFire = true;
+            void HandleDelegateTest(object? sender, PropertyChangedEventArgs e) => didEventFire = true;
 
             //Act
 #pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
@@ -168,7 +168,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             bool didEventFire = false;
 
             PropertyChanged += HandleDelegateTest;
-            void HandleDelegateTest(object sender, PropertyChangedEventArgs e) => didEventFire = true;
+            void HandleDelegateTest(object? sender, PropertyChangedEventArgs e) => didEventFire = true;
 
             //Act
             unassignedEventManager.RaiseEvent(null, null, nameof(PropertyChanged));
@@ -185,7 +185,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             PropertyChanged += HandleDelegateTest;
             bool didEventFire = false;
 
-            void HandleDelegateTest(object sender, PropertyChangedEventArgs e) => didEventFire = true;
+            void HandleDelegateTest(object? sender, PropertyChangedEventArgs e) => didEventFire = true;
 
             //Act
 

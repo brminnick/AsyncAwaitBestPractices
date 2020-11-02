@@ -59,14 +59,14 @@ namespace AsyncAwaitBestPractices
         /// </summary>
         /// <param name="handler">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void AddEventHandler(Delegate handler, [CallerMemberName] string eventName = "") => AddEventHandler(in handler, in eventName);
+        public void AddEventHandler(Delegate? handler, [CallerMemberName] string eventName = "") => AddEventHandler(in handler, in eventName);
 
         /// <summary>
         /// Removes the event handler.
         /// </summary>
         /// <param name="handler">Handler</param>
         /// <param name="eventName">Event name</param>
-        public void RemoveEventHandler(Delegate handler, [CallerMemberName] string eventName = "") => RemoveEventHandler(in handler, in eventName);
+        public void RemoveEventHandler(Delegate? handler, [CallerMemberName] string eventName = "") => RemoveEventHandler(in handler, in eventName);
 
         /// <summary>
         /// Invokes the event EventHandler
