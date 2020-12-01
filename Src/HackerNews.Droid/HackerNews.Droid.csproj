@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>HackerNews.Droid</RootNamespace>
     <AssemblyName>HackerNews.Droid</AssemblyName>
-    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -65,8 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1558-pre3" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre2" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1709-pre4" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre4" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

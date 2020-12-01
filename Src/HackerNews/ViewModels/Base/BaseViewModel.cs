@@ -16,7 +16,7 @@ namespace HackerNews
         static readonly JsonSerializer _serializer = new();
         static readonly HttpClient _client = new();
 
-        readonly AsyncAwaitBestPractices.WeakEventManager _propertyChangedEventManager = new AsyncAwaitBestPractices.WeakEventManager();
+        readonly AsyncAwaitBestPractices.WeakEventManager _propertyChangedEventManager = new();
 
         static int _networkIndicatorCount;
 
@@ -48,7 +48,7 @@ namespace HackerNews
                 using var reader = new StreamReader(stream);
                 using var json = new JsonTextReader(reader);
 
-                return _serializer.Deserialize<TDataObject>(json) ?? throw new NullReferenceException();
+                return _serializer.Deserialize<TDataObject>(json) ?? throw new JsonException();
             }
             finally
             {
@@ -69,16 +69,14 @@ namespace HackerNews
                 await setIsBusy(false).ConfigureAwait(false);
             }
 
-            static Task setIsBusy(bool isBusy)
+            static async ValueTask setIsBusy(bool isBusy)
             {
                 if (Application.Current?.MainPage != null)
-                    return MainThread.InvokeOnMainThreadAsync(() => Application.Current.MainPage.IsBusy = true);
-
-                return Task.CompletedTask;
+                    await MainThread.InvokeOnMainThreadAsync(() => Application.Current.MainPage.IsBusy = true);
             }
         }
 
-        void OnPropertyChanged([CallerMemberName]in string propertyName = "") =>
+        void OnPropertyChanged([CallerMemberName] in string propertyName = "") =>
             _propertyChangedEventManager.RaiseEvent(this, new PropertyChangedEventArgs(propertyName), nameof(INotifyPropertyChanged.PropertyChanged));
     }
 }

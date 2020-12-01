@@ -22,7 +22,7 @@ namespace HackerNews
             Detail = $"{story.Score} Points by {story.Author} {GetAgeOfStory(story.CreatedAt_DateTimeOffset)} ago";
         }
 
-        string GetAgeOfStory(DateTimeOffset storyCreatedAt)
+        static string GetAgeOfStory(in DateTimeOffset storyCreatedAt)
         {
             var timespanSinceStoryCreated = DateTimeOffset.UtcNow - storyCreatedAt;
 

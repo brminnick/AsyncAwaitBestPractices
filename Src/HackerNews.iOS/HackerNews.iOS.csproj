@@ -94,9 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1558-pre3" />
-    <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.9" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre2" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1709-pre4" />
+    <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.1" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre4" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">

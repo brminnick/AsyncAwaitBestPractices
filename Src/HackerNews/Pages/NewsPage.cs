@@ -1,6 +1,7 @@
 using Xamarin.Forms;
 using HackerNews.Shared;
 using Xamarin.Essentials;
+using System;
 
 namespace HackerNews
 {
@@ -28,30 +29,27 @@ namespace HackerNews
         void HandleErrorOccurred(object sender, string e) =>
             MainThread.BeginInvokeOnMainThread(async () => await DisplayAlert("Error", e, "OK"));
 
-        void HandleItemTapped(object sender, ItemTappedEventArgs e)
+        void HandleItemTapped(object sender, ItemTappedEventArgs e) => MainThread.BeginInvokeOnMainThread(async () =>
         {
-            MainThread.BeginInvokeOnMainThread(async () =>
+            var listView = (ListView)sender;
+            var storyTapped = (StoryModel)e.Item;
+
+            listView.SelectedItem = null;
+
+            if (Uri.IsWellFormedUriString(storyTapped.Url, UriKind.Absolute))
             {
-                if (sender is ListView listView && e?.Item is StoryModel storyTapped)
+                var browserOptions = new BrowserLaunchOptions
                 {
-                    if (string.IsNullOrWhiteSpace(storyTapped.Url))
-                    {
-                        await DisplayAlert("No Website", "Ask HN articles do not contain a URL", "OK");
-                    }
-                    else
-                    {
-                        listView.SelectedItem = null;
+                    PreferredControlColor = ColorConstants.BrowserNavigationBarTextColor,
+                    PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
+                };
 
-                        var browserOptions = new BrowserLaunchOptions
-                        {
-                            PreferredControlColor = ColorConstants.BrowserNavigationBarTextColor,
-                            PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
-                        };
-
-                        await Browser.OpenAsync(storyTapped.Url, browserOptions);
-                    }
-                }
-            });
-        }
+                await Browser.OpenAsync(storyTapped.Url, browserOptions);
+            }
+            else
+            {
+                await DisplayAlert("No Website", "Ask HN articles do not contain a URL", "OK");
+            }
+        });
     }
 }
