@@ -9,22 +9,22 @@ namespace AsyncAwaitBestPractices.MVVM
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class BaseCommand<TCanExecute>
     {
-        readonly Func<TCanExecute, bool> _canExecute;
-        readonly WeakEventManager weakEventManager = new WeakEventManager();
+        readonly Func<TCanExecute?, bool> _canExecute;
+        readonly WeakEventManager _weakEventManager = new();
 
         /// <summary>
         /// Initializes BaseCommand
         /// </summary>
         /// <param name="canExecute"></param>
-        public BaseCommand(Func<TCanExecute, bool>? canExecute) => _canExecute = canExecute ?? (_ => true);
+        public BaseCommand(Func<TCanExecute?, bool>? canExecute) => _canExecute = canExecute ?? (_ => true);
 
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute
         /// </summary>
         public event EventHandler CanExecuteChanged
         {
-            add => weakEventManager.AddEventHandler(value);
-            remove => weakEventManager.RemoveEventHandler(value);
+            add => _weakEventManager.AddEventHandler(value);
+            remove => _weakEventManager.RemoveEventHandler(value);
         }
 
         /// <summary>
@@ -32,11 +32,11 @@ namespace AsyncAwaitBestPractices.MVVM
         /// </summary>
         /// <returns><c>true</c>, if this command can be executed; otherwise, <c>false</c>.</returns>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
-        public bool CanExecute(TCanExecute parameter) => _canExecute(parameter);
+        public bool CanExecute(TCanExecute? parameter) => _canExecute(parameter);
 
         /// <summary>
         /// Raises the CanExecuteChanged event.
         /// </summary>
-        public void RaiseCanExecuteChanged() => weakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+        public void RaiseCanExecuteChanged() => _weakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
     }
 }
