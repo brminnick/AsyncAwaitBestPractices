@@ -2,11 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
-        <Nullable>enable</Nullable>
-        <WarningsAsErrors>nullable</WarningsAsErrors>
         <IsPackable>false</IsPackable>
-        <SignAssembly>true</SignAssembly>
-        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="NUnit" Version="3.13.1" />

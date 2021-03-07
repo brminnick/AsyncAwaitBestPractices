@@ -10,9 +10,6 @@
         <OutputType>Library</OutputType>
         <RootNamespace>HackerNews.UITests</RootNamespace>
         <AssemblyName>HackerNews.UITests</AssemblyName>
-        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-        <Nullable>enable</Nullable>
-        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>

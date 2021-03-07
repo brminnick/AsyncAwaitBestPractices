@@ -2,10 +2,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
-        <WarningsAsErrors>nullable</WarningsAsErrors>
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AsyncAwaitBestPracticesMVVM.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>AsyncAwaitBestPractices.MVVM</AssemblyName>
@@ -29,14 +25,9 @@
         </Description>
         <PackageReleaseNotes>
             New in this release:
-- Add `IAsyncCommand&lt;TExecute, TCanExecute&gt;`
-- Add `IAsyncValueCommand&lt;TExecute, TCanExecute&gt;`
-- Add `AsyncCommand&lt;TExecute, TCanExecute&gt;`
-- Add `AsyncValueCommand&lt;TExecute, TCanExecute&gt;`
-- Implement SourceLink
-- Support .NET 5
+- Improve Nullability
         </PackageReleaseNotes>
-        <Version>5.0.2</Version>
+        <Version>5.1.0</Version>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

@@ -9,9 +9,6 @@
     <RootNamespace>HackerNews.iOS</RootNamespace>
     <AssemblyName>HackerNews.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>

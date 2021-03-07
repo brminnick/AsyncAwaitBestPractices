@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNews.UITests", "Hacke
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HackerNews.Shared", "HackerNews.Shared\HackerNews.Shared.shproj", "{8551B218-5734-4F5C-9D35-25DB859CCFDE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncAwaitBestPractices.UnitTests", "AsyncAwaitBestPractices.UnitTests\AsyncAwaitBestPractices.UnitTests.csproj", "{D741AD98-D92C-4A4A-94D7-0E4F55C7CAA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncAwaitBestPractices.UnitTests", "AsyncAwaitBestPractices.UnitTests\AsyncAwaitBestPractices.UnitTests.csproj", "{D741AD98-D92C-4A4A-94D7-0E4F55C7CAA1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNews.iOS", "HackerNews.iOS\HackerNews.iOS.csproj", "{6F319699-D810-4441-AF9F-4880C6AA2B03}"
 EndProject
@@ -21,6 +21,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncAwaitBestPractices", "AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj", "{C52330DE-88C6-40A8-AA6E-DA5E7AE35D72}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncAwaitBestPractices.MVVM", "AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj", "{7E7B9DEC-FDA8-43F9-9303-DA9FC27A9B15}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D59772E1-5AE1-4B9C-B193-AEB40CD697E3}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
