@@ -23,7 +23,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
         protected Task NoParameterTask() => Task.Delay(Delay);
         protected Task IntParameterTask(int delay) => Task.Delay(delay);
-        protected Task StringParameterTask(string text) => Task.Delay(Delay);
+        protected Task StringParameterTask(string? text) => Task.Delay(Delay);
         protected Task NoParameterImmediateNullReferenceExceptionTask() => throw new NullReferenceException();
         protected Task ParameterImmediateNullReferenceExceptionTask(int delay) => throw new NullReferenceException();
 
@@ -41,12 +41,12 @@ namespace AsyncAwaitBestPractices.UnitTests
 
         protected bool CanExecuteTrue(bool parameter) => true;
         protected bool CanExecuteTrue(int parameter) => true;
-        protected bool CanExecuteTrue(string parameter) => true;
+        protected bool CanExecuteTrue(string? parameter) => true;
         protected bool CanExecuteTrue(object? parameter) => true;
 
         protected bool CanExecuteFalse(bool parameter) => false;
         protected bool CanExecuteFalse(int parameter) => false;
-        protected bool CanExecuteFalse(string parameter) => false;
+        protected bool CanExecuteFalse(string? parameter) => false;
         protected bool CanExecuteFalse(object? parameter) => false;
 
         protected bool CanExecuteDynamic(object? booleanParameter)

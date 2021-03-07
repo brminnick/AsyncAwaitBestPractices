@@ -16,7 +16,7 @@ namespace AsyncAwaitBestPractices.MVVM
         /// Initializes BaseCommand
         /// </summary>
         /// <param name="canExecute"></param>
-        public BaseCommand(Func<TCanExecute?, bool>? canExecute) => _canExecute = canExecute ?? (_ => true);
+        protected private BaseCommand(Func<TCanExecute?, bool>? canExecute) => _canExecute = canExecute ?? (_ => true);
 
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute
