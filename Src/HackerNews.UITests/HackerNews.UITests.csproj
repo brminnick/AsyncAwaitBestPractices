@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-    <PropertyGroup>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
         <ProjectGuid>{CCA4BF8B-7B64-4F7B-9C3A-AE498A65FD43}</ProjectGuid>
@@ -31,7 +29,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="NUnit" Version="3.13.1" />
-        <PackageReference Include="Xamarin.UITest" Version="3.0.14" />
+        <PackageReference Include="Xamarin.UITest" Version="3.0.15" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup>
