@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using HackerNews.Shared;
 using Xamarin.UITest;
 using Xamarin.UITest.Android;
@@ -17,9 +18,8 @@ namespace HackerNews.UITests
 
         public bool IsRefreshActivityIndicatorDisplayed => App switch
         {
-            AndroidApp androidApp => (bool)(androidApp.Query(x => x.Class("ListViewRenderer_SwipeRefreshLayoutWithFixedNestedScrolling").Invoke("isRefreshing")).FirstOrDefault() ?? false),
+            AndroidApp androidApp => (bool)(androidApp.Query(x => x.Class("RefreshViewRenderer").Invoke("isRefreshing")).FirstOrDefault() ?? false),
             iOSApp iosApp => iosApp.Query(x => x.Class("UIRefreshControl")).Any(),
-
             _ => throw new NotSupportedException(),
         };
 
@@ -29,28 +29,27 @@ namespace HackerNews.UITests
             _ => throw new NotSupportedException("Browser Can Only Be Verified on iOS")
         };
 
-        public override void WaitForPageToLoad()
+        public override async Task WaitForPageToLoad()
         {
-            base.WaitForPageToLoad();
+            await base.WaitForPageToLoad().ConfigureAwait(false);
 
             try
             {
-                WaitForActivityIndicator(5);
+                await WaitForActivityIndicator(5).ConfigureAwait(false);
             }
             catch
             {
             }
 
-
-            WaitForNoActivityIndicator();
+            await WaitForNoActivityIndicator().ConfigureAwait(false);
         }
 
-        public void WaitForActivityIndicator(int timeoutInSeconds = 25)
+        public async Task WaitForActivityIndicator(int timeoutInSeconds = 25)
         {
             int counter = 0;
             while (!IsRefreshActivityIndicatorDisplayed && counter < timeoutInSeconds)
             {
-                Thread.Sleep(1000);
+                await Task.Delay(TimeSpan.FromSeconds(1));
                 counter++;
 
                 if (counter >= timeoutInSeconds)
@@ -58,12 +57,12 @@ namespace HackerNews.UITests
             }
         }
 
-        public void WaitForNoActivityIndicator(int timeoutInSeconds = 25)
+        public async Task WaitForNoActivityIndicator(int timeoutInSeconds = 25)
         {
             int counter = 0;
             while (IsRefreshActivityIndicatorDisplayed && counter < timeoutInSeconds)
             {
-                Thread.Sleep(1000);
+                await Task.Delay(TimeSpan.FromSeconds(1));
                 counter++;
 
                 if (counter >= timeoutInSeconds)
@@ -71,6 +70,7 @@ namespace HackerNews.UITests
             }
         }
 
-        public List<StoryModel> GetStoryList() => App.InvokeBackdoorMethod<List<StoryModel>>(BackdoorMethodConstants.GetStoriesAsBase64String);
+        public IReadOnlyList<StoryModel> GetStoryList() =>
+            App.InvokeBackdoorMethod<IReadOnlyList<StoryModel>>(BackdoorMethodConstants.GetStoriesAsBase64String);
     }
 }

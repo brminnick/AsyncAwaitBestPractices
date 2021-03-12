@@ -1,4 +1,5 @@
-﻿using Xamarin.UITest;
+﻿using System.Threading.Tasks;
+using Xamarin.UITest;
 
 namespace HackerNews.UITests
 {
@@ -13,7 +14,11 @@ namespace HackerNews.UITests
 		public string PageTitle { get; }
 		protected IApp App { get; }
 
-		public virtual void WaitForPageToLoad() => App.WaitForElement(x => x.Marked(PageTitle));
+		public virtual Task WaitForPageToLoad()
+		{
+			App.WaitForElement(x => x.Marked(PageTitle));
+			return Task.CompletedTask;
+		}
 	}
 }
 
