@@ -21,14 +21,14 @@ namespace HackerNews.UITests
         protected NewsPage NewsPage => _newsPage ?? throw new NullReferenceException();
 
         [SetUp]
-        public virtual async Task BeforeEachTest()
+        public virtual Task BeforeEachTest()
         {
             _app = AppInitializer.StartApp(_platform);
             _newsPage = new NewsPage(App);
 
             App.Screenshot("App Initialized");
 
-            await NewsPage.WaitForPageToLoad().ConfigureAwait(false);
+            return NewsPage.WaitForPageToLoad();
         }
 
         [Test]
