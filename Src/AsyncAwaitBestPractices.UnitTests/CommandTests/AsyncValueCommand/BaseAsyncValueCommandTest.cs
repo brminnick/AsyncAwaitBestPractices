@@ -7,7 +7,7 @@ namespace AsyncAwaitBestPractices.UnitTests
     {
         protected new ValueTask NoParameterTask() => ValueTaskDelay(Delay);
         protected new ValueTask IntParameterTask(int delay) => ValueTaskDelay(delay);
-        protected new ValueTask StringParameterTask(string text) => ValueTaskDelay(Delay);
+        protected new ValueTask StringParameterTask(string? text) => ValueTaskDelay(Delay);
         protected new ValueTask NoParameterImmediateNullReferenceExceptionTask() => throw new NullReferenceException();
         protected new ValueTask ParameterImmediateNullReferenceExceptionTask(int delay) => throw new NullReferenceException();
 

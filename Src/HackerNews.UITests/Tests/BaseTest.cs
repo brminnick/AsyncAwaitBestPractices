@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 using Xamarin.UITest;
@@ -20,13 +21,14 @@ namespace HackerNews.UITests
         protected NewsPage NewsPage => _newsPage ?? throw new NullReferenceException();
 
         [SetUp]
-        public virtual void BeforeEachTest()
+        public virtual Task BeforeEachTest()
         {
             _app = AppInitializer.StartApp(_platform);
             _newsPage = new NewsPage(App);
 
             App.Screenshot("App Initialized");
-            NewsPage.WaitForPageToLoad();
+
+            return NewsPage.WaitForPageToLoad();
         }
 
         [Test]
