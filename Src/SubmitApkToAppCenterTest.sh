@@ -5,7 +5,7 @@ set -e
 UITestProject=`find "$BuildPath" -name HackerNews.UITests.csproj`
 echo UITestProject: $UITestProject
 
-UITestDLL=`find "$BuildPath" -name "HackerNews.UITests.dll" | grep bin | head -1`
+UITestDLL=`find "$BuildPath" -name "HackerNews.UITests.dll" | grep bin | grep -v ref | head -1`
 echo UITestDLL: $UITestDLL
 
 UITestBuildDir=`dirname $UITestDLL`
