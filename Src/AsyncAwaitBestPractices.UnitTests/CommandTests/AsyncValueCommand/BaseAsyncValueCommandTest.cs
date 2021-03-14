@@ -11,8 +11,6 @@ namespace AsyncAwaitBestPractices.UnitTests
         protected new ValueTask NoParameterImmediateNullReferenceExceptionTask() => throw new NullReferenceException();
         protected new ValueTask ParameterImmediateNullReferenceExceptionTask(int delay) => throw new NullReferenceException();
 
-        protected async ValueTask ValueTaskDelay(int delay) => await Task.Delay(delay);
-
         protected new async ValueTask NoParameterDelayedNullReferenceExceptionTask()
         {
             await Task.Delay(Delay);
@@ -24,5 +22,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             await Task.Delay(delay);
             throw new NullReferenceException();
         }
+
+        protected ValueTask ValueTaskDelay(int delay) => new(Task.Delay(delay));
     }
 }
