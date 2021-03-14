@@ -23,6 +23,6 @@ namespace AsyncAwaitBestPractices.UnitTests
             throw new NullReferenceException();
         }
 
-        protected ValueTask ValueTaskDelay(int delay) => new(Task.Delay(delay));
+        ValueTask ValueTaskDelay(int delay) => new(Task.Delay(delay));
     }
 }
