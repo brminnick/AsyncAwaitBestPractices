@@ -130,7 +130,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             Task NonAsyncMethod()
             {
                 threadTCS.SetResult(Thread.CurrentThread);
-                return Task.CompletedTask;
+                return Task.FromResult(true);
             }
         }
     }
