@@ -18,8 +18,8 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         protected const int Delay = 500;
-        protected WeakEventManager TestWeakEventManager { get; } = new WeakEventManager();
-        protected WeakEventManager<string> TestStringWeakEventManager { get; } = new WeakEventManager<string>();
+        protected WeakEventManager TestWeakEventManager { get; } = new();
+        protected WeakEventManager<string> TestStringWeakEventManager { get; } = new();
 
         protected Task NoParameterTask() => Task.Delay(Delay);
         protected Task IntParameterTask(int delay) => Task.Delay(delay);

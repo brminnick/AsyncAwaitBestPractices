@@ -20,7 +20,7 @@ namespace HackerNews
 
         static int _networkIndicatorCount;
 
-        event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
             add => _propertyChangedEventManager.AddEventHandler(value);
             remove => _propertyChangedEventManager.RemoveEventHandler(value);

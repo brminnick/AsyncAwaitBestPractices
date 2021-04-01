@@ -6,7 +6,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 {
     class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
     {
-        readonly WeakEventManager _propertyChangedWeakEventManager = new WeakEventManager();
+        readonly WeakEventManager _propertyChangedWeakEventManager = new();
 
         public event PropertyChangedEventHandler? PropertyChanged
         {
@@ -98,9 +98,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             }
 
             //Act
-#pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             _propertyChangedWeakEventManager.RaiseEvent(this, null, nameof(PropertyChanged));
-#pragma warning restore CS8625 //Cannot convert null literal to non-nullable reference type
 
             //Assert
             Assert.IsTrue(didEventFire);
@@ -152,9 +150,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             void HandleDelegateTest(object? sender, PropertyChangedEventArgs e) => didEventFire = true;
 
             //Act
-#pragma warning disable CS8625 //Cannot convert null literal to non-nullable reference type
             _propertyChangedWeakEventManager.RaiseEvent(null, null, nameof(PropertyChanged));
-#pragma warning restore CS8625 //Cannot convert null literal to non-nullable reference type
 
             //Assert
             Assert.IsFalse(didEventFire);
@@ -203,9 +199,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => _propertyChangedWeakEventManager.AddEventHandler(null), "Value cannot be null.\nParameter name: handler");
-#pragma warning restore CS8625
         }
 
         [Test]
@@ -229,9 +223,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => _propertyChangedWeakEventManager.AddEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
-#pragma warning restore CS8625
         }
 
         [Test]
@@ -242,9 +234,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => _propertyChangedWeakEventManager.AddEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
-#pragma warning restore CS8625
         }
 
         [Test]
@@ -255,9 +245,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => _propertyChangedWeakEventManager.RemoveEventHandler(null), "Value cannot be null.\nParameter name: handler");
-#pragma warning restore CS8625 
         }
 
         [Test]
@@ -281,9 +269,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => _propertyChangedWeakEventManager.RemoveEventHandler(null, string.Empty), "Value cannot be null.\nParameter name: eventName");
-#pragma warning restore CS8625
         }
 
         [Test]
@@ -294,9 +280,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Act
 
             //Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference
             Assert.Throws<ArgumentNullException>(() => _propertyChangedWeakEventManager.RemoveEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
-#pragma warning restore CS8625
         }
     }
 }
