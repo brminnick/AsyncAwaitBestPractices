@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Xamarin.UITest;
 using Xamarin.UITest.Android;
 using Xamarin.UITest.iOS;
@@ -18,7 +19,7 @@ namespace HackerNews.UITests
         public static T InvokeBackdoorMethod<T>(this IApp app, string backdoorMethodName, string parameter = "")
         {
             var result = app.InvokeBackdoorMethod(backdoorMethodName, parameter).ToString();
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(result);
+            return JsonConvert.DeserializeObject<T>(result) ?? throw new JsonException();
         }
     }
 }
