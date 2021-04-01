@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
@@ -67,6 +68,70 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
             Assert.IsNotNull(exception1);
             Assert.IsNotNull(exception2);
+        }
+
+        [Test]
+        public async Task SafeFireAndForget_ThreadTest()
+        {
+            //Arrange
+            Thread? initialThread, workingThread, finalThread;
+            var threadTCS = new TaskCompletionSource<Thread>();
+
+            //Act
+            initialThread = Thread.CurrentThread;
+
+            BlockingThreadMethod().SafeFireAndForget();
+
+            finalThread = Thread.CurrentThread;
+
+            workingThread = await threadTCS.Task;
+
+            //Assert
+            Assert.IsNotNull(initialThread);
+            Assert.IsNotNull(workingThread);
+            Assert.IsNotNull(finalThread);
+
+            Assert.AreEqual(initialThread, finalThread);
+            Assert.AreNotEqual(initialThread, workingThread);
+            Assert.AreNotEqual(finalThread, workingThread);
+
+            async Task BlockingThreadMethod()
+            {
+                await Task.Delay(100);
+                threadTCS.SetResult(Thread.CurrentThread);
+            }
+        }
+
+        [Test]
+        public async Task SafeFireAndForget_NonAsyncMethodThreadTest()
+        {
+            //Arrange
+            Thread initialThread, workingThread, finalThread;
+            var threadTCS = new TaskCompletionSource<Thread>();
+
+            //Act
+            initialThread = Thread.CurrentThread;
+
+            NonAsyncMethod().SafeFireAndForget();
+
+            finalThread = Thread.CurrentThread;
+
+            workingThread = await threadTCS.Task;
+
+            //Assert
+            Assert.IsNotNull(initialThread);
+            Assert.IsNotNull(workingThread);
+            Assert.IsNotNull(finalThread);
+
+            Assert.AreEqual(initialThread, finalThread);
+            Assert.AreEqual(initialThread, workingThread);
+            Assert.AreEqual(finalThread, workingThread);
+
+            Task NonAsyncMethod()
+            {
+                threadTCS.SetResult(Thread.CurrentThread);
+                return Task.CompletedTask;
+            }
         }
     }
 }
