@@ -28,7 +28,7 @@
         <Reference Include="System" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="NUnit" Version="3.13.1" />
+        <PackageReference Include="NUnit" Version="3.13.2" />
         <PackageReference Include="Xamarin.UITest" Version="3.0.17" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
