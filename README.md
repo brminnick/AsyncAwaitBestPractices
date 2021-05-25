@@ -8,8 +8,6 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts:
 - [Removing Async Void](https://johnthiriet.com/removing-async-void/)
 - [MVVM - Going Async With AsyncCommand](https://johnthiriet.com/mvvm-going-async-with-async-command/).
 
-<a href="https://www.buymeacoffee.com/bminnick" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
-
 ###  AsyncAwaitBestPractices
 
 [![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices?includePreReleases=true)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
