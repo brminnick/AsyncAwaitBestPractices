@@ -6,7 +6,7 @@ using Xamarin.UITest.iOS;
 
 namespace HackerNews.UITests
 {
-    public class Tests : BaseTest
+    class Tests : BaseTest
     {
         public Tests(Platform platform) : base(platform)
         {

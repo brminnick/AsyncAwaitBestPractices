@@ -5,23 +5,21 @@ using static Xamarin.CommunityToolkit.Markup.GridRowsColumns;
 
 namespace HackerNews
 {
-    public class StoryDataTemplate : DataTemplate
+    class StoryDataTemplate : DataTemplate
     {
         public StoryDataTemplate() : base(CreateGrid)
         {
 
         }
 
-        public static GridLength AbsoluteGridLength(double value) => new GridLength(value, GridUnitType.Absolute);
-
         static Grid CreateGrid() => new()
         {
             RowSpacing = 1,
 
             RowDefinitions = Rows.Define(
-                (Row.Title, AbsoluteGridLength(20)),
-                (Row.Description, AbsoluteGridLength(20)),
-                (Row.BottomPadding, AbsoluteGridLength(1))),
+                (Row.Title, 20),
+                (Row.Description, 20),
+                (Row.BottomPadding, 1)),
 
             Children =
             {

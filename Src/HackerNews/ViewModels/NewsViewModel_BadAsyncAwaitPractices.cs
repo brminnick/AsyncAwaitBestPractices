@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Linq; 
-using System.Diagnostics;
-using System.Windows.Input;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using HackerNews.Shared;
-
 using Xamarin.Forms;
-
-using AsyncAwaitBestPractices;
-using AsyncAwaitBestPractices.MVVM;
 
 namespace HackerNews
 {

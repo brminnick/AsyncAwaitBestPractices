@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
-
 using HackerNews.Shared;
 
 namespace HackerNews
@@ -21,7 +18,7 @@ namespace HackerNews
 
         public NewsViewModel_GoodAsyncAwaitPractices()
         {
-            ExecuteRefreshCommand().SafeFireAndForget(ex => Debug.WriteLine(ex));
+            ExecuteRefreshCommand().SafeFireAndForget(ex => OnErrorOccurred(ex.ToString()));
         }
 
         public event EventHandler<string> ErrorOccurred
@@ -30,7 +27,8 @@ namespace HackerNews
             remove => _errorOccurredEventManager.RemoveEventHandler(value);
         }
 
-        public IAsyncCommand RefreshCommand => _refreshCommand ??= new AsyncCommand(ExecuteRefreshCommand);
+        public IAsyncCommand RefreshCommand => _refreshCommand ??= new AsyncCommand(ExecuteRefreshCommand,
+                                                                                    onException: ex => OnErrorOccurred(ex.ToString()));
 
         public IReadOnlyList<StoryModel> TopStoryList
         {
@@ -75,7 +73,7 @@ namespace HackerNews
 
         Task<StoryModel> GetStory(string storyId) => GetDataObjectFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
 
-        async ValueTask<List<string>> GetTopStoryIDs()
+        async ValueTask<IReadOnlyList<string>> GetTopStoryIDs()
         {
             if (TopStoryList.Any())
                 return TopStoryList.Select(x => x.Id.ToString()).ToList();
@@ -86,8 +84,8 @@ namespace HackerNews
             }
             catch (Exception e)
             {
-                OnErrorOccurred(e.Message);
-                return Enumerable.Empty<string>().ToList();
+                OnErrorOccurred(e.ToString());
+                return Array.Empty<string>();
             }
         }
 

@@ -17,7 +17,6 @@ namespace HackerNews.Shared
 
         public string Description => ToString();
 
-
         public long Id { get; }
         public string Author { get; }
         public long Score { get; }
@@ -28,7 +27,7 @@ namespace HackerNews.Shared
 
         public override string ToString() => $"{Score} Points by {Author}, {GetAgeOfStory(CreatedAt_DateTimeOffset)} ago";
 
-        static string GetAgeOfStory(DateTimeOffset storyCreatedAt)
+        static string GetAgeOfStory(in DateTimeOffset storyCreatedAt)
         {
             var timespanSinceStoryCreated = DateTimeOffset.UtcNow - storyCreatedAt;
 

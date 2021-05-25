@@ -3,7 +3,7 @@ using Xamarin.UITest;
 
 namespace HackerNews.UITests
 {
-	public abstract class BasePage
+	abstract class BasePage
 	{
 		protected BasePage(IApp app, string pageTitle)
 		{

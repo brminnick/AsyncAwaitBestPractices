@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using HackerNews.Shared;
 using Xamarin.UITest;
@@ -10,7 +9,7 @@ using Xamarin.UITest.iOS;
 
 namespace HackerNews.UITests
 {
-    public class NewsPage : BasePage
+    class NewsPage : BasePage
     {
         public NewsPage(IApp app) : base(app, PageTitleConstants.NewsPageTitle)
         {

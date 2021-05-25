@@ -1,9 +1,9 @@
-using Xamarin.Forms;
-using HackerNews.Shared;
-using Xamarin.Essentials;
 using System;
-using Xamarin.CommunityToolkit.Markup;
 using System.Linq;
+using HackerNews.Shared;
+using Xamarin.CommunityToolkit.Markup;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace HackerNews
 {
@@ -55,8 +55,8 @@ namespace HackerNews
             }
         }
 
-        void HandleErrorOccurred(object sender, string e) =>
-            MainThread.BeginInvokeOnMainThread(async () => await DisplayAlert("Error", e, "OK"));
+        async void HandleErrorOccurred(object sender, string e) =>
+            await MainThread.InvokeOnMainThreadAsync(() => DisplayAlert("Error", e, "OK"));
 
     }
 }

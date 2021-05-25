@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
-
 using Xamarin.UITest;
 
 namespace HackerNews.UITests
 {
     [TestFixture(Platform.Android)]
     [TestFixture(Platform.iOS)]
-    public abstract class BaseTest
+    abstract class BaseTest
     {
         readonly Platform _platform;
 
