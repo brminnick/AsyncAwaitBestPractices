@@ -14,11 +14,14 @@ namespace HackerNews
     abstract class BaseViewModel : INotifyPropertyChanged
     {
         static readonly JsonSerializer _serializer = new();
-        static readonly HttpClient _client = new();
+        static readonly HttpClient _client = new()
+        {
+            Timeout = TimeSpan.FromMinutes(1)
+        };
 
         readonly AsyncAwaitBestPractices.WeakEventManager _propertyChangedEventManager = new();
 
-        static int _networkIndicatorCount;
+        static volatile int _networkIndicatorCount;
 
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
