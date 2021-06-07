@@ -28,7 +28,7 @@
 - Add AsyncCommand support for nullable value types
 - Add AsyncValueCommand support for nullable value types
         </PackageReleaseNotes>
-        <Version>6.0.0-pre1</Version>
+        <Version>6.0.0-pre2</Version>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -61,6 +61,7 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj" />
+        <None Include="Src\AsyncAwaitBestPractices.MVVM\README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
