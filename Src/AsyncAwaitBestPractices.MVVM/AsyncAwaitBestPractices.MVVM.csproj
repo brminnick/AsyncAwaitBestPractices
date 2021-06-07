@@ -25,9 +25,9 @@
         </Description>
         <PackageReleaseNotes>
             New in this release:
-- Improve Nullability
+- Add AsyncCommand support for nullable value types
         </PackageReleaseNotes>
-        <Version>5.1.0</Version>
+        <Version>6.0.0-pre1</Version>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

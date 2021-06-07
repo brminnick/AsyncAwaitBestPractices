@@ -46,7 +46,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public async Task ICommand_TwoParameters_ExecuteAsync_InvalidValueTypeParameter_Test()
+        public void ICommand_TwoParameters_ExecuteAsync_InvalidValueTypeParameter_Test()
         {
             //Arrange
             InvalidCommandParameterException? actualInvalidCommandParameterException = null;
@@ -55,16 +55,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             ICommand command = new AsyncValueCommand<string, string>(StringParameterTask);
 
             //Act
-            try
-            {
-                command.Execute(Delay);
-                await NoParameterTask();
-                await NoParameterTask();
-            }
-            catch (InvalidCommandParameterException e)
-            {
-                actualInvalidCommandParameterException = e;
-            }
+            actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute(Delay));
 
             //Assert
             Assert.IsNotNull(actualInvalidCommandParameterException);
@@ -72,7 +63,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public async Task ICommand_ExecuteAsync_InvalidValueTypeParameter_Test()
+        public void ICommand_ExecuteAsync_InvalidValueTypeParameter_Test()
         {
             //Arrange
             InvalidCommandParameterException? actualInvalidCommandParameterException = null;
@@ -81,16 +72,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             ICommand command = new AsyncValueCommand<string>(StringParameterTask);
 
             //Act
-            try
-            {
-                command.Execute(Delay);
-                await NoParameterTask();
-                await NoParameterTask();
-            }
-            catch (InvalidCommandParameterException e)
-            {
-                actualInvalidCommandParameterException = e;
-            }
+            actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute(Delay));
 
             //Assert
             Assert.IsNotNull(actualInvalidCommandParameterException);
@@ -98,7 +80,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public async Task ICommand_TwoParameters_ExecuteAsync_InvalidReferenceTypeParameter_Test()
+        public void ICommand_TwoParameters_ExecuteAsync_InvalidReferenceTypeParameter_Test()
         {
             //Arrange
             InvalidCommandParameterException? actualInvalidCommandParameterException = null;
@@ -108,16 +90,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             ICommand command = new AsyncValueCommand<int, int>(IntParameterTask);
 
             //Act
-            try
-            {
-                command.Execute("Hello World");
-                await NoParameterTask();
-                await NoParameterTask();
-            }
-            catch (InvalidCommandParameterException e)
-            {
-                actualInvalidCommandParameterException = e;
-            }
+            actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute("Hello World"));
 
             //Assert
             Assert.IsNotNull(actualInvalidCommandParameterException);
@@ -125,7 +98,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public async Task ICommand_ExecuteAsync_InvalidReferenceTypeParameter_Test()
+        public void ICommand_ExecuteAsync_InvalidReferenceTypeParameter_Test()
         {
             //Arrange
             InvalidCommandParameterException? actualInvalidCommandParameterException = null;
@@ -135,16 +108,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             ICommand command = new AsyncValueCommand<int>(IntParameterTask);
 
             //Act
-            try
-            {
-                command.Execute("Hello World");
-                await NoParameterTask();
-                await NoParameterTask();
-            }
-            catch (InvalidCommandParameterException e)
-            {
-                actualInvalidCommandParameterException = e;
-            }
+            actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute("Hello World"));
 
             //Assert
             Assert.IsNotNull(actualInvalidCommandParameterException);
@@ -152,7 +116,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public async Task ICommand_TwoParameters_ExecuteAsync_ValueTypeParameter_Test()
+        public void ICommand_TwoParameters_ExecuteAsync_ValueTypeParameter_Test()
         {
             //Arrange
             InvalidCommandParameterException? actualInvalidCommandParameterException = null;
@@ -162,16 +126,7 @@ namespace AsyncAwaitBestPractices.UnitTests
             ICommand command = new AsyncValueCommand<int, int>(IntParameterTask);
 
             //Act
-            try
-            {
-                command.Execute(null);
-                await NoParameterTask();
-                await NoParameterTask();
-            }
-            catch (InvalidCommandParameterException e)
-            {
-                actualInvalidCommandParameterException = e;
-            }
+            actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute(null));
 
             //Assert
             Assert.IsNotNull(actualInvalidCommandParameterException);
@@ -179,7 +134,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public async Task ICommand_ExecuteAsync_ValueTypeParameter_Test()
+        public void ICommand_ExecuteAsync_ValueTypeParameter_Test()
         {
             //Arrange
             InvalidCommandParameterException? actualInvalidCommandParameterException = null;
@@ -189,16 +144,41 @@ namespace AsyncAwaitBestPractices.UnitTests
             ICommand command = new AsyncValueCommand<int>(IntParameterTask);
 
             //Act
-            try
-            {
-                command.Execute(null);
-                await NoParameterTask();
-                await NoParameterTask();
-            }
-            catch (InvalidCommandParameterException e)
-            {
-                actualInvalidCommandParameterException = e;
-            }
+            actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute(null));
+
+            //Assert
+            Assert.IsNotNull(actualInvalidCommandParameterException);
+            Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+        }
+
+        [Test]
+        public void ICommand_Parameter_CanExecuteNull_Test()
+        {
+            //Arrange
+            InvalidCommandParameterException? actualInvalidCommandParameterException = null;
+            InvalidCommandParameterException expectedInvalidCommandParameterException = new InvalidCommandParameterException(typeof(int));
+
+            ICommand command = new AsyncValueCommand<int, int>(IntParameterTask, CanExecuteFalse);
+
+            //Act
+            actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.CanExecute(null));
+
+            //Assert
+            Assert.IsNotNull(actualInvalidCommandParameterException);
+            Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+        }
+
+        [Test]
+        public void ICommand_Parameter_ExecuteNull_Test()
+        {
+            //Arrange
+            InvalidCommandParameterException? actualInvalidCommandParameterException = null;
+            InvalidCommandParameterException expectedInvalidCommandParameterException = new InvalidCommandParameterException(typeof(int));
+
+            ICommand command = new AsyncValueCommand<int, int>(IntParameterTask, CanExecuteFalse);
+
+            //Act
+            actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute(null));
 
             //Assert
             Assert.IsNotNull(actualInvalidCommandParameterException);
@@ -209,7 +189,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public void ICommand_Parameter_CanExecuteTrue_Test()
         {
             //Arrange
-            ICommand command = new AsyncValueCommand<int>(IntParameterTask, CanExecuteTrue);
+            ICommand command = new AsyncValueCommand<int?>(NullableIntParameterTask, CanExecuteTrue);
             ICommand command2 = new AsyncValueCommand<int, int>(IntParameterTask, CanExecuteTrue);
 
             //Act
@@ -223,7 +203,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         public void ICommand_Parameter_CanExecuteFalse_Test()
         {
             //Arrange
-            ICommand command = new AsyncValueCommand<int>(IntParameterTask, CanExecuteFalse);
+            ICommand command = new AsyncValueCommand<int?>(NullableIntParameterTask, CanExecuteFalse);
             ICommand command2 = new AsyncValueCommand<int, int>(IntParameterTask, CanExecuteFalse);
 
             //Act

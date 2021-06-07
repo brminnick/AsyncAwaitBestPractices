@@ -23,6 +23,7 @@ namespace AsyncAwaitBestPractices.UnitTests
 
         protected Task NoParameterTask() => Task.Delay(Delay);
         protected Task IntParameterTask(int delay) => Task.Delay(delay);
+        protected Task NullableIntParameterTask(int? delay) => Task.Delay(delay ?? Delay);
         protected Task StringParameterTask(string? text) => Task.Delay(Delay);
         protected Task NoParameterImmediateNullReferenceExceptionTask() => throw new NullReferenceException();
         protected Task ParameterImmediateNullReferenceExceptionTask(int delay) => throw new NullReferenceException();

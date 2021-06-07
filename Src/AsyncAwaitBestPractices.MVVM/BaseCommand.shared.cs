@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace AsyncAwaitBestPractices.MVVM
 {
@@ -38,5 +39,18 @@ namespace AsyncAwaitBestPractices.MVVM
         /// Raises the CanExecuteChanged event.
         /// </summary>
         public void RaiseCanExecuteChanged() => _weakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+
+        protected static bool IsNullable<T>()
+        {
+            var type = typeof(T);
+
+            if (!type.GetTypeInfo().IsValueType)
+                return true; // ref-type
+
+            if (Nullable.GetUnderlyingType(type) != null)
+                return true; // Nullable<T>
+
+            return false; // value-type
+        }
     }
 }
