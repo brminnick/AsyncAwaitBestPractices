@@ -29,7 +29,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="NUnit" Version="3.13.2" />
-        <PackageReference Include="Xamarin.UITest" Version="3.0.19" />
+        <PackageReference Include="Xamarin.UITest" Version="3.1.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
     <ItemGroup>
