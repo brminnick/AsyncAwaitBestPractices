@@ -29,7 +29,8 @@
             New In This Release:
 - Improve Nullability
         </PackageReleaseNotes>
-        <Version>6.0.0-pre2</Version>
+        <Version>6.0.0</Version>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -38,7 +39,7 @@
         <Authors>Brandon Minnick, John Thiriet</Authors>
         <Owners>Brandon Minnick</Owners>
         <NeutralLanguage>en</NeutralLanguage>
-        <Copyright>©Copyright 2020 Brandon Minnick. All rights reserved.</Copyright>
+        <Copyright>©Copyright 2021 Brandon Minnick. All rights reserved.</Copyright>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <DefineConstants>$(DefineConstants);</DefineConstants>
         <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
@@ -76,6 +77,6 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
-        <None Include="Src\AsyncAwaitBestPractices\README.md" Pack="true" PackagePath="\"/>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 </Project>
