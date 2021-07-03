@@ -27,4 +27,4 @@ npm install -g appcenter-cli@1.2.2 2>&1
 
 appcenter login --token $1
 
-appcenter test run uitest --app "CDA-Global-Beta/AsyncAwaitBestPractices.Droid" --devices "CDA-Global-Beta/android-os-v5-10" --app-path $APKFile --test-series "master" --locale "en_US" --build-dir $UITestBuildDir --uitest-tools-dir $TestCloudExeDirectory
+appcenter test run uitest --app "CDA-Global-Beta/AsyncAwaitBestPractices.Droid" --devices "CDA-Global-Beta/android-os-v5-10" --app-path $APKFile --test-series "master" --locale "en_US" --build-dir $UITestBuildDir --uitest-tools-dir $TestCloudExeDirectory --async
