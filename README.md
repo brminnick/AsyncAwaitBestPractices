@@ -204,7 +204,7 @@ void InitializeSafeFireAndForget()
 void UninitializeSafeFireAndForget()
 {
     // Remove default exception handling
-    SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling()
+    SafeFireAndForgetExtensions.RemoveDefaultExceptionHandling();
 }
 
 void HandleButtonTapped(object sender, EventArgs e)
