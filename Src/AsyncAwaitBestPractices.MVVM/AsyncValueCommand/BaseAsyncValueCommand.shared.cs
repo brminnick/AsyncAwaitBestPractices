@@ -9,7 +9,7 @@ namespace AsyncAwaitBestPractices.MVVM
     /// Abstract Base Class used by AsyncValueCommand
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class BaseAsyncValueCommand<TExecute, TCanExecute> : BaseCommand<TCanExecute>, ICommand
+    public abstract class BaseAsyncValueCommand<TExecute, TCanExecute> : BaseCommand<TCanExecute>, ICommand
     {
         readonly Func<TExecute?, ValueTask> _execute;
         readonly Action<Exception>? _onException;
