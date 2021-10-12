@@ -29,8 +29,9 @@
             New In This Release:
 - Mark internal classes as abstract
 - Update AssemblyFileVersion
+- Add NuGet README
         </PackageReleaseNotes>
-        <Version>6.0.1</Version>
+        <Version>6.0.2</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
