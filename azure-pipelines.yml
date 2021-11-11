@@ -70,21 +70,16 @@ jobs:
       inputs:
         checkLatest: true
 
-    - task: NuGetCommand@2
+    - task: CmdLine@2
       displayName: 'Restore NuGet Packages'
       inputs:
-        restoreSolution: Src/AsyncAwaitBestPractices.sln
+        script: 'dotnet restore **/*.sln'
 
     - task: DotNetCoreCLI@2
       displayName: 'Run Unit Tests'
       inputs:
         command: test
         projects: '$(Build.SourcesDirectory)/Src/AsyncAwaitBestPractices.UnitTests'
-
-    - task: MSBuild@1
-      displayName: 'Build Sln'
-      inputs:
-        solution: Src/AsyncAwaitBestPractices.sln
 
     - task: CmdLine@2
       displayName: 'Build Xamarin.Android project'
