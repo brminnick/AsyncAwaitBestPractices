@@ -304,5 +304,4 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 
 		}
 	}
-
 }
