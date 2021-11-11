@@ -69,12 +69,10 @@ steps:
   inputs:
     solution: Src/AsyncAwaitBestPractices.sln
 
-- task: XamarinAndroid@1
-  displayName: 'Build Xamarin.Android project '
+- task: CmdLine@2
+  displayName: 'Build Xamarin.Android project'
   inputs:
-    projectFile: '**/*Droid.csproj'
-    configuration: debug
-    msbuildVersionOption: latest
+    script: 'mono /Applications/Visual\ studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/MSBuild.dll **/*Droid.csproj /verbosity:normal /p:Configuration=Release'
 
 - task: Bash@3
   displayName: 'Submit APK to App Center Test'
