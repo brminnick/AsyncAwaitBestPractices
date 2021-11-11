@@ -40,6 +40,11 @@ public abstract class BaseCommand<TCanExecute>
 	/// </summary>
 	public void RaiseCanExecuteChanged() => _weakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
+	/// <summary>
+	/// Determine if T is Nullable
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
 	protected static bool IsNullable<T>()
 	{
 		var type = typeof(T);
