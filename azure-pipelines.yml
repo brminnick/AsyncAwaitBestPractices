@@ -86,7 +86,7 @@ jobs:
       displayName: 'Submit APK to App Center Test'
       inputs:
         targetType: filePath
-        filePath: './$(Build.SourcesDirectory)/Src/SubmitApkToAppCenterTest.sh'
+        filePath: './Src/SubmitApkToAppCenterTest.sh'
         arguments: '$(AppCenterApiToken)'
         failOnStderr: true
       env:
