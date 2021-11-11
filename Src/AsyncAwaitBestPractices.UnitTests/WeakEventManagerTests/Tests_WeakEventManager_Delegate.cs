@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests
@@ -282,5 +283,37 @@ namespace AsyncAwaitBestPractices.UnitTests
             //Assert
             Assert.Throws<ArgumentNullException>(() => _propertyChangedWeakEventManager.RemoveEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
         }
+
+        [Test]
+        public void WeakEventManagerDelegate_RemoveEventHandler_ArgumentOutOfRangeException()
+        {
+            //Arrange
+
+
+            //Act
+            _propertyChangedWeakEventManager.AddEventHandler(sampleDelegate, nameof(sampleDelegate));
+
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                try
+                {
+                    Parallel.For(0, 2, count => _propertyChangedWeakEventManager.RemoveEventHandler(sampleDelegate, nameof(sampleDelegate)));
+                }
+                catch (AggregateException e)
+                {
+                    if (e.InnerExceptions.Count is 1)
+                        throw e.InnerExceptions[0];
+
+                    throw;
+                }
+            });
+
+            static void sampleDelegate(object? sender, EventArgs e)
+            {
+
+            }
+        }
+
     }
 }
