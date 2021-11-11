@@ -10,10 +10,32 @@ pool:
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .Net Core sdk  3.x'
+  displayName: 'Use .Net Core SDK 2.1.x'
   inputs:
-    version: ' 3.x'
+    version: ' 2.1.x'
     includePreviewVersions: true
+    installationPath: '$(Agent.ToolsDirectory)'
+    performMultiLevelLookup: true
+
+- task: UseDotNet@2
+  displayName: 'Use .Net Core SDK 3.1.x'
+  inputs:
+    version: ' 3.1.x'
+    includePreviewVersions: true
+    installationPath: '$(Agent.ToolsDirectory)'
+    performMultiLevelLookup: true
+
+- task: UseDotNet@2
+  displayName: 'Use .Net Core SDK  5.0.x'
+  inputs:
+    version: ' 5.0.x'
+    installationPath: '$(Agent.ToolsDirectory)'
+    performMultiLevelLookup: true
+
+- task: UseDotNet@2
+  displayName: 'Use .Net Core SDK  6.0.x'
+  inputs:
+    version: ' 6.0.x'
     installationPath: '$(Agent.ToolsDirectory)'
     performMultiLevelLookup: true
 
