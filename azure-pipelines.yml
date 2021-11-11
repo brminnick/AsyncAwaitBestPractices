@@ -1,9 +1,5 @@
-pool:
-  name: Azure Pipelines
-  demands:
-  - msbuild
-  - MSBuild
-  - Xamarin.Android
+variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
 
 trigger:
   branches:
