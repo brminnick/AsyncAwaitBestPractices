@@ -1,7 +1,6 @@
-﻿namespace HackerNews.Shared
+﻿namespace HackerNews.Shared;
+
+public static class StoriesConstants
 {
-	public static class StoriesConstants
-	{
-		public const int NumberOfStories = 20;
-	}
+	public const int NumberOfStories = 20;
 }

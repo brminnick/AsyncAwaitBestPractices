@@ -1,59 +1,58 @@
 ﻿using HackerNews.Shared;
-using Xamarin.Forms;
 using Xamarin.CommunityToolkit.Markup;
+using Xamarin.Forms;
 using static Xamarin.CommunityToolkit.Markup.GridRowsColumns;
 
-namespace HackerNews
+namespace HackerNews;
+
+class StoryDataTemplate : DataTemplate
 {
-	class StoryDataTemplate : DataTemplate
+	public StoryDataTemplate() : base(CreateGrid)
 	{
-		public StoryDataTemplate() : base(CreateGrid)
-		{
 
-		}
+	}
 
-		static Grid CreateGrid() => new()
-		{
-			RowSpacing = 1,
+	static Grid CreateGrid() => new()
+	{
+		RowSpacing = 1,
 
-			RowDefinitions = Rows.Define(
-				(Row.Title, 20),
-				(Row.Description, 20),
-				(Row.BottomPadding, 1)),
+		RowDefinitions = Rows.Define(
+			(Row.Title, 20),
+			(Row.Description, 20),
+			(Row.BottomPadding, 1)),
 
-			Children =
+		Children =
 			{
 				new TitleLabel().Row(Row.Title)
 					.Bind(Label.TextProperty, nameof(StoryModel.Title)),
 				new DescriptionLabel().Row(Row.Description)
 					.Bind(Label.TextProperty, nameof(StoryModel.Description))
 			}
-		};
+	};
 
-		enum Row { Title, Description, BottomPadding }
+	enum Row { Title, Description, BottomPadding }
 
-		class TitleLabel : Label
+	class TitleLabel : Label
+	{
+		public TitleLabel()
 		{
-			public TitleLabel()
-			{
-				FontSize = 16;
-				TextColor = ColorConstants.TextCellTextColor;
+			FontSize = 16;
+			TextColor = ColorConstants.TextCellTextColor;
 
-				VerticalTextAlignment = TextAlignment.Start;
+			VerticalTextAlignment = TextAlignment.Start;
 
-				Padding = new Thickness(10, 0);
-			}
+			Padding = new Thickness(10, 0);
 		}
+	}
 
-		class DescriptionLabel : Label
+	class DescriptionLabel : Label
+	{
+		public DescriptionLabel()
 		{
-			public DescriptionLabel()
-			{
-				FontSize = 13;
-				TextColor = ColorConstants.TextCellDetailColor;
+			FontSize = 13;
+			TextColor = ColorConstants.TextCellDetailColor;
 
-				Padding = new Thickness(10, 0, 10, 5);
-			}
+			Padding = new Thickness(10, 0, 10, 5);
 		}
 	}
 }
