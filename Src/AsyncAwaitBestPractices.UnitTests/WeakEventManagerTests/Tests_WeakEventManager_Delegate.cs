@@ -285,7 +285,7 @@ namespace AsyncAwaitBestPractices.UnitTests
         }
 
         [Test]
-        public void WeakEventManagerDelegate_RemoveEventHandler_ArgumentOutOfRangeException()
+        public void WeakEventManagerDelegate_RemoveEventHandler_NoArgumentOutOfRangeException()
         {
             //Arrange
 
@@ -294,19 +294,9 @@ namespace AsyncAwaitBestPractices.UnitTests
             _propertyChangedWeakEventManager.AddEventHandler(sampleDelegate, nameof(sampleDelegate));
 
             //Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Assert.DoesNotThrow(() =>
             {
-                try
-                {
-                    Parallel.For(0, 2, count => _propertyChangedWeakEventManager.RemoveEventHandler(sampleDelegate, nameof(sampleDelegate)));
-                }
-                catch (AggregateException e)
-                {
-                    if (e.InnerExceptions.Count is 1)
-                        throw e.InnerExceptions[0];
-
-                    throw;
-                }
+                Parallel.For(0, 10, count => _propertyChangedWeakEventManager.RemoveEventHandler(sampleDelegate, nameof(sampleDelegate)));
             });
 
             static void sampleDelegate(object? sender, EventArgs e)
