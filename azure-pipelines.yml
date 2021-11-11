@@ -77,6 +77,11 @@ jobs:
         command: test
         projects: '$(Build.SourcesDirectory)/Src/AsyncAwaitBestPractices.UnitTests'
 
+    - task: CmdLine@2
+      displayName: 'Build Xamarin.Forms Sample'
+      inputs:
+        script: 'dotnet build ./Src/HackerNews'
+
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
       inputs:
