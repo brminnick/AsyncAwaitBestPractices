@@ -80,7 +80,7 @@ jobs:
     - task: CmdLine@2
       displayName: 'Build Xamarin.Android project'
       inputs:
-        script: 'mono /Applications/Visual\ studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/MSBuild.dll ./Src/HackerNews.Droid/HackerNews.Droid.csproj /verbosity:normal /p:Configuration=Release'
+        script: 'msbuild ./Src/HackerNews.Droid/HackerNews.Droid.csproj /verbosity:normal /p:Configuration=Release /t:Restore
 
     - task: Bash@3
       displayName: 'Submit APK to App Center Test'
