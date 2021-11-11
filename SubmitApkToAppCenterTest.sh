@@ -5,6 +5,8 @@ set -e
 UITestProject=`find "$BuildPath" -name HackerNews.UITests.csproj`
 echo UITestProject: $UITestProject
 
+msbuild $UITestProject /t:Restore
+
 UITestDLL=`find "$BuildPath" -name "HackerNews.UITests.dll" | grep bin | grep -v ref | head -1`
 echo UITestDLL: $UITestDLL
 
