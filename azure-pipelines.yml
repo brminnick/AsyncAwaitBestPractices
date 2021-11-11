@@ -21,7 +21,6 @@ steps:
   displayName: 'Use .Net Core SDK 3.1.x'
   inputs:
     version: ' 3.1.x'
-    includePreviewVersions: true
     installationPath: '$(Agent.ToolsDirectory)'
     performMultiLevelLookup: true
 
@@ -38,6 +37,16 @@ steps:
     version: ' 6.0.x'
     installationPath: '$(Agent.ToolsDirectory)'
     performMultiLevelLookup: true
+
+- task: CmdLine@2
+  displayName: 'Install Boots'
+  inputs:
+    script: |
+      dotnet tool install --global boots
+      boots --stable Mono
+      boots --preview Xamarin.Android
+      boots --preview Xamarin.iOS
+      boots --preview Xamarin.Mac
 
 - task: NuGetToolInstaller@1
   displayName: 'Use NuGet'
@@ -60,12 +69,10 @@ steps:
   inputs:
     solution: Src/AsyncAwaitBestPractices.sln
 
-- task: XamarinAndroid@1
-  displayName: 'Build Xamarin.Android project '
+- task: CmdLine@2
+  displayName: 'Build Xamarin.Android project'
   inputs:
-    projectFile: '**/*Droid.csproj'
-    configuration: debug
-    msbuildVersionOption: latest
+    script: 'mono /Applications/Visual\ studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/MSBuild.dll **/*Droid.csproj /verbosity:normal /p:Configuration=Release'
 
 - task: Bash@3
   displayName: 'Submit APK to App Center Test'

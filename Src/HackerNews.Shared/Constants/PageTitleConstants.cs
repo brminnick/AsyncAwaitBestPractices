@@ -1,7 +1,6 @@
-﻿namespace HackerNews.Shared
+﻿namespace HackerNews.Shared;
+
+public static class PageTitleConstants
 {
-    public static class PageTitleConstants
-    {
-        public const string NewsPageTitle = "Top Stories";
-    }
+	public const string NewsPageTitle = "Top Stories";
 }

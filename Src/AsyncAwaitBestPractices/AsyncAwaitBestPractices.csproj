@@ -51,6 +51,7 @@
         <DebugType>portable</DebugType>
         <Configurations>Debug;Release</Configurations>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
         <!-- Manage TargetFrameworks for development (Debug Mode) -->
