@@ -5,95 +5,112 @@ pool:
   - MSBuild
   - Xamarin.Android
 
-#Your build pipeline references a secret variable named ‘AppCenterApiToken’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
-#Your build pipeline references the ‘BuildConfiguration’ variable, which you’ve selected to be settable at queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+trigger:
+  branches:
+    include:
+    - main
+  tags:
+    include:
+    - '*'
 
-steps:
-- task: UseDotNet@2
-  displayName: 'Use .Net Core SDK 2.1.x'
-  inputs:
-    version: ' 2.1.x'
-    includePreviewVersions: true
-    installationPath: '$(Agent.ToolsDirectory)'
-    performMultiLevelLookup: true
+pr:
+  autoCancel: 'true'
+  branches:
+    include:
+    - main
 
-- task: UseDotNet@2
-  displayName: 'Use .Net Core SDK 3.1.x'
-  inputs:
-    version: ' 3.1.x'
-    installationPath: '$(Agent.ToolsDirectory)'
-    performMultiLevelLookup: true
+jobs:     
+  - job: build_macos
+    displayName: Build macOS Library
+    pool:
+      vmImage: macos-latest
 
-- task: UseDotNet@2
-  displayName: 'Use .Net Core SDK  5.0.x'
-  inputs:
-    version: ' 5.0.x'
-    installationPath: '$(Agent.ToolsDirectory)'
-    performMultiLevelLookup: true
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Use .Net Core SDK 2.1.x'
+      inputs:
+        version: ' 2.1.x'
+        includePreviewVersions: true
+        installationPath: '$(Agent.ToolsDirectory)'
+        performMultiLevelLookup: true
 
-- task: UseDotNet@2
-  displayName: 'Use .Net Core SDK  6.0.x'
-  inputs:
-    version: ' 6.0.x'
-    installationPath: '$(Agent.ToolsDirectory)'
-    performMultiLevelLookup: true
+    - task: UseDotNet@2
+      displayName: 'Use .Net Core SDK 3.1.x'
+      inputs:
+        version: ' 3.1.x'
+        installationPath: '$(Agent.ToolsDirectory)'
+        performMultiLevelLookup: true
 
-- task: CmdLine@2
-  displayName: 'Install Boots'
-  inputs:
-    script: |
-      dotnet tool install --global boots
-      boots --stable Mono
-      boots --preview Xamarin.Android
-      boots --preview Xamarin.iOS
-      boots --preview Xamarin.Mac
+    - task: UseDotNet@2
+      displayName: 'Use .Net Core SDK  5.0.x'
+      inputs:
+        version: ' 5.0.x'
+        installationPath: '$(Agent.ToolsDirectory)'
+        performMultiLevelLookup: true
 
-- task: NuGetToolInstaller@1
-  displayName: 'Use NuGet'
-  inputs:
-    checkLatest: true
+    - task: UseDotNet@2
+      displayName: 'Use .Net Core SDK  6.0.x'
+      inputs:
+        version: ' 6.0.x'
+        installationPath: '$(Agent.ToolsDirectory)'
+        performMultiLevelLookup: true
 
-- task: NuGetCommand@2
-  displayName: 'Restore NuGet Packages'
-  inputs:
-    restoreSolution: Src/AsyncAwaitBestPractices.sln
+    - task: CmdLine@2
+      displayName: 'Install Boots'
+      inputs:
+        script: |
+          dotnet tool install --global boots
+          boots --stable Mono
+          boots --preview Xamarin.Android
+          boots --preview Xamarin.iOS
+          boots --preview Xamarin.Mac
 
-- task: DotNetCoreCLI@2
-  displayName: 'Run Unit Tests'
-  inputs:
-    command: test
-    projects: '$(Build.SourcesDirectory)/Src/AsyncAwaitBestPractices.UnitTests'
+    - task: NuGetToolInstaller@1
+      displayName: 'Use NuGet'
+      inputs:
+        checkLatest: true
 
-- task: MSBuild@1
-  displayName: 'Build Sln'
-  inputs:
-    solution: Src/AsyncAwaitBestPractices.sln
+    - task: NuGetCommand@2
+      displayName: 'Restore NuGet Packages'
+      inputs:
+        restoreSolution: Src/AsyncAwaitBestPractices.sln
 
-- task: CmdLine@2
-  displayName: 'Build Xamarin.Android project'
-  inputs:
-    script: 'mono /Applications/Visual\ studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/MSBuild.dll **/*Droid.csproj /verbosity:normal /p:Configuration=Release'
+    - task: DotNetCoreCLI@2
+      displayName: 'Run Unit Tests'
+      inputs:
+        command: test
+        projects: '$(Build.SourcesDirectory)/Src/AsyncAwaitBestPractices.UnitTests'
 
-- task: Bash@3
-  displayName: 'Submit APK to App Center Test'
-  inputs:
-    targetType: filePath
-    filePath: './$(Build.SourcesDirectory)/Src/SubmitApkToAppCenterTest.sh'
-    arguments: '$(AppCenterApiToken)'
-    failOnStderr: true
-  env:
-    BuildPath: $(Build.Repository.LocalPath)
-    NuGetPackagesPath: $(UserProfile)\.nuget\packages
+    - task: MSBuild@1
+      displayName: 'Build Sln'
+      inputs:
+        solution: Src/AsyncAwaitBestPractices.sln
 
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\bin\$(BuildConfiguration)\**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
+    - task: CmdLine@2
+      displayName: 'Build Xamarin.Android project'
+      inputs:
+        script: 'mono /Applications/Visual\ studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/MSBuild.dll **/*Droid.csproj /verbosity:normal /p:Configuration=Release'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+    - task: Bash@3
+      displayName: 'Submit APK to App Center Test'
+      inputs:
+        targetType: filePath
+        filePath: './$(Build.SourcesDirectory)/Src/SubmitApkToAppCenterTest.sh'
+        arguments: '$(AppCenterApiToken)'
+        failOnStderr: true
+      env:
+        BuildPath: $(Build.Repository.LocalPath)
+        NuGetPackagesPath: $(UserProfile)\.nuget\packages
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+      inputs:
+        SourceFolder: '$(system.defaultworkingdirectory)'
+        Contents: '**\bin\$(BuildConfiguration)\**'
+        TargetFolder: '$(build.artifactstagingdirectory)'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
 
