@@ -21,7 +21,6 @@ steps:
   displayName: 'Use .Net Core SDK 3.1.x'
   inputs:
     version: ' 3.1.x'
-    includePreviewVersions: true
     installationPath: '$(Agent.ToolsDirectory)'
     performMultiLevelLookup: true
 
@@ -38,6 +37,16 @@ steps:
     version: ' 6.0.x'
     installationPath: '$(Agent.ToolsDirectory)'
     performMultiLevelLookup: true
+
+- task: CmdLine@2
+  displayName: 'Install Boots'
+  inputs:
+    script: |
+      dotnet tool install --global boots
+      boots --stable Mono
+      boots --preview Xamarin.Android
+      boots --preview Xamarin.iOS
+      boots --preview Xamarin.Mac
 
 - task: NuGetToolInstaller@1
   displayName: 'Use NuGet'
