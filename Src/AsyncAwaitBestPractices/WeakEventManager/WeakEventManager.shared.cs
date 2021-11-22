@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+#if NETSTANDARD2_1
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 using static System.String;
 
@@ -20,7 +23,11 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
+#if NETSTANDARD2_1
+	public void AddEventHandler([NotNull] in EventHandler<TEventArgs>? handler, [CallerMemberName, NotNull] in string eventName = "")
+#else
 	public void AddEventHandler(in EventHandler<TEventArgs>? handler, [CallerMemberName] in string eventName = "")
+#endif
 	{
 		if (IsNullOrWhiteSpace(eventName))
 			throw new ArgumentNullException(nameof(eventName));
@@ -36,7 +43,11 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="action">Handler</param>
 	/// <param name="eventName">Event name</param>
+#if NETSTANDARD2_1
+	public void AddEventHandler([NotNull] in Action<TEventArgs>? action, [CallerMemberName, NotNull] in string eventName = "")
+#else
 	public void AddEventHandler(in Action<TEventArgs>? action, [CallerMemberName] in string eventName = "")
+#endif
 	{
 		if (IsNullOrWhiteSpace(eventName))
 			throw new ArgumentNullException(nameof(eventName));
@@ -52,7 +63,11 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
+#if NETSTANDARD2_1
+	public void RemoveEventHandler([NotNull] in EventHandler<TEventArgs>? handler, [CallerMemberName, NotNull] in string eventName = "")
+#else
 	public void RemoveEventHandler(in EventHandler<TEventArgs>? handler, [CallerMemberName] in string eventName = "")
+#endif
 	{
 		if (IsNullOrWhiteSpace(eventName))
 			throw new ArgumentNullException(nameof(eventName));
@@ -68,7 +83,11 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="action">Handler</param>
 	/// <param name="eventName">Event name</param>
+#if NETSTANDARD2_1
+	public void RemoveEventHandler([NotNull] in Action<TEventArgs>? action, [CallerMemberName, NotNull] in string eventName = "")
+#else
 	public void RemoveEventHandler(in Action<TEventArgs>? action, [CallerMemberName] in string eventName = "")
+#endif
 	{
 		if (IsNullOrWhiteSpace(eventName))
 			throw new ArgumentNullException(nameof(eventName));
@@ -109,7 +128,11 @@ public partial class WeakEventManager
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
+#if NETSTANDARD2_1
+	public void AddEventHandler([NotNull] in Delegate? handler, [CallerMemberName, NotNull] in string eventName = "")
+#else
 	public void AddEventHandler(in Delegate? handler, [CallerMemberName] in string eventName = "")
+#endif
 	{
 		if (IsNullOrWhiteSpace(eventName))
 			throw new ArgumentNullException(nameof(eventName));
@@ -125,7 +148,11 @@ public partial class WeakEventManager
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
+#if NETSTANDARD2_1
+	public void RemoveEventHandler([NotNull] in Delegate? handler, [CallerMemberName, NotNull] in string eventName = "")
+#else
 	public void RemoveEventHandler(in Delegate? handler, [CallerMemberName] in string eventName = "")
+#endif
 	{
 		if (IsNullOrWhiteSpace(eventName))
 			throw new ArgumentNullException(nameof(eventName));

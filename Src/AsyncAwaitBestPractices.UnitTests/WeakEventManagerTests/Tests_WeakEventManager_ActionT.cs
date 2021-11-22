@@ -7,6 +7,8 @@ class Tests_WeakEventManager_ActionT : BaseTest
 {
 	readonly WeakEventManager<string> _actionEventManager = new();
 
+	EventHandler<string>? _action;
+
 	event Action<string> ActionEvent
 	{
 		add => _actionEventManager.AddEventHandler(value);
@@ -223,4 +225,43 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		//Assert
 		Assert.Throws<ArgumentNullException>(() => _actionEventManager.RemoveEventHandler(s => { var temp = s; }, " "), "Value cannot be null.\nParameter name: eventName");
 	}
+
+#if NETCOREAPP3_1 || NET5_0 || NET6_0
+	[Test]
+	public void WeakEventManagerActionT_AddRemoveEventHandler_VerifyNotNullAttribute()
+	{
+		//Arrange
+		EventHandler<string> addEventResult, removeEventResult;
+		string actionName = nameof(_action);
+
+		//Act
+		assignEvent();
+
+		_actionEventManager.AddEventHandler(_action, actionName);
+		addEventResult = _action;
+
+		_action = null;
+		assignEvent();
+
+		_actionEventManager.RemoveEventHandler(_action, actionName);
+		removeEventResult = _action;
+
+		_action = null;
+
+		//Assert
+		Assert.IsNull(_action);
+		Assert.IsNotNull(addEventResult);
+		Assert.IsNotNull(removeEventResult);
+
+		void assignEvent()
+		{
+			_action = new EventHandler<string>(handleEvent);
+
+			void handleEvent(object? sender, string e)
+			{
+
+			}
+		}
+	}
+#endif
 }

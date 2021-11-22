@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+#if NETSTANDARD2_1
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace AsyncAwaitBestPractices;
 
@@ -10,28 +13,56 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
-	public void AddEventHandler(EventHandler<TEventArgs>? handler, [CallerMemberName] string eventName = "") => AddEventHandler(in handler, in eventName);
+#if NETSTANDARD2_1
+	public void AddEventHandler([NotNull] EventHandler<TEventArgs>? handler, [CallerMemberName, NotNull] string eventName = "")
+#else
+	public void AddEventHandler(EventHandler<TEventArgs>? handler, [CallerMemberName] string eventName = "")
+#endif
+	{
+		AddEventHandler(in handler, in eventName);
+	}
 
 	/// <summary>
 	/// Adds the event handler
 	/// </summary>
 	/// <param name="action">Handler</param>
 	/// <param name="eventName">Event name</param>
-	public void AddEventHandler(Action<TEventArgs>? action, [CallerMemberName] string eventName = "") => AddEventHandler(in action, in eventName);
+#if NETSTANDARD2_1
+	public void AddEventHandler([NotNull] Action<TEventArgs>? action, [CallerMemberName, NotNull] string eventName = "")
+#else
+	public void AddEventHandler(Action<TEventArgs>? action, [CallerMemberName] string eventName = "")
+#endif
+	{
+		AddEventHandler(in action, in eventName);
+	}
 
 	/// <summary>
 	/// Removes the event handler
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
-	public void RemoveEventHandler(EventHandler<TEventArgs>? handler, [CallerMemberName] string eventName = "") => RemoveEventHandler(in handler, in eventName);
+#if NETSTANDARD2_1
+	public void RemoveEventHandler([NotNull] EventHandler<TEventArgs>? handler, [CallerMemberName, NotNull] string eventName = "")
+#else
+	public void RemoveEventHandler(EventHandler<TEventArgs>? handler, [CallerMemberName] string eventName = "")
+#endif
+	{
+		RemoveEventHandler(in handler, in eventName);
+	}
 
 	/// <summary>
 	/// Removes the event handler
 	/// </summary>
 	/// <param name="action">Handler</param>
 	/// <param name="eventName">Event name</param>
-	public void RemoveEventHandler(Action<TEventArgs>? action, [CallerMemberName] string eventName = "") => RemoveEventHandler(in action, in eventName);
+#if NETSTANDARD2_1
+	public void RemoveEventHandler([NotNull] Action<TEventArgs>? action, [CallerMemberName, NotNull] string eventName = "")
+#else
+	public void RemoveEventHandler(Action<TEventArgs>? action, [CallerMemberName] string eventName = "")
+#endif
+	{
+		RemoveEventHandler(in action, in eventName);
+	}
 
 	/// <summary>
 	/// Invokes the event EventHandler
@@ -59,14 +90,28 @@ public partial class WeakEventManager
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
-	public void AddEventHandler(Delegate? handler, [CallerMemberName] string eventName = "") => AddEventHandler(in handler, in eventName);
+#if NETSTANDARD2_1
+	public void AddEventHandler([NotNull] Delegate? handler, [CallerMemberName, NotNull] string eventName = "")
+#else
+	public void AddEventHandler(Delegate? handler, [CallerMemberName] string eventName = "")
+#endif
+	{
+		AddEventHandler(in handler, in eventName);
+	}
 
 	/// <summary>
 	/// Removes the event handler.
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
-	public void RemoveEventHandler(Delegate? handler, [CallerMemberName] string eventName = "") => RemoveEventHandler(in handler, in eventName);
+#if NETSTANDARD2_1
+	public void RemoveEventHandler([NotNull] Delegate? handler, [CallerMemberName, NotNull] string eventName = "")
+#else
+	public void RemoveEventHandler(Delegate? handler, [CallerMemberName] string eventName = "")
+#endif
+	{
+		RemoveEventHandler(in handler, in eventName);
+	}
 
 	/// <summary>
 	/// Invokes the event EventHandler
