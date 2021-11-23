@@ -45,7 +45,7 @@ public abstract class BaseCommand<TCanExecute>
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <returns></returns>
-	protected static bool IsNullable<T>()
+	private protected static bool IsNullable<T>()
 	{
 		var type = typeof(T);
 

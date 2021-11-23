@@ -9,6 +9,8 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 {
 	readonly WeakEventManager _propertyChangedWeakEventManager = new();
 
+	PropertyChangedEventHandler? _nullablePropertyChangedEventHandler;
+
 	public event PropertyChangedEventHandler? PropertyChanged
 	{
 		add => _propertyChangedWeakEventManager.AddEventHandler(value);
@@ -304,4 +306,43 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 
 		}
 	}
+
+#if NETCOREAPP3_1 || NET5_0 || NET6_0
+	[Test]
+	public void WeakEventManagerDelegate_AddRemoveEventHandler_VerifyNotNullAttribute()
+	{
+		//Arrange
+		PropertyChangedEventHandler addEventHandlerResult, removeEventHandlerResult;
+		string eventHandlerName = nameof(_nullablePropertyChangedEventHandler);
+
+		//Act
+		assignEventHandler();
+
+		_propertyChangedWeakEventManager.AddEventHandler(_nullablePropertyChangedEventHandler, eventHandlerName);
+		addEventHandlerResult = _nullablePropertyChangedEventHandler;
+
+		_nullablePropertyChangedEventHandler = null;
+		assignEventHandler();
+
+		_propertyChangedWeakEventManager.RemoveEventHandler(_nullablePropertyChangedEventHandler, eventHandlerName);
+		removeEventHandlerResult = _nullablePropertyChangedEventHandler;
+
+		_nullablePropertyChangedEventHandler = null;
+
+		//Assert
+		Assert.IsNull(_nullablePropertyChangedEventHandler);
+		Assert.IsNotNull(addEventHandlerResult);
+		Assert.IsNotNull(removeEventHandlerResult);
+
+		void assignEventHandler()
+		{
+			_nullablePropertyChangedEventHandler = new PropertyChangedEventHandler(handlePropertyChanged);
+
+			void handlePropertyChanged(object? sender, PropertyChangedEventArgs e)
+			{
+
+			}
+		}
+	}
+#endif
 }

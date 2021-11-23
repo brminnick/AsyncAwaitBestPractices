@@ -30,13 +30,14 @@
 - Mark internal classes as abstract
 - Update AssemblyFileVersion
 - Add NuGet README
+- Improve Nullablitiy
         </PackageReleaseNotes>
-        <Version>6.0.3</Version>
+        <Version>6.0.4</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
-        <AssemblyVersion>6.0.3</AssemblyVersion>
-        <AssemblyFileVersion>6.0.3</AssemblyFileVersion>
+        <AssemblyVersion>6.0.4</AssemblyVersion>
+        <AssemblyFileVersion>6.0.4</AssemblyFileVersion>
         <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
         <Authors>Brandon Minnick, John Thiriet</Authors>
         <Owners>Brandon Minnick</Owners>
