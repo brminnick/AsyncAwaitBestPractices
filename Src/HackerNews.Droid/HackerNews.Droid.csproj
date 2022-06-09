@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401+905-sha.aeec18668-azdo.5950840" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478+927-sha.9f26f70d6-azdo.6239473" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
   </ItemGroup>
   <ItemGroup>
