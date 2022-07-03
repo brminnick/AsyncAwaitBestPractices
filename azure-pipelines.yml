@@ -30,56 +30,57 @@ jobs:
     displayName: Build Xamarin.Forms Sample App
     pool:
       vmImage: macos-latest
+    
+    steps:      
+      - task: CmdLine@2
+        displayName: 'Install Boots'
+        inputs:
+          script: |
+            dotnet tool install --global boots
+            boots --stable Mono
+            boots --preview Xamarin.Android
+            boots --preview Xamarin.iOS
+            boots --preview Xamarin.Mac
 
-    - task: CmdLine@2
-      displayName: 'Install Boots'
-      inputs:
-        script: |
-          dotnet tool install --global boots
-          boots --stable Mono
-          boots --preview Xamarin.Android
-          boots --preview Xamarin.iOS
-          boots --preview Xamarin.Mac
+      - task: NuGetToolInstaller@1
+        displayName: 'Use NuGet'
+        inputs:
+          checkLatest: true
 
-    - task: NuGetToolInstaller@1
-      displayName: 'Use NuGet'
-      inputs:
-        checkLatest: true
+      - task: VSBuild@1
+        displayName: 'Build Android App'
+        inputs:
+          solution: '$(PathToAndroidAppCsproj)'
+          configuration: 'Release'
+          msbuildArgs: '/restore'
 
-    - task: VSBuild@1
-      displayName: 'Build Android App'
-      inputs:
-        solution: '$(PathToAndroidAppCsproj)'
-        configuration: 'Release'
-        msbuildArgs: '/restore'
+      - task: VSBuild@1
+        displayName: 'Build iOS App'
+        inputs:
+          solution: '$(PathToiOSAppCsproj)'
+          configuration: 'Release'
+          msbuildArgs: '/restore'
 
-    - task: VSBuild@1
-      displayName: 'Build iOS App'
-      inputs:
-        solution: '$(PathToiOSAppCsproj)'
-        configuration: 'Release'
-        msbuildArgs: '/restore'
+      - task: VSBuild@1
+        displayName: 'Build UI Test Project'
+        inputs:
+          solution: '$(PathToUITestsCsproj)'
+          configuration: 'Release'
+          msbuildArgs: '/restore'
 
-    - task: VSBuild@1
-      displayName: 'Build UI Test Project'
-      inputs:
-        solution: '$(PathToUITestsCsproj)'
-        configuration: 'Release'
-        msbuildArgs: '/restore'
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+        inputs:
+          SourceFolder: '$(system.defaultworkingdirectory)'
+          Contents: '**\bin\$(BuildConfiguration)\**'
+          TargetFolder: '$(build.artifactstagingdirectory)'
 
-    - task: CopyFiles@2
-      displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-      inputs:
-        SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: '**\bin\$(BuildConfiguration)\**'
-        TargetFolder: '$(build.artifactstagingdirectory)'
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: drop'
+        inputs:
+          PathtoPublish: '$(build.artifactstagingdirectory)'
 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: drop'
-      inputs:
-        PathtoPublish: '$(build.artifactstagingdirectory)'
-     
- - job: build_test_library
+  - job: build_test_library
     displayName: Build + Test Library
     pool:
       vmImage: windows-latest
