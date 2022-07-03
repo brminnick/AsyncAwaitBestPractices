@@ -129,7 +129,7 @@ jobs:
       inputs:
         command: test
         projects: '$(Build.SourcesDirectory)/Src/AsyncAwaitBestPractices.UnitTests'
-        arguments: '--configuration Release --settings ".runsettings"'
+        arguments: '--configuration Release'
 
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
