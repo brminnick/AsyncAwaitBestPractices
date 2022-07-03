@@ -6,6 +6,6 @@
 version: 2
 updates:
   - package-ecosystem: "nuget"
-    directory: "/Src"
+    directory: "/"
     schedule:
       interval: "daily"

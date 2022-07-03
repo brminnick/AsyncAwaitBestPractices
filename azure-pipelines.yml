@@ -1,5 +1,12 @@
 variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
+  PathToSolution: 'AsyncAwaitBestPractices.sln'
+  PathToiOSAppCsproj: 'sample/HackerNews.iOS/HackerNews.iOS.csproj'
+  PathToUITestsCsproj: 'sample/HackerNews.UITests/HackerNews.UITests.csproj'
+  PathToAndroidAppCsproj: 'sample/HackerNews.Droid/HackerNews.Droid.csproj'
+  PathToUnitTestsCsproj: 'src/AsyncAwaitBestPractices.UnitTests/AsyncAwaitBestPractices.UnitTests.csproj'
+  PathToAsyncAwaitBestPracticesCsproj: 'src/AsyncAwaitBestPractices/AsyncAwaitBestPractices.csproj'
+  PathToAsyncAwaitBestPracticesMVVMCsproj: 'src/AsyncAwaitBestPractices.MVVM/AsyncAwaitBestPractices.MVVM.csproj'
 
 trigger:
   branches:
@@ -16,10 +23,71 @@ pr:
     - main
 
 jobs:     
-  - job: build_macos
-    displayName: Build macOS Library
+  - job: build_sample
+    displayName: Build Xamarin.Forms Sample App
     pool:
-      vmImage: macos-latest
+      vmImage: windows-latest
+    
+    steps:
+      - task: UseDotNet@2
+        displayName: 'Use .Net Core SDK  6.0.x'
+        inputs:
+          version: ' 6.0.x'
+          installationPath: '$(Agent.ToolsDirectory)'
+          performMultiLevelLookup: true
+
+      - task: CmdLine@2
+        displayName: 'Install Boots'
+        inputs:
+          script: |
+            dotnet tool install --global boots
+            boots --stable Mono
+            boots --preview Xamarin.Android
+            boots --preview Xamarin.iOS
+            boots --preview Xamarin.Mac
+
+      - task: NuGetToolInstaller@1
+        displayName: 'Use NuGet'
+        inputs:
+          checkLatest: true
+
+      - task: VSBuild@1
+        displayName: 'Build Android App'
+        inputs:
+          solution: '$(PathToAndroidAppCsproj)'
+          configuration: 'Release'
+          msbuildArgs: '/restore'
+
+      - task: VSBuild@1
+        displayName: 'Build iOS App'
+        inputs:
+          solution: '$(PathToiOSAppCsproj)'
+          configuration: 'Release'
+          msbuildArgs: '/restore'
+
+      - task: VSBuild@1
+        displayName: 'Build UI Test Project'
+        inputs:
+          solution: '$(PathToUITestsCsproj)'
+          configuration: 'Release'
+          msbuildArgs: '/restore'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+        inputs:
+          SourceFolder: '$(system.defaultworkingdirectory)'
+          Contents: '**\bin\$(BuildConfiguration)\**'
+          TargetFolder: '$(build.artifactstagingdirectory)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: drop'
+        inputs:
+          PathtoPublish: '$(build.artifactstagingdirectory)'
+
+  - job: build_test_library
+    displayName: Build + Test Library
+    pool:
+      vmImage: windows-latest
 
     steps:
     - task: UseDotNet@2
@@ -31,9 +99,9 @@ jobs:
         performMultiLevelLookup: true
 
     - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK 3.1.x'
+      displayName: 'Use .Net Core SDK 3..x'
       inputs:
-        version: ' 3.1.x'
+        version: ' 3.0.x'
         installationPath: '$(Agent.ToolsDirectory)'
         performMultiLevelLookup: true
 
@@ -51,36 +119,17 @@ jobs:
         installationPath: '$(Agent.ToolsDirectory)'
         performMultiLevelLookup: true
 
-    - task: CmdLine@2
-      displayName: 'Install Boots'
-      inputs:
-        script: |
-          dotnet tool install --global boots
-          boots --stable Mono
-          boots --preview Xamarin.Android
-          boots --preview Xamarin.iOS
-          boots --preview Xamarin.Mac
-
     - task: NuGetToolInstaller@1
       displayName: 'Use NuGet'
       inputs:
         checkLatest: true
 
-    - task: CmdLine@2
-      displayName: 'Restore NuGet Packages'
-      inputs:
-        script: 'dotnet restore **/*.sln'
-
     - task: DotNetCoreCLI@2
       displayName: 'Run Unit Tests'
       inputs:
         command: test
-        projects: '$(Build.SourcesDirectory)/Src/AsyncAwaitBestPractices.UnitTests'
-
-    - task: CmdLine@2
-      displayName: 'Build Xamarin.Forms Sample'
-      inputs:
-        script: 'dotnet build ./Src/HackerNews'
+        projects: '$(PathToUnitTestsCsproj)'
+        arguments: '-c   Release'
 
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
@@ -93,4 +142,3 @@ jobs:
       displayName: 'Publish Artifact: drop'
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
-
