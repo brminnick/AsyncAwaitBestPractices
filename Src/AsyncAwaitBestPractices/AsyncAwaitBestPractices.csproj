@@ -27,10 +27,8 @@
         </Description>
         <PackageReleaseNotes>
             New In This Release:
-- Mark internal classes as abstract
-- Update AssemblyFileVersion
-- Add NuGet README
-- Improve Nullablitiy
+- Add .NET 5.0 Target
+- Add .NET 6.0 Target
         </PackageReleaseNotes>
         <Version>6.0.5</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
