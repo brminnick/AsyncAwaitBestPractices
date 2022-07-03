@@ -91,17 +91,17 @@ jobs:
 
     steps:
     - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK 2.1.x'
+      displayName: 'Use .Net Core SDK 2.0.x'
       inputs:
-        version: ' 2.1.x'
+        version: ' 2.0.x'
         includePreviewVersions: true
         installationPath: '$(Agent.ToolsDirectory)'
         performMultiLevelLookup: true
 
     - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK 3.1.x'
+      displayName: 'Use .Net Core SDK 3..x'
       inputs:
-        version: ' 3.1.x'
+        version: ' 3.0.x'
         installationPath: '$(Agent.ToolsDirectory)'
         performMultiLevelLookup: true
 
