@@ -91,9 +91,9 @@ jobs:
 
     steps:
     - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK 2.0.x'
+      displayName: 'Use .Net Core SDK 2.1.x'
       inputs:
-        version: ' 2.0.x'
+        version: ' 2.1.x'
         includePreviewVersions: true
         installationPath: '$(Agent.ToolsDirectory)'
         performMultiLevelLookup: true
@@ -129,7 +129,7 @@ jobs:
       inputs:
         command: test
         projects: '$(PathToUnitTestsCsproj)'
-        arguments: '-c Release'
+        arguments: '-c   Release'
 
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
