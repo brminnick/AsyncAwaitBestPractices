@@ -129,7 +129,7 @@ jobs:
       inputs:
         command: test
         projects: '$(PathToUnitTestsCsproj)'
-        arguments: '--configuration Release /property:Platform=X64'
+        arguments: '-c Release'
 
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
