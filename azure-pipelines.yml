@@ -128,8 +128,8 @@ jobs:
       displayName: 'Run Unit Tests'
       inputs:
         command: test
-        projects: '$(Build.SourcesDirectory)/Src/AsyncAwaitBestPractices.UnitTests'
-        arguments: '--configuration Release'
+        projects: '$(PathToUnitTestsCsproj)'
+        arguments: '--configuration Release /property:Platform=X64'
 
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
