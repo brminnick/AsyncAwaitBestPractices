@@ -23,7 +23,7 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
-#if NETSTANDARD2_1
+#if NETSTANDARD2_1 || NET60
 	public void AddEventHandler([NotNull] in EventHandler<TEventArgs>? handler, [CallerMemberName, NotNull] in string eventName = "")
 #else
 	public void AddEventHandler(in EventHandler<TEventArgs>? handler, [CallerMemberName] in string eventName = "")
@@ -43,7 +43,7 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="action">Handler</param>
 	/// <param name="eventName">Event name</param>
-#if NETSTANDARD2_1
+#if NETSTANDARD2_1 || NET60
 	public void AddEventHandler([NotNull] in Action<TEventArgs>? action, [CallerMemberName, NotNull] in string eventName = "")
 #else
 	public void AddEventHandler(in Action<TEventArgs>? action, [CallerMemberName] in string eventName = "")

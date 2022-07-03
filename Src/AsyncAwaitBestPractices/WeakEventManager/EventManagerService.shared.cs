@@ -171,7 +171,7 @@ static class EventManagerService
 		var typeRTDynamicMethod = typeInfoRTDynamicMethod?.AsType();
 
 		return (typeInfoRTDynamicMethod?.IsAssignableFrom(rtDynamicMethod.GetType().GetTypeInfo()) ?? false) ?
-			 (DynamicMethod)typeRTDynamicMethod.GetRuntimeFields().First(f => f.Name is "m_owner").GetValue(rtDynamicMethod)
+			 (DynamicMethod)typeRTDynamicMethod?.GetRuntimeFields().First(f => f.Name is "m_owner").GetValue(rtDynamicMethod)
 			: null;
 	}
 

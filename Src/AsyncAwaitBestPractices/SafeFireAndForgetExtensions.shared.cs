@@ -16,7 +16,7 @@ public static partial class SafeFireAndForgetExtensions
 	/// </summary>
 	/// <param name="task">ValueTask.</param>
 	/// <param name="onException">If an exception is thrown in the ValueTask, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
-	/// <param name="continueOnCapturedContext">If set to <c>true</c>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
+	/// <param name="continueOnCapturedContext">If set to <see cref="true"/>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
 	public static void SafeFireAndForget(this ValueTask task, in Action<Exception>? onException = null, in bool continueOnCapturedContext = false) => HandleSafeFireAndForget(task, continueOnCapturedContext, onException);
 
 
@@ -25,7 +25,7 @@ public static partial class SafeFireAndForgetExtensions
 	/// </summary>
 	/// <param name="task">ValueTask.</param>
 	/// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
-	/// <param name="continueOnCapturedContext">If set to <c>true</c>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
+	/// <param name="continueOnCapturedContext">If set to <see cref="true"/>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
 	/// <typeparam name="TException">Exception type. If an exception is thrown of a different type, it will not be handled</typeparam>
 	public static void SafeFireAndForget<TException>(this ValueTask task, in Action<TException>? onException = null, in bool continueOnCapturedContext = false) where TException : Exception => HandleSafeFireAndForget(task, continueOnCapturedContext, onException);
 
@@ -35,7 +35,7 @@ public static partial class SafeFireAndForgetExtensions
 	/// </summary>
 	/// <param name="task">Task.</param>
 	/// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
-	/// <param name="continueOnCapturedContext">If set to <c>true</c>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
+	/// <param name="continueOnCapturedContext">If set to <see cref="true"/>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
 	public static void SafeFireAndForget(this Task task, in Action<Exception>? onException = null, in bool continueOnCapturedContext = false) => HandleSafeFireAndForget(task, continueOnCapturedContext, onException);
 
 	/// <summary>
@@ -43,18 +43,17 @@ public static partial class SafeFireAndForgetExtensions
 	/// </summary>
 	/// <param name="task">Task.</param>
 	/// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
-	/// <param name="continueOnCapturedContext">If set to <c>true</c>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
+	/// <param name="continueOnCapturedContext">If set to <see cref="true"/>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
 	/// <typeparam name="TException">Exception type. If an exception is thrown of a different type, it will not be handled</typeparam>
 	public static void SafeFireAndForget<TException>(this Task task, in Action<TException>? onException = null, in bool continueOnCapturedContext = false) where TException : Exception => HandleSafeFireAndForget(task, continueOnCapturedContext, onException);
-
 
 
 	/// <summary>
 	/// Initialize SafeFireAndForget
 	///
-	/// Warning: When <c>true</c>, there is no way to catch this exception and it will always result in a crash. Recommended only for debugging purposes.
+	/// Warning: When <see cref="true"/>, there is no way to catch this exception and it will always result in a crash. Recommended only for debugging purposes.
 	/// </summary>
-	/// <param name="shouldAlwaysRethrowException">If set to <c>true</c>, after the exception has been caught and handled, the exception will always be rethrown.</param>
+	/// <param name="shouldAlwaysRethrowException">If set to <see cref="true"/>, after the exception has been caught and handled, the exception will always be rethrown.</param>
 	public static void Initialize(in bool shouldAlwaysRethrowException = false) => _shouldAlwaysRethrowException = shouldAlwaysRethrowException;
 
 	/// <summary>
@@ -80,7 +79,7 @@ public static partial class SafeFireAndForgetExtensions
 		{
 			await valueTask.ConfigureAwait(continueOnCapturedContext);
 		}
-		catch (TException ex) when (_onException != null || onException != null)
+		catch (TException ex) when (_onException is not null || onException is not null)
 		{
 			HandleException(ex, onException);
 
@@ -95,7 +94,7 @@ public static partial class SafeFireAndForgetExtensions
 		{
 			await task.ConfigureAwait(continueOnCapturedContext);
 		}
-		catch (TException ex) when (_onException != null || onException != null)
+		catch (TException ex) when (_onException is not null || onException is not null)
 		{
 			HandleException(ex, onException);
 

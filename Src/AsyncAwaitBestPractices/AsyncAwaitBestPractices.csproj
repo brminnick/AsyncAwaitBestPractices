@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+        <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net6.0</TargetFrameworks>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AsyncAwaitBestPractices.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>AsyncAwaitBestPractices</AssemblyName>
@@ -32,12 +32,12 @@
 - Add NuGet README
 - Improve Nullablitiy
         </PackageReleaseNotes>
-        <Version>6.0.4</Version>
+        <Version>6.0.5</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
-        <AssemblyVersion>6.0.4</AssemblyVersion>
-        <AssemblyFileVersion>6.0.4</AssemblyFileVersion>
+        <AssemblyVersion>6.0.5</AssemblyVersion>
+        <AssemblyFileVersion>6.0.5</AssemblyFileVersion>
         <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
         <Authors>Brandon Minnick, John Thiriet</Authors>
         <Owners>Brandon Minnick</Owners>
@@ -61,9 +61,6 @@
     <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
         <!-- Manage TargetFrameworks for distribution (Release Mode) -->
     </PropertyGroup>
-    <ItemGroup Condition=" '$(Configuration)'=='Release' ">
-         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    </ItemGroup>
     <ItemGroup>
         <Compile Include="**/*.shared.cs" />
         <Compile Include="**/*.shared.*.cs" />
@@ -77,10 +74,11 @@
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
         <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
     </ItemGroup>
-    <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard2.1')) ">
-    </ItemGroup>
     <ItemGroup>
         <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
         <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(Configuration)'=='Release' ">
+         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     </ItemGroup>
 </Project>
