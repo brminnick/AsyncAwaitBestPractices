@@ -89,7 +89,8 @@
     <ProjectReference Include="..\HackerNews\HackerNews.csproj">
       <Project>{C3D6DE1F-ED08-4CA0-A092-56785BB3CB4D}</Project>
       <Name>HackerNews</Name>
-      <ReferenceSourceTarget></ReferenceSourceTarget>
+      <ReferenceSourceTarget>
+      </ReferenceSourceTarget>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
