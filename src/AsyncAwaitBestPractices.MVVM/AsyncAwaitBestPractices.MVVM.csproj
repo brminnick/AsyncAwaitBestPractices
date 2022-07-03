@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+      <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net5.0;net6.0</TargetFrameworks>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>AsyncAwaitBestPracticesMVVM.snk</AssemblyOriginatorKeyFile>
+        <AssemblyName>AsyncAwaitBestPractices.MVVM</AssemblyName>
+        <RootNamespace>AsyncAwaitBestPractices.MVVM</RootNamespace>
+        <PackageId>AsyncAwaitBestPractices.MVVM</PackageId>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <Summary>
+            Async Extensions for ICommand
+
+            Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task. 
+            Includes AsyncValueCommand and IAsyncValueCommand which allows ICommand to safely be used asynchronously with ValueTask
+        </Summary>
+        <PackageTags>task, fire and forget, threading, extensions, system.threading.tasks, async, await, command, icommand, asynccommand, valuetask, asyncvaluecommand</PackageTags>
+        <Title>Async Extensions for ICommand</Title>
+        <Description>
+            Async Extensions for ICommand
+
+            Includes AsyncCommand and IAsyncCommand which allows ICommand to safely be used asynchronously with Task. 
+            Includes AsyncValueCommand and IAsyncValueCommand which allows ICommand to safely be used asynchronously with ValueTask
+        </Description>
+        <PackageReleaseNotes>
+            New in this release:
+- Mark internal classes as abstract
+- Update AssemblyFileVersion
+- Add NuGet README
+- Improve Nullablitiy
+        </PackageReleaseNotes>
+        <Version>6.0.5</Version>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
+        <Product>$(AssemblyName) ($(TargetFramework))</Product>
+        <AssemblyVersion>6.0.5</AssemblyVersion>
+        <AssemblyFileVersion>6.0.5</AssemblyFileVersion>
+        <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
+        <Authors>Brandon Minnick, John Thiriet</Authors>
+        <Owners>Brandon Minnick</Owners>
+        <NeutralLanguage>en</NeutralLanguage>
+        <Copyright>©Copyright 2021 Brandon Minnick. All rights reserved.</Copyright>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <DefineConstants>$(DefineConstants);</DefineConstants>
+        <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</PackageProjectUrl>
+        <DebugType>portable</DebugType>
+        <Configurations>Debug;Release</Configurations>
+        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+        <!-- Manage TargetFrameworks for development (Debug Mode) -->
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+    <ItemGroup Condition=" '$(Configuration)'=='Release' ">
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="**/*.shared.cs" />
+        <Compile Include="**/*.shared.*.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\AsyncAwaitBestPractices\AsyncAwaitBestPractices.csproj" />
+        <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
+    </ItemGroup>
+</Project>

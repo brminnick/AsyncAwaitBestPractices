@@ -1,7 +1,5 @@
 variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  NET_VERSION: '6.0.x'
-  NET_CORE_VERSION: '3.1.x'
   PathToSolution: 'AsyncAwaitBestPractices.sln'
   PathToiOSAppCsproj: 'sample/HackerNews.iOS/HackerNews.iOS.csproj'
   PathToUITestsCsproj: 'sample/HackerNews.UITests/HackerNews.UITests.csproj'
@@ -9,7 +7,6 @@ variables:
   PathToUnitTestsCsproj: 'src/AsyncAwaitBestPractices.UnitTests/AsyncAwaitBestPractices.UnitTests.csproj'
   PathToAsyncAwaitBestPracticesCsproj: 'src/AsyncAwaitBestPractices/AsyncAwaitBestPractices.csproj'
   PathToAsyncAwaitBestPracticesMVVMCsproj: 'src/AsyncAwaitBestPractices.MVVM/AsyncAwaitBestPractices.MVVM.csproj'
-  XcodeVersion: '13.3.1'
 
 trigger:
   branches:
@@ -29,7 +26,7 @@ jobs:
   - job: build_sample
     displayName: Build Xamarin.Forms Sample App
     pool:
-      vmImage: macos-latest
+      vmImage: windows-latest
     
     steps:
       - task: UseDotNet@2
