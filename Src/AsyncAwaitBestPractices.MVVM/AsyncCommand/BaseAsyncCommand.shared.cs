@@ -39,7 +39,7 @@ public abstract class BaseAsyncCommand<TExecute, TCanExecute> : BaseCommand<TCan
 	/// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
 	private protected Task ExecuteAsync(TExecute? parameter) => _execute(parameter);
 
-	bool ICommand.CanExecute(object parameter) => parameter switch
+	bool ICommand.CanExecute(object? parameter) => parameter switch
 	{
 		TCanExecute validParameter => CanExecute(validParameter),
 		null when IsNullable<TCanExecute>() => CanExecute((TCanExecute?)parameter),
