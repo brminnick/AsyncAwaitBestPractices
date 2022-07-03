@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-#if NETSTANDARD2_1
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
 #endif
 
@@ -23,7 +23,7 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
-#if NETSTANDARD2_1 || NET60
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 	public void AddEventHandler([NotNull] in EventHandler<TEventArgs>? handler, [CallerMemberName, NotNull] in string eventName = "")
 #else
 	public void AddEventHandler(in EventHandler<TEventArgs>? handler, [CallerMemberName] in string eventName = "")
@@ -43,7 +43,7 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="action">Handler</param>
 	/// <param name="eventName">Event name</param>
-#if NETSTANDARD2_1 || NET60
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 	public void AddEventHandler([NotNull] in Action<TEventArgs>? action, [CallerMemberName, NotNull] in string eventName = "")
 #else
 	public void AddEventHandler(in Action<TEventArgs>? action, [CallerMemberName] in string eventName = "")
@@ -63,7 +63,7 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
-#if NETSTANDARD2_1
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 	public void RemoveEventHandler([NotNull] in EventHandler<TEventArgs>? handler, [CallerMemberName, NotNull] in string eventName = "")
 #else
 	public void RemoveEventHandler(in EventHandler<TEventArgs>? handler, [CallerMemberName] in string eventName = "")
@@ -83,7 +83,7 @@ public partial class WeakEventManager<TEventArgs>
 	/// </summary>
 	/// <param name="action">Handler</param>
 	/// <param name="eventName">Event name</param>
-#if NETSTANDARD2_1
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 	public void RemoveEventHandler([NotNull] in Action<TEventArgs>? action, [CallerMemberName, NotNull] in string eventName = "")
 #else
 	public void RemoveEventHandler(in Action<TEventArgs>? action, [CallerMemberName] in string eventName = "")
@@ -128,7 +128,7 @@ public partial class WeakEventManager
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
-#if NETSTANDARD2_1
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 	public void AddEventHandler([NotNull] in Delegate? handler, [CallerMemberName, NotNull] in string eventName = "")
 #else
 	public void AddEventHandler(in Delegate? handler, [CallerMemberName] in string eventName = "")
@@ -148,7 +148,7 @@ public partial class WeakEventManager
 	/// </summary>
 	/// <param name="handler">Handler</param>
 	/// <param name="eventName">Event name</param>
-#if NETSTANDARD2_1
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 	public void RemoveEventHandler([NotNull] in Delegate? handler, [CallerMemberName, NotNull] in string eventName = "")
 #else
 	public void RemoveEventHandler(in Delegate? handler, [CallerMemberName] in string eventName = "")
