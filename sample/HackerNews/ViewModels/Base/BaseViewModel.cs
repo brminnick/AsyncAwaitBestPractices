@@ -41,7 +41,7 @@ abstract class BaseViewModel : INotifyPropertyChanged
 		OnPropertyChanged(propertyName);
 	}
 
-	protected async Task<TDataObject> GetDataObjectFromAPI<TDataObject>(string apiUrl)
+	protected async Task<TDataObject> GetDataFromAPI<TDataObject>(string apiUrl)
 	{
 		await UpdateActivityIndicatorStatus(true).ConfigureAwait(false);
 

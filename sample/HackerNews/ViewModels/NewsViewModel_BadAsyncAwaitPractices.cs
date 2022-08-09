@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AsyncAwaitBestPractices;
 using System.Windows.Input;
 using HackerNews.Shared;
 using Xamarin.Forms;
@@ -76,7 +77,7 @@ class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	//ToDo Refactor
 	async Task<StoryModel> GetStory(string storyId)
 	{
-		return await GetDataObjectFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
+		return await GetDataFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
 	}
 
 	//ToDo Refactor
@@ -84,7 +85,7 @@ class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	{
 		try
 		{
-			return await GetDataObjectFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
+			return await GetDataFromAPI<List<string>?>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
 		}
 		catch (Exception e)
 		{
