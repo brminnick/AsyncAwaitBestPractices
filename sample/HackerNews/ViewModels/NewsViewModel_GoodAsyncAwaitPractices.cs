@@ -71,7 +71,7 @@ class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
 		return topStoriesArray.Where(x => x != null).OrderByDescending(x => x.Score).ToList();
 	}
 
-	Task<StoryModel> GetStory(string storyId) => GetDataObjectFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
+	Task<StoryModel> GetStory(string storyId) => GetDataFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
 
 	async ValueTask<IReadOnlyList<string>> GetTopStoryIDs()
 	{
@@ -80,7 +80,7 @@ class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
 
 		try
 		{
-			return await GetDataObjectFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty").ConfigureAwait(false);
+			return await GetDataFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty").ConfigureAwait(false);
 		}
 		catch (Exception e)
 		{
