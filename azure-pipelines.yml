@@ -30,9 +30,9 @@ jobs:
     
     steps:
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  6.0.x'
+        displayName: 'Use .Net Core SDK  7.0.x'
         inputs:
-          version: ' 6.0.x'
+          version: '7.0.x'
           installationPath: '$(Agent.ToolsDirectory)'
           performMultiLevelLookup: true
 
@@ -106,16 +106,16 @@ jobs:
         performMultiLevelLookup: true
 
     - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK  5.0.x'
+      displayName: 'Use .Net Core SDK  6.0.x'
       inputs:
-        version: ' 5.0.x'
+        version: ' 6.0.x'
         installationPath: '$(Agent.ToolsDirectory)'
         performMultiLevelLookup: true
 
     - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK  6.0.x'
+      displayName: 'Use .Net Core SDK  7.0.x'
       inputs:
-        version: ' 6.0.x'
+        version: '7.0.x'
         installationPath: '$(Agent.ToolsDirectory)'
         performMultiLevelLookup: true
 
