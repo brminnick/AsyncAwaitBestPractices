@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net5.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AsyncAwaitBestPractices.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>AsyncAwaitBestPractices</AssemblyName>
@@ -27,10 +27,9 @@
         </Description>
         <PackageReleaseNotes>
             New In This Release:
-- Add .NET 5.0 Target
-- Add .NET 6.0 Target
+- Add .NET 7.0 Target
         </PackageReleaseNotes>
-        <Version>6.0.5</Version>
+        <Version>6.0.6</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
