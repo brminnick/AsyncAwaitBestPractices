@@ -9,7 +9,9 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 {
 	readonly WeakEventManager _propertyChangedWeakEventManager = new();
 
+#if NETCOREAPP3_1_OR_GREATER
 	PropertyChangedEventHandler? _nullablePropertyChangedEventHandler;
+#endif
 
 	public event PropertyChangedEventHandler? PropertyChanged
 	{
@@ -307,7 +309,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		}
 	}
 
-#if NETCOREAPP3_1 || NET5_0 || NET6_0
+#if NETCOREAPP3_1_OR_GREATER
 	[Test]
 	public void WeakEventManagerDelegate_AddRemoveEventHandler_VerifyNotNullAttribute()
 	{

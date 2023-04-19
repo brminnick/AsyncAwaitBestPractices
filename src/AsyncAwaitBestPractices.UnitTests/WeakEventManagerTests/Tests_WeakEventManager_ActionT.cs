@@ -7,7 +7,9 @@ class Tests_WeakEventManager_ActionT : BaseTest
 {
 	readonly WeakEventManager<string> _actionEventManager = new();
 
+#if NETCOREAPP3_1_OR_GREATER
 	EventHandler<string>? _action;
+#endif
 
 	event Action<string> ActionEvent
 	{
@@ -226,7 +228,7 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		Assert.Throws<ArgumentNullException>(() => _actionEventManager.RemoveEventHandler(s => { var temp = s; }, " "), "Value cannot be null.\nParameter name: eventName");
 	}
 
-#if NETCOREAPP3_1 || NET5_0 || NET6_0
+#if NETCOREAPP3_1_OR_GREATER
 	[Test]
 	public void WeakEventManagerActionT_AddRemoveEventHandler_VerifyNotNullAttribute()
 	{
