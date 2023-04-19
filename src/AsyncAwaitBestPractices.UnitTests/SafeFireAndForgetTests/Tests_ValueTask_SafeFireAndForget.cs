@@ -21,6 +21,58 @@ class Tests_ValueTask_SafeFireAndForget : BaseAsyncValueCommandTest
 	}
 
 	[Test]
+	public async Task SafeFireAndForget_ValueTask_Succeeds()
+	{
+		//Arrange
+		bool wasActionExecuted = false;
+		var valueTask = new ValueTask(Task.Delay(500));
+
+		// Act
+		valueTask.SafeFireAndForget(onException: ex => wasActionExecuted = true);
+		await valueTask;
+
+		//Assert
+		Assert.IsFalse(wasActionExecuted);
+	}
+
+#if NETCOREAPP1_0_OR_GREATER
+	[Test]
+	public void SafeFireAndForget_ValueTask_ThrowsException_ReThrown()
+	{
+		//Arrange
+		bool wasActionExecuted = false;
+
+		// Act
+		Assert.ThrowsAsync<Exception>(async () =>
+		{
+			var valueTask = new ValueTask(Task.FromException(new Exception()));
+			valueTask.SafeFireAndForget();
+
+			await valueTask;
+		});
+
+		//Assert
+		Assert.IsFalse(wasActionExecuted);
+	}
+
+
+	[Test]
+	public async Task SafeFireAndForget_ValueTask_ThrowsException_ActionExecuted()
+	{
+		//Arrange
+		bool wasActionExecuted = false;
+		var valueTask = new ValueTask(Task.FromException(new Exception()));
+
+		//Act
+		valueTask.SafeFireAndForget(ex => wasActionExecuted = true);
+		await valueTask;
+
+		//Assert
+		Assert.IsTrue(wasActionExecuted);
+	}
+#endif
+
+	[Test]
 	public async Task SafeFireAndForget_HandledException()
 	{
 		//Arrange

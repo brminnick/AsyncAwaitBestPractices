@@ -133,4 +133,57 @@ class Tests_SafeFireAndForget : BaseTest
 			return Task.FromResult(true);
 		}
 	}
+
+	[Test]
+	public async Task SafeFireAndForget_Task_Succeeds()
+	{
+		//Arrange
+		bool wasActionExecuted = false;
+
+		//Act
+		var task = Task.Run(() => Task.Delay(500));
+		task.SafeFireAndForget(ex => wasActionExecuted = true);
+
+		await task;
+
+		//Assert
+		Assert.IsFalse(wasActionExecuted);
+	}
+
+#if NETCOREAPP1_0_OR_GREATER
+	[Test]
+	public void SafeFireAndForget_Task_ThrowsException_ReThrown()
+	{
+		//Arrange
+		bool wasActionExecuted = false;
+
+		//Act
+		Assert.ThrowsAsync<Exception>(async () =>
+		{
+			var task = Task.FromException(new Exception());
+			task.SafeFireAndForget();
+
+			await task;
+		});
+
+		//Assert
+		Assert.IsFalse(wasActionExecuted);
+	}
+
+	[Test]
+	public async Task SafeFireAndForget_Task_ThrowsException_ActionExecuted()
+	{
+		//Arrange
+		bool wasActionExecuted = false;
+
+		//Act
+		var task = Task.FromException(new Exception());
+		task.SafeFireAndForget(ex => wasActionExecuted = true);
+
+		await task;
+
+		//Assert
+		Assert.IsTrue(wasActionExecuted);
+	}
+#endif
 }

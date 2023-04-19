@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace AsyncAwaitBestPractices;
 
-internal struct Subscription
+internal readonly struct Subscription
 {
 	public Subscription(in WeakReference? subscriber, in MethodInfo handler)
 	{

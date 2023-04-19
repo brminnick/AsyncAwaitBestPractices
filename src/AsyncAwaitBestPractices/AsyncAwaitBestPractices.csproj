@@ -61,6 +61,7 @@
     <ItemGroup>
         <Compile Include="**/*.shared.cs" />
         <Compile Include="**/*.shared.*.cs" />
+        <InternalsVisibleTo Include="AsyncAwaitBestPractices.UnitTests" />
     </ItemGroup>
     <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard1.0')) ">
         <PackageReference Include="System.ValueTuple" Version="4.5.0" />
