@@ -27,7 +27,7 @@ class NewsPage : BaseContentPage<NewsViewModel>
 				SelectionMode = SelectionMode.Single,
 				ItemTemplate = new StoryDataTemplate(),
 
-			}.Bind(CollectionView.ItemsSourceProperty, static (NewsViewModel vm) => vm.TopStoryCollection)
+			}.Bind(ItemsView.ItemsSourceProperty, static (NewsViewModel vm) => vm.TopStoryCollection)
 			 .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
 
 		}.Bind(RefreshView.IsRefreshingProperty, static (NewsViewModel vm) => vm.IsListRefreshing)
