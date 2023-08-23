@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -39,7 +38,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 			foreach (var story in topStoriesList)
 			{
 				if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
-				InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
+					InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
 			}
 		}
 		catch (Exception e)
@@ -91,14 +90,6 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 			Debug.WriteLine(e.Message);
 			throw;
 		}
-	}
-
-	async Task<bool> SetIsRefreshing(bool isRefreshing)
-	{
-		IsListRefreshing = isRefreshing;
-		await Task.Delay(100);
-
-		return isRefreshing;
 	}
 
 	void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.HandleEvent(this, message, nameof(PullToRefreshFailed));
