@@ -1,19 +1,20 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace HackerNews;
 
 partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 {
-	readonly IDispatcher _dispatcher;
 	readonly HackerNewsAPIService _hackerNewsAPIService;
-
 	readonly WeakEventManager _pullToRefreshEventManager = new();
 
-	public NewsViewModel_BadAsyncAwaitPractices(IDispatcher dispatcher, HackerNewsAPIService hackerNewsAPIService)
+	[ObservableProperty]
+	bool _isListRefreshing;
+
+	public NewsViewModel_BadAsyncAwaitPractices(IDispatcher dispatcher, HackerNewsAPIService hackerNewsAPIService) : base(dispatcher)
 	{
-		_dispatcher = dispatcher;
 		_hackerNewsAPIService = hackerNewsAPIService;
 
 		//ToDo Refactor
@@ -25,8 +26,6 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		add => _pullToRefreshEventManager.AddEventHandler(value);
 		remove => _pullToRefreshEventManager.RemoveEventHandler(value);
 	}
-
-	public ObservableCollection<StoryModel> TopStoryCollection { get; } = new();
 
 	[RelayCommand]
 	async Task Refresh()
@@ -54,7 +53,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 
 	async Task<List<StoryModel>> GetTopStories(int numberOfStories)
 	{
-		List<StoryModel> topStoryList = new List<StoryModel>();
+		List<StoryModel> topStoryList = new();
 
 		//ToDo Refactor
 		var topStoryIds = await GetTopStoryIDs();
@@ -73,22 +72,22 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	}
 
 	//ToDo Refactor
-	async Task<StoryModel> GetStory(string storyId)
+	async Task<StoryModel> GetStory(long storyId)
 	{
-		return await Hack
+		return await _hackerNewsAPIService.GetStory(storyId);
 	}
 
 	//ToDo Refactor
-	async Task<List<string>?> GetTopStoryIDs()
+	async Task<IReadOnlyList<long>?> GetTopStoryIDs()
 	{
 		try
 		{
-			return await GetDataFromAPI<List<string>?>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
+			return await _hackerNewsAPIService.GetTopStoryIDs();
 		}
 		catch (Exception e)
 		{
 			Debug.WriteLine(e.Message);
-			return null;
+			throw;
 		}
 	}
 
