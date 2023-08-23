@@ -28,9 +28,9 @@ class Tests_SafeFireAndForget : BaseTest
 		Exception? exception = null;
 
 		//Act
-		NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget(ex => exception = ex);
-		await NoParameterTask();
-		await NoParameterTask();
+		BaseTest.NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget(ex => exception = ex);
+		await BaseTest.NoParameterTask();
+		await BaseTest.NoParameterTask();
 
 		//Assert
 		Assert.IsNotNull(exception);
@@ -44,9 +44,9 @@ class Tests_SafeFireAndForget : BaseTest
 		SafeFireAndForgetExtensions.SetDefaultExceptionHandling(ex => exception = ex);
 
 		//Act
-		NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget();
-		await NoParameterTask();
-		await NoParameterTask();
+		BaseTest.NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget();
+		await BaseTest.NoParameterTask();
+		await BaseTest.NoParameterTask();
 
 		//Assert
 		Assert.IsNotNull(exception);
@@ -61,9 +61,9 @@ class Tests_SafeFireAndForget : BaseTest
 		SafeFireAndForgetExtensions.SetDefaultExceptionHandling(ex => exception1 = ex);
 
 		//Act
-		NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget(ex => exception2 = ex);
-		await NoParameterTask();
-		await NoParameterTask();
+		BaseTest.NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget(ex => exception2 = ex);
+		await BaseTest.NoParameterTask();
+		await BaseTest.NoParameterTask();
 
 		//Assert
 		Assert.IsNotNull(exception1);

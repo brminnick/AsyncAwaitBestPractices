@@ -243,7 +243,7 @@ public class CustomShellSectionRenderer : ShellSectionRenderer
 		// https://github.com/xamarin/Xamarin.Forms/issues/10519
 		[Export("navigationController:animationControllerForOperation:fromViewController:toViewController:")]
 		[Foundation.Preserve(Conditional = true)]
-		public new IUIViewControllerAnimatedTransitioning? GetAnimationControllerForOperation(UINavigationController navigationController, UINavigationControllerOperation operation, UIViewController fromViewController, UIViewController toViewController)
+		public new static IUIViewControllerAnimatedTransitioning? GetAnimationControllerForOperation(UINavigationController navigationController, UINavigationControllerOperation operation, UIViewController fromViewController, UIViewController toViewController)
 		{
 			return null;
 		}
@@ -509,7 +509,7 @@ public class UIContainerView : UIView
 
 	public override void WillRemoveSubview(UIView uiview)
 	{
-		Disconnect();
+		UIContainerView.Disconnect();
 		base.WillRemoveSubview(uiview);
 	}
 
@@ -533,7 +533,7 @@ public class UIContainerView : UIView
 		((IView)_view).Arrange(platformFrame);
 	}
 
-	internal void Disconnect()
+	internal static void Disconnect()
 	{
 	}
 
@@ -561,7 +561,7 @@ public class UIContainerView : UIView
 
 		if (disposing)
 		{
-			Disconnect();
+			UIContainerView.Disconnect();
 
 			if (_platformView?.Superview == this)
 				_platformView.RemoveFromSuperview();

@@ -32,7 +32,7 @@ partial class NewsViewModel : BaseViewModel
 		{
 			await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false))
 			{
-				if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
+				if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title, StringComparison.Ordinal)))
 					InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
 			}
 		}

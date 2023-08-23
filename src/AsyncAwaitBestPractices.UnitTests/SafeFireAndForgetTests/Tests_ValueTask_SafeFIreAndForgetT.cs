@@ -27,7 +27,7 @@ class Tests_ValueTask_SafeFireAndForgetT : BaseAsyncValueCommandTest
 		NullReferenceException? exception = null;
 
 		//Act
-		NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget<NullReferenceException>(ex => exception = ex);
+		BaseAsyncValueCommandTest.NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget<NullReferenceException>(ex => exception = ex);
 		await NoParameterTask();
 		await NoParameterTask();
 
@@ -43,7 +43,7 @@ class Tests_ValueTask_SafeFireAndForgetT : BaseAsyncValueCommandTest
 		SafeFireAndForgetExtensions.SetDefaultExceptionHandling(ex => exception = ex);
 
 		//Act
-		NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget();
+		BaseAsyncValueCommandTest.NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget();
 		await NoParameterTask();
 		await NoParameterTask();
 
@@ -60,7 +60,7 @@ class Tests_ValueTask_SafeFireAndForgetT : BaseAsyncValueCommandTest
 		SafeFireAndForgetExtensions.SetDefaultExceptionHandling(ex => exception1 = ex);
 
 		//Act
-		NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget<NullReferenceException>(ex => exception2 = ex);
+		BaseAsyncValueCommandTest.NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget<NullReferenceException>(ex => exception2 = ex);
 		await NoParameterTask();
 		await NoParameterTask();
 

@@ -37,7 +37,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 
 			foreach (var story in topStoriesList)
 			{
-				if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
+				if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title, StringComparison.Ordinal)))
 					InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
 			}
 		}
