@@ -38,7 +38,8 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 
 			foreach (var story in topStoriesList)
 			{
-				TopStoryCollection.Add(story);
+				if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
+				InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
 			}
 		}
 		catch (Exception e)
@@ -51,6 +52,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		}
 	}
 
+	// ToDo Refactor
 	async Task<List<StoryModel>> GetTopStories(int numberOfStories)
 	{
 		List<StoryModel> topStoryList = new();
