@@ -1,54 +1,76 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AsyncAwaitBestPractices;
-using AsyncAwaitBestPractices.MVVM;
-using HackerNews.Shared;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace HackerNews;
 
-class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
+partial class NewsViewModel : BaseViewModel
 {
-	readonly WeakEventManager<string> _errorOccurredEventManager = new();
+	readonly IDispatcher _dispatcher;
+	readonly HackerNewsAPIService _hackerNewsAPIService;
 
+	readonly WeakEventManager _pullToRefreshEventManager = new();
+
+	[ObservableProperty]
 	bool _isListRefreshing;
-	IAsyncCommand? _refreshCommand;
-	IReadOnlyList<StoryModel> _topStoryList = Array.Empty<StoryModel>();
 
-	public NewsViewModel_GoodAsyncAwaitPractices()
+	public NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerNewsAPIService)
 	{
-		ExecuteRefreshCommand().SafeFireAndForget(ex => OnErrorOccurred(ex.ToString()));
+		_dispatcher = dispatcher;
+		_hackerNewsAPIService = hackerNewsAPIService;
+
+		BindingBase.EnableCollectionSynchronization(TopStoryCollection, null, ObservableCollectionCallback);
 	}
 
-	public event EventHandler<string> ErrorOccurred
+	public event EventHandler<string> PullToRefreshFailed
 	{
-		add => _errorOccurredEventManager.AddEventHandler(value);
-		remove => _errorOccurredEventManager.RemoveEventHandler(value);
+		add => _pullToRefreshEventManager.AddEventHandler(value);
+		remove => _pullToRefreshEventManager.RemoveEventHandler(value);
 	}
 
-	public IAsyncCommand RefreshCommand => _refreshCommand ??= new AsyncCommand(ExecuteRefreshCommand,
-																				onException: ex => OnErrorOccurred(ex.ToString()));
+	public ObservableCollection<StoryModel> TopStoryCollection { get; } = new();
 
-	public IReadOnlyList<StoryModel> TopStoryList
+	static void InsertIntoSortedCollection<T>(ObservableCollection<T> collection, Comparison<T> comparison, T modelToInsert)
 	{
-		get => _topStoryList;
-		set => SetProperty(ref _topStoryList, value);
+		if (collection.Count is 0)
+		{
+			collection.Add(modelToInsert);
+		}
+		else
+		{
+			int index = 0;
+			foreach (var model in collection)
+			{
+				if (comparison(model, modelToInsert) >= 0)
+				{
+					collection.Insert(index, modelToInsert);
+					return;
+				}
+
+				index++;
+			}
+
+			collection.Insert(index, modelToInsert);
+		}
 	}
 
-	public bool IsListRefreshing
+	[RelayCommand]
+	async Task Refresh()
 	{
-		get => _isListRefreshing;
-		set => SetProperty(ref _isListRefreshing, value);
-	}
-
-	async Task ExecuteRefreshCommand()
-	{
-		IsListRefreshing = true;
+		TopStoryCollection.Clear();
 
 		try
 		{
-			TopStoryList = await GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false);
+			await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false))
+			{
+				if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title)))
+					InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
+			}
+		}
+		catch (Exception e)
+		{
+			OnPullToRefreshFailed(e.ToString());
 		}
 		finally
 		{
@@ -56,38 +78,26 @@ class NewsViewModel_GoodAsyncAwaitPractices : BaseViewModel
 		}
 	}
 
-	async Task<List<StoryModel>> GetTopStories(int numberOfStories)
+	async IAsyncEnumerable<StoryModel> GetTopStories(int? storyCount = int.MaxValue)
 	{
-		var topStoryIds = await GetTopStoryIDs().ConfigureAwait(false);
+		var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs().ConfigureAwait(false);
+		var getTopStoryTaskList = topStoryIds.Select(_hackerNewsAPIService.GetStory).ToList();
 
-		var getTopStoryTaskList = new List<Task<StoryModel>>();
-		for (int i = 0; i < Math.Min(topStoryIds.Count, numberOfStories); i++)
+		while (getTopStoryTaskList.Any() && storyCount-- > 0)
 		{
-			getTopStoryTaskList.Add(GetStory(topStoryIds[i]));
-		}
+			var completedGetStoryTask = await Task.WhenAny(getTopStoryTaskList).ConfigureAwait(false);
+			getTopStoryTaskList.Remove(completedGetStoryTask);
 
-		var topStoriesArray = await Task.WhenAll(getTopStoryTaskList).ConfigureAwait(false);
-
-		return topStoriesArray.Where(x => x != null).OrderByDescending(x => x.Score).ToList();
-	}
-
-	Task<StoryModel> GetStory(string storyId) => GetDataFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
-
-	async ValueTask<IReadOnlyList<string>> GetTopStoryIDs()
-	{
-		if (TopStoryList.Any())
-			return TopStoryList.Select(x => x.Id.ToString()).ToList();
-
-		try
-		{
-			return await GetDataFromAPI<List<string>>("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty").ConfigureAwait(false);
-		}
-		catch (Exception e)
-		{
-			OnErrorOccurred(e.ToString());
-			return Array.Empty<string>();
+			var story = await completedGetStoryTask.ConfigureAwait(false);
+			yield return story;
 		}
 	}
 
-	void OnErrorOccurred(string message) => _errorOccurredEventManager.RaiseEvent(this, message, nameof(ErrorOccurred));
+	//Ensure Observable Collection is thread-safe https://codetraveler.io/2019/09/11/using-observablecollection-in-a-multi-threaded-xamarin-forms-application/
+	void ObservableCollectionCallback(IEnumerable collection, object context, Action accessMethod, bool writeAccess)
+	{
+		_dispatcher.Dispatch(accessMethod);
+	}
+
+	void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.HandleEvent(this, message, nameof(PullToRefreshFailed));
 }

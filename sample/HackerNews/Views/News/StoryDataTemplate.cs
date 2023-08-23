@@ -1,7 +1,5 @@
-﻿using HackerNews.Shared;
-using Xamarin.CommunityToolkit.Markup;
-using Xamarin.Forms;
-using static Xamarin.CommunityToolkit.Markup.GridRowsColumns;
+﻿using CommunityToolkit.Maui.Markup;
+using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 
 namespace HackerNews;
 
@@ -22,37 +20,18 @@ class StoryDataTemplate : DataTemplate
 			(Row.BottomPadding, 1)),
 
 		Children =
-			{
-				new TitleLabel().Row(Row.Title)
-					.Bind(Label.TextProperty, nameof(StoryModel.Title)),
-				new DescriptionLabel().Row(Row.Description)
-					.Bind(Label.TextProperty, nameof(StoryModel.Description))
-			}
+		{
+			new Label()
+				.Row(Row.Title).Top()
+				.Font(size: 16).TextColor(ColorConstants.TextCellTextColor)
+				.Bind(Label.TextProperty, static (StoryModel m) => m.Title, mode: BindingMode.OneTime),
+
+			new Label()
+				.Row(Row.Description)
+				.Font(size: 13).TextColor(ColorConstants.TextCellDetailColor)
+				.Bind(Label.TextProperty, static (StoryModel m) => m.Description, mode: BindingMode.OneTime)
+		}
 	};
 
 	enum Row { Title, Description, BottomPadding }
-
-	class TitleLabel : Label
-	{
-		public TitleLabel()
-		{
-			FontSize = 16;
-			TextColor = ColorConstants.TextCellTextColor;
-
-			VerticalTextAlignment = TextAlignment.Start;
-
-			Padding = new Thickness(10, 0);
-		}
-	}
-
-	class DescriptionLabel : Label
-	{
-		public DescriptionLabel()
-		{
-			FontSize = 13;
-			TextColor = ColorConstants.TextCellDetailColor;
-
-			Padding = new Thickness(10, 0, 10, 5);
-		}
-	}
 }

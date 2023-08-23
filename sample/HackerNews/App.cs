@@ -1,19 +1,27 @@
-﻿using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+﻿using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Controls;
 
 namespace HackerNews;
 
-public class App : Xamarin.Forms.Application
+class App : Application
 {
-	public App()
+	public App(AppShell appshell)
 	{
-		var navigationPage = new Xamarin.Forms.NavigationPage(new NewsPage())
+		Resources = new ResourceDictionary()
 		{
-			BarBackgroundColor = ColorConstants.NavigationBarBackgroundColor,
-			BarTextColor = ColorConstants.NavigationBarTextColor
-		};
-		navigationPage.On<iOS>().SetPrefersLargeTitles(true);
+			new Style<Shell>(
+				(Shell.NavBarHasShadowProperty, true),
+				(Shell.TitleColorProperty, ColorConstants.NavigationBarTextColor),
+				(Shell.DisabledColorProperty, ColorConstants.NavigationBarTextColor),
+				(Shell.UnselectedColorProperty, ColorConstants.NavigationBarTextColor),
+				(Shell.ForegroundColorProperty, ColorConstants.NavigationBarTextColor),
+				(Shell.BackgroundColorProperty, ColorConstants.NavigationBarBackgroundColor)).ApplyToDerivedTypes(true),
 
-		MainPage = navigationPage;
+			new Style<NavigationPage>(
+				(NavigationPage.BarTextColorProperty, ColorConstants.NavigationBarTextColor),
+				(NavigationPage.BarBackgroundColorProperty, ColorConstants.NavigationBarBackgroundColor)).ApplyToDerivedTypes(true)
+		};
+
+		MainPage = appshell;
 	}
 }

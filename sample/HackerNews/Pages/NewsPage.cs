@@ -1,44 +1,63 @@
-using System;
-using System.Linq;
-using HackerNews.Shared;
-using Xamarin.CommunityToolkit.Markup;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+﻿using System.Collections;
+using CommunityToolkit.Maui.Markup;
 
 namespace HackerNews;
 
-class NewsPage : BaseContentPage<NewsViewModel_GoodAsyncAwaitPractices>
+class NewsPage : BaseContentPage<NewsViewModel>
 {
-	public NewsPage() : base(PageTitleConstants.NewsPageTitle)
+	readonly IBrowser _browser;
+	readonly IDispatcher _dispatcher;
+
+	public NewsPage(IBrowser browser,
+						IDispatcher dispatcher,
+						NewsViewModel newsViewModel) : base(newsViewModel, "Top Stories")
 	{
-		ViewModel.ErrorOccurred += HandleErrorOccurred;
+		_browser = browser;
+		_dispatcher = dispatcher;
+
+		BindingContext.PullToRefreshFailed += HandlePullToRefreshFailed;
 
 		Content = new RefreshView
 		{
-			RefreshColor = Color.Black,
+			RefreshColor = Colors.Black,
 
 			Content = new CollectionView
 			{
-				BackgroundColor = Color.FromHex("F6F6EF"),
+				BackgroundColor = Color.FromArgb("F6F6EF"),
 				SelectionMode = SelectionMode.Single,
 				ItemTemplate = new StoryDataTemplate(),
 
-			}.Bind(CollectionView.ItemsSourceProperty, nameof(ViewModel.TopStoryList))
+			}.Bind(CollectionView.ItemsSourceProperty, static (NewsViewModel vm) => vm.TopStoryCollection)
 			 .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
 
-		}.Bind(RefreshView.IsRefreshingProperty, nameof(ViewModel.IsListRefreshing))
-		 .Bind(RefreshView.CommandProperty, nameof(ViewModel.RefreshCommand));
+		}.Bind(RefreshView.IsRefreshingProperty, static (NewsViewModel vm) => vm.IsListRefreshing)
+		 .Bind(RefreshView.CommandProperty, static (NewsViewModel vm) => vm.RefreshCommand);
 	}
 
-	async void HandleSelectionChanged(object sender, SelectionChangedEventArgs e)
+	protected override void OnAppearing()
 	{
-		var listView = (CollectionView)sender;
+		base.OnAppearing();
 
-		listView.SelectedItem = null;
-
-		if (e.CurrentSelection.FirstOrDefault() is StoryModel storyTapped)
+		if (Content is RefreshView refreshView
+			&& refreshView.Content is CollectionView collectionView
+			&& IsNullOrEmpty(collectionView.ItemsSource))
 		{
-			if (Uri.IsWellFormedUriString(storyTapped.Url, UriKind.Absolute))
+			refreshView.IsRefreshing = true;
+		}
+
+		static bool IsNullOrEmpty(in IEnumerable? enumerable) => !enumerable?.GetEnumerator().MoveNext() ?? true;
+	}
+
+	async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
+	{
+		ArgumentNullException.ThrowIfNull(sender);
+
+		var collectionView = (CollectionView)sender;
+		collectionView.SelectedItem = null;
+
+		if (e.CurrentSelection.FirstOrDefault() is StoryModel storyModel)
+		{
+			if (!string.IsNullOrEmpty(storyModel.Url))
 			{
 				var browserOptions = new BrowserLaunchOptions
 				{
@@ -46,16 +65,15 @@ class NewsPage : BaseContentPage<NewsViewModel_GoodAsyncAwaitPractices>
 					PreferredToolbarColor = ColorConstants.BrowserNavigationBarBackgroundColor
 				};
 
-				await Browser.OpenAsync(storyTapped.Url, browserOptions);
+				await _browser.OpenAsync(storyModel.Url, browserOptions);
 			}
 			else
 			{
-				await DisplayAlert("No Website", "Ask HN articles do not contain a URL", "OK");
+				await DisplayAlert("Invalid Article", "ASK HN articles have no url", "OK");
 			}
 		}
 	}
 
-	async void HandleErrorOccurred(object sender, string e) =>
-		await MainThread.InvokeOnMainThreadAsync(() => DisplayAlert("Error", e, "OK"));
-
+	void HandlePullToRefreshFailed(object? sender, string message) =>
+		_dispatcher.DispatchAsync(() => DisplayAlert("Refresh Failed", message, "OK"));
 }

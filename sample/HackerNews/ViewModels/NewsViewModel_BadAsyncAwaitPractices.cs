@@ -1,56 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using AsyncAwaitBestPractices;
-using System.Windows.Input;
-using HackerNews.Shared;
-using Xamarin.Forms;
+using CommunityToolkit.Mvvm.Input;
 
 namespace HackerNews;
 
-class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
+partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 {
-	bool _isListRefreshing;
-	ICommand? _refreshCommand;
-	List<StoryModel> _topStoryList = new List<StoryModel>();
+	readonly IDispatcher _dispatcher;
+	readonly HackerNewsAPIService _hackerNewsAPIService;
 
-	public NewsViewModel_BadAsyncAwaitPractices()
+	readonly WeakEventManager _pullToRefreshEventManager = new();
+
+	public NewsViewModel_BadAsyncAwaitPractices(IDispatcher dispatcher, HackerNewsAPIService hackerNewsAPIService)
 	{
+		_dispatcher = dispatcher;
+		_hackerNewsAPIService = hackerNewsAPIService;
+
 		//ToDo Refactor
-		ExecuteRefreshCommand();
+		Refresh();
 	}
 
-	public event EventHandler<string>? ErrorOccurred;
-
-	public ICommand RefreshCommand => _refreshCommand ??= new Command(async () => await ExecuteRefreshCommand());
-
-	public List<StoryModel> TopStoryList
+	public event EventHandler<string> PullToRefreshFailed
 	{
-		get => _topStoryList;
-		set => SetProperty(ref _topStoryList, value);
+		add => _pullToRefreshEventManager.AddEventHandler(value);
+		remove => _pullToRefreshEventManager.RemoveEventHandler(value);
 	}
 
-	public bool IsListRefreshing
-	{
-		get => _isListRefreshing;
-		set => SetProperty(ref _isListRefreshing, value);
-	}
+	public ObservableCollection<StoryModel> TopStoryCollection { get; } = new();
 
-	async Task ExecuteRefreshCommand()
+	[RelayCommand]
+	async Task Refresh()
 	{
-		//ToDo Refactor
-		SetIsRefreshing(true).Wait();
+		TopStoryCollection.Clear();
 
 		try
 		{
-			TopStoryList = await GetTopStories(20);
+			var topStoriesList = await GetTopStories(StoriesConstants.NumberOfStories);
+
+			foreach (var story in topStoriesList)
+			{
+				TopStoryCollection.Add(story);
+			}
+		}
+		catch (Exception e)
+		{
+			OnPullToRefreshFailed(e.ToString());
 		}
 		finally
 		{
-			//ToDo Refactor
-			SetIsRefreshing(false).Wait();
+			IsListRefreshing = false;
 		}
 	}
 
@@ -77,7 +75,7 @@ class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	//ToDo Refactor
 	async Task<StoryModel> GetStory(string storyId)
 	{
-		return await GetDataFromAPI<StoryModel>($"https://hacker-news.firebaseio.com/v0/item/{storyId}.json?print=pretty");
+		return await Hack
 	}
 
 	//ToDo Refactor
@@ -102,5 +100,5 @@ class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		return isRefreshing;
 	}
 
-	void OnErrorOccurred(string message) => ErrorOccurred?.Invoke(this, message);
+	void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.HandleEvent(this, message, nameof(PullToRefreshFailed));
 }

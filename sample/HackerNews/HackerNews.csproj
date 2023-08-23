@@ -1,25 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
-        <BuildWithMSBuildOnMono>true</BuildWithMSBuildOnMono>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2612" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.8.0" />
-        <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="2.0.6" />
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Pages\Base\" />
-        <Folder Include="ViewModels\Base\" />
-        <Folder Include="Views\" />
-        <Folder Include="Views\News\" />
-        <Folder Include="Services\" />
-        <Folder Include="Constants\" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
-    </ItemGroup>
-    <Import Project="..\HackerNews.Shared\HackerNews.Shared.projitems" Label="Shared" Condition="Exists('..\HackerNews.Shared\HackerNews.Shared.projitems')" />
+	<PropertyGroup>
+		<TargetFrameworks>net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>HackerNews</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<ApplicationTitle>HackerNews</ApplicationTitle>
+
+		<ApplicationId>com.Minnick.HackerNews</ApplicationId>
+		<ApplicationIdGuid>da4c7bba-c5a8-4480-9feb-b4bd874144fb</ApplicationIdGuid> 
+
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-ios'))">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-maccatalyst'))">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-android'))">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</TargetPlatformMinVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiImage Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" IsAppIcon="true" Color="#512BD4" />
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4" />
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.10" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="3.2.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj" />
+	</ItemGroup>
+
 </Project>

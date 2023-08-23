@@ -1,14 +1,12 @@
-﻿using Xamarin.Forms;
+﻿namespace HackerNews;
 
-namespace HackerNews;
-
-abstract class BaseContentPage<T> : ContentPage where T : BaseViewModel, new()
+abstract class BaseContentPage<TViewModel> : ContentPage where TViewModel : BaseViewModel
 {
-	protected BaseContentPage(string pageTitle)
+	protected BaseContentPage(TViewModel viewModel, string pageTitle)
 	{
-		BindingContext = ViewModel;
 		Title = pageTitle;
+		base.BindingContext = viewModel;
 	}
 
-	protected T ViewModel { get; } = new T();
+	protected new TViewModel BindingContext => (TViewModel)base.BindingContext;
 }
