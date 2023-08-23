@@ -23,8 +23,12 @@ pr:
 jobs:     
   - job: build_sample
     displayName: Build .NET MAUI Sample App
-    pool:
-      vmImage: windows-latest
+    strategy:
+      matrix:
+        'Windows':
+          image: 'windows-latest'
+        'macOS':
+          image: 'macos-13'
     
     steps:
       - task: UseDotNet@2
@@ -33,6 +37,9 @@ jobs:
           version: '7.0.x'
           installationPath: '$(Agent.ToolsDirectory)'
           performMultiLevelLookup: true
+
+      - powershell: dotnet workload install maui
+        displayName: Install Latest .NET MAUI Workload
 
       - task: NuGetToolInstaller@1
         displayName: 'Use NuGet'
@@ -60,8 +67,12 @@ jobs:
 
   - job: build_test_library
     displayName: Build + Test Library
-    pool:
-      vmImage: windows-latest
+    strategy:
+      matrix:
+        'Windows':
+          image: 'windows-latest'
+        'macOS':
+          image: 'macos-13'
 
     steps:
     - task: UseDotNet@2
