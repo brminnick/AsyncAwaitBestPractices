@@ -509,7 +509,7 @@ public class UIContainerView : UIView
 
 	public override void WillRemoveSubview(UIView uiview)
 	{
-		UIContainerView.Disconnect();
+		Disconnect();
 		base.WillRemoveSubview(uiview);
 	}
 
@@ -561,7 +561,7 @@ public class UIContainerView : UIView
 
 		if (disposing)
 		{
-			UIContainerView.Disconnect();
+			Disconnect();
 
 			if (_platformView?.Superview == this)
 				_platformView.RemoveFromSuperview();
@@ -600,7 +600,7 @@ public class UIContainerView : UIView
 	{
 		Element? current = self;
 
-		while (!(current?.RealParent is not null || current?.RealParent is IApplication))
+		while (current?.RealParent is not (not null or IApplication))
 		{
 			if (current is not null)
 			{
