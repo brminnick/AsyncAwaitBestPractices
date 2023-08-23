@@ -6,7 +6,6 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
 		<Deterministic>true</Deterministic>
-    <ImplicitUsings>enable</ImplicitUsings>
 		<LatestSupportedTFM>net7.0</LatestSupportedTFM>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
