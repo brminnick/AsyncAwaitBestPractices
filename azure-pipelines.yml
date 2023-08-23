@@ -5,6 +5,7 @@ variables:
   PathToUnitTestsCsproj: 'src/AsyncAwaitBestPractices.UnitTests/AsyncAwaitBestPractices.UnitTests.csproj'
   PathToAsyncAwaitBestPracticesCsproj: 'src/AsyncAwaitBestPractices/AsyncAwaitBestPractices.csproj'
   PathToAsyncAwaitBestPracticesMVVMCsproj: 'src/AsyncAwaitBestPractices.MVVM/AsyncAwaitBestPractices.MVVM.csproj'
+  Xcode_Version: '14.3.0'
 
 trigger:
   branches:
@@ -29,13 +30,15 @@ jobs:
           image: 'windows-latest'
         'macOS':
           image: 'macos-13'
+    pool:
+      vmImage: $(image)
     
     steps:
       - task: CmdLine@2
-        displayName: 'Set Xcode v$(CommunityToolkitSampleApp_Xcode_Version)'
+        displayName: 'Set Xcode v$(Xcode_Version)'
         condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
         inputs:
-          script: echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(CommunityToolkitSampleApp_Xcode_Version).app;sudo xcode-select --switch /Applications/Xcode_$(CommunityToolkitSampleApp_Xcode_Version).app/Contents/Developer
+          script: echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(Xcode_Version).app;sudo xcode-select --switch /Applications/Xcode_$(Xcode_Version).app/Contents/Developer
 
       - task: UseDotNet@2
         displayName: 'Use .Net Core SDK  7.0.x'
@@ -78,7 +81,8 @@ jobs:
           image: 'windows-latest'
         'macOS':
           image: 'macos-13'
-
+    pool:
+      vmImage: $(image)
     steps:
     - task: UseDotNet@2
       displayName: 'Use .Net Core SDK 2.1.x'
