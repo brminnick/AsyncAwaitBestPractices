@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Project>
 	<PropertyGroup>
+		<LatestSupportedTFM>net7.0</LatestSupportedTFM>
 		<Deterministic>true</Deterministic>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>

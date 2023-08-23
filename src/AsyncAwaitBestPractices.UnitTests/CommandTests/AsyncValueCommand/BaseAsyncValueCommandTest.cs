@@ -5,10 +5,10 @@ namespace AsyncAwaitBestPractices.UnitTests;
 
 abstract class BaseAsyncValueCommandTest : BaseTest
 {
-	protected new ValueTask NoParameterTask() => BaseAsyncValueCommandTest.ValueTaskDelay(Delay);
-	protected new ValueTask IntParameterTask(int delay) => BaseAsyncValueCommandTest.ValueTaskDelay(delay);
-	protected new ValueTask NullableIntParameterTask(int? delay) => BaseAsyncValueCommandTest.ValueTaskDelay(delay ?? Delay);
-	protected new ValueTask StringParameterTask(string? text) => BaseAsyncValueCommandTest.ValueTaskDelay(Delay);
+	protected new static ValueTask NoParameterTask() => ValueTaskDelay(Delay);
+	protected new static ValueTask IntParameterTask(int delay) => ValueTaskDelay(delay);
+	protected new static ValueTask NullableIntParameterTask(int? delay) => ValueTaskDelay(delay ?? Delay);
+	protected new static ValueTask StringParameterTask(string? text) => ValueTaskDelay(Delay);
 	protected new static ValueTask NoParameterImmediateNullReferenceExceptionTask() => throw new NullReferenceException();
 	protected new static ValueTask ParameterImmediateNullReferenceExceptionTask(int delay) => throw new NullReferenceException();
 

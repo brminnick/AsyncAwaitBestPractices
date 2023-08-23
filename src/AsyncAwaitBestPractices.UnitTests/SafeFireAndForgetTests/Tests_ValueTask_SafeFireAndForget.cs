@@ -28,8 +28,8 @@ class Tests_ValueTask_SafeFireAndForget : BaseAsyncValueCommandTest
 
 		//Act
 		BaseAsyncValueCommandTest.NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget(ex => exception = ex);
-		await NoParameterTask();
-		await NoParameterTask();
+		await BaseTest.NoParameterTask();
+		await BaseTest.NoParameterTask();
 
 		//Assert
 		Assert.IsNotNull(exception);
@@ -44,8 +44,8 @@ class Tests_ValueTask_SafeFireAndForget : BaseAsyncValueCommandTest
 
 		//Act
 		BaseAsyncValueCommandTest.NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget();
-		await NoParameterTask();
-		await NoParameterTask();
+		await BaseTest.NoParameterTask();
+		await BaseTest.NoParameterTask();
 
 		//Assert
 		Assert.IsNotNull(exception);
@@ -61,8 +61,8 @@ class Tests_ValueTask_SafeFireAndForget : BaseAsyncValueCommandTest
 
 		//Act
 		BaseAsyncValueCommandTest.NoParameterDelayedNullReferenceExceptionTask().SafeFireAndForget(ex => exception2 = ex);
-		await NoParameterTask();
-		await NoParameterTask();
+		await BaseTest.NoParameterTask();
+		await BaseTest.NoParameterTask();
 
 		//Assert
 		Assert.IsNotNull(exception1);

@@ -27,8 +27,8 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 	public async Task AsyncValueCommandExecuteAsync_IntParameter_Test(int parameter)
 	{
 		//Arrange
-		AsyncValueCommand<int> command = new AsyncValueCommand<int>(IntParameterTask);
-		AsyncValueCommand<int, int> command2 = new AsyncValueCommand<int, int>(IntParameterTask);
+		AsyncValueCommand<int> command = new AsyncValueCommand<int>(BaseAsyncValueCommandTest.IntParameterTask);
+		AsyncValueCommand<int, int> command2 = new AsyncValueCommand<int, int>(BaseAsyncValueCommandTest.IntParameterTask);
 
 		//Act
 		await command.ExecuteAsync(parameter);
@@ -43,8 +43,8 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 	public async Task AsyncValueCommandExecuteAsync_StringParameter_Test(string parameter)
 	{
 		//Arrange
-		AsyncValueCommand<string> command = new AsyncValueCommand<string>(StringParameterTask);
-		AsyncValueCommand<string, string> command2 = new AsyncValueCommand<string, string>(StringParameterTask);
+		AsyncValueCommand<string> command = new AsyncValueCommand<string>(BaseAsyncValueCommandTest.StringParameterTask);
+		AsyncValueCommand<string, string> command2 = new AsyncValueCommand<string, string>(BaseAsyncValueCommandTest.StringParameterTask);
 
 		//Act
 		await command.ExecuteAsync(parameter);
@@ -58,8 +58,8 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 	public void AsyncValueCommandParameter_CanExecuteTrue_Test()
 	{
 		//Arrange
-		AsyncValueCommand<int> command = new AsyncValueCommand<int>(IntParameterTask, BaseTest.CanExecuteTrue);
-		AsyncValueCommand<int, int> command2 = new AsyncValueCommand<int, int>(IntParameterTask, BaseTest.CanExecuteTrue);
+		AsyncValueCommand<int> command = new AsyncValueCommand<int>(BaseAsyncValueCommandTest.IntParameterTask, BaseTest.CanExecuteTrue);
+		AsyncValueCommand<int, int> command2 = new AsyncValueCommand<int, int>(BaseAsyncValueCommandTest.IntParameterTask, BaseTest.CanExecuteTrue);
 
 		//Act
 
@@ -72,8 +72,8 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 	public void AsyncValueCommandParameter_CanExecuteFalse_Test()
 	{
 		//Arrange
-		AsyncValueCommand<int> command = new AsyncValueCommand<int>(IntParameterTask, BaseTest.CanExecuteFalse);
-		AsyncValueCommand<int, int> command2 = new AsyncValueCommand<int, int>(IntParameterTask, BaseTest.CanExecuteFalse);
+		AsyncValueCommand<int> command = new AsyncValueCommand<int>(BaseAsyncValueCommandTest.IntParameterTask, BaseTest.CanExecuteFalse);
+		AsyncValueCommand<int, int> command2 = new AsyncValueCommand<int, int>(BaseAsyncValueCommandTest.IntParameterTask, BaseTest.CanExecuteFalse);
 
 		//Act
 
@@ -86,7 +86,7 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 	public void AsyncValueCommandNoParameter_CanExecuteTrue_Test()
 	{
 		//Arrange
-		AsyncValueCommand command = new AsyncValueCommand(NoParameterTask, BaseTest.CanExecuteTrue);
+		AsyncValueCommand command = new AsyncValueCommand(BaseAsyncValueCommandTest.NoParameterTask, BaseTest.CanExecuteTrue);
 
 		//Act
 
@@ -98,7 +98,7 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 	public void AsyncValueCommandNoParameter_CanExecuteFalse_Test()
 	{
 		//Arrange
-		AsyncValueCommand command = new AsyncValueCommand(NoParameterTask, BaseTest.CanExecuteFalse);
+		AsyncValueCommand command = new AsyncValueCommand(BaseAsyncValueCommandTest.NoParameterTask, BaseTest.CanExecuteFalse);
 
 		//Act
 
@@ -114,7 +114,7 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 		bool canCommandExecute = false;
 		bool didCanExecuteChangeFire = false;
 
-		AsyncValueCommand command = new AsyncValueCommand(NoParameterTask, commandCanExecute);
+		AsyncValueCommand command = new AsyncValueCommand(BaseAsyncValueCommandTest.NoParameterTask, commandCanExecute);
 		command.CanExecuteChanged += handleCanExecuteChanged;
 
 		void handleCanExecuteChanged(object? sender, EventArgs e) => didCanExecuteChangeFire = true;

@@ -1,9 +1,7 @@
 variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   PathToSolution: 'AsyncAwaitBestPractices.sln'
-  PathToiOSAppCsproj: 'sample/HackerNews.iOS/HackerNews.iOS.csproj'
-  PathToUITestsCsproj: 'sample/HackerNews.UITests/HackerNews.UITests.csproj'
-  PathToAndroidAppCsproj: 'sample/HackerNews.Droid/HackerNews.Droid.csproj'
+  PathToSampleAppCsproj: 'sample/HackerNews.csproj'
   PathToUnitTestsCsproj: 'src/AsyncAwaitBestPractices.UnitTests/AsyncAwaitBestPractices.UnitTests.csproj'
   PathToAsyncAwaitBestPracticesCsproj: 'src/AsyncAwaitBestPractices/AsyncAwaitBestPractices.csproj'
   PathToAsyncAwaitBestPracticesMVVMCsproj: 'src/AsyncAwaitBestPractices.MVVM/AsyncAwaitBestPractices.MVVM.csproj'
@@ -24,7 +22,7 @@ pr:
 
 jobs:     
   - job: build_sample
-    displayName: Build Xamarin.Forms Sample App
+    displayName: Build .NET MAUI Sample App
     pool:
       vmImage: windows-latest
     
@@ -42,23 +40,9 @@ jobs:
           checkLatest: true
 
       - task: VSBuild@1
-        displayName: 'Build Android App'
+        displayName: 'Build Sample App'
         inputs:
-          solution: '$(PathToAndroidAppCsproj)'
-          configuration: 'Release'
-          msbuildArgs: '/restore'
-
-      - task: VSBuild@1
-        displayName: 'Build iOS App'
-        inputs:
-          solution: '$(PathToiOSAppCsproj)'
-          configuration: 'Release'
-          msbuildArgs: '/restore'
-
-      - task: VSBuild@1
-        displayName: 'Build UI Test Project'
-        inputs:
-          solution: '$(PathToUITestsCsproj)'
+          solution: '$(PathToSampleAppCsproj)'
           configuration: 'Release'
           msbuildArgs: '/restore'
 
@@ -89,7 +73,7 @@ jobs:
         performMultiLevelLookup: true
 
     - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK 3..x'
+      displayName: 'Use .Net Core SDK 3.0.x'
       inputs:
         version: ' 3.0.x'
         installationPath: '$(Agent.ToolsDirectory)'
