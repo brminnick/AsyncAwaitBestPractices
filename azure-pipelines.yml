@@ -1,12 +1,15 @@
 variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
+  CurrentSemanticVersionBase: '1.0.0'
+  PreviewNumber: $[counter(variables['CurrentSemanticVersionBase'], 1001)]
+  CurrentSemanticVersion: '$(CurrentSemanticVersionBase)-preview$(PreviewNumber)'
+  NugetPackageVersion: '$(CurrentSemanticVersion)'
   PathToSolution: 'AsyncAwaitBestPractices.sln'
-  PathToiOSAppCsproj: 'sample/HackerNews.iOS/HackerNews.iOS.csproj'
-  PathToUITestsCsproj: 'sample/HackerNews.UITests/HackerNews.UITests.csproj'
-  PathToAndroidAppCsproj: 'sample/HackerNews.Droid/HackerNews.Droid.csproj'
+  PathToSampleAppCsproj: 'sample/HackerNews.csproj'
   PathToUnitTestsCsproj: 'src/AsyncAwaitBestPractices.UnitTests/AsyncAwaitBestPractices.UnitTests.csproj'
   PathToAsyncAwaitBestPracticesCsproj: 'src/AsyncAwaitBestPractices/AsyncAwaitBestPractices.csproj'
   PathToAsyncAwaitBestPracticesMVVMCsproj: 'src/AsyncAwaitBestPractices.MVVM/AsyncAwaitBestPractices.MVVM.csproj'
+  Xcode_Version: '14.3.1'
 
 trigger:
   branches:
@@ -24,43 +27,41 @@ pr:
 
 jobs:     
   - job: build_sample
-    displayName: Build Xamarin.Forms Sample App
+    displayName: Build .NET MAUI Sample App
+    strategy:
+      matrix:
+        'Windows':
+          image: 'windows-latest'
+        'macOS':
+          image: 'macos-13'
     pool:
-      vmImage: windows-latest
+      vmImage: $(image)
     
     steps:
+      - task: CmdLine@2
+        displayName: 'Set Xcode v$(Xcode_Version)'
+        condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
+        inputs:
+          script: echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(Xcode_Version).app;sudo xcode-select --switch /Applications/Xcode_$(Xcode_Version).app/Contents/Developer
+
       - task: UseDotNet@2
         displayName: 'Use .Net Core SDK  7.0.x'
         inputs:
           version: '7.0.x'
-          installationPath: '$(Agent.ToolsDirectory)'
-          performMultiLevelLookup: true
+          packageType: 'sdk'
+
+      - powershell: dotnet workload install maui
+        displayName: Install Latest .NET MAUI Workload
 
       - task: NuGetToolInstaller@1
         displayName: 'Use NuGet'
         inputs:
           checkLatest: true
 
-      - task: VSBuild@1
-        displayName: 'Build Android App'
+      - task: CmdLine@2
+        displayName: 'Build Sample App'
         inputs:
-          solution: '$(PathToAndroidAppCsproj)'
-          configuration: 'Release'
-          msbuildArgs: '/restore'
-
-      - task: VSBuild@1
-        displayName: 'Build iOS App'
-        inputs:
-          solution: '$(PathToiOSAppCsproj)'
-          configuration: 'Release'
-          msbuildArgs: '/restore'
-
-      - task: VSBuild@1
-        displayName: 'Build UI Test Project'
-        inputs:
-          solution: '$(PathToUITestsCsproj)'
-          configuration: 'Release'
-          msbuildArgs: '/restore'
+          script: 'dotnet build $(PathToSampleAppCsproj)'
 
       - task: CopyFiles@2
         displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
@@ -76,59 +77,157 @@ jobs:
 
   - job: build_test_library
     displayName: Build + Test Library
+    strategy:
+      matrix:
+        'Windows':
+          image: 'windows-latest'
+        'macOS':
+          image: 'macos-13'
     pool:
-      vmImage: windows-latest
-
+      vmImage: $(image)
     steps:
-    - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK 2.1.x'
-      inputs:
-        version: ' 2.1.x'
-        includePreviewVersions: true
-        installationPath: '$(Agent.ToolsDirectory)'
-        performMultiLevelLookup: true
+      # if this is a Release build, update the version number
+      - powershell: |
+          $buildSourceBranch = "$(Build.SourceBranch)"
+          $tagVersion = $buildSourceBranch.Substring($buildSourceBranch.LastIndexOf("/") + 1)
+          Write-Host("Branch = $buildSourceBranch, Version = $tagVersion");
+          Write-Host ("##vso[task.setvariable variable=NugetPackageVersion;]$tagVersion")
+        displayName: Set NuGet Version to Tag Number
+        condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), not(endsWith(variables['Build.SourceBranch'], '-mediaelement'))) # Only run this step when a Tag has triggered the CI Pipeline
 
-    - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK 3..x'
-      inputs:
-        version: ' 3.0.x'
-        installationPath: '$(Agent.ToolsDirectory)'
-        performMultiLevelLookup: true
+      # if this is a PR build, then update the version number
+      - powershell: |
+          $prNumber = $env:System_PullRequest_PullRequestNumber
+          $commitId = "$($env:System_PullRequest_SourceCommitId)".Substring(0, 7)
+          $fullVersionString = "$(CurrentSemanticVersionBase)-build-$prNumber.$(Build.BuildId)+$commitId"
+          Write-Host("GitHub PR = $prNumber, Commit = $commitId");
+          Write-Host ("##vso[task.setvariable variable=NugetPackageVersion;]$fullVersionString")
+          Write-Host ("##vso[task.setvariable variable=NugetPackageVersionMediaElement;]$fullVersionString")
+          Write-Host "##vso[build.updatebuildnumber]$fullVersionString"
+        displayName: Set NuGet Version to PR Version
+        condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'), eq(variables['build.reason'], 'PullRequest')) # Only run this step on Windows when a Pull Request has triggered the CI Pipeline
 
-    - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK  6.0.x'
-      inputs:
-        version: ' 6.0.x'
-        installationPath: '$(Agent.ToolsDirectory)'
-        performMultiLevelLookup: true
+      - task: UseDotNet@2
+        displayName: 'Use .Net Core SDK 2.1.x'
+        inputs:
+          version: ' 2.1.x'
+          includePreviewVersions: true
+          packageType: 'sdk'
 
-    - task: UseDotNet@2
-      displayName: 'Use .Net Core SDK  7.0.x'
-      inputs:
-        version: '7.0.x'
-        installationPath: '$(Agent.ToolsDirectory)'
-        performMultiLevelLookup: true
+      - task: UseDotNet@2
+        displayName: 'Use .Net Core SDK 3.0.x'
+        inputs:
+          version: ' 3.0.x'
+          packageType: 'sdk'
 
-    - task: NuGetToolInstaller@1
-      displayName: 'Use NuGet'
-      inputs:
-        checkLatest: true
+      - task: UseDotNet@2
+        displayName: 'Use .Net Core SDK  6.0.x'
+        inputs:
+          version: ' 6.0.x'
+          packageType: 'sdk'
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Run Unit Tests'
-      inputs:
-        command: test
-        projects: '$(PathToUnitTestsCsproj)'
-        arguments: '-c   Release'
+      - task: UseDotNet@2
+        displayName: 'Use .Net Core SDK  7.0.x'
+        inputs:
+          version: '7.0.x'
+          packageType: 'sdk'
 
-    - task: CopyFiles@2
-      displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-      inputs:
-        SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: '**\bin\$(BuildConfiguration)\**'
-        TargetFolder: '$(build.artifactstagingdirectory)'
+      - task: NuGetToolInstaller@1
+        displayName: 'Use NuGet'
+        inputs:
+          checkLatest: true
 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: drop'
-      inputs:
-        PathtoPublish: '$(build.artifactstagingdirectory)'
+      - task: CmdLine@2
+        displayName: 'Run UnitTests'
+        inputs:
+          script: 'dotnet test $(PathToUnitTestsCsproj) -c Release --settings ".runsettings" --collect "code coverage" --logger trx --results-directory $(Agent.TempDirectory)'
+
+      - task: PublishTestResults@2
+        condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
+        displayName: 'Publish Test Results'
+        inputs:
+          testResultsFormat: VSTest
+          testResultsFiles: '**/*.trx'
+          searchFolder: $(Agent.TempDirectory)
+
+      - task: PublishCodeCoverageResults@1
+        condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
+        displayName: 'Publish Code Coverage Results'
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+          failIfCoverageEmpty: true
+
+      - task: CmdLine@2
+        displayName: 'Pack AsyncAwaitBestPractices NuGet'
+        inputs:
+          script: 'dotnet pack $(PathToAsyncAwaitBestPracticesCsproj) -c Release -p:PackageVersion=$(NugetPackageVersion)'
+
+      - task: CmdLine@2
+        displayName: 'Pack AsyncAwaitBestPractices.MVVM NuGet'
+        inputs:
+          script: 'dotnet pack $(PathToAsyncAwaitBestPracticesMVVMCsproj) -c Release -p:PackageVersion=$(NugetPackageVersion)'
+
+      # check vulnerabilities
+      - powershell: |
+          dotnet list $(PathToAsyncAwaitBestPracticesCsproj) package --vulnerable --include-transitive | findstr /S /c:"has the following vulnerable packages";
+          if ($LastExitCode -ne 1)
+          {
+            dotnet list $(PathToAsyncAwaitBestPracticesCsproj) package --vulnerable --include-transitive;
+            exit 1;
+          }
+
+          exit 0;
+        displayName: 'Check AsyncAwaitBestPractices Dependencies Vulnerabilities'
+        condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
+
+      - powershell: |
+          dotnet list $(PathToAsyncAwaitBestPracticesMVVMCsproj) package --vulnerable --include-transitive | findstr /S /c:"has the following vulnerable packages";
+          if ($LastExitCode -ne 1)
+          {
+            dotnet list $(PathToAsyncAwaitBestPracticesMVVMCsproj) package --vulnerable --include-transitive;
+            exit 1;
+          }
+
+          exit 0;
+        displayName: 'Check AsyncAwaitBestPractices.MVVM Dependencies Vulnerabilities'
+        condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
+
+      - powershell: |
+          dotnet list $(PathToSampleAppCsproj) package --vulnerable --include-transitive | findstr /S /c:"has the following vulnerable packages";
+          if ($LastExitCode -ne 1)
+          {
+            dotnet list $(PathToSampleAppCsproj) package --vulnerable --include-transitive;
+            exit 1;
+          }
+
+          exit 0;
+        displayName: 'Check Sample App Dependencies Vulnerabilities'
+        condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
+      
+      # Copy all NuGet packages
+      - task: PowerShell@2
+        condition: and(eq(variables['Agent.OS'], 'Windows_NT'), not(startsWith(variables['Build.SourceBranch'], 'refs/tags/'))) # Only run this step on Windows and when it's not a Release build
+        displayName: 'Copy NuGet Packages to Staging Directory'
+        inputs:
+          targetType: 'inline'
+          script: |
+            $source = ".\src"
+            $filter = "nupkg"
+            Get-ChildItem -Path $source -Recurse | Where-Object { $_.Extension -match $filter } | Copy-Item -Destination "$(Build.ArtifactStagingDirectory)"
+          pwsh: true
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+        inputs:
+          SourceFolder: '$(system.defaultworkingdirectory)'
+          Contents: '**\bin\$(BuildConfiguration)\**'
+          TargetFolder: '$(build.artifactstagingdirectory)'
+
+      # Publish build artifacts
+      - task: PublishBuildArtifacts@1
+        condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
+        displayName: 'Publish NuGet Packages'
+        inputs:
+          artifactName: nuget
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
