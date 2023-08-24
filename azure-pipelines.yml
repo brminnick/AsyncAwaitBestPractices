@@ -138,9 +138,9 @@ jobs:
           checkLatest: true
 
       - task: CmdLine@2
-        displayName: 'Run CommunityToolkit.Maui.UnitTests'
+        displayName: 'Run UnitTests'
         inputs:
-          script: 'dotnet test $(PathToUnitTestsCsproj) -c Release --settings ".runsettings" --collect "XPlat code coverage" --logger trx --results-directory $(Agent.TempDirectory)'
+          script: 'dotnet test $(PathToUnitTestsCsproj) -c Release --settings ".runsettings" --collect "code coverage" --logger trx --results-directory $(Agent.TempDirectory)'
 
       - task: PublishTestResults@2
         condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
@@ -170,15 +170,51 @@ jobs:
 
       # check vulnerabilities
       - powershell: |
-          dotnet list $(PathToSolution) package --vulnerable --include-transitive | findstr /S /c:"has the following vulnerable packages";
+          dotnet list $(PathToAsyncAwaitBestPracticesCsproj) package --vulnerable --include-transitive | findstr /S /c:"has the following vulnerable packages";
           if ($LastExitCode -ne 1)
           {
-            dotnet list $(PathToSolution) package --vulnerable --include-transitive;
+            dotnet list $(PathToAsyncAwaitBestPracticesCsproj) package --vulnerable --include-transitive;
             exit 1;
           }
 
           exit 0;
-        displayName: 'Check Dependencies'
+        displayName: 'Check AsyncAwaitBestPractices Dependencies Vulnerabilities'
+        condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
+
+      - powershell: |
+          dotnet list $(PathToAsyncAwaitBestPracticesMVVMCsproj) package --vulnerable --include-transitive | findstr /S /c:"has the following vulnerable packages";
+          if ($LastExitCode -ne 1)
+          {
+            dotnet list $(PathToAsyncAwaitBestPracticesMVVMCsproj) package --vulnerable --include-transitive;
+            exit 1;
+          }
+
+          exit 0;
+        displayName: 'Check AsyncAwaitBestPractices.MVVM Dependencies Vulnerabilities'
+        condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
+
+      - powershell: |
+          dotnet list $(PathToAsyncAwaitBestPracticesMVVMCsproj) package --vulnerable --include-transitive | findstr /S /c:"has the following vulnerable packages";
+          if ($LastExitCode -ne 1)
+          {
+            dotnet list $(PathToAsyncAwaitBestPracticesMVVMCsproj) package --vulnerable --include-transitive;
+            exit 1;
+          }
+
+          exit 0;
+        displayName: 'Check AsyncAwaitBestPractices.MVVM Dependencies Vulnerabilities'
+        condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
+
+      - powershell: |
+          dotnet list $(PathToSampleAppCsproj) package --vulnerable --include-transitive | findstr /S /c:"has the following vulnerable packages";
+          if ($LastExitCode -ne 1)
+          {
+            dotnet list $(PathToSampleAppCsproj) package --vulnerable --include-transitive;
+            exit 1;
+          }
+
+          exit 0;
+        displayName: 'Check Sample App Dependencies Vulnerabilities'
         condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
       
       # Copy all NuGet packages
