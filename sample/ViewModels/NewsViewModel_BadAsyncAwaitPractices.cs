@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Frozen;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -31,6 +32,8 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	{
 		TopStoryCollection.Clear();
 
+		var minimumRefreshTimeTask = Task.Delay(TimeSpan.FromSeconds(2));
+
 		try
 		{
 			var topStoriesList = await GetTopStories(StoriesConstants.NumberOfStories);
@@ -47,13 +50,18 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		}
 		finally
 		{
+			// ToDo Refactor
+			minimumRefreshTimeTask.Wait();
 			IsListRefreshing = false;
 		}
 	}
 
 	// ToDo Refactor
-	async Task<List<StoryModel>> GetTopStories(int numberOfStories)
+	async Task<FrozenSet<StoryModel>> GetTopStories(int numberOfStories)
 	{
+		if (IsDataRecent())
+			return TopStoryCollection.ToFrozenSet();
+
 		List<StoryModel> topStoryList = new();
 
 		//ToDo Refactor
@@ -69,7 +77,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 			}
 		}
 
-		return topStoryList.Where(x => x != null).OrderByDescending(x => x.Score).ToList();
+		return topStoryList.Where(x => x is not null).OrderByDescending(x => x.Score).ToFrozenSet();
 	}
 
 	//ToDo Refactor
@@ -87,10 +95,12 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		}
 		catch (Exception e)
 		{
-			Debug.WriteLine(e.Message);
+			Trace.WriteLine(e.Message);
 			throw;
 		}
 	}
+
+	bool IsDataRecent() => (DateTimeOffset.UtcNow - TopStoryCollection.Max(x => x.CreatedAt_DateTimeOffset)) > TimeSpan.FromHours(1);
 
 	void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.HandleEvent(this, message, nameof(PullToRefreshFailed));
 }

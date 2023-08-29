@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace HackerNews;
@@ -28,6 +27,8 @@ partial class NewsViewModel : BaseViewModel
 	{
 		TopStoryCollection.Clear();
 
+		var minimumRefreshTimeTask = Task.Delay(TimeSpan.FromSeconds(2));
+
 		try
 		{
 			await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false))
@@ -42,6 +43,7 @@ partial class NewsViewModel : BaseViewModel
 		}
 		finally
 		{
+			await minimumRefreshTimeTask.ConfigureAwait(false);
 			IsListRefreshing = false;
 		}
 	}
