@@ -66,11 +66,11 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		List<StoryModel> topStoryList = new();
 
 		//ToDo Refactor
-		var topStoryIds = await GetTopStoryIDs();
+		var topStoryIds = await GetTopStoryIDs().ConfigureAwait(false);
 
 		foreach (var topStoryId in topStoryIds)
 		{
-			var story = await GetStory(topStoryId);
+			var story = await GetStory(topStoryId).ConfigureAwait(false);
 			topStoryList.Add(story);
 
 			if (topStoryList.Count >= storyCount)
