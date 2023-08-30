@@ -52,6 +52,7 @@ partial class NewsViewModel : BaseViewModel
 	async IAsyncEnumerable<StoryModel> GetTopStories(int storyCount, [EnumeratorCancellation] CancellationToken token)
 	{
 		var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
+
 		var getTopStoryTaskList = topStoryIds.Select(id => _hackerNewsAPIService.GetStory(id, token)).ToList();
 
 		while (getTopStoryTaskList.Any() && storyCount-- > 0)
