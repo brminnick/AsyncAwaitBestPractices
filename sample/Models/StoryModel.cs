@@ -4,7 +4,7 @@ namespace HackerNews;
 
 record StoryModel(
 		[property: JsonPropertyName("by")] string Author,
-		[property: JsonPropertyName("id")] int Id,
+		[property: JsonPropertyName("id")] long Id,
 		[property: JsonPropertyName("score")] int Score,
 		[property: JsonPropertyName("time")] long CreatedAt_UnixTime,
 		[property: JsonPropertyName("title")] string Title,

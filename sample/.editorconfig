@@ -3,3 +3,5 @@
 [*.cs]
 # CS4014: Because this call is not awaited, execution of the current method continues before the call is completed
 dotnet_diagnostic.CS4014.severity = warning
+# CA2016: Forward the 'cancellationToken' parameter to the 'Delay' method or pass in 'CancellationToken.None' explicitly to indicate intentionally not propagating the token
+dotnet_diagnostic.CA2016.severity = warning

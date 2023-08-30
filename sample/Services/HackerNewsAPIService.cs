@@ -1,4 +1,6 @@
-﻿namespace HackerNews;
+﻿using System.Collections.Frozen;
+
+namespace HackerNews;
 
 class HackerNewsAPIService
 {
@@ -6,6 +8,10 @@ class HackerNewsAPIService
 
 	public HackerNewsAPIService(IHackerNewsAPI hackerNewslient) => _hackerNewsClient = hackerNewslient;
 
-	public Task<StoryModel> GetStory(long storyId) => _hackerNewsClient.GetStory(storyId);
-	public Task<IReadOnlyList<long>> GetTopStoryIDs() => _hackerNewsClient.GetTopStoryIDs();
+	public Task<StoryModel> GetStory(long storyId, CancellationToken token) => _hackerNewsClient.GetStory(storyId, token);
+	public async Task<FrozenSet<long>> GetTopStoryIDs(CancellationToken token)
+	{
+		var topStoryIds = await _hackerNewsClient.GetTopStoryIDs(token).ConfigureAwait(false);
+		return topStoryIds.ToFrozenSet();
+	}
 }
