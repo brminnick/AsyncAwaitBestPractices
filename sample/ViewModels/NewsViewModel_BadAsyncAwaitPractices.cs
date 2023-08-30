@@ -1,5 +1,6 @@
 ﻿using System.Collections.Frozen;
 using System.Diagnostics;
+using AsyncAwaitBestPractices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -9,6 +10,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 {
 	readonly HackerNewsAPIService _hackerNewsAPIService;
 	readonly WeakEventManager _pullToRefreshEventManager = new();
+	readonly AsyncAwaitBestPractices.WeakEventManager _pullToRefreshEventManager = new();
 
 	[ObservableProperty]
 	bool _isListRefreshing;
