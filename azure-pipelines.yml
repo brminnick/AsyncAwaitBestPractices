@@ -45,10 +45,11 @@ jobs:
           script: echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(Xcode_Version).app;sudo xcode-select --switch /Applications/Xcode_$(Xcode_Version).app/Contents/Developer
 
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  7.0.x'
+        displayName: 'Use .Net Core SDK  8.0.x'
         inputs:
-          version: '7.0.x'
+          version: '8.0.x'
           packageType: 'sdk'
+          includePreviewVersions: true
 
       - powershell: dotnet workload install maui
         displayName: Install Latest .NET MAUI Workload
@@ -111,7 +112,6 @@ jobs:
         displayName: 'Use .Net Core SDK 2.1.x'
         inputs:
           version: ' 2.1.x'
-          includePreviewVersions: true
           packageType: 'sdk'
 
       - task: UseDotNet@2
@@ -131,6 +131,13 @@ jobs:
         inputs:
           version: '7.0.x'
           packageType: 'sdk'
+
+      - task: UseDotNet@2
+        displayName: 'Use .Net Core SDK  8.0.x'
+        inputs:
+          version: '8.0.x'
+          packageType: 'sdk'
+          includePreviewVersions: true
 
       - task: NuGetToolInstaller@1
         displayName: 'Use NuGet'

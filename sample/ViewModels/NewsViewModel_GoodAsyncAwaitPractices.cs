@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -24,13 +24,15 @@ partial class NewsViewModel : BaseViewModel
 	}
 
 	[RelayCommand]
-	async Task Refresh()
+	async Task Refresh(CancellationToken token)
 	{
 		TopStoryCollection.Clear();
 
+		var minimumRefreshTimeTask = Task.Delay(TimeSpan.FromSeconds(2), token);
+
 		try
 		{
-			await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories).ConfigureAwait(false))
+			await foreach (var story in GetTopStories(StoriesConstants.NumberOfStories, token).ConfigureAwait(false))
 			{
 				if (!TopStoryCollection.Any(x => x.Title.Equals(story.Title, StringComparison.Ordinal)))
 					InsertIntoSortedCollection(TopStoryCollection, (a, b) => b.Score.CompareTo(a.Score), story);
@@ -42,14 +44,15 @@ partial class NewsViewModel : BaseViewModel
 		}
 		finally
 		{
+			await minimumRefreshTimeTask.ConfigureAwait(false);
 			IsListRefreshing = false;
 		}
 	}
 
-	async IAsyncEnumerable<StoryModel> GetTopStories(int? storyCount = int.MaxValue)
+	async IAsyncEnumerable<StoryModel> GetTopStories(int storyCount, [EnumeratorCancellation] CancellationToken token)
 	{
-		var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs().ConfigureAwait(false);
-		var getTopStoryTaskList = topStoryIds.Select(_hackerNewsAPIService.GetStory).ToList();
+		var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
+		var getTopStoryTaskList = topStoryIds.Select(id => _hackerNewsAPIService.GetStory(id, token)).ToList();
 
 		while (getTopStoryTaskList.Any() && storyCount-- > 0)
 		{

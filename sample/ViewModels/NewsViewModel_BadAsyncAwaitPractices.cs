@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Frozen;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -17,7 +18,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		_hackerNewsAPIService = hackerNewsAPIService;
 
 		//ToDo Refactor
-		Refresh();
+		Refresh(CancellationToken.None);
 	}
 
 	public event EventHandler<string> PullToRefreshFailed
@@ -27,13 +28,17 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	}
 
 	[RelayCommand]
-	async Task Refresh()
+	async Task Refresh(CancellationToken token)
 	{
-		TopStoryCollection.Clear();
+		// ToDo Refactor
+		var minimumRefreshTimeTask = Task.Delay(TimeSpan.FromSeconds(2));
 
 		try
 		{
+			// ToDo Refactor
 			var topStoriesList = await GetTopStories(StoriesConstants.NumberOfStories);
+
+			TopStoryCollection.Clear();
 
 			foreach (var story in topStoriesList)
 			{
@@ -47,50 +52,56 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		}
 		finally
 		{
+			// ToDo Refactor
+			minimumRefreshTimeTask.Wait();
 			IsListRefreshing = false;
 		}
 	}
 
 	// ToDo Refactor
-	async Task<List<StoryModel>> GetTopStories(int numberOfStories)
+	async Task<FrozenSet<StoryModel>> GetTopStories(int storyCount = int.MaxValue)
 	{
 		List<StoryModel> topStoryList = new();
 
 		//ToDo Refactor
 		var topStoryIds = await GetTopStoryIDs();
 
-		if (topStoryIds != null)
+		foreach (var topStoryId in topStoryIds)
 		{
-			for (int i = 0; i < numberOfStories; i++)
-			{
-				//ToDo Refactor
-				var story = await GetStory(topStoryIds[i]);
-				topStoryList.Add(story);
-			}
+			var story = await GetStory(topStoryId);
+			topStoryList.Add(story);
+
+			if (topStoryList.Count >= storyCount)
+				break;
 		}
 
-		return topStoryList.Where(x => x != null).OrderByDescending(x => x.Score).ToList();
+		return topStoryList.Where(x => x is not null).OrderByDescending(x => x.Score).ToFrozenSet();
 	}
 
 	//ToDo Refactor
 	async Task<StoryModel> GetStory(long storyId)
 	{
-		return await _hackerNewsAPIService.GetStory(storyId);
+		return await _hackerNewsAPIService.GetStory(storyId, CancellationToken.None);
 	}
 
 	//ToDo Refactor
-	async Task<IReadOnlyList<long>?> GetTopStoryIDs()
+	async Task<FrozenSet<long>> GetTopStoryIDs()
 	{
+		if (IsDataRecent(TimeSpan.FromHours(1)))
+			return TopStoryCollection.Select(x => x.Id).ToFrozenSet();
+
 		try
 		{
-			return await _hackerNewsAPIService.GetTopStoryIDs();
+			return await _hackerNewsAPIService.GetTopStoryIDs(CancellationToken.None);
 		}
 		catch (Exception e)
 		{
-			Debug.WriteLine(e.Message);
+			Trace.WriteLine(e.Message);
 			throw;
 		}
 	}
+
+	bool IsDataRecent(TimeSpan timeSpan) => (DateTimeOffset.UtcNow - TopStoryCollection.Max(x => x.CreatedAt_DateTimeOffset)) > timeSpan;
 
 	void OnPullToRefreshFailed(string message) => _pullToRefreshEventManager.HandleEvent(this, message, nameof(PullToRefreshFailed));
 }
