@@ -37,7 +37,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		try
 		{
 			// ToDo Refactor
-			var topStoriesList = await GetTopStories(StoriesConstants.NumberOfStories);
+			var topStoriesList = await GetTopStories(token, StoriesConstants.NumberOfStories);
 
 			TopStoryCollection.Clear();
 
@@ -60,15 +60,15 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	}
 
 	// ToDo Refactor
-	async Task<FrozenSet<StoryModel>> GetTopStories(int storyCount = int.MaxValue)
+	async Task<FrozenSet<StoryModel>> GetTopStories(CancellationToken token, int storyCount = int.MaxValue)
 	{
 		List<StoryModel> topStoryList = new();
 
-		var topStoryIds = await GetTopStoryIDs().ConfigureAwait(false);
+		var topStoryIds = await GetTopStoryIDs(token).ConfigureAwait(false);
 
 		foreach (var topStoryId in topStoryIds)
 		{
-			var story = await GetStory(topStoryId).ConfigureAwait(false);
+			var story = await GetStory(topStoryId, token).ConfigureAwait(false);
 			topStoryList.Add(story);
 
 			if (topStoryList.Count >= storyCount)
@@ -79,20 +79,20 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	}
 
 	//ToDo Refactor
-	async Task<StoryModel> GetStory(long storyId)
+	async Task<StoryModel> GetStory(long storyId, CancellationToken token)
 	{
-		return await _hackerNewsAPIService.GetStory(storyId, CancellationToken.None);
+		return await _hackerNewsAPIService.GetStory(storyId, token);
 	}
 
 	//ToDo Refactor
-	async Task<FrozenSet<long>> GetTopStoryIDs()
+	async Task<FrozenSet<long>> GetTopStoryIDs(CancellationToken token)
 	{
 		if (IsDataRecent(TimeSpan.FromHours(1)))
 			return TopStoryCollection.Select(x => x.Id).ToFrozenSet();
 
 		try
 		{
-			return await _hackerNewsAPIService.GetTopStoryIDs(CancellationToken.None);
+			return await _hackerNewsAPIService.GetTopStoryIDs(token);
 		}
 		catch (Exception e)
 		{
