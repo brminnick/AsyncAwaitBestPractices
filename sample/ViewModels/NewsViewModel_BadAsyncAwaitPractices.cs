@@ -65,7 +65,6 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	{
 		List<StoryModel> topStoryList = new();
 
-		//ToDo Refactor
 		var topStoryIds = await GetTopStoryIDs().ConfigureAwait(false);
 
 		foreach (var topStoryId in topStoryIds)
