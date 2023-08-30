@@ -9,7 +9,6 @@ namespace HackerNews;
 partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 {
 	readonly HackerNewsAPIService _hackerNewsAPIService;
-	readonly WeakEventManager _pullToRefreshEventManager = new();
 	readonly AsyncAwaitBestPractices.WeakEventManager _pullToRefreshEventManager = new();
 
 	[ObservableProperty]
