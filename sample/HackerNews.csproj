@@ -42,7 +42,7 @@
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="3.3.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0-rc.1.9171" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0-rc.2.9373" />
 	</ItemGroup>
 
 	<ItemGroup>
