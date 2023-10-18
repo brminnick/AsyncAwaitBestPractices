@@ -49,11 +49,17 @@ partial class NewsViewModel : BaseViewModel
 		}
 	}
 
-	async IAsyncEnumerable<StoryModel> GetTopStories(int storyCount, [EnumeratorCancellation] CancellationToken token)
+	async IAsyncEnumerable<StoryModel> GetTopStories(
+		int storyCount,
+		[EnumeratorCancellation] CancellationToken token)
 	{
 		var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
 
-		var getTopStoryTaskList = topStoryIds.Select(id => _hackerNewsAPIService.GetStory(id, token)).ToList();
+		var getTopStoryTaskList = new List<Task<StoryModel>>();
+		foreach(var story in topStoryIds)
+		{
+			getTopStoryTaskList.Add(_hackerNewsAPIService.GetStory(story, token));
+		}
 
 		while (getTopStoryTaskList.Any() && storyCount-- > 0)
 		{
