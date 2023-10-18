@@ -63,7 +63,7 @@ partial class NewsViewModel : BaseViewModel
 
 		while (getTopStoryTaskList.Any() && storyCount-- > 0)
 		{
-			var completedGetStoryTask = await Task.WhenAny(getTopStoryTaskList).ConfigureAwait(false);
+			Task<StoryModel> completedGetStoryTask = await Task.WhenAny(getTopStoryTaskList).ConfigureAwait(false);
 			getTopStoryTaskList.Remove(completedGetStoryTask);
 
 			var story = await completedGetStoryTask.ConfigureAwait(false);

@@ -88,7 +88,9 @@ public static partial class SafeFireAndForgetExtensions
 		}
 	}
 
-	static async void HandleSafeFireAndForget<TException>(Task task, bool continueOnCapturedContext, Action<TException>? onException) where TException : Exception
+	static async void HandleSafeFireAndForget<TException>(Task task, 
+															bool continueOnCapturedContext, 
+															Action<TException>? onException) where TException : Exception
 	{
 		try
 		{
