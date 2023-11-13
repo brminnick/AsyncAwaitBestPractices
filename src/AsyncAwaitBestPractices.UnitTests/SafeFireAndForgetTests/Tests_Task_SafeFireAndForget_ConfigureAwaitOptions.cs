@@ -216,4 +216,4 @@ class Tests_Task_SafeFireAndForget_ConfigureAwaitOptions : BaseTest
 		}
 	}
 }
-#endif	
+#endif

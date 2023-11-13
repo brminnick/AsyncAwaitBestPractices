@@ -43,7 +43,7 @@ public static partial class SafeFireAndForgetExtensions
 	/// <param name="continueOnCapturedContext">If set to <c>true</c>, continue on captured context; this will ensure that the Synchronization Context returns to the calling thread. If set to <c>false</c>, continue on a different context; this will allow the Synchronization Context to continue on a different thread</param>
 	/// <typeparam name="TException">Exception type. If an exception is thrown of a different type, it will not be handled</typeparam>
 	public static void SafeFireAndForget<TException>(this Task task, Action<TException>? onException, bool continueOnCapturedContext = false) where TException : Exception => task.SafeFireAndForget(in onException, in continueOnCapturedContext);
-	
+
 #if NET8_0_OR_GREATER
 	
 	/// <summary>
