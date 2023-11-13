@@ -2,6 +2,7 @@
 <Project>
   <PropertyGroup>
     <Nullable>enable</Nullable>
+    <NuGetVersion>7.0.0</NuGetVersion>
     <LangVersion>latest</LangVersion>
     <Deterministic>true</Deterministic>
     <LatestSupportedTFM>net8.0</LatestSupportedTFM>

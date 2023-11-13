@@ -44,6 +44,27 @@ public static partial class SafeFireAndForgetExtensions
 	/// <typeparam name="TException">Exception type. If an exception is thrown of a different type, it will not be handled</typeparam>
 	public static void SafeFireAndForget<TException>(this Task task, Action<TException>? onException, bool continueOnCapturedContext = false) where TException : Exception => task.SafeFireAndForget(in onException, in continueOnCapturedContext);
 
+#if NET8_0_OR_GREATER
+	
+	/// <summary>
+	/// Safely execute the Task without waiting for it to complete before moving to the next line of code; commonly known as "Fire And Forget". Inspired by John Thiriet's blog post, "Removing Async Void": https://johnthiriet.com/removing-async-void/.
+	/// </summary>
+	/// <param name="task">Task.</param>
+	/// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
+	/// <param name="configureAwaitOptions">Options to control behavior when awaiting</param>
+	public static void SafeFireAndForget(this Task task, ConfigureAwaitOptions configureAwaitOptions, Action<Exception>? onException = null) => task.SafeFireAndForget(in configureAwaitOptions, in onException);
+
+	/// <summary>
+	/// Safely execute the Task without waiting for it to complete before moving to the next line of code; commonly known as "Fire And Forget". Inspired by John Thiriet's blog post, "Removing Async Void": https://johnthiriet.com/removing-async-void/.
+	/// </summary>
+	/// <param name="task">Task.</param>
+	/// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute. If onException is null, the exception will be re-thrown</param>
+	/// <param name="configureAwaitOptions">Options to control behavior when awaiting</param>
+	/// <typeparam name="TException">Exception type. If an exception is thrown of a different type, it will not be handled</typeparam>
+	public static void SafeFireAndForget<TException>(this Task task, ConfigureAwaitOptions configureAwaitOptions, Action<TException>? onException = null) where TException : Exception => task.SafeFireAndForget(in configureAwaitOptions, in onException);
+	
+#endif
+
 	/// <summary>
 	/// Initialize SafeFireAndForget
 	///
