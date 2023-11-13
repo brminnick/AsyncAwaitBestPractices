@@ -147,7 +147,7 @@ public static async void SafeFireAndForget(this System.Threading.Tasks.ValueTask
 
 #### On .NET 8.0 (and higher)
 
-.NET Introduces [`ConfigureAwaitOptions`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.configureawaitoptions) that allow users to customize the behavior when awaiting:
+.NET 8.0 Introduces [`ConfigureAwaitOptions`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.configureawaitoptions) that allow users to customize the behavior when awaiting:
 - `ConfigureAwaitOptions.None`
     - No options specified
 - `ConfigureAwaitOptions.SuppressThrowing`
