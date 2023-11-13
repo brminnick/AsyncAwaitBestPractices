@@ -145,6 +145,24 @@ public static async void SafeFireAndForget(this System.Threading.Tasks.Task task
 public static async void SafeFireAndForget(this System.Threading.Tasks.ValueTask task, System.Action<System.Exception>? onException = null, bool continueOnCapturedContext = false)
 ```
 
+#### On .NET 8.0 (and higher)
+
+.NET 8.0 Introduces [`ConfigureAwaitOptions`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.configureawaitoptions) that allow users to customize the behavior when awaiting:
+- `ConfigureAwaitOptions.None`
+    - No options specified
+- `ConfigureAwaitOptions.SuppressThrowing`
+    - Avoids throwing an exception at the completion of awaiting a Task that ends in the Faulted or Canceled state
+- `ConfigureAwaitOptions.ContinueOnCapturedContext`
+    - Attempts to marshal the continuation back to the original SynchronizationContext or TaskScheduler present on the originating thread at the time of the await
+- `ConfigureAwaitOptions.ForceYielding`
+    - Forces an await on an already completed Task to behave as if the Task wasn't yet completed, such that the current asynchronous method will be forced to yield its execution
+
+For more information, check out Stephen Cleary's blog post, ["ConfigureAwait in .NET 8"](https://blog.stephencleary.com/2023/11/configureawait-in-net-8.html).
+
+```csharp
+public static void SafeFireAndForget(this System.Threading.Tasks.Task task, ConfigureAwaitOptions configureAwaitOptions, Action<Exception>? onException = null)
+```
+
 #### Basic Usage - Task
 
 ```csharp
@@ -163,6 +181,8 @@ async Task ExampleAsyncMethod()
     await Task.Delay(1000);
 }
 ```
+
+> **Note:** `ConfigureAwaitOptions.SuppressThrowing` will always supress exceptions from being rethrown. This means that `onException` will never execute when `ConfigureAwaitOptions.SuppressThrowing` is set.
 
 #### Basic Usage - ValueTask
 
@@ -242,6 +262,8 @@ async ValueTask ExampleValueTaskMethod()
     throw new WebException();
 }
 ```
+
+> **Note:** `ConfigureAwaitOptions.SuppressThrowing` will always supress exceptions from being rethrown. This means that `onException` will never execute when `ConfigureAwaitOptions.SuppressThrowing` is set.
 
 ### `WeakEventManager`
 

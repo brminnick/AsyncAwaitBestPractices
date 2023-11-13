@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AsyncAwaitBestPractices.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>AsyncAwaitBestPractices</AssemblyName>
@@ -27,19 +27,20 @@
         </Description>
         <PackageReleaseNotes>
             New In This Release:
-- Add .NET 7.0 Target
+- Add .NET 8.0 Target
+- Add Support for ConfigureAwaitOptions
         </PackageReleaseNotes>
-        <Version>6.0.6</Version>
+        <Version>$(NuGetVersion)</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
-        <AssemblyVersion>6.0.5</AssemblyVersion>
-        <AssemblyFileVersion>6.0.5</AssemblyFileVersion>
+        <AssemblyVersion>$(NuGetVersion)</AssemblyVersion>
+        <AssemblyFileVersion>$(NuGetVersion)</AssemblyFileVersion>
         <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
         <Authors>Brandon Minnick, John Thiriet</Authors>
         <Owners>Brandon Minnick</Owners>
         <NeutralLanguage>en</NeutralLanguage>
-        <Copyright>©Copyright 2021 Brandon Minnick. All rights reserved.</Copyright>
+        <Copyright>©Copyright 2023 Brandon Minnick. All rights reserved.</Copyright>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <DefineConstants>$(DefineConstants);</DefineConstants>
         <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
