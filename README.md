@@ -182,7 +182,7 @@ async Task ExampleAsyncMethod()
 }
 ```
 
-> **Note:** `ConfigureAwaitOptions.SuppressThrowing`, `SafeFireAndForgetExtensions.Initialize(true)` will always supress exceptions from being rethrown. This means that `onException` will never execute when `ConfigureAwaitOptions.SuppressThrowing` is set.
+> **Note:** `ConfigureAwaitOptions.SuppressThrowing` will always supress exceptions from being rethrown. This means that `onException` will never execute when `ConfigureAwaitOptions.SuppressThrowing` is set.
 
 #### Basic Usage - ValueTask
 
@@ -263,7 +263,7 @@ async ValueTask ExampleValueTaskMethod()
 }
 ```
 
-> **Note:** `ConfigureAwaitOptions.SuppressThrowing`, `SafeFireAndForgetExtensions.Initialize(true)` will always supress exceptions from being rethrown. 
+> **Note:** `ConfigureAwaitOptions.SuppressThrowing` will always supress exceptions from being rethrown. This means that `onException` will never execute when `ConfigureAwaitOptions.SuppressThrowing` is set.
 
 ### `WeakEventManager`
 
