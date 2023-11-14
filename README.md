@@ -67,11 +67,12 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
 
 ### Video
 
-**NDC Oslo 2019**
+**NDC Copenhagen 2023**
 
-[Correcting Common Async Await Mistakes in .NET](https://www.youtube.com/watch?v=J0mcYVxJEl0)
+[Correcting Common Async Await Mistakes in .NET](https://www.youtube.com/watch?app=desktop&v=zhCRX3B7qwY&pp=ygUMI2NwaGJ1c2luZXNz)
 
-[![](https://user-images.githubusercontent.com/13558917/62509892-a32a8a00-b7d2-11e9-9460-267220838b76.png)](https://www.youtube.com/watch?v=J0mcYVxJEl0 "Correcting Common Async Await Mistakes in .NET")
+
+[![](https://github.com/brminnick/AsyncAwaitBestPractices/assets/13558917/3559ef5d-a80f-4bc2-95ae-3e614a17ba99)](https://www.youtube.com/watch?app=desktop&v=zhCRX3B7qwY&pp=ygUMI2NwaGJ1c2luZXNz)
 
 ### Explaination
 
