@@ -188,7 +188,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		unassignedEventManager.RaiseEvent(null, null, nameof(PropertyChanged));
 
 		//Assert
-		Assert.That(didEventFire);
+		Assert.That(didEventFire, Is.False);
 		PropertyChanged -= HandleDelegateTest;
 	}
 

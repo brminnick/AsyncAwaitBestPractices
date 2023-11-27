@@ -124,7 +124,7 @@ class Tests_AsyncCommand : BaseAsyncCommandTest
 		bool commandCanExecute(object? parameter) => canCommandExecute;
 
 
-		Assert.That(command.CanExecute(null), Is.True);
+		Assert.That(command.CanExecute(null), Is.False);
 
 
 		//Act

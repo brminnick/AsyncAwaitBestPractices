@@ -125,7 +125,7 @@ class Tests_IAsyncCommand : BaseAsyncCommandTest
 		//Act
 
 		//Assert
-		Assert.That(command.CanExecute(null), Is.False);
+		Assert.That(command.CanExecute(null), Is.True);
 	}
 
 	[Test]

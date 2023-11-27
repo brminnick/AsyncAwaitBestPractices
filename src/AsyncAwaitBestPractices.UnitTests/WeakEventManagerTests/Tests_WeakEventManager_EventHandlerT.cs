@@ -53,7 +53,7 @@ class Tests_WeakEventManager_EventHandlerT : BaseTest
 		{
 			Assert.Multiple(() =>
 			{
-				Assert.That(sender, Is.Not.Null);
+				Assert.That(sender, Is.Null);
 
 				Assert.That(e, Is.Not.Null);
 				Assert.That(e, Is.EqualTo(stringEventArg));

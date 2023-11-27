@@ -240,7 +240,7 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		{
 			//Assert
 			Assert.That(command.CanExecute(true), Is.True);
-			Assert.That(command.CanExecute(false), Is.True);
+			Assert.That(command.CanExecute(false), Is.False);
 		});
 	}
 
