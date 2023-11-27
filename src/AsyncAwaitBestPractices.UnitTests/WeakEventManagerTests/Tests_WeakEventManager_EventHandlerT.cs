@@ -282,7 +282,7 @@ class Tests_WeakEventManager_EventHandlerT : BaseTest
 			Assert.Throws<InvalidHandleEventException>(() => TestStringWeakEventManager.RaiseEvent("", nameof(TestStringEvent)));
 			Assert.That(didEventFire, Is.False);
 		});
-		
+
 		TestStringEvent -= HandleTestStringEvent;
 	}
 }

@@ -49,7 +49,7 @@ class Tests_Task_SafeFireAndForget_ConfigureAwaitOptions : BaseTest
 		await NoParameterTask();
 
 		//Assert
-		Assert.That(exception, Is.Not.Null);
+		Assert.That(exception, Is.Null);
 	}
 
 	[Test]

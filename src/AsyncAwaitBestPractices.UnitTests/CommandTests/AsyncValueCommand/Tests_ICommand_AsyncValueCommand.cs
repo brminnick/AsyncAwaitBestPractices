@@ -238,8 +238,8 @@ class Tests_ICommand_AsyncValueCommand : BaseAsyncValueCommandTest
 		Assert.Multiple(() =>
 		{
 			//Assert
-			Assert.That	(command.CanExecute(null), Is.False);
-			Assert.That	(command2.CanExecute(0), Is.False);
+			Assert.That(command.CanExecute(null), Is.False);
+			Assert.That(command2.CanExecute(0), Is.False);
 		});
 	}
 

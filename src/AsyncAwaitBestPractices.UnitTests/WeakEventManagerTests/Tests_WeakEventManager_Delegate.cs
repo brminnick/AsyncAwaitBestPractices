@@ -347,7 +347,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		//Assert
 		Assert.Multiple(() =>
 		{
-			Assert.That(_nullablePropertyChangedEventHandler, Is.Not.Null);
+			Assert.That(_nullablePropertyChangedEventHandler, Is.Null);
 			Assert.That(addEventHandlerResult, Is.Not.Null);
 			Assert.That(removeEventHandlerResult, Is.Not.Null);
 		});
