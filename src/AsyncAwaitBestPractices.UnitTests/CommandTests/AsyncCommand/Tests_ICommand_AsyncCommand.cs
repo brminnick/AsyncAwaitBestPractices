@@ -8,7 +8,7 @@ namespace AsyncAwaitBestPractices.UnitTests;
 class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 {
 	[TestCase(500)]
-	[TestCase(default)]
+	[TestCase(0)]
 	public async Task ICommand_Execute_IntParameter_Test(int parameter)
 	{
 		//Arrange
@@ -27,8 +27,8 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 	}
 
 	[TestCase("Hello")]
-	[TestCase(default)]
-	public async Task ICommand_Execute_StringParameter_Test(string parameter)
+	[TestCase(null)]
+	public async Task ICommand_Execute_StringParameter_Test(string? parameter)
 	{
 		//Arrange
 		ICommand command = new AsyncCommand<string>(StringParameterTask);
@@ -57,8 +57,8 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute(Delay));
 
 		//Assert
-		Assert.IsNotNull(actualInvalidCommandParameterException);
-		Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+		Assert.That(actualInvalidCommandParameterException, Is.Not.Null);
+		Assert.That(actualInvalidCommandParameterException?.Message, Is.EqualTo(expectedInvalidCommandParameterException.Message));
 	}
 
 	[Test]
@@ -74,8 +74,8 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute(Delay));
 
 		//Assert
-		Assert.IsNotNull(actualInvalidCommandParameterException);
-		Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+		Assert.That(actualInvalidCommandParameterException, Is.Not.Null);
+		Assert.That(actualInvalidCommandParameterException?.Message, Is.EqualTo(expectedInvalidCommandParameterException.Message));
 	}
 
 	[Test]
@@ -92,8 +92,8 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute("Hello World"));
 
 		//Assert
-		Assert.IsNotNull(actualInvalidCommandParameterException);
-		Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+		Assert.That(actualInvalidCommandParameterException, Is.Not.Null);
+		Assert.That(actualInvalidCommandParameterException?.Message, Is.EqualTo(expectedInvalidCommandParameterException.Message));
 	}
 
 	[Test]
@@ -110,8 +110,8 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute("Hello World"));
 
 		//Assert
-		Assert.IsNotNull(actualInvalidCommandParameterException);
-		Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+		Assert.That(actualInvalidCommandParameterException, Is.Not.Null);
+		Assert.That(actualInvalidCommandParameterException?.Message, Is.EqualTo(expectedInvalidCommandParameterException.Message));
 	}
 
 	[Test]
@@ -128,8 +128,8 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute(null));
 
 		//Assert
-		Assert.IsNotNull(actualInvalidCommandParameterException);
-		Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+		Assert.That(actualInvalidCommandParameterException, Is.Not.Null);
+		Assert.That(actualInvalidCommandParameterException?.Message, Is.EqualTo(expectedInvalidCommandParameterException.Message));
 	}
 
 	[Test]
@@ -146,8 +146,8 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute(null));
 
 		//Assert
-		Assert.IsNotNull(actualInvalidCommandParameterException);
-		Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+		Assert.That(actualInvalidCommandParameterException, Is.Not.Null);
+		Assert.That(actualInvalidCommandParameterException?.Message, Is.EqualTo(expectedInvalidCommandParameterException.Message));
 	}
 
 	[Test]
@@ -157,11 +157,14 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		ICommand command = new AsyncCommand<int?>(NullableIntParameterTask, CanExecuteTrue);
 		ICommand command2 = new AsyncCommand<int, int>(IntParameterTask, CanExecuteTrue);
 
-		//Act
+		Assert.Multiple(() =>
+		{
+			//Act
 
-		//Assert
-		Assert.True(command.CanExecute(null));
-		Assert.True(command2.CanExecute(0));
+			//Assert
+			Assert.That(command.CanExecute(null), Is.True);
+			Assert.That(command2.CanExecute(0), Is.True);
+		});
 	}
 
 	[Test]
@@ -171,11 +174,14 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		ICommand command = new AsyncCommand<int?>(NullableIntParameterTask, CanExecuteFalse);
 		ICommand command2 = new AsyncCommand<int, int>(IntParameterTask, CanExecuteFalse);
 
-		//Act
+		Assert.Multiple(() =>
+		{
+			//Act
 
-		//Assert
-		Assert.False(command.CanExecute(null));
-		Assert.False(command2.CanExecute(0));
+			//Assert
+			Assert.That(command.CanExecute(null), Is.False);
+			Assert.That(command2.CanExecute(0), Is.False);
+		});
 	}
 
 	[Test]
@@ -191,8 +197,8 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.CanExecute(null));
 
 		//Assert
-		Assert.IsNotNull(actualInvalidCommandParameterException);
-		Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+		Assert.That(actualInvalidCommandParameterException, Is.Not.Null);
+		Assert.That(actualInvalidCommandParameterException?.Message, Is.EqualTo(expectedInvalidCommandParameterException.Message));
 	}
 
 	[Test]
@@ -208,8 +214,8 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		actualInvalidCommandParameterException = Assert.Throws<InvalidCommandParameterException>(() => command.Execute(null));
 
 		//Assert
-		Assert.IsNotNull(actualInvalidCommandParameterException);
-		Assert.AreEqual(expectedInvalidCommandParameterException.Message, actualInvalidCommandParameterException?.Message);
+		Assert.That(actualInvalidCommandParameterException, Is.Not.Null);
+		Assert.That(actualInvalidCommandParameterException?.Message, Is.EqualTo(expectedInvalidCommandParameterException.Message));
 	}
 
 	[Test]
@@ -221,7 +227,7 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		//Act
 
 		//Assert
-		Assert.False(command.CanExecute(null));
+		Assert.That(command.CanExecute(null), Is.False);
 	}
 
 	[Test]
@@ -230,11 +236,12 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		//Arrange
 		ICommand command = new AsyncCommand<int>(IntParameterTask, CanExecuteDynamic);
 
-		//Act
-
-		//Assert
-		Assert.True(command.CanExecute(true));
-		Assert.False(command.CanExecute(false));
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.That(command.CanExecute(true), Is.True);
+			Assert.That(command.CanExecute(false), Is.False);
+		});
 	}
 
 	[Test]
@@ -243,10 +250,11 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		//Arrange
 		ICommand command = new AsyncCommand<int>(IntParameterTask, CanExecuteDynamic);
 
-		//Act
-
-		//Assert
-		Assert.True(command.CanExecute(true));
-		Assert.False(command.CanExecute(false));
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.That(command.CanExecute(true), Is.True);
+			Assert.That(command.CanExecute(false), Is.False);
+		});
 	}
 }

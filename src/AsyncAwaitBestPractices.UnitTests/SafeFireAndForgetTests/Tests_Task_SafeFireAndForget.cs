@@ -33,7 +33,7 @@ class Tests_SafeFireAndForget : BaseTest
 		await NoParameterTask();
 
 		//Assert
-		Assert.IsNotNull(exception);
+		Assert.That(exception, Is.Not.Null);
 	}
 
 	[Test]
@@ -49,7 +49,7 @@ class Tests_SafeFireAndForget : BaseTest
 		await NoParameterTask();
 
 		//Assert
-		Assert.IsNotNull(exception);
+		Assert.That(exception, Is.Not.Null);
 	}
 
 	[Test]
@@ -65,9 +65,12 @@ class Tests_SafeFireAndForget : BaseTest
 		await NoParameterTask();
 		await NoParameterTask();
 
-		//Assert
-		Assert.IsNotNull(exception1);
-		Assert.IsNotNull(exception2);
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.That(exception1, Is.Not.Null);
+			Assert.That(exception2, Is.Not.Null);
+		});
 	}
 
 	[Test]
@@ -86,14 +89,17 @@ class Tests_SafeFireAndForget : BaseTest
 
 		workingThread = await threadTCS.Task;
 
-		//Assert
-		Assert.IsNotNull(initialThread);
-		Assert.IsNotNull(workingThread);
-		Assert.IsNotNull(finalThread);
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.That(initialThread, Is.Not.Null);
+			Assert.That(workingThread, Is.Not.Null);
+			Assert.That(finalThread, Is.Not.Null);
 
-		Assert.AreEqual(initialThread, finalThread);
-		Assert.AreNotEqual(initialThread, workingThread);
-		Assert.AreNotEqual(finalThread, workingThread);
+			Assert.That(finalThread, Is.EqualTo(initialThread));
+			Assert.That(workingThread, Is.Not.EqualTo(initialThread));
+			Assert.That(workingThread, Is.Not.EqualTo(finalThread));
+		});
 
 		async Task BlockingThreadMethod()
 		{
@@ -118,14 +124,17 @@ class Tests_SafeFireAndForget : BaseTest
 
 		workingThread = await threadTCS.Task;
 
-		//Assert
-		Assert.IsNotNull(initialThread);
-		Assert.IsNotNull(workingThread);
-		Assert.IsNotNull(finalThread);
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.That(initialThread, Is.Not.Null);
+			Assert.That(workingThread, Is.Not.Null);
+			Assert.That(finalThread, Is.Not.Null);
 
-		Assert.AreEqual(initialThread, finalThread);
-		Assert.AreEqual(initialThread, workingThread);
-		Assert.AreEqual(finalThread, workingThread);
+			Assert.That(finalThread, Is.EqualTo(initialThread));
+			Assert.That(workingThread, Is.EqualTo(initialThread));
+			Assert.That(workingThread, Is.EqualTo(finalThread));
+		});
 
 		Task NonAsyncMethod()
 		{

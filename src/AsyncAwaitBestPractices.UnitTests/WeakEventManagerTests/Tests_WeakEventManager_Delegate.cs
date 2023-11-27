@@ -28,10 +28,13 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 
 		void HandleDelegateTest(object? sender, PropertyChangedEventArgs e)
 		{
-			Assert.IsNotNull(sender);
-			Assert.AreEqual(this.GetType(), sender?.GetType());
+			Assert.Multiple(() =>
+			{
+				Assert.That(sender, Is.Not.Null);
+				Assert.That(sender?.GetType(), Is.EqualTo(this.GetType()));
 
-			Assert.IsNotNull(e);
+				Assert.That(e, Is.Not.Null);
+			});
 
 			didEventFire = true;
 			PropertyChanged -= HandleDelegateTest;
@@ -41,7 +44,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		_propertyChangedWeakEventManager.RaiseEvent(this, new PropertyChangedEventArgs("Test"), nameof(PropertyChanged));
 
 		//Assert
-		Assert.IsTrue(didEventFire);
+		Assert.That(didEventFire, Is.True);
 	}
 
 	[Test]
@@ -53,8 +56,11 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 
 		void HandleDelegateTest(object? sender, PropertyChangedEventArgs e)
 		{
-			Assert.IsNull(sender);
-			Assert.IsNotNull(e);
+			Assert.Multiple(() =>
+			{
+				Assert.That(sender, Is.Null);
+				Assert.That(e, Is.Not.Null);
+			});
 
 			didEventFire = true;
 			PropertyChanged -= HandleDelegateTest;
@@ -64,7 +70,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		_propertyChangedWeakEventManager.RaiseEvent(null, new PropertyChangedEventArgs("Test"), nameof(PropertyChanged));
 
 		//Assert
-		Assert.IsTrue(didEventFire);
+		Assert.That(didEventFire, Is.True);
 	}
 
 	[Test]
@@ -78,9 +84,13 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 
 		//Act
 
-		//Assert
-		Assert.Throws<ArgumentException>(() => _propertyChangedWeakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(PropertyChanged)));
-		Assert.IsFalse(didEventFire);
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.Throws<ArgumentException>(() => _propertyChangedWeakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(PropertyChanged)));
+			Assert.That(didEventFire, Is.False);
+		});
+
 		PropertyChanged -= HandleDelegateTest;
 	}
 
@@ -93,10 +103,13 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 
 		void HandleDelegateTest(object? sender, PropertyChangedEventArgs e)
 		{
-			Assert.IsNotNull(sender);
-			Assert.AreEqual(this.GetType(), sender?.GetType());
+			Assert.Multiple(() =>
+			{
+				Assert.That(sender, Is.Not.Null);
+				Assert.That(sender?.GetType(), Is.EqualTo(this.GetType()));
 
-			Assert.IsNull(e);
+				Assert.That(e, Is.Null);
+			});
 
 			didEventFire = true;
 			PropertyChanged -= HandleDelegateTest;
@@ -106,7 +119,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		_propertyChangedWeakEventManager.RaiseEvent(this, null, nameof(PropertyChanged));
 
 		//Assert
-		Assert.IsTrue(didEventFire);
+		Assert.That(didEventFire, Is.True);
 	}
 
 	[Test]
@@ -122,7 +135,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		_propertyChangedWeakEventManager.RaiseEvent(this, new PropertyChangedEventArgs("Test"), nameof(TestStringEvent));
 
 		//Assert
-		Assert.False(didEventFire);
+		Assert.That(didEventFire, Is.False);
 		PropertyChanged -= HandleDelegateTest;
 	}
 
@@ -158,7 +171,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		_propertyChangedWeakEventManager.RaiseEvent(null, null, nameof(PropertyChanged));
 
 		//Assert
-		Assert.IsFalse(didEventFire);
+		Assert.That(didEventFire, Is.False);
 	}
 
 	[Test]
@@ -175,7 +188,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		unassignedEventManager.RaiseEvent(null, null, nameof(PropertyChanged));
 
 		//Assert
-		Assert.IsFalse(didEventFire);
+		Assert.That(didEventFire, Is.False);
 		PropertyChanged -= HandleDelegateTest;
 	}
 
@@ -192,7 +205,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 
 		//Assert
 		Assert.Throws<InvalidHandleEventException>(() => _propertyChangedWeakEventManager.RaiseEvent(nameof(PropertyChanged)));
-		Assert.IsFalse(didEventFire);
+		Assert.That(didEventFire, Is.False);
 		PropertyChanged -= HandleDelegateTest;
 	}
 
@@ -332,9 +345,12 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		_nullablePropertyChangedEventHandler = null;
 
 		//Assert
-		Assert.IsNull(_nullablePropertyChangedEventHandler);
-		Assert.IsNotNull(addEventHandlerResult);
-		Assert.IsNotNull(removeEventHandlerResult);
+		Assert.Multiple(() =>
+		{
+			Assert.That(_nullablePropertyChangedEventHandler, Is.Null);
+			Assert.That(addEventHandlerResult, Is.Not.Null);
+			Assert.That(removeEventHandlerResult, Is.Not.Null);
+		});
 
 		void assignEventHandler()
 		{
