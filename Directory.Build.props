@@ -31,7 +31,8 @@
      CS1711: XML comment has a typeparam tag, but there is no type parameter by that name 
      CS1712: Type parameter has no matching typeparam tag in the XML comment
      CS1723: XML comment has cref attribute that refers to a type parameter
-     CS1734: XML comment has a paramref tag, but there is no parameter by that name -->
-    <WarningsAsErrors>nullable,CS0419,CS1570,CS1571,CS1572,CS1573,CS1574,CS1580,CS1581,CS1584,CS1587,CS1589,CS1590,CS1591,CS1592,CS1598,CS1658,CS1710,CS1711,CS1712,CS1723,CS1734</WarningsAsErrors>
+     CS1734: XML comment has a paramref tag, but there is no parameter by that name 
+     NUnit2007: Warning NUnit2007 : The actual value should not be a constant - perhaps the actual value and the expected value have switched places -->
+    <WarningsAsErrors>nullable,CS0419,CS1570,CS1571,CS1572,CS1573,CS1574,CS1580,CS1581,CS1584,CS1589,CS1590,CS1592,CS1598,CS1658,CS1734,NUnit2007</WarningsAsErrors>
   </PropertyGroup>
 </Project>
