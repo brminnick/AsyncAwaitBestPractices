@@ -32,7 +32,7 @@ class Tests_SafeFireAndForgetT : BaseTest
 		await NoParameterTask();
 
 		//Assert
-		Assert.IsNotNull(exception);
+		Assert.That(exception, Is.Not.Null);
 	}
 
 	[Test]
@@ -48,7 +48,7 @@ class Tests_SafeFireAndForgetT : BaseTest
 		await NoParameterTask();
 
 		//Assert
-		Assert.IsNotNull(exception);
+		Assert.That(exception, Is.Not.Null);
 	}
 
 	[Test]
@@ -64,8 +64,11 @@ class Tests_SafeFireAndForgetT : BaseTest
 		await NoParameterTask();
 		await NoParameterTask();
 
-		//Assert
-		Assert.IsNotNull(exception1);
-		Assert.IsNotNull(exception2);
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.That(exception1, Is.Not.Null);
+			Assert.That(exception2, Is.Not.Null);
+		});
 	}
 }

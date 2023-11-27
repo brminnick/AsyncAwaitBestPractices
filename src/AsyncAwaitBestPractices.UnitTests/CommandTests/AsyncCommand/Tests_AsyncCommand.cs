@@ -23,7 +23,7 @@ class Tests_AsyncCommand : BaseAsyncCommandTest
 	}
 
 	[TestCase(500)]
-	[TestCase(default)]
+	[TestCase(0)]
 	public async Task AsyncCommand_ExecuteAsync_IntParameter_Test(int parameter)
 	{
 		//Arrange
@@ -39,12 +39,12 @@ class Tests_AsyncCommand : BaseAsyncCommandTest
 	}
 
 	[TestCase("Hello")]
-	[TestCase(default)]
-	public async Task AsyncCommand_ExecuteAsync_StringParameter_Test(string parameter)
+	[TestCase(null)]
+	public async Task AsyncCommand_ExecuteAsync_StringParameter_Test(string? parameter)
 	{
 		//Arrange
-		AsyncCommand<string> command = new AsyncCommand<string>(StringParameterTask);
-		AsyncCommand<string, string> command2 = new AsyncCommand<string, string>(StringParameterTask);
+		AsyncCommand<string?> command = new(StringParameterTask);
+		AsyncCommand<string?, string> command2 = new(StringParameterTask);
 
 		//Act
 		await command.ExecuteAsync(parameter);
@@ -61,11 +61,12 @@ class Tests_AsyncCommand : BaseAsyncCommandTest
 		AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, CanExecuteTrue);
 		AsyncCommand<int, bool> command2 = new AsyncCommand<int, bool>(IntParameterTask, CanExecuteTrue);
 
-		//Act
-
-		//Assert
-		Assert.IsTrue(command.CanExecute(null));
-		Assert.IsTrue(command2.CanExecute(true));
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.That(command.CanExecute(null), Is.True);
+			Assert.That(command2.CanExecute(true), Is.True);
+		});
 	}
 
 	[Test]
@@ -75,12 +76,12 @@ class Tests_AsyncCommand : BaseAsyncCommandTest
 		AsyncCommand<int> command = new AsyncCommand<int>(IntParameterTask, CanExecuteFalse);
 		AsyncCommand<int, int> command2 = new AsyncCommand<int, int>(IntParameterTask, CanExecuteFalse);
 
-		//Act
-
-		//Assert
-
-		Assert.False(command.CanExecute(null));
-		Assert.False(command2.CanExecute(0));
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.That(command.CanExecute(null), Is.False);
+			Assert.That(command2.CanExecute(0), Is.False);
+		});
 	}
 
 	[Test]
@@ -93,7 +94,7 @@ class Tests_AsyncCommand : BaseAsyncCommandTest
 
 		//Assert
 
-		Assert.IsTrue(command.CanExecute(null));
+		Assert.That(command.CanExecute(null), Is.True);
 	}
 
 	[Test]
@@ -105,7 +106,7 @@ class Tests_AsyncCommand : BaseAsyncCommandTest
 		//Act
 
 		//Assert
-		Assert.False(command.CanExecute(null));
+		Assert.That(command.CanExecute(null), Is.False);
 	}
 
 
@@ -123,23 +124,27 @@ class Tests_AsyncCommand : BaseAsyncCommandTest
 		bool commandCanExecute(object? parameter) => canCommandExecute;
 
 
-		Assert.False(command.CanExecute(null));
+		Assert.That(command.CanExecute(null), Is.True);
 
 
 		//Act
 		canCommandExecute = true;
 
-		//Assert
-
-		Assert.True(command.CanExecute(null));
-
-		Assert.False(didCanExecuteChangeFire);
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.That(command.CanExecute(null), Is.True);
+			Assert.That(didCanExecuteChangeFire, Is.False);
+		});
 
 		//Act
 		command.RaiseCanExecuteChanged();
 
-		//Assert
-		Assert.True(didCanExecuteChangeFire);
-		Assert.True(command.CanExecute(null));
+		Assert.Multiple(() =>
+		{
+			//Assert
+			Assert.That(didCanExecuteChangeFire, Is.True);
+			Assert.That(command.CanExecute(null), Is.True);
+		});
 	}
 }

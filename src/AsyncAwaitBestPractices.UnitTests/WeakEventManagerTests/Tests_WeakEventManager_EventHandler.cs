@@ -17,10 +17,13 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 			if (sender is null)
 				throw new ArgumentNullException(nameof(sender));
 
-			Assert.IsNotNull(sender);
-			Assert.AreEqual(this.GetType(), sender.GetType());
+			Assert.Multiple(() =>
+			{
+				Assert.That(sender, Is.Not.Null);
+				Assert.That(sender.GetType(), Is.EqualTo(this.GetType()));
 
-			Assert.IsNotNull(e);
+				Assert.That(e, Is.Not.Null);
+			});
 
 			didEventFire = true;
 			TestEvent -= HandleTestEvent;
@@ -30,7 +33,7 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 		TestWeakEventManager.RaiseEvent(this, new EventArgs(), nameof(TestEvent));
 
 		//Assert
-		Assert.IsTrue(didEventFire);
+		Assert.That(didEventFire, Is.True);
 	}
 
 	[Test]
@@ -42,8 +45,11 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 
 		void HandleTestEvent(object? sender, EventArgs e)
 		{
-			Assert.IsNull(sender);
-			Assert.IsNotNull(e);
+			Assert.Multiple(() =>
+			{
+				Assert.That(sender, Is.Not.Null);
+				Assert.That(e, Is.Not.Null);
+			});
 
 			didEventFire = true;
 			TestEvent -= HandleTestEvent;
@@ -53,7 +59,7 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 		TestWeakEventManager.RaiseEvent(null, new EventArgs(), nameof(TestEvent));
 
 		//Assert
-		Assert.IsTrue(didEventFire);
+		Assert.That(didEventFire, Is.True);
 	}
 
 	[Test]
@@ -68,11 +74,15 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 			if (sender is null)
 				throw new ArgumentNullException(nameof(sender));
 
-			Assert.IsNotNull(sender);
-			Assert.AreEqual(this.GetType(), sender.GetType());
+			Assert.Multiple(() =>
+			{
+				Assert.That(sender, Is.Not.Null);
+				Assert.That(sender.GetType(), Is.EqualTo(this.GetType()));
 
-			Assert.IsNotNull(e);
-			Assert.AreEqual(EventArgs.Empty, e);
+				Assert.That(e, Is.Not.Null);
+				Assert.That(e, Is.EqualTo(EventArgs.Empty));
+			});
+
 
 			didEventFire = true;
 			TestEvent -= HandleTestEvent;
@@ -82,7 +92,7 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 		TestWeakEventManager.RaiseEvent(this, EventArgs.Empty, nameof(TestEvent));
 
 		//Assert
-		Assert.IsTrue(didEventFire);
+		Assert.That(didEventFire, Is.True);
 	}
 
 	[Test]
@@ -97,10 +107,13 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 			if (sender is null)
 				throw new ArgumentNullException(nameof(sender));
 
-			Assert.IsNotNull(sender);
-			Assert.AreEqual(this.GetType(), sender.GetType());
+			Assert.Multiple(() =>
+			{
+				Assert.That(sender, Is.Not.Null);
+				Assert.That(sender.GetType(), Is.EqualTo(this.GetType()));
 
-			Assert.IsNull(e);
+				Assert.That(e, Is.Null);
+			});
 
 			didEventFire = true;
 			TestEvent -= HandleTestEvent;
@@ -110,7 +123,7 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 		TestWeakEventManager.RaiseEvent(this, null, nameof(TestEvent));
 
 		//Assert
-		Assert.IsTrue(didEventFire);
+		Assert.That(didEventFire, Is.True);
 	}
 
 	[Test]
@@ -126,7 +139,7 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 		TestWeakEventManager.RaiseEvent(this, new EventArgs(), nameof(TestStringEvent));
 
 		//Assert
-		Assert.False(didEventFire);
+		Assert.That(didEventFire, Is.False);
 		TestEvent -= HandleTestEvent;
 	}
 
@@ -144,7 +157,7 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 		TestWeakEventManager.RaiseEvent(null, null, nameof(TestEvent));
 
 		//Assert
-		Assert.IsFalse(didEventFire);
+		Assert.That(didEventFire, Is.False);
 	}
 
 	[Test]
@@ -161,7 +174,7 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 		unassignedEventManager.RaiseEvent(null, null, nameof(TestEvent));
 
 		//Assert
-		Assert.IsFalse(didEventFire);
+		Assert.That(didEventFire, Is.False);
 		TestEvent -= HandleTestEvent;
 	}
 
@@ -269,8 +282,12 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 		//Act
 
 		//Assert
-		Assert.Throws<InvalidHandleEventException>(() => TestWeakEventManager.RaiseEvent(nameof(TestEvent)));
-		Assert.IsFalse(didEventFire);
+		Assert.Multiple(() =>
+		{
+			Assert.Throws<InvalidHandleEventException>(() => TestWeakEventManager.RaiseEvent(nameof(TestEvent)));
+			Assert.That(didEventFire, Is.False);
+		});
+
 		TestEvent -= HandleTestEvent;
 	}
 }
