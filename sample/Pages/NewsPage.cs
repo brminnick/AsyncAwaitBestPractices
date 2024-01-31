@@ -27,11 +27,16 @@ class NewsPage : BaseContentPage<NewsViewModel>
 				SelectionMode = SelectionMode.Single,
 				ItemTemplate = new StoryDataTemplate(),
 
-			}.Bind(ItemsView.ItemsSourceProperty, static (NewsViewModel vm) => vm.TopStoryCollection)
+			}.Bind(ItemsView.ItemsSourceProperty, 
+					getter: static (NewsViewModel vm) => vm.TopStoryCollection)
 			 .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
 
-		}.Bind(RefreshView.IsRefreshingProperty, static (NewsViewModel vm) => vm.IsListRefreshing)
-		 .Bind(RefreshView.CommandProperty, static (NewsViewModel vm) => vm.RefreshCommand);
+		}.Bind(RefreshView.IsRefreshingProperty, 
+				getter: static (NewsViewModel vm) => vm.IsListRefreshing,
+				setter: static (NewsViewModel vm, bool isRefreshing) => vm.IsListRefreshing = isRefreshing)
+		 .Bind(RefreshView.CommandProperty, 
+				getter: static (NewsViewModel vm) => vm.RefreshCommand,
+				mode: BindingMode.OneTime);
 	}
 
 	protected override void OnAppearing()
