@@ -1,6 +1,6 @@
 variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  CurrentSemanticVersionBase: '1.0.0'
+  CurrentSemanticVersionBase: '99.0.0'
   PreviewNumber: $[counter(variables['CurrentSemanticVersionBase'], 1001)]
   CurrentSemanticVersion: '$(CurrentSemanticVersionBase)-preview$(PreviewNumber)'
   NugetPackageVersion: '$(CurrentSemanticVersion)'
@@ -9,7 +9,7 @@ variables:
   PathToUnitTestsCsproj: 'src/AsyncAwaitBestPractices.UnitTests/AsyncAwaitBestPractices.UnitTests.csproj'
   PathToAsyncAwaitBestPracticesCsproj: 'src/AsyncAwaitBestPractices/AsyncAwaitBestPractices.csproj'
   PathToAsyncAwaitBestPracticesMVVMCsproj: 'src/AsyncAwaitBestPractices.MVVM/AsyncAwaitBestPractices.MVVM.csproj'
-  Xcode_Version: '14.3.1'
+  Xcode_Version: '15.0.1'
 
 trigger:
   branches:
@@ -49,7 +49,6 @@ jobs:
         inputs:
           version: '8.0.x'
           packageType: 'sdk'
-          includePreviewVersions: true
 
       - powershell: dotnet workload install maui --skip-sign-check --source https://api.nuget.org/v3/index.json
         displayName: Install Latest .NET MAUI Workload
@@ -137,7 +136,6 @@ jobs:
         inputs:
           version: '8.0.x'
           packageType: 'sdk'
-          includePreviewVersions: true
 
       - task: NuGetToolInstaller@1
         displayName: 'Use NuGet'

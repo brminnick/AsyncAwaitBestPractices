@@ -8,6 +8,7 @@
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<IsPackable>false</IsPackable>
 
 		<ApplicationTitle>HackerNews</ApplicationTitle>
 
@@ -37,12 +38,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="8.0.0-rc.2.23480.2" />
+		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="8.0.0" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
-		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="3.3.0" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0-rc.2.9373" />
+		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>

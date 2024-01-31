@@ -30,7 +30,7 @@ class Tests_WeakEventManager_Action : BaseTest
 		_actionEventManager.RaiseEvent(nameof(ActionEvent));
 
 		//Assert
-		Assert.IsTrue(didEventFire);
+		Assert.That(didEventFire, Is.True);
 	}
 
 	[Test]
@@ -46,7 +46,7 @@ class Tests_WeakEventManager_Action : BaseTest
 		_actionEventManager.RaiseEvent(nameof(TestStringEvent));
 
 		//Assert
-		Assert.False(didEventFire);
+		Assert.That(didEventFire, Is.False);
 		ActionEvent -= HandleDelegateTest;
 	}
 
@@ -64,7 +64,7 @@ class Tests_WeakEventManager_Action : BaseTest
 		_actionEventManager.RaiseEvent(nameof(ActionEvent));
 
 		//Assert
-		Assert.IsFalse(didEventFire);
+		Assert.That(didEventFire, Is.False);
 	}
 
 	[Test]
@@ -81,7 +81,7 @@ class Tests_WeakEventManager_Action : BaseTest
 		unassignedEventManager.RaiseEvent(nameof(ActionEvent));
 
 		//Assert
-		Assert.IsFalse(didEventFire);
+		Assert.That(didEventFire, Is.False);
 		ActionEvent -= HandleDelegateTest;
 	}
 
@@ -97,8 +97,12 @@ class Tests_WeakEventManager_Action : BaseTest
 		//Act
 
 		//Assert
-		Assert.Throws<InvalidHandleEventException>(() => _actionEventManager.RaiseEvent(this, EventArgs.Empty, nameof(ActionEvent)));
-		Assert.IsFalse(didEventFire);
+		Assert.Multiple(() =>
+		{
+			Assert.Throws<InvalidHandleEventException>(() => _actionEventManager.RaiseEvent(this, EventArgs.Empty, nameof(ActionEvent)));
+			Assert.That(didEventFire, Is.False);
+		});
+
 		ActionEvent -= HandleDelegateTest;
 	}
 

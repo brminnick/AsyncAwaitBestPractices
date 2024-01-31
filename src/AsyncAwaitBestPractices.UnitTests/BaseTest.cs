@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace AsyncAwaitBestPractices.UnitTests;
 
+[ExcludeFromCodeCoverage]
 abstract class BaseTest
 {
 	protected event EventHandler TestEvent
