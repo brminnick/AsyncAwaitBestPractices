@@ -432,7 +432,7 @@ public class UIContainerView : UIView
 	internal View View { get; }
 
 	internal bool MatchHeight { get; set; }
-	
+
 	internal double? Height { get; set; }
 
 	internal double? Width { get; set; }

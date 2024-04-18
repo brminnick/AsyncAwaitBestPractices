@@ -37,10 +37,10 @@ public static class MauiProgram
 
 		// Pages + View Models
 		builder.Services.AddTransientWithShellRoute<NewsPage, NewsViewModel>($"//{nameof(NewsPage)}");
-		
+
 		return builder.Build();
 	}
-	
+
 	sealed class MobileHttpRetryStrategyOptions : HttpRetryStrategyOptions
 	{
 		public MobileHttpRetryStrategyOptions()
