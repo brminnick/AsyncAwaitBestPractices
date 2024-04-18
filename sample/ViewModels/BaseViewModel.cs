@@ -12,7 +12,7 @@ abstract partial class BaseViewModel : ObservableObject
 		BindingBase.EnableCollectionSynchronization(TopStoryCollection, null, ObservableCollectionCallback);
 	}
 
-	public ObservableCollection<StoryModel> TopStoryCollection { get; } = new();
+	public ObservableCollection<StoryModel> TopStoryCollection { get; } = [];
 
 	protected IDispatcher Dispatcher { get; }
 

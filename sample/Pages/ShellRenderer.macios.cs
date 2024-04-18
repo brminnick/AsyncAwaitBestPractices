@@ -25,12 +25,8 @@ public class ShellWithLargeTitles : ShellRenderer
 		return Tracker = new CustomShellPageRendererTracker(this);
 	}
 
-	protected override IShellSectionRenderer CreateShellSectionRenderer(ShellSection shellSection)
-	{
-		return new CustomShellSectionRenderer(this);
-	}
+	protected override IShellSectionRenderer CreateShellSectionRenderer(ShellSection shellSection) => new CustomShellSectionRenderer(this);
 }
-
 
 public class CustomShellSectionRootHeader : ShellSectionRootHeader
 {
@@ -58,19 +54,12 @@ public class CustomShellSectionRootHeader : ShellSectionRootHeader
 	}
 }
 
-public class CustomShellSectionRootRenderer : ShellSectionRootRenderer
+public class CustomShellSectionRootRenderer(ShellSection shellSection, IShellContext shellContext, CustomShellSectionRenderer customShellSectionRenderer) : ShellSectionRootRenderer(shellSection, shellContext)
 {
-	readonly CustomShellSectionRenderer _customShellSectionRenderer;
 
 	UIEdgeInsets _additionalSafeArea = UIEdgeInsets.Zero;
 
-	public CustomShellSectionRootRenderer(ShellSection shellSection, IShellContext shellContext, CustomShellSectionRenderer customShellSectionRenderer) : base(shellSection, shellContext)
-	{
-		ShellSection = shellSection;
-		_customShellSectionRenderer = customShellSectionRenderer;
-	}
-
-	public ShellSection ShellSection { get; }
+	public ShellSection ShellSection { get; } = shellSection;
 
 	public CustomShellSectionRootHeader? CustomShellSectionRootHeader { get; set; }
 
@@ -91,13 +80,11 @@ public class CustomShellSectionRootRenderer : ShellSectionRootRenderer
 	public override void ViewDidLoad()
 	{
 		base.ViewDidLoad();
-		_customShellSectionRenderer.SnagTracker();
+		customShellSectionRenderer.SnagTracker();
 	}
 
 	protected override IShellSectionRootHeader CreateShellSectionRootHeader(IShellContext shellContext)
-	{
-		return CustomShellSectionRootHeader = new CustomShellSectionRootHeader(shellContext);
-	}
+		=> CustomShellSectionRootHeader = new CustomShellSectionRootHeader(shellContext);
 
 	protected override void LayoutRenderers()
 	{
@@ -107,13 +94,12 @@ public class CustomShellSectionRootRenderer : ShellSectionRootRenderer
 
 	void UpdateAdditionalSafeAreaInsets()
 	{
-		if (OperatingSystem.IsIOSVersionAtLeast(11) && ChildViewControllers is not null)
+		if (OperatingSystem.IsIOSVersionAtLeast(11))
 		{
 			ShellSectionController.GetItems();
 
-			for (int i = 0; i < ChildViewControllers.Length; i++)
+			foreach (var shellContent in ChildViewControllers)
 			{
-				var shellContent = ChildViewControllers[i];
 				UpdateAdditionalSafeAreaInsets(shellContent);
 			}
 		}
@@ -124,34 +110,28 @@ public class CustomShellSectionRootRenderer : ShellSectionRootRenderer
 		if (viewController is not PageViewController)
 			return;
 
-		if (ShellSectionController.GetItems().Count > 1)
-		{
-			_additionalSafeArea = new UIEdgeInsets(35, 0, 0, 0);
-		}
-		else
-		{
-			_additionalSafeArea = UIEdgeInsets.Zero;
-		}
+		_additionalSafeArea = ShellSectionController.GetItems().Count > 1
+			? new UIEdgeInsets(35, 0, 0, 0)
+			: UIEdgeInsets.Zero;
 
-		if (OperatingSystem.IsIOSVersionAtLeast(11) && viewController is not null)
+		if (OperatingSystem.IsIOSVersionAtLeast(11)
+			&& !viewController.AdditionalSafeAreaInsets.Equals(_additionalSafeArea))
 		{
-			if (!viewController.AdditionalSafeAreaInsets.Equals(_additionalSafeArea))
-				viewController.AdditionalSafeAreaInsets = _additionalSafeArea;
+			viewController.AdditionalSafeAreaInsets = _additionalSafeArea;
 		}
 	}
 }
 
 public class CustomShellSectionRenderer : ShellSectionRenderer
 {
-	readonly UINavigationControllerDelegate _navDelegate;
 	readonly Dictionary<Element, IShellPageRendererTracker> _trackers = new();
 
 	CustomShellSectionRootRenderer? _customShellSectionRootRenderer;
 
 	public CustomShellSectionRenderer(IShellContext context) : base(context)
 	{
-		_navDelegate = (UINavigationControllerDelegate)Delegate;
-		Delegate = new NavDelegate(_navDelegate, this);
+		var navigationDelegate = (UINavigationControllerDelegate)Delegate;
+		Delegate = new NavigationDelegate(navigationDelegate, this);
 		Context = context;
 		UpdateLargeTitle();
 	}
@@ -176,9 +156,7 @@ public class CustomShellSectionRenderer : ShellSectionRenderer
 	}
 
 	protected override IShellSectionRootRenderer CreateShellSectionRootRenderer(ShellSection shellSection, IShellContext shellContext)
-	{
-		return _customShellSectionRootRenderer = new CustomShellSectionRootRenderer(shellSection, shellContext, this);
-	}
+		=> _customShellSectionRootRenderer = new CustomShellSectionRootRenderer(shellSection, shellContext, this);
 
 	protected override void OnNavigationRequested(object sender, NavigationRequestedEventArgs e)
 	{
@@ -227,44 +205,33 @@ public class CustomShellSectionRenderer : ShellSectionRenderer
 		}, 0);
 	}
 
-	class NavDelegate : UINavigationControllerDelegate
+	class NavigationDelegate(UINavigationControllerDelegate navigationDelegate, CustomShellSectionRenderer customShellSectionRenderer) : UINavigationControllerDelegate
 	{
-		readonly UINavigationControllerDelegate _navDelegate;
-		readonly CustomShellSectionRenderer _self;
-
-		public NavDelegate(UINavigationControllerDelegate navDelegate, CustomShellSectionRenderer customShellSectionRenderer)
-		{
-			_navDelegate = navDelegate;
-			_self = customShellSectionRenderer;
-		}
 
 		// This is currently working around a Mono Interpreter bug
 		// if you remove this code please verify that hot restart still works
 		// https://github.com/xamarin/Xamarin.Forms/issues/10519
 		[Export("navigationController:animationControllerForOperation:fromViewController:toViewController:")]
 		[Foundation.Preserve(Conditional = true)]
-		public new static IUIViewControllerAnimatedTransitioning? GetAnimationControllerForOperation(UINavigationController navigationController, UINavigationControllerOperation operation, UIViewController fromViewController, UIViewController toViewController)
-		{
-			return null;
-		}
+		public static new IUIViewControllerAnimatedTransitioning? GetAnimationControllerForOperation(UINavigationController navigationController, UINavigationControllerOperation operation, UIViewController fromViewController, UIViewController toViewController) => null;
 
 		public override void DidShowViewController(UINavigationController navigationController, [Transient] UIViewController viewController, bool animated)
 		{
-			_navDelegate.DidShowViewController(navigationController, viewController, animated);
+			navigationDelegate.DidShowViewController(navigationController, viewController, animated);
 		}
 
 		public override void WillShowViewController(UINavigationController navigationController, [Transient] UIViewController viewController, bool animated)
 		{
-			_navDelegate.WillShowViewController(navigationController, viewController, animated);
+			navigationDelegate.WillShowViewController(navigationController, viewController, animated);
 
 			// Because the back button title needs to be set on the previous VC
 			// We want to set the BackButtonItem as early as possible so there is no flickering
-			var currentPage = _self.Context?.Shell?.CurrentPage;
-			var trackers = _self._trackers;
-			if (currentPage?.Handler is IPlatformViewHandler pvh &&
-				pvh.ViewController == viewController &&
-				trackers.TryGetValue(currentPage, out var tracker) &&
-				tracker is CustomShellPageRendererTracker shellRendererTracker)
+			var currentPage = customShellSectionRenderer.Context?.Shell?.CurrentPage;
+			var trackers = customShellSectionRenderer._trackers;
+			if (currentPage?.Handler is IPlatformViewHandler platformViewHandler
+				&& platformViewHandler.ViewController?.Equals(viewController) is true
+				&& trackers.TryGetValue(currentPage, out var tracker)
+				&& tracker is CustomShellPageRendererTracker shellRendererTracker)
 			{
 				shellRendererTracker.UpdateToolbarItemsInternal(false);
 			}
@@ -344,37 +311,30 @@ public class CustomShellPageRendererTracker : ShellPageRendererTracker
 		}
 	}
 
-	bool IsToolbarReady()
-	{
-		return ToolbarCurrentPage == Page;
-	}
+	bool IsToolbarReady() => ToolbarCurrentPage == Page;
 
 	void UpdateBackButtonTitle()
 	{
 		var behavior = Shell.GetBackButtonBehavior(Page);
 		var text = behavior.GetPropertyIfSet<string?>(BackButtonBehavior.TextOverrideProperty, null);
 
-		var navController = ViewController?.NavigationController;
-
-		if (navController is not null)
+		if (ViewController?.NavigationController is UINavigationController navigationController)
 		{
 			var viewControllers = ViewController?.NavigationController?.ViewControllers ?? throw new InvalidOperationException($"{nameof(ViewController.NavigationController.ViewControllers)} cannot be null");
 			var count = viewControllers.Length;
 
-			if (count > 1 && viewControllers[count - 1] == ViewController)
+			if (count > 1 && viewControllers[count - 1].Equals(ViewController))
 			{
-				var previousNavItem = viewControllers[count - 2].NavigationItem;
-				if (previousNavItem is not null)
+				var previousNavigationItem = viewControllers[count - 2].NavigationItem;
+
+				if (!string.IsNullOrWhiteSpace(text))
 				{
-					if (!string.IsNullOrWhiteSpace(text))
-					{
-						var barButtonItem = previousNavItem.BackBarButtonItem ??= new UIBarButtonItem();
-						barButtonItem.Title = text;
-					}
-					else if (previousNavItem.BackBarButtonItem is not null)
-					{
-						previousNavItem.BackBarButtonItem = null;
-					}
+					var barButtonItem = previousNavigationItem.BackBarButtonItem ??= new UIBarButtonItem();
+					barButtonItem.Title = text;
+				}
+				else if (previousNavigationItem.BackBarButtonItem is not null)
+				{
+					previousNavigationItem.BackBarButtonItem = null;
 				}
 			}
 		}
@@ -449,7 +409,6 @@ public class CustomTitleViewContainer : UIContainerView
 
 public class UIContainerView : UIView
 {
-	readonly View _view;
 
 	IPlatformViewHandler? _renderer;
 	UIView? _platformView;
@@ -458,7 +417,7 @@ public class UIContainerView : UIView
 
 	public UIContainerView(View view)
 	{
-		_view = view;
+		View = view;
 
 		UpdatePlatformView();
 		ClipsToBounds = true;
@@ -466,13 +425,17 @@ public class UIContainerView : UIView
 		Margin = new Thickness(0);
 	}
 
-	public virtual Thickness Margin { get; }
-
 	internal event EventHandler? HeaderSizeChanged;
 
-	internal View View => _view;
+	public virtual Thickness Margin { get; }
+
+	internal View View { get; }
 
 	internal bool MatchHeight { get; set; }
+
+	internal double? Height { get; set; }
+
+	internal double? Width { get; set; }
 
 	internal double MeasuredHeight
 	{
@@ -487,13 +450,9 @@ public class UIContainerView : UIView
 		private set => _measuredHeight = value;
 	}
 
-	internal double? Height { get; set; }
-
-	internal double? Width { get; set; }
-
 	public override CGSize SizeThatFits(CGSize size)
 	{
-		var measuredSize = (_view as IView).Measure(size.Width, size.Height);
+		var measuredSize = ((IView)View).Measure(size.Width, size.Height);
 
 		if (Height is not null && MatchHeight)
 		{
@@ -528,9 +487,9 @@ public class UIContainerView : UIView
 
 
 		if (MatchHeight)
-			((IView)_view).Measure(width, height);
+			((IView)View).Measure(width, height);
 
-		((IView)_view).Arrange(platformFrame);
+		((IView)View).Arrange(platformFrame);
 	}
 
 	internal static void Disconnect()
@@ -539,9 +498,9 @@ public class UIContainerView : UIView
 
 	internal void UpdatePlatformView()
 	{
-		if (GetMauiContext(_view) is IMauiContext mauiContext)
+		if (GetMauiContext(View) is IMauiContext mauiContext)
 		{
-			_renderer = _view.ToHandler(mauiContext);
+			_renderer = View.ToHandler(mauiContext);
 			_platformView = _renderer.ContainerView ?? _renderer.PlatformView;
 
 			if (_platformView is not null && _platformView.Superview != this)
@@ -549,10 +508,7 @@ public class UIContainerView : UIView
 		}
 	}
 
-	private protected void OnHeaderSizeChanged()
-	{
-		HeaderSizeChanged?.Invoke(this, EventArgs.Empty);
-	}
+	private protected void OnHeaderSizeChanged() => HeaderSizeChanged?.Invoke(this, EventArgs.Empty);
 
 	protected override void Dispose(bool disposing)
 	{
@@ -605,7 +561,9 @@ public class UIContainerView : UIView
 			if (current is not null)
 			{
 				current = current.RealParent;
-				yield return current;
+
+				if (current is not null)
+					yield return current;
 			}
 		}
 	}

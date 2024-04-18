@@ -62,7 +62,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	// ToDo Refactor
 	async Task<FrozenSet<StoryModel>> GetTopStories(CancellationToken token, int storyCount = int.MaxValue)
 	{
-		List<StoryModel> topStoryList = new();
+		List<StoryModel> topStoryList = [];
 
 		var topStoryIds = await GetTopStoryIDs(token).ConfigureAwait(false);
 
@@ -75,7 +75,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 				break;
 		}
 
-		return topStoryList.Where(x => x is not null).OrderByDescending(x => x.Score).ToFrozenSet();
+		return topStoryList.OrderByDescending(x => x.Score).ToFrozenSet();
 	}
 
 	//ToDo Refactor

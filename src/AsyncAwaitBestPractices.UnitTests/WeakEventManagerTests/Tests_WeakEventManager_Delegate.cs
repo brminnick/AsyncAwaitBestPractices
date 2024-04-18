@@ -143,7 +143,7 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 	public void WeakEventManagerDelegate_HandleEvent_DynamicMethod_ValidImplementation()
 	{
 		//Arrange
-		var dynamicMethod = new System.Reflection.Emit.DynamicMethod(string.Empty, typeof(void), new[] { typeof(object), typeof(PropertyChangedEventArgs) });
+		var dynamicMethod = new System.Reflection.Emit.DynamicMethod(string.Empty, typeof(void), [typeof(object), typeof(PropertyChangedEventArgs)]);
 		var ilGenerator = dynamicMethod.GetILGenerator();
 		ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ret);
 
