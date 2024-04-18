@@ -1,12 +1,13 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
+using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Refit;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace HackerNews;
 
-public class MauiProgram
+public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
@@ -32,14 +33,22 @@ public class MauiProgram
 
 		builder.Services.AddRefitClient<IHackerNewsAPI>()
 							.ConfigureHttpClient(client => client.BaseAddress = new Uri("https://hacker-news.firebaseio.com/v0"))
-							.AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(3, ExponentialBackoff));
+							.AddStandardResilienceHandler(options => options.Retry = new MobileHttpRetryStrategyOptions());
 
 		// Pages + View Models
 		builder.Services.AddTransientWithShellRoute<NewsPage, NewsViewModel>($"//{nameof(NewsPage)}");
-
-
+		
 		return builder.Build();
-
-		static TimeSpan ExponentialBackoff(int attemptNumber) => TimeSpan.FromSeconds(Math.Pow(2, attemptNumber));
+	}
+	
+	sealed class MobileHttpRetryStrategyOptions : HttpRetryStrategyOptions
+	{
+		public MobileHttpRetryStrategyOptions()
+		{
+			BackoffType = DelayBackoffType.Exponential;
+			MaxRetryAttempts = 3;
+			UseJitter = true;
+			Delay = TimeSpan.FromMilliseconds(2);
+		}
 	}
 }
