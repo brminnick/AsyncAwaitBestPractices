@@ -62,7 +62,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	// ToDo Refactor
 	async Task<FrozenSet<StoryModel>> GetTopStories(CancellationToken token, int storyCount = int.MaxValue)
 	{
-		List<StoryModel> topStoryList = new();
+		List<StoryModel> topStoryList = [];
 
 		var topStoryIds = await GetTopStoryIDs(token).ConfigureAwait(false);
 

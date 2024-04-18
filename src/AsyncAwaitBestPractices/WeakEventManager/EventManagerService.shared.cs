@@ -17,7 +17,7 @@ static class EventManagerService
 			var doesContainSubscriptions = eventHandlers.TryGetValue(eventName, out var targets);
 			if (!doesContainSubscriptions || targets is null)
 			{
-				targets = new List<Subscription>();
+				targets = [];
 				eventHandlers.Add(eventName, targets);
 			}
 
@@ -64,11 +64,11 @@ static class EventManagerService
 				if (eventHandler.IsLightweightMethod())
 				{
 					var method = TryGetDynamicMethod(eventHandler);
-					method?.Invoke(instance, new[] { sender, eventArgs });
+					method?.Invoke(instance, [sender, eventArgs]);
 				}
 				else
 				{
-					eventHandler.Invoke(instance, new[] { sender, eventArgs });
+					eventHandler.Invoke(instance, [sender, eventArgs]);
 				}
 			}
 			catch (TargetParameterCountException e)
@@ -90,11 +90,11 @@ static class EventManagerService
 				if (eventHandler.IsLightweightMethod())
 				{
 					var method = TryGetDynamicMethod(eventHandler);
-					method?.Invoke(instance, new[] { actionEventArgs });
+					method?.Invoke(instance, [actionEventArgs]);
 				}
 				else
 				{
-					eventHandler.Invoke(instance, new[] { actionEventArgs });
+					eventHandler.Invoke(instance, [actionEventArgs]);
 				}
 			}
 			catch (TargetParameterCountException e)
