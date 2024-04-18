@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace HackerNews;
 
-partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerNewsAPIService) : BaseViewModel(dispatcher)
+partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService _hackerNewsAPIService) : BaseViewModel(dispatcher)
 {
 	readonly WeakEventManager _pullToRefreshEventManager = new();
 
@@ -47,7 +47,7 @@ partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerN
 		int storyCount,
 		[EnumeratorCancellation] CancellationToken token)
 	{
-		var topStoryIds = await hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
+		var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
 
 		var getTopStoryTaskList = new List<Task<StoryModel>>();
 		foreach(var story in topStoryIds)
