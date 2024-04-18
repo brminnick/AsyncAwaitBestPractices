@@ -75,7 +75,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 				break;
 		}
 
-		return topStoryList.Where(x => x is not null).OrderByDescending(x => x.Score).ToFrozenSet();
+		return topStoryList.OrderByDescending(x => x.Score).ToFrozenSet();
 	}
 
 	//ToDo Refactor

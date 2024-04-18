@@ -4,18 +4,12 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace HackerNews;
 
-partial class NewsViewModel : BaseViewModel
+partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerNewsAPIService) : BaseViewModel(dispatcher)
 {
-	readonly HackerNewsAPIService _hackerNewsAPIService;
 	readonly WeakEventManager _pullToRefreshEventManager = new();
 
 	[ObservableProperty]
 	bool _isListRefreshing;
-
-	public NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerNewsAPIService) : base(dispatcher)
-	{
-		_hackerNewsAPIService = hackerNewsAPIService;
-	}
 
 	public event EventHandler<string> PullToRefreshFailed
 	{
@@ -51,9 +45,9 @@ partial class NewsViewModel : BaseViewModel
 
 	async IAsyncEnumerable<StoryModel> GetTopStories(int storyCount, [EnumeratorCancellation] CancellationToken token)
 	{
-		var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
+		var topStoryIds = await hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
 
-		var getTopStoryTaskList = topStoryIds.Select(id => _hackerNewsAPIService.GetStory(id, token)).ToList();
+		var getTopStoryTaskList = topStoryIds.Select(id => hackerNewsAPIService.GetStory(id, token)).ToList();
 
 		while (getTopStoryTaskList.Any() && storyCount-- > 0)
 		{
