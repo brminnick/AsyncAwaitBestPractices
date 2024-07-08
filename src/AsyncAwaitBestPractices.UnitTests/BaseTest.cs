@@ -55,6 +55,12 @@ abstract class BaseTest
 		throw new NullReferenceException();
 	}
 
+	protected static async ValueTask<bool> NoParameterDelayedNullReferenceExceptionValueTaskWithReturn()
+	{
+		await Task.Delay(Delay);
+		throw new NullReferenceException();
+	}
+
 	protected static async ValueTask IntParameterDelayedNullReferenceExceptionValueTask(int delay)
 	{
 		await Task.Delay(delay);
