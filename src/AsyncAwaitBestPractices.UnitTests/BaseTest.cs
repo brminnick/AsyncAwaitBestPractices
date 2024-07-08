@@ -42,6 +42,25 @@ abstract class BaseTest
 		throw new NullReferenceException();
 	}
 
+	protected static async ValueTask NoParameterValueTask() => await Task.Delay(Delay);
+	protected static async ValueTask IntParameterValueTask(int delay) => await Task.Delay(delay);
+	protected static async ValueTask NullableIntParameterValueTask(int? delay) => await Task.Delay(delay ?? Delay);
+	protected static async ValueTask StringParameterValueTask(string? text) => await Task.Delay(Delay);
+	protected static ValueTask NoParameterImmediateNullReferenceExceptionValueTask() => throw new NullReferenceException();
+	protected static ValueTask ParameterImmediateNullReferenceExceptionValueTask(int delay) => throw new NullReferenceException();
+
+	protected static async ValueTask NoParameterDelayedNullReferenceExceptionValueTask()
+	{
+		await Task.Delay(Delay);
+		throw new NullReferenceException();
+	}
+
+	protected static async ValueTask IntParameterDelayedNullReferenceExceptionValueTask(int delay)
+	{
+		await Task.Delay(delay);
+		throw new NullReferenceException();
+	}
+
 	protected static bool CanExecuteTrue(bool parameter) => true;
 	protected static bool CanExecuteTrue(int parameter) => true;
 	protected static bool CanExecuteTrue(string? parameter) => true;
