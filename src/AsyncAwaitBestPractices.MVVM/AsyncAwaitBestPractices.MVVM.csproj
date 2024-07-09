@@ -25,7 +25,8 @@
         </Description>
         <PackageReleaseNotes>
             New in this release:
-- Add .NET 8.0 Target
+- Target AsyncAwaitBestPractices v8.0.0
+- Add Support for ValueTask&lt;T&gt;
         </PackageReleaseNotes>
         <Version>$(NuGetVersion)</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>

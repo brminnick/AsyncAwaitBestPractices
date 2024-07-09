@@ -27,8 +27,7 @@
         </Description>
         <PackageReleaseNotes>
             New In This Release:
-- Add .NET 8.0 Target
-- Add Support for ConfigureAwaitOptions
+- Add Support for ValueTask&lt;T&gt; 
         </PackageReleaseNotes>
         <Version>$(NuGetVersion)</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
