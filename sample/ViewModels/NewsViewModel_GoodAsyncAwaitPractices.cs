@@ -6,6 +6,7 @@ namespace HackerNews;
 
 partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerNewsAPIService) : BaseViewModel(dispatcher)
 {
+	readonly HackerNewsAPIService _hackerNewsAPIService = hackerNewsAPIService;
 	readonly WeakEventManager _pullToRefreshEventManager = new();
 
 	[ObservableProperty]
@@ -45,9 +46,9 @@ partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerN
 
 	async IAsyncEnumerable<StoryModel> GetTopStories(int storyCount, [EnumeratorCancellation] CancellationToken token)
 	{
-		var topStoryIds = await hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
+		var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
 
-		var getTopStoryTaskList = topStoryIds.Select(id => hackerNewsAPIService.GetStory(id, token)).ToList();
+		var getTopStoryTaskList = topStoryIds.Select(id => _hackerNewsAPIService.GetStory(id, token)).ToList();
 
 		while (getTopStoryTaskList.Any() && storyCount-- > 0)
 		{
