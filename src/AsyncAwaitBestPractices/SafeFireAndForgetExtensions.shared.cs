@@ -138,21 +138,6 @@ public static partial class SafeFireAndForgetExtensions
 		}
 	}
 
-	static async void HandleSafeFireAndForget<T, TException>(ValueTask<T> valueTask, bool continueOnCapturedContext, Action<TException>? onException) where TException : Exception
-	{
-		try
-		{
-			await valueTask.ConfigureAwait(continueOnCapturedContext);
-		}
-		catch (TException ex) when (_onException is not null || onException is not null)
-		{
-			HandleException(ex, onException);
-
-			if (_shouldAlwaysRethrowException)
-				throw;
-		}
-	}
-
 	static async void HandleSafeFireAndForget<TException>(Task task, 
 															bool continueOnCapturedContext, 
 															Action<TException>? onException) where TException : Exception
