@@ -10,7 +10,8 @@ Inspired by [John Thiriet](https://github.com/johnthiriet)'s blog posts:
 
 ###  AsyncAwaitBestPractices
 
-[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices?includePreReleases=true)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
+[![NuGet Version](https://img.shields.io/nuget/vpre/AsyncAwaitBestPractices)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
+ [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices)](https://www.nuget.org/packages/AsyncAwaitBestPractices/)
 
 Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/ 
 
@@ -24,7 +25,8 @@ Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices/
   
 ### AsyncAwaitBestPractices.MVVM
 
-[![NuGet](https://buildstats.info/nuget/AsyncAwaitBestPractices.MVVM?includePreReleases=true)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
+[![NuGet Version](https://img.shields.io/nuget/vpre/AsyncAwaitBestPractices.MVVM)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
+ [![NuGet](https://img.shields.io/nuget/dt/AsyncAwaitBestPractices.MVVM)](https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/)
 
 - Available on NuGet: https://www.nuget.org/packages/AsyncAwaitBestPractices.MVVM/  
 
