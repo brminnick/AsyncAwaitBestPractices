@@ -8,7 +8,11 @@ namespace AsyncAwaitBestPractices;
 
 static class EventManagerService
 {
+	#if NET9_0_OR_GREATER
+	static readonly System.Threading.Lock _lock = new();
+	#else
 	static readonly object _lock = new();
+	#endif
 
 	internal static void AddEventHandler(in string eventName, in object? handlerTarget, in MethodInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
 	{
@@ -133,10 +137,10 @@ static class EventManagerService
 	static void AddRemoveEvents(in string eventName, in Dictionary<string, List<Subscription>> eventHandlers, out List<(object? Instance, MethodInfo EventHandler)> toRaise)
 	{
 		var toRemove = new List<Subscription>();
-		toRaise = new List<(object?, MethodInfo)>();
+		toRaise = [];
 
 		var doesContainEventName = eventHandlers.TryGetValue(eventName, out var target);
-		if (doesContainEventName && target != null)
+		if (doesContainEventName && target is not null)
 		{
 			for (var i = 0; i < target.Count; i++)
 			{
