@@ -46,17 +46,20 @@ partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerN
 
 	async IAsyncEnumerable<StoryModel> GetTopStories(int storyCount, [EnumeratorCancellation] CancellationToken token)
 	{
+		ArgumentOutOfRangeException.ThrowIfNegativeOrZero(storyCount);
+		
 		var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
 
 		var getTopStoryTaskList = topStoryIds.Select(id => _hackerNewsAPIService.GetStory(id, token)).ToList();
 
-		while (getTopStoryTaskList.Any() && storyCount-- > 0)
+		await foreach (var topStoryTask in Task.WhenEach(getTopStoryTaskList).WithCancellation(token).ConfigureAwait(false))
 		{
-			var completedGetStoryTask = await Task.WhenAny(getTopStoryTaskList).ConfigureAwait(false);
-			getTopStoryTaskList.Remove(completedGetStoryTask);
-
-			var story = await completedGetStoryTask.ConfigureAwait(false);
-			yield return story;
+			yield return await topStoryTask.ConfigureAwait(false);
+			
+			if (--storyCount <= 0)
+			{
+				break;
+			}
 		}
 	}
 

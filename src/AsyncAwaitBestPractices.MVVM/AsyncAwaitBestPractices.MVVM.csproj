@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-      <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
+      <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AsyncAwaitBestPracticesMVVM.snk</AssemblyOriginatorKeyFile>
         <AssemblyName>AsyncAwaitBestPractices.MVVM</AssemblyName>
@@ -25,8 +25,7 @@
         </Description>
         <PackageReleaseNotes>
             New in this release:
-- Target AsyncAwaitBestPractices v8.0.0
-- Add Support for ValueTask&lt;T&gt;
+- Add support for .NET 9
         </PackageReleaseNotes>
         <Version>$(NuGetVersion)</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>

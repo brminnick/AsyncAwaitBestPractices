@@ -2,6 +2,7 @@ variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   CurrentSemanticVersionBase: '99.0.0'
   PreviewNumber: $[counter(variables['CurrentSemanticVersionBase'], 1001)]
+  NET_VERSION: '9.0.100-rc.2.24474.11'
   CurrentSemanticVersion: '$(CurrentSemanticVersionBase)-preview$(PreviewNumber)'
   NugetPackageVersion: '$(CurrentSemanticVersion)'
   PathToSolution: 'AsyncAwaitBestPractices.sln'
@@ -33,7 +34,7 @@ jobs:
         'Windows':
           image: 'windows-latest'
         'macOS':
-          image: 'macos-13'
+          image: 'macos-15'
     pool:
       vmImage: $(image)
     
@@ -42,13 +43,18 @@ jobs:
         displayName: 'Set Xcode v$(Xcode_Version)'
         condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
         inputs:
-          script: echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(Xcode_Version).app;sudo xcode-select --switch /Applications/Xcode_$(Xcode_Version).app/Contents/Developer
+          script: | 
+            echo Availalbe Xcode Versions:
+            ls -al  /Applications | grep Xcode
+            echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(Xcode_Version).app;sudo xcode-select --switch /Applications/Xcode_$(Xcode_Version).app/Contents/Developer
+
 
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  8.0.x'
+        displayName: 'Use .Net Core SDK  v$(NET_VERSION)'
         inputs:
-          version: '8.0.x'
+          version: '$(NET_VERSION)'
           packageType: 'sdk'
+          includePreviewVersions: true
 
       - powershell: dotnet workload install maui --skip-sign-check --source https://api.nuget.org/v3/index.json
         displayName: Install Latest .NET MAUI Workload
@@ -82,7 +88,7 @@ jobs:
         'Windows':
           image: 'windows-latest'
         'macOS':
-          image: 'macos-13'
+          image: 'macos-15'
     pool:
       vmImage: $(image)
     steps:
@@ -137,6 +143,13 @@ jobs:
           version: '8.0.x'
           packageType: 'sdk'
 
+      - task: UseDotNet@2
+        displayName: 'Use .Net Core SDK  9.0.x'
+        inputs:
+          version: '$(NET_VERSION)'
+          packageType: 'sdk'
+          includePreviewVersions: true
+
       - task: NuGetToolInstaller@1
         displayName: 'Use NuGet'
         inputs:
@@ -155,7 +168,7 @@ jobs:
           testResultsFiles: '**/*.trx'
           searchFolder: $(Agent.TempDirectory)
 
-      - task: PublishCodeCoverageResults@1
+      - task: PublishCodeCoverageResults@2
         condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
         displayName: 'Publish Code Coverage Results'
         inputs:
