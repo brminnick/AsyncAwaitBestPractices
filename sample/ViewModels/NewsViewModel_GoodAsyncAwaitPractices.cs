@@ -9,14 +9,14 @@ partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerN
 	readonly HackerNewsAPIService _hackerNewsAPIService = hackerNewsAPIService;
 	readonly WeakEventManager _pullToRefreshEventManager = new();
 
-	[ObservableProperty]
-	bool _isListRefreshing;
-
 	public event EventHandler<string> PullToRefreshFailed
 	{
 		add => _pullToRefreshEventManager.AddEventHandler(value);
 		remove => _pullToRefreshEventManager.RemoveEventHandler(value);
 	}
+
+	[ObservableProperty] 
+	public partial bool IsListRefreshing { get; set; }
 
 	[RelayCommand]
 	async Task Refresh(CancellationToken token)
@@ -47,7 +47,7 @@ partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerN
 	async IAsyncEnumerable<StoryModel> GetTopStories(int storyCount, [EnumeratorCancellation] CancellationToken token)
 	{
 		ArgumentOutOfRangeException.ThrowIfNegativeOrZero(storyCount);
-		
+
 		var topStoryIds = await _hackerNewsAPIService.GetTopStoryIDs(token).ConfigureAwait(false);
 
 		var getTopStoryTaskList = topStoryIds.Select(id => _hackerNewsAPIService.GetStory(id, token)).ToList();
@@ -55,7 +55,7 @@ partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerN
 		await foreach (var topStoryTask in Task.WhenEach(getTopStoryTaskList).WithCancellation(token).ConfigureAwait(false))
 		{
 			yield return await topStoryTask.ConfigureAwait(false);
-			
+
 			if (--storyCount <= 0)
 			{
 				break;

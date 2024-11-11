@@ -11,9 +11,6 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	readonly HackerNewsAPIService _hackerNewsAPIService;
 	readonly AsyncAwaitBestPractices.WeakEventManager _pullToRefreshEventManager = new();
 
-	[ObservableProperty]
-	bool _isListRefreshing;
-
 	public NewsViewModel_BadAsyncAwaitPractices(IDispatcher dispatcher, HackerNewsAPIService hackerNewsAPIService) : base(dispatcher)
 	{
 		_hackerNewsAPIService = hackerNewsAPIService;
@@ -27,6 +24,10 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		add => _pullToRefreshEventManager.AddEventHandler(value);
 		remove => _pullToRefreshEventManager.RemoveEventHandler(value);
 	}
+	
+	
+	[ObservableProperty]
+	public partial bool IsListRefreshing { get; set; }
 
 	[RelayCommand]
 	async Task Refresh(CancellationToken token)
