@@ -120,21 +120,9 @@ jobs:
           packageType: 'sdk'
 
       - task: UseDotNet@2
-        displayName: 'Use .Net SDK 3.0.x'
+        displayName: 'Use .Net Core SDK 3.0.x'
         inputs:
           version: ' 3.0.x'
-          packageType: 'sdk'
-
-      - task: UseDotNet@2
-        displayName: 'Use .Net SDK  6.0.x'
-        inputs:
-          version: ' 6.0.x'
-          packageType: 'sdk'
-
-      - task: UseDotNet@2
-        displayName: 'Use .Net SDK  7.0.x'
-        inputs:
-          version: '7.0.x'
           packageType: 'sdk'
 
       - task: UseDotNet@2
