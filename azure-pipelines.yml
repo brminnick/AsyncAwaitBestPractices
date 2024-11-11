@@ -50,7 +50,7 @@ jobs:
 
 
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  v$(NET_VERSION)'
+        displayName: 'Use .Net SDK  v$(NET_VERSION)'
         inputs:
           version: '$(NET_VERSION)'
           packageType: 'sdk'
@@ -120,31 +120,31 @@ jobs:
           packageType: 'sdk'
 
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK 3.0.x'
+        displayName: 'Use .Net SDK 3.0.x'
         inputs:
           version: ' 3.0.x'
           packageType: 'sdk'
 
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  6.0.x'
+        displayName: 'Use .Net SDK  6.0.x'
         inputs:
           version: ' 6.0.x'
           packageType: 'sdk'
 
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  7.0.x'
+        displayName: 'Use .Net SDK  7.0.x'
         inputs:
           version: '7.0.x'
           packageType: 'sdk'
 
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  8.0.x'
+        displayName: 'Use .Net SDK  8.0.x'
         inputs:
           version: '8.0.x'
           packageType: 'sdk'
 
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  9.0.x'
+        displayName: 'Use .Net SDK  9.0.x'
         inputs:
           version: '$(NET_VERSION)'
           packageType: 'sdk'
