@@ -2,6 +2,7 @@
 <Project>
   <PropertyGroup>
     <Nullable>enable</Nullable>
+    <IsTrimmable>false</IsTrimmable>
     <NuGetVersion>9.0.0</NuGetVersion>
     <LangVersion>preview</LangVersion>
     <Deterministic>true</Deterministic>
