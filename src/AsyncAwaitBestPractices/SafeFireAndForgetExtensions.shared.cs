@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace AsyncAwaitBestPractices;
@@ -100,13 +101,7 @@ public static partial class SafeFireAndForgetExtensions
 	/// Set the default action for SafeFireAndForget to handle every exception
 	/// </summary>
 	/// <param name="onException">If an exception is thrown in the Task using SafeFireAndForget, <c>onException</c> will execute</param>
-	public static void SetDefaultExceptionHandling(in Action<Exception> onException)
-	{
-		if (onException is null)
-			throw new ArgumentNullException(nameof(onException));
-
-		_onException = onException;
-	}
+	public static void SetDefaultExceptionHandling(in Action<Exception> onException) => _onException = onException ?? throw new ArgumentNullException(nameof(onException));
 
 	static async void HandleSafeFireAndForget<TException>(ValueTask valueTask, bool continueOnCapturedContext, Action<TException>? onException) where TException : Exception
 	{
@@ -119,7 +114,14 @@ public static partial class SafeFireAndForgetExtensions
 			HandleException(ex, onException);
 
 			if (_shouldAlwaysRethrowException)
+			{
+
+#if NET5_0_OR_GREATER
+				ExceptionDispatchInfo.Throw(ex);
+#else
 				throw;
+#endif
+			}
 		}
 	}
 
@@ -134,7 +136,14 @@ public static partial class SafeFireAndForgetExtensions
 			HandleException(ex, onException);
 
 			if (_shouldAlwaysRethrowException)
+			{
+
+#if NET5_0_OR_GREATER
+				ExceptionDispatchInfo.Throw(ex);
+#else
 				throw;
+#endif
+			}
 		}
 	}
 
@@ -149,7 +158,14 @@ public static partial class SafeFireAndForgetExtensions
 			HandleException(ex, onException);
 
 			if (_shouldAlwaysRethrowException)
+			{
+
+#if NET5_0_OR_GREATER
+				ExceptionDispatchInfo.Throw(ex);
+#else
 				throw;
+#endif
+			}
 		}
 	}
 
@@ -165,7 +181,7 @@ public static partial class SafeFireAndForgetExtensions
 			HandleException(ex, onException);
 
 			if (_shouldAlwaysRethrowException)
-				throw;
+				ExceptionDispatchInfo.Throw(ex);
 		}
 	}
 #endif
