@@ -27,6 +27,8 @@
     <PackageReleaseNotes>
       New in this release:
       - Add support for .NET 9
+      - Add Support for NativeAOT
+      - Remove support for .NET 6 + .NET 7
     </PackageReleaseNotes>
     <Version>$(NuGetVersion)</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
