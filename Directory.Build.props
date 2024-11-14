@@ -13,7 +13,7 @@
     <GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
 
     <!-- MAUI Specific -->
-    <MauiPackageVersion>9.0.0-rc.2.24503.2</MauiPackageVersion>
+    <MauiPackageVersion>9.0.10</MauiPackageVersion>
     <MauiStrictXamlCompilation>true</MauiStrictXamlCompilation>
     <SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
     <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
