@@ -136,7 +136,6 @@ jobs:
         inputs:
           version: '$(NET_VERSION)'
           packageType: 'sdk'
-          includePreviewVersions: false
 
       - task: NuGetToolInstaller@1
         displayName: 'Use NuGet'
