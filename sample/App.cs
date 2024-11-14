@@ -3,7 +3,7 @@ using Microsoft.Maui.Controls;
 
 namespace HackerNews;
 
-class App : Application
+partial class App : Application
 {
 	readonly AppShell _appShell;
 	

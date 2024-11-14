@@ -1,6 +1,6 @@
 ﻿namespace HackerNews;
 
-abstract class BaseContentPage<TViewModel> : ContentPage where TViewModel : BaseViewModel
+abstract partial class BaseContentPage<TViewModel> : ContentPage where TViewModel : BaseViewModel
 {
 	protected BaseContentPage(TViewModel viewModel, string pageTitle)
 	{

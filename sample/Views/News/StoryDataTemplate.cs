@@ -3,7 +3,7 @@ using static CommunityToolkit.Maui.Markup.GridRowsColumns;
 
 namespace HackerNews;
 
-class StoryDataTemplate : DataTemplate
+partial class StoryDataTemplate : DataTemplate
 {
 	public StoryDataTemplate() : base(CreateGrid)
 	{

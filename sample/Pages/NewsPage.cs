@@ -3,7 +3,7 @@ using CommunityToolkit.Maui.Markup;
 
 namespace HackerNews;
 
-class NewsPage : BaseContentPage<NewsViewModel>
+partial class NewsPage : BaseContentPage<NewsViewModel>
 {
 	readonly IBrowser _browser;
 	readonly IDispatcher _dispatcher;

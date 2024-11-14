@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
-    <IsAotCompatible>true</IsAotCompatible>
+    <IsAotCompatible Condition="$(TargetFramework.StartsWith('netstandard')) == false">true</IsAotCompatible>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>AsyncAwaitBestPractices.snk</AssemblyOriginatorKeyFile>
     <AssemblyName>AsyncAwaitBestPractices</AssemblyName>

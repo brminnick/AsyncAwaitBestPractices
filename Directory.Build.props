@@ -5,7 +5,6 @@
     <NuGetVersion>9.0.0</NuGetVersion>
     <LangVersion>preview</LangVersion>
     <Deterministic>true</Deterministic>
-    <ImplicitUsings>enable</ImplicitUsings>
     <LatestSupportedTFM>net9.0</LatestSupportedTFM>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>

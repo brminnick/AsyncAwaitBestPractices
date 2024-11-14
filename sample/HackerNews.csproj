@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFrameworks>$(LatestSupportedTFM)-ios;$(LatestSupportedTFM)-android;$(LatestSupportedTFM)-maccatalyst</TargetFrameworks>
-        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);$(LatestSupportedTFM)-windows10.0.19041.0</TargetFrameworks>
-        <OutputType>Exe</OutputType>
-        <RootNamespace>HackerNews</RootNamespace>
-        <UseMaui>true</UseMaui>
-        <SingleProject>true</SingleProject>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <IsPackable>false</IsPackable>
+  <PropertyGroup>
+    <TargetFrameworks>$(LatestSupportedTFM)-ios;$(LatestSupportedTFM)-android;$(LatestSupportedTFM)-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);$(LatestSupportedTFM)-windows10.0.19041.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>HackerNews</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
 
-        <ApplicationTitle>HackerNews</ApplicationTitle>
+    <ApplicationTitle>HackerNews</ApplicationTitle>
 
-        <ApplicationId>com.Minnick.HackerNews</ApplicationId>
-        <ApplicationIdGuid>da4c7bba-c5a8-4480-9feb-b4bd874144fb</ApplicationIdGuid>
+    <ApplicationId>com.Minnick.HackerNews</ApplicationId>
+    <ApplicationIdGuid>da4c7bba-c5a8-4480-9feb-b4bd874144fb</ApplicationIdGuid>
 
-        <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationVersion>1</ApplicationVersion>
 
-        <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-ios'))">15.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-maccatalyst'))">15.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-android'))">25.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</SupportedOSPlatformVersion>
-        <TargetPlatformMinVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</TargetPlatformMinVersion>
-    </PropertyGroup>
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-ios'))">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-maccatalyst'))">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-android'))">25.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</TargetPlatformMinVersion>
 
-    <ItemGroup>
-        <!-- App Icon -->
-        <MauiImage Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" IsAppIcon="true" Color="#512BD4"/>
-        <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4"/>
-        <!-- Images -->
-        <MauiImage Include="Resources\Images\*"/>
-        <!-- Custom Fonts -->
-        <MauiFont Include="Resources\Fonts\*"/>
-        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
-    </ItemGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.0.0" />
-        <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
-        <PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.2.0" />
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview1" />
-        <PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiPackageVersion)"/>
-    </ItemGroup>
+  <ItemGroup>
+    <!-- App Icon -->
+    <MauiImage Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" IsAppIcon="true" Color="#512BD4"/>
+    <!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4"/>
+    <!-- Images -->
+    <MauiImage Include="Resources\Images\*"/>
+    <!-- Custom Fonts -->
+    <MauiFont Include="Resources\Fonts\*"/>
+    <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\src\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.0.0" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
+    <PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.2.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview1" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiPackageVersion)"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\AsyncAwaitBestPractices.MVVM\AsyncAwaitBestPractices.MVVM.csproj"/>
+  </ItemGroup>
 
 </Project>
