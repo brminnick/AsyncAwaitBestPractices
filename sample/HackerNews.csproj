@@ -38,7 +38,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.0.0-preview.9.24507.7" />
+        <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.0.0" />
         <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
         <PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.2.0" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview1" />
