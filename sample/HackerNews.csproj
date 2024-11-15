@@ -24,6 +24,7 @@
     <TargetPlatformMinVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.19041.0</TargetPlatformMinVersion>
 
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
 
   <ItemGroup>
