@@ -83,14 +83,8 @@ jobs:
 
   - job: build_test_library
     displayName: Build + Test Library
-    strategy:
-      matrix:
-        'Windows':
-          image: 'windows-latest'
-        'macOS':
-          image: 'macos-15'
     pool:
-      vmImage: $(image)
+      vmImage: 'windows-latest'
     steps:
       # if this is a Release build, update the version number
       - powershell: |
