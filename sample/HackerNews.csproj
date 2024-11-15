@@ -57,7 +57,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)'))=='ios' and $(Configuration) == 'Debug'">
-    <RuntimeIdentifiers>ios-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
   </PropertyGroup>
 
 </Project>
