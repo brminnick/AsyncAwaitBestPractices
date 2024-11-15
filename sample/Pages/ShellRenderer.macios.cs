@@ -13,7 +13,7 @@ using UIKit;
 namespace HackerNews;
 
 // Fix Thank you to https://github.com/vhugogarcia
-public class ShellWithLargeTitles : ShellRenderer
+public partial class ShellWithLargeTitles : ShellRenderer
 {
 	public static IShellPageRendererTracker? Tracker { get; set; }
 
@@ -28,13 +28,9 @@ public class ShellWithLargeTitles : ShellRenderer
 	protected override IShellSectionRenderer CreateShellSectionRenderer(ShellSection shellSection) => new CustomShellSectionRenderer(this);
 }
 
-public class CustomShellSectionRootHeader : ShellSectionRootHeader
+public partial class CustomShellSectionRootHeader(IShellContext shellContext) : ShellSectionRootHeader(shellContext)
 {
 	volatile bool _isRotating;
-
-	public CustomShellSectionRootHeader(IShellContext shellContext) : base(shellContext)
-	{
-	}
 
 	public override void ViewDidLayoutSubviews()
 	{

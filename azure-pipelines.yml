@@ -2,6 +2,7 @@ variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   CurrentSemanticVersionBase: '99.0.0'
   PreviewNumber: $[counter(variables['CurrentSemanticVersionBase'], 1001)]
+  NET_VERSION: '9.0.100'
   CurrentSemanticVersion: '$(CurrentSemanticVersionBase)-preview$(PreviewNumber)'
   NugetPackageVersion: '$(CurrentSemanticVersion)'
   PathToSolution: 'AsyncAwaitBestPractices.sln'
@@ -33,7 +34,7 @@ jobs:
         'Windows':
           image: 'windows-latest'
         'macOS':
-          image: 'macos-13'
+          image: 'macos-14'
     pool:
       vmImage: $(image)
     
@@ -42,13 +43,31 @@ jobs:
         displayName: 'Set Xcode v$(Xcode_Version)'
         condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
         inputs:
-          script: echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(Xcode_Version).app;sudo xcode-select --switch /Applications/Xcode_$(Xcode_Version).app/Contents/Developer
+          script: | 
+            echo Availalbe Xcode Versions:
+            ls -al  /Applications | grep Xcode
+            echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(Xcode_Version).app;sudo xcode-select --switch /Applications/Xcode_$(Xcode_Version).app/Contents/Developer
+
+      - task: InstallAppleCertificate@2
+        displayName: "Set Xcode Signing Certificate"
+        condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
+        inputs:
+            certSecureFile: 'certificate.p12'
+            certPwd: '$(AppleCertificatePassword)'
+
+      - task: InstallAppleProvisioningProfile@1
+        displayName: "Set Xcode Provisioning Profile"
+        condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
+        inputs:
+          provisioningProfileLocation: 'secureFiles'
+          provProfileSecureFile: 'Development_Wildcard.mobileprovision'
 
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  8.0.x'
+        displayName: 'Use .Net SDK  v$(NET_VERSION)'
         inputs:
-          version: '8.0.x'
+          version: '$(NET_VERSION)'
           packageType: 'sdk'
+          includePreviewVersions: false
 
       - powershell: dotnet workload install maui --skip-sign-check --source https://api.nuget.org/v3/index.json
         displayName: Install Latest .NET MAUI Workload
@@ -77,14 +96,8 @@ jobs:
 
   - job: build_test_library
     displayName: Build + Test Library
-    strategy:
-      matrix:
-        'Windows':
-          image: 'windows-latest'
-        'macOS':
-          image: 'macos-13'
     pool:
-      vmImage: $(image)
+      vmImage: 'windows-latest'
     steps:
       # if this is a Release build, update the version number
       - powershell: |
@@ -120,21 +133,15 @@ jobs:
           packageType: 'sdk'
 
       - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  6.0.x'
-        inputs:
-          version: ' 6.0.x'
-          packageType: 'sdk'
-
-      - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  7.0.x'
-        inputs:
-          version: '7.0.x'
-          packageType: 'sdk'
-
-      - task: UseDotNet@2
-        displayName: 'Use .Net Core SDK  8.0.x'
+        displayName: 'Use .Net SDK  8.0.x'
         inputs:
           version: '8.0.x'
+          packageType: 'sdk'
+
+      - task: UseDotNet@2
+        displayName: 'Use .Net SDK  9.0.x'
+        inputs:
+          version: '$(NET_VERSION)'
           packageType: 'sdk'
 
       - task: NuGetToolInstaller@1
@@ -155,7 +162,7 @@ jobs:
           testResultsFiles: '**/*.trx'
           searchFolder: $(Agent.TempDirectory)
 
-      - task: PublishCodeCoverageResults@1
+      - task: PublishCodeCoverageResults@2
         condition: eq(variables['Agent.OS'], 'Windows_NT') # Only run this step on Windows
         displayName: 'Publish Code Coverage Results'
         inputs:

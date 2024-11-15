@@ -17,10 +17,10 @@ public abstract class BaseCommand<TCanExecute>
 	/// Initializes BaseCommand
 	/// </summary>
 	/// <param name="canExecute"></param>
-	protected private BaseCommand(Func<TCanExecute?, bool>? canExecute) => _canExecute = canExecute ?? (_ => true);
+	private protected BaseCommand(Func<TCanExecute?, bool>? canExecute) => _canExecute = canExecute ?? (_ => true);
 
 	/// <summary>
-	/// Occurs when changes occur that affect whether or not the command should execute
+	/// Occurs when changes occur that affect whether the command should execute
 	/// </summary>
 	public event EventHandler? CanExecuteChanged
 	{

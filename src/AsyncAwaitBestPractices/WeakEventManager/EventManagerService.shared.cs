@@ -8,7 +8,11 @@ namespace AsyncAwaitBestPractices;
 
 static class EventManagerService
 {
+#if NET9_0_OR_GREATER
+    static readonly System.Threading.Lock _lock = new();
+#else
 	static readonly object _lock = new();
+#endif
 
 	internal static void AddEventHandler(in string eventName, in object? handlerTarget, in MethodInfo methodInfo, in Dictionary<string, List<Subscription>> eventHandlers)
 	{
@@ -36,9 +40,9 @@ static class EventManagerService
 			if (!doesContainSubscriptions || subscriptions is null)
 				return;
 
-			for (var n = subscriptions.Count; n > 0; n--)
+			for (var n = subscriptions.Count - 1; n >= 0; n--)
 			{
-				var current = subscriptions[n - 1];
+				var current = subscriptions[n];
 
 				if (current.Subscriber?.Target != handlerTarget
 					|| current.Handler.Name != methodInfo?.Name)
@@ -46,7 +50,7 @@ static class EventManagerService
 					continue;
 				}
 
-				subscriptions.Remove(current);
+				subscriptions.RemoveAt(n);
 				break;
 			}
 		}
@@ -61,6 +65,17 @@ static class EventManagerService
 			try
 			{
 				var (instance, eventHandler) = toRaise[i];
+
+#if NET5_0_OR_GREATER
+				if (eventHandler is DynamicMethod dynamicMethod)
+				{
+					dynamicMethod.Invoke(instance, [sender, eventArgs]);
+				}
+				else
+				{
+					eventHandler.Invoke(instance, [sender, eventArgs]);
+				}
+#else
 				if (eventHandler.IsLightweightMethod())
 				{
 					var method = TryGetDynamicMethod(eventHandler);
@@ -70,6 +85,7 @@ static class EventManagerService
 				{
 					eventHandler.Invoke(instance, [sender, eventArgs]);
 				}
+#endif
 			}
 			catch (TargetParameterCountException e)
 			{
@@ -87,6 +103,17 @@ static class EventManagerService
 			try
 			{
 				var (instance, eventHandler) = toRaise[i];
+
+#if NET5_0_OR_GREATER
+				if (eventHandler is DynamicMethod dynamicMethod)
+				{
+					dynamicMethod.Invoke(instance, [actionEventArgs]);
+				}
+				else
+				{
+					eventHandler.Invoke(instance, [actionEventArgs]);
+				}
+#else
 				if (eventHandler.IsLightweightMethod())
 				{
 					var method = TryGetDynamicMethod(eventHandler);
@@ -96,6 +123,7 @@ static class EventManagerService
 				{
 					eventHandler.Invoke(instance, [actionEventArgs]);
 				}
+#endif
 			}
 			catch (TargetParameterCountException e)
 			{
@@ -113,10 +141,9 @@ static class EventManagerService
 			try
 			{
 				var (instance, eventHandler) = toRaise[i];
-				if (eventHandler.IsLightweightMethod())
+				if (eventHandler is DynamicMethod dynamicMethod)
 				{
-					var method = TryGetDynamicMethod(eventHandler);
-					method?.Invoke(instance, null);
+					dynamicMethod.Invoke(instance, null);
 				}
 				else
 				{
@@ -133,10 +160,10 @@ static class EventManagerService
 	static void AddRemoveEvents(in string eventName, in Dictionary<string, List<Subscription>> eventHandlers, out List<(object? Instance, MethodInfo EventHandler)> toRaise)
 	{
 		var toRemove = new List<Subscription>();
-		toRaise = new List<(object?, MethodInfo)>();
+		toRaise = [];
 
 		var doesContainEventName = eventHandlers.TryGetValue(eventName, out var target);
-		if (doesContainEventName && target != null)
+		if (doesContainEventName && target is not null)
 		{
 			for (var i = 0; i < target.Count; i++)
 			{
@@ -157,14 +184,14 @@ static class EventManagerService
 					toRaise.Add((subscriber, subscription.Handler));
 			}
 
-			for (var i = 0; i < toRemove.Count; i++)
+			foreach (var subscription in toRemove)
 			{
-				var subscription = toRemove[i];
 				target.Remove(subscription);
 			}
 		}
 	}
 
+#if !NET5_0_OR_GREATER
 	static DynamicMethod? TryGetDynamicMethod(in MethodInfo rtDynamicMethod)
 	{
 		var typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
@@ -180,4 +207,5 @@ static class EventManagerService
 		var typeInfoRTDynamicMethod = typeof(DynamicMethod).GetTypeInfo().GetDeclaredNestedType("RTDynamicMethod");
 		return method is DynamicMethod || (typeInfoRTDynamicMethod?.IsAssignableFrom(method.GetType().GetTypeInfo()) ?? false);
 	}
+#endif
 }

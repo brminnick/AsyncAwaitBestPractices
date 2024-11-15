@@ -85,7 +85,7 @@ public static partial class SafeFireAndForgetExtensions
 	/// <summary>
 	/// Initialize SafeFireAndForget
 	///
-	/// Warning: When <c>true</c>, there is no way to catch this exception and it will always result in a crash. Recommended only for debugging purposes.
+	/// Warning: When <c>true</c>, there is no way to catch this exception, and it will always result in a crash. Recommended only for debugging purposes.
 	/// </summary>
 	/// <param name="shouldAlwaysRethrowException">If set to <c>true</c>, after the exception has been caught and handled, the exception will always be rethrown.</param>
 	public static void Initialize(bool shouldAlwaysRethrowException) => Initialize(in shouldAlwaysRethrowException);

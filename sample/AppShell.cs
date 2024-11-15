@@ -1,6 +1,6 @@
 ﻿namespace HackerNews;
 
-class AppShell : Shell
+partial class AppShell : Shell
 {
 	public AppShell(NewsPage newsPage)
 	{

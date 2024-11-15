@@ -3,11 +3,13 @@ using Microsoft.Maui.Controls;
 
 namespace HackerNews;
 
-class App : Application
+partial class App : Application
 {
+	readonly AppShell _appShell;
+	
 	public App(AppShell appshell)
 	{
-		Resources = new ResourceDictionary()
+		Resources = new ResourceDictionary
 		{
 			new Style<Shell>(
 				(Shell.NavBarHasShadowProperty, true),
@@ -22,6 +24,13 @@ class App : Application
 				(NavigationPage.BarBackgroundColorProperty, ColorConstants.NavigationBarBackgroundColor)).ApplyToDerivedTypes(true)
 		};
 
-		MainPage = appshell;
+		_appShell = appshell;
+	}
+
+	protected override Window CreateWindow(IActivationState? activationState)
+	{
+		base.CreateWindow(activationState);
+
+		return new(_appShell);
 	}
 }

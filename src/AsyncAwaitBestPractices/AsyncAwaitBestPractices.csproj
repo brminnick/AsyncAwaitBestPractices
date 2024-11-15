@@ -1,81 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
-        <SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>AsyncAwaitBestPractices.snk</AssemblyOriginatorKeyFile>
-        <AssemblyName>AsyncAwaitBestPractices</AssemblyName>
-        <RootNamespace>AsyncAwaitBestPractices</RootNamespace>
-        <PackageId>AsyncAwaitBestPractices</PackageId>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <Summary>
-            Extensions for System.Threading.Tasks
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.0;netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
+    <IsAotCompatible Condition="$(TargetFramework.StartsWith('netstandard')) == false">true</IsAotCompatible>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>AsyncAwaitBestPractices.snk</AssemblyOriginatorKeyFile>
+    <AssemblyName>AsyncAwaitBestPractices</AssemblyName>
+    <RootNamespace>AsyncAwaitBestPractices</RootNamespace>
+    <PackageId>AsyncAwaitBestPractices</PackageId>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Summary>
+      Extensions for System.Threading.Tasks
 
-            Includes extension methods to safely fire-and-forget a Task and/or a ValueTask
-            Includes WeakEventManger which avoids memory leaks when events are not unsubscribed
-        </Summary>
-        <PackageTags>task, fire and forget, threading, extensions, system.threading.tasks, async, await</PackageTags>
-        <Title>Extensions for System.Threading.Tasks</Title>
-        <Description>
-            Extensions for System.Threading.Tasks
+      Includes extension methods to safely fire-and-forget a Task and/or a ValueTask
+      Includes WeakEventManger which avoids memory leaks when events are not unsubscribed
+    </Summary>
+    <PackageTags>task, fire and forget, threading, extensions, system.threading.tasks, async, await</PackageTags>
+    <Title>Extensions for System.Threading.Tasks</Title>
+    <Description>
+      Extensions for System.Threading.Tasks
 
-            Includes extension methods to safely fire-and-forget a Task and/or a ValueTask
-            Includes WeakEventManger which avoids memory leaks when events are not unsubscribed
-        </Description>
-        <PackageReleaseNotes>
-            New In This Release:
-- Add Support for ValueTask&lt;T&gt; 
-        </PackageReleaseNotes>
-        <Version>$(NuGetVersion)</Version>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
-        <Product>$(AssemblyName) ($(TargetFramework))</Product>
-        <AssemblyVersion>$(NuGetVersion)</AssemblyVersion>
-        <AssemblyFileVersion>$(NuGetVersion)</AssemblyFileVersion>
-        <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
-        <Authors>Brandon Minnick, John Thiriet</Authors>
-        <Owners>Brandon Minnick</Owners>
-        <NeutralLanguage>en</NeutralLanguage>
-        <Copyright>©Copyright 2023 Brandon Minnick. All rights reserved.</Copyright>
-        <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <DefineConstants>$(DefineConstants);</DefineConstants>
-        <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
-        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageProjectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</PackageProjectUrl>
-        <DebugType>portable</DebugType>
-        <Configurations>Debug;Release</Configurations>
-        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
-        <!-- Manage TargetFrameworks for development (Debug Mode) -->
-        <DebugSymbols>true</DebugSymbols>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
-        <!-- Manage TargetFrameworks for distribution (Release Mode) -->
-    </PropertyGroup>
-    <ItemGroup>
-        <Compile Include="**/*.shared.cs" />
-        <Compile Include="**/*.shared.*.cs" />
-    </ItemGroup>
-    <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard1.0')) ">
-        <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-        <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
-    </ItemGroup>
-    <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard2.0')) ">
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-        <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
-        <None Include="README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
-    <ItemGroup Condition=" '$(Configuration)'=='Release' ">
-         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-    </ItemGroup>
+      Includes extension methods to safely fire-and-forget a Task and/or a ValueTask
+      Includes WeakEventManger which avoids memory leaks when events are not unsubscribed
+    </Description>
+    <PackageReleaseNotes>
+      New In This Release:
+      - Add Support for .NET 9
+      - Add Support for NativeAOT
+      - Remove support for .NET 6 + .NET 7
+    </PackageReleaseNotes>
+    <Version>$(NuGetVersion)</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/brminnick/AsyncAwaitBestPractices</RepositoryUrl>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <AssemblyVersion>$(NuGetVersion)</AssemblyVersion>
+    <AssemblyFileVersion>$(NuGetVersion)</AssemblyFileVersion>
+    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
+    <Authors>Brandon Minnick, John Thiriet</Authors>
+    <Owners>Brandon Minnick</Owners>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Copyright>©Copyright 2023 Brandon Minnick. All rights reserved.</Copyright>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <DefineConstants>$(DefineConstants);</DefineConstants>
+    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/brminnick/AsyncAwaitBestPractices</PackageProjectUrl>
+    <DebugType>portable</DebugType>
+    <Configurations>Debug;Release</Configurations>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+    <!-- Manage TargetFrameworks for development (Debug Mode) -->
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
+    <!-- Manage TargetFrameworks for distribution (Release Mode) -->
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="**/*.shared.cs"/>
+    <Compile Include="**/*.shared.*.cs"/>
+  </ItemGroup>
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard1.0')) ">
+    <PackageReference Include="System.ValueTuple" Version="4.5.0"/>
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1"/>
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4"/>
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0"/>
+  </ItemGroup>
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard2.0')) ">
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4"/>
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0"/>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" PrivateAssets="all"/>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)'=='Release' ">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+  </ItemGroup>
 </Project>
