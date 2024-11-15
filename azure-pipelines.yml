@@ -52,7 +52,7 @@ jobs:
         displayName: "Set Xcode Signing Certificate"
         condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
         inputs:
-            certSecureFile: 'Certificate.p12'
+            certSecureFile: 'certificate.p12'
             certPwd: '$(APPLECERTIFICATEPASSWORD)'
 
       - task: InstallAppleProvisioningProfile@1
@@ -60,7 +60,7 @@ jobs:
         condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
         inputs:
           provisioningProfileLocation: 'secureFiles'
-          provProfileSecureFile: 'GitTrends_Development_Profile.mobileprovision'
+          provProfileSecureFile: 'Development_Wildcard.mobileprovision'
 
       - task: UseDotNet@2
         displayName: 'Use .Net SDK  v$(NET_VERSION)'
