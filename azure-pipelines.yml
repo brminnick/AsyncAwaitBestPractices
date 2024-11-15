@@ -48,6 +48,19 @@ jobs:
             ls -al  /Applications | grep Xcode
             echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(Xcode_Version).app;sudo xcode-select --switch /Applications/Xcode_$(Xcode_Version).app/Contents/Developer
 
+      - task: InstallAppleCertificate@2
+        displayName: "Set Xcode Signing Certificate"
+        condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
+        inputs:
+            certSecureFile: 'Certificate.p12'
+            certPwd: '$(APPLECERTIFICATEPASSWORD)'
+
+      - task: InstallAppleProvisioningProfile@1
+        displayName: "Set Xcode Provisioning Profile"
+        condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
+        inputs:
+          provisioningProfileLocation: 'secureFiles'
+          provProfileSecureFile: 'GitTrends_Development_Profile.mobileprovision'
 
       - task: UseDotNet@2
         displayName: 'Use .Net SDK  v$(NET_VERSION)'
