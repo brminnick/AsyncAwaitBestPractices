@@ -24,6 +24,12 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		ActionEvent += HandleDelegateTest;
 		bool didEventFire = false;
 
+		//Act
+		_actionEventManager.RaiseEvent("Test", nameof(ActionEvent));
+
+		//Assert
+		Assert.That(didEventFire, Is.True);
+
 		void HandleDelegateTest(string message)
 		{
 			Assert.Multiple(() =>
@@ -35,12 +41,6 @@ class Tests_WeakEventManager_ActionT : BaseTest
 			didEventFire = true;
 			ActionEvent -= HandleDelegateTest;
 		}
-
-		//Act
-		_actionEventManager.RaiseEvent("Test", nameof(ActionEvent));
-
-		//Assert
-		Assert.That(didEventFire, Is.True);
 	}
 
 	[Test]
@@ -49,6 +49,13 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		//Arrange
 		ActionEvent += HandleDelegateTest;
 		bool didEventFire = false;
+
+		//Act
+		_actionEventManager.RaiseEvent("Test", nameof(TestEvent));
+
+		//Assert
+		Assert.That(didEventFire, Is.False);
+		ActionEvent -= HandleDelegateTest;
 
 		void HandleDelegateTest(string message)
 		{
@@ -60,13 +67,6 @@ class Tests_WeakEventManager_ActionT : BaseTest
 
 			didEventFire = true;
 		}
-
-		//Act
-		_actionEventManager.RaiseEvent("Test", nameof(TestEvent));
-
-		//Assert
-		Assert.That(didEventFire, Is.False);
-		ActionEvent -= HandleDelegateTest;
 	}
 
 	[Test]
@@ -77,6 +77,13 @@ class Tests_WeakEventManager_ActionT : BaseTest
 
 		ActionEvent += HandleDelegateTest;
 		ActionEvent -= HandleDelegateTest;
+
+		//Act
+		_actionEventManager.RaiseEvent("Test", nameof(ActionEvent));
+
+		//Assert
+		Assert.That(didEventFire, Is.False);
+
 		void HandleDelegateTest(string message)
 		{
 			Assert.Multiple(() =>
@@ -87,12 +94,6 @@ class Tests_WeakEventManager_ActionT : BaseTest
 
 			didEventFire = true;
 		}
-
-		//Act
-		_actionEventManager.RaiseEvent("Test", nameof(ActionEvent));
-
-		//Assert
-		Assert.That(didEventFire, Is.False);
 	}
 
 	[Test]
@@ -103,6 +104,14 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		bool didEventFire = false;
 
 		ActionEvent += HandleDelegateTest;
+
+		//Act
+		unassignedEventManager.RaiseEvent(nameof(ActionEvent));
+
+		//Assert
+		Assert.That(didEventFire, Is.False);
+		ActionEvent -= HandleDelegateTest;
+
 		void HandleDelegateTest(string message)
 		{
 			Assert.Multiple(() =>
@@ -113,13 +122,6 @@ class Tests_WeakEventManager_ActionT : BaseTest
 
 			didEventFire = true;
 		}
-
-		//Act
-		unassignedEventManager.RaiseEvent(nameof(ActionEvent));
-
-		//Assert
-		Assert.That(didEventFire, Is.False);
-		ActionEvent -= HandleDelegateTest;
 	}
 
 	[Test]
@@ -128,17 +130,6 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		//Arrange
 		ActionEvent += HandleDelegateTest;
 		bool didEventFire = false;
-
-		void HandleDelegateTest(string message)
-		{
-			Assert.Multiple(() =>
-			{
-				Assert.That(message, Is.Not.Null);
-				Assert.That(message, Is.Not.Empty);
-			});
-
-			didEventFire = true;
-		}
 
 		//Act
 
@@ -150,6 +141,17 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		});
 
 		ActionEvent -= HandleDelegateTest;
+
+		void HandleDelegateTest(string message)
+		{
+			Assert.Multiple(() =>
+			{
+				Assert.That(message, Is.Not.Null);
+				Assert.That(message, Is.Not.Empty);
+			});
+
+			didEventFire = true;
+		}
 	}
 
 	[Test]
@@ -254,6 +256,12 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		ActionEvent += HandleDelegateTest;
 		bool didEventFire = false;
 
+		//Act
+		_actionEventManager.RaiseEvent("Test", nameof(ActionEvent));
+
+		//Assert
+		Assert.That(didEventFire, Is.True);
+
 		void HandleDelegateTest(string message)
 		{
 			Assert.Multiple(() =>
@@ -265,12 +273,6 @@ class Tests_WeakEventManager_ActionT : BaseTest
 			didEventFire = true;
 			ActionEvent -= HandleDelegateTest;
 		}
-
-		//Act
-		_actionEventManager.RaiseEvent("Test", nameof(ActionEvent));
-
-		//Assert
-		Assert.That(didEventFire, Is.True);
 	}
 
 	[Test]
@@ -279,8 +281,6 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		//Arrange
 		ActionEvent += HandleDelegateTest;
 		Exception? caughtException = null;
-
-		void HandleDelegateTest(string message) => throw new NullReferenceException();
 
 		//Act
 		try
@@ -295,6 +295,8 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		//Assert
 		Assert.That(caughtException, Is.Not.Null);
 		ActionEvent -= HandleDelegateTest;
+
+		void HandleDelegateTest(string message) => throw new NullReferenceException();
 	}
 
 #if NETCOREAPP3_1_OR_GREATER

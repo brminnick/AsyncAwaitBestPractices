@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using AsyncAwaitBestPractices.MVVM;
 using NUnit.Framework;
@@ -49,7 +50,7 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 	{
 		//Arrange
 		InvalidCommandParameterException? actualInvalidCommandParameterException = null;
-		InvalidCommandParameterException expectedInvalidCommandParameterException = new InvalidCommandParameterException(typeof(string), typeof(int));
+		InvalidCommandParameterException expectedInvalidCommandParameterException = new(typeof(string), typeof(int));
 
 		ICommand command = new AsyncCommand<string, string>(StringParameterTask);
 
@@ -265,13 +266,13 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		ICommand command = new AsyncCommand(NoParameterImmediateNullReferenceExceptionTask, onException: HandleException);
 		Exception? caughtException = null;
 
-		void HandleException(Exception ex) => caughtException = ex;
-
 		//Act
-		Assert.ThrowsAsync<NullReferenceException>(async () => await ((AsyncCommand)command).ExecuteAsync());
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(async () => await ((AsyncCommand)command).ExecuteAsync());
 
 		//Assert
 		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
 	}
 
 	[Test]
@@ -281,12 +282,12 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 		ICommand command = new AsyncCommand<int>(ParameterImmediateNullReferenceExceptionTask, onException: HandleException);
 		Exception? caughtException = null;
 
-		void HandleException(Exception ex) => caughtException = ex;
-
 		//Act
-		Assert.ThrowsAsync<NullReferenceException>(async () => await ((AsyncCommand<int>)command).ExecuteAsync(0));
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(async () => await ((AsyncCommand<int>)command).ExecuteAsync(0));
 
 		//Assert
 		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
 	}
 }

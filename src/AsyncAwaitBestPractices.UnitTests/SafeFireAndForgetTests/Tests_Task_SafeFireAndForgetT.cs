@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AsyncAwaitBestPractices.MVVM;
 using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests;
@@ -73,34 +74,34 @@ class Tests_SafeFireAndForgetT : BaseTest
 	}
 
 	[Test]
-	public async Task SafeFireAndForget_ExecuteAsync_ExceptionHandling_Test()
+	public void SafeFireAndForget_ExecuteAsync_ExceptionHandling_Test()
 	{
 		//Arrange
 		AsyncCommand command = new AsyncCommand(NoParameterImmediateNullReferenceExceptionTask, onException: HandleException);
 		Exception? caughtException = null;
 
-		void HandleException(Exception ex) => caughtException = ex;
-
 		//Act
-		Assert.ThrowsAsync<NullReferenceException>(async () => await command.ExecuteAsync());
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(() => command.ExecuteAsync());
 
 		//Assert
 		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
 	}
 
 	[Test]
-	public async Task SafeFireAndForget_ExecuteAsync_ExceptionHandlingWithParameter_Test()
+	public void SafeFireAndForget_ExecuteAsync_ExceptionHandlingWithParameter_Test()
 	{
 		//Arrange
 		AsyncCommand<int> command = new AsyncCommand<int>(ParameterImmediateNullReferenceExceptionTask, onException: HandleException);
 		Exception? caughtException = null;
 
-		void HandleException(Exception ex) => caughtException = ex;
-
 		//Act
-		Assert.ThrowsAsync<NullReferenceException>(async () => await command.ExecuteAsync(0));
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(() => command.ExecuteAsync(0));
 
 		//Assert
 		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
 	}
 }
