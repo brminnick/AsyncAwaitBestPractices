@@ -18,7 +18,7 @@ partial class StoryDataTemplate : DataTemplate
 			(Row.Title, 20),
 			(Row.Description, 20),
 			(Row.BottomPadding, 1)),
-		
+
 		ColumnDefinitions = Columns.Define(
 			(Column.LeftPadding, 6),
 			(Column.Content, Star),

@@ -24,8 +24,8 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		add => _pullToRefreshEventManager.AddEventHandler(value);
 		remove => _pullToRefreshEventManager.RemoveEventHandler(value);
 	}
-	
-	
+
+
 	[ObservableProperty]
 	public partial bool IsListRefreshing { get; set; }
 
@@ -33,7 +33,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 	async Task Refresh(CancellationToken token)
 	{
 		// ToDo Refactor
-		var minimumRefreshTimeTask = Task.Delay(TimeSpan.FromSeconds(2));
+		var minimumRefreshTimeTask = Task.Delay(TimeSpan.FromSeconds(2), token);
 
 		try
 		{
@@ -55,7 +55,7 @@ partial class NewsViewModel_BadAsyncAwaitPractices : BaseViewModel
 		finally
 		{
 			// ToDo Refactor
-			minimumRefreshTimeTask.Wait();
+			minimumRefreshTimeTask.Wait(token);
 			IsListRefreshing = false;
 		}
 	}

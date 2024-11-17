@@ -6,7 +6,7 @@ namespace HackerNews;
 partial class App : Application
 {
 	readonly AppShell _appShell;
-	
+
 	public App(AppShell appshell)
 	{
 		Resources = new ResourceDictionary
