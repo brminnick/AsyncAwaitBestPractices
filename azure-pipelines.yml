@@ -69,8 +69,12 @@ jobs:
           packageType: 'sdk'
           includePreviewVersions: false
 
-      - powershell: dotnet workload install maui --skip-sign-check --source https://api.nuget.org/v3/index.json
-        displayName: Install Latest .NET MAUI Workload
+      - task: CmdLine@2
+        displayName: 'Install .NET MAUI Workload'
+        inputs:
+          script : |
+            dotnet workload install maui
+            dotnet workload update
 
       - task: NuGetToolInstaller@1
         displayName: 'Use NuGet'
