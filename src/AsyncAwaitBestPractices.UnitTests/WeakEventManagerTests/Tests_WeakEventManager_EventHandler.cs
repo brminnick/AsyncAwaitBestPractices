@@ -290,4 +290,59 @@ class Tests_WeakEventManager_EventHandler : BaseTest
 
 		TestEvent -= HandleTestEvent;
 	}
+
+	[Test]
+	public void WeakEventManager_RaiseEvent_WithParameters()
+	{
+		//Arrange
+		TestEvent += HandleTestEvent;
+		bool didEventFire = false;
+
+		void HandleTestEvent(object? sender, EventArgs e)
+		{
+			if (sender is null)
+				throw new ArgumentNullException(nameof(sender));
+
+			Assert.Multiple(() =>
+			{
+				Assert.That(sender, Is.Not.Null);
+				Assert.That(sender.GetType(), Is.EqualTo(this.GetType()));
+
+				Assert.That(e, Is.Not.Null);
+			});
+
+			didEventFire = true;
+			TestEvent -= HandleTestEvent;
+		}
+
+		//Act
+		TestWeakEventManager.RaiseEvent(this, new EventArgs(), nameof(TestEvent));
+
+		//Assert
+		Assert.That(didEventFire, Is.True);
+	}
+
+	[Test]
+	public void WeakEventManager_ExceptionHandling()
+	{
+		//Arrange
+		TestEvent += HandleTestEvent;
+		Exception? caughtException = null;
+
+		void HandleTestEvent(object? sender, EventArgs e) => throw new NullReferenceException();
+
+		//Act
+		try
+		{
+			TestWeakEventManager.RaiseEvent(this, new EventArgs(), nameof(TestEvent));
+		}
+		catch (Exception ex)
+		{
+			caughtException = ex;
+		}
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+		TestEvent -= HandleTestEvent;
+	}
 }

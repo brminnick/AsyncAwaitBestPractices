@@ -148,4 +148,36 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 			Assert.That(command.CanExecute(null), Is.True);
 		});
 	}
+
+	[Test]
+	public void AsyncValueCommand_ExecuteAsync_ExceptionHandling_Test()
+	{
+		//Arrange
+		AsyncValueCommand command = new AsyncValueCommand(NoParameterImmediateNullReferenceExceptionTask, onException: HandleException);
+		Exception? caughtException = null;
+
+		void HandleException(Exception ex) => caughtException = ex;
+
+		//Act
+		Assert.ThrowsAsync<NullReferenceException>(async () => await command.ExecuteAsync());
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+	}
+
+	[Test]
+	public void AsyncValueCommand_ExecuteAsync_ExceptionHandlingWithParameter_Test()
+	{
+		//Arrange
+		AsyncValueCommand<int> command = new AsyncValueCommand<int>(ParameterImmediateNullReferenceExceptionTask, onException: HandleException);
+		Exception? caughtException = null;
+
+		void HandleException(Exception ex) => caughtException = ex;
+
+		//Act
+		Assert.ThrowsAsync<NullReferenceException>(async () => await command.ExecuteAsync(0));
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+	}
 }

@@ -197,4 +197,48 @@ class Tests_WeakEventManager_Action : BaseTest
 		//Assert
 		Assert.Throws<ArgumentNullException>(() => _actionEventManager.RemoveEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
 	}
+
+	[Test]
+	public void WeakEventManagerAction_RaiseEvent_WithParameters()
+	{
+		//Arrange
+		ActionEvent += HandleDelegateTest;
+		bool didEventFire = false;
+
+		void HandleDelegateTest()
+		{
+			didEventFire = true;
+			ActionEvent -= HandleDelegateTest;
+		}
+
+		//Act
+		_actionEventManager.RaiseEvent(nameof(ActionEvent));
+
+		//Assert
+		Assert.That(didEventFire, Is.True);
+	}
+
+	[Test]
+	public void WeakEventManagerAction_ExceptionHandling()
+	{
+		//Arrange
+		ActionEvent += HandleDelegateTest;
+		Exception? caughtException = null;
+
+		void HandleDelegateTest() => throw new NullReferenceException();
+
+		//Act
+		try
+		{
+			_actionEventManager.RaiseEvent(nameof(ActionEvent));
+		}
+		catch (Exception ex)
+		{
+			caughtException = ex;
+		}
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+		ActionEvent -= HandleDelegateTest;
+	}
 }

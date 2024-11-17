@@ -247,6 +247,56 @@ class Tests_WeakEventManager_ActionT : BaseTest
 		Assert.Throws<ArgumentNullException>(() => _actionEventManager.RemoveEventHandler(s => { var temp = s; }, " "), "Value cannot be null.\nParameter name: eventName");
 	}
 
+	[Test]
+	public void WeakEventManagerActionT_RaiseEvent_WithParameters()
+	{
+		//Arrange
+		ActionEvent += HandleDelegateTest;
+		bool didEventFire = false;
+
+		void HandleDelegateTest(string message)
+		{
+			Assert.Multiple(() =>
+			{
+				Assert.That(message, Is.Not.Null);
+				Assert.That(message, Is.Not.Empty);
+			});
+
+			didEventFire = true;
+			ActionEvent -= HandleDelegateTest;
+		}
+
+		//Act
+		_actionEventManager.RaiseEvent("Test", nameof(ActionEvent));
+
+		//Assert
+		Assert.That(didEventFire, Is.True);
+	}
+
+	[Test]
+	public void WeakEventManagerActionT_ExceptionHandling()
+	{
+		//Arrange
+		ActionEvent += HandleDelegateTest;
+		Exception? caughtException = null;
+
+		void HandleDelegateTest(string message) => throw new NullReferenceException();
+
+		//Act
+		try
+		{
+			_actionEventManager.RaiseEvent("Test", nameof(ActionEvent));
+		}
+		catch (Exception ex)
+		{
+			caughtException = ex;
+		}
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+		ActionEvent -= HandleDelegateTest;
+	}
+
 #if NETCOREAPP3_1_OR_GREATER
 	[Test]
 	public void WeakEventManagerActionT_AddRemoveEventHandler_VerifyNotNullAttribute()

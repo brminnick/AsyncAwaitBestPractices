@@ -363,4 +363,56 @@ class Tests_WeakEventManager_Delegate : BaseTest, INotifyPropertyChanged
 		}
 	}
 #endif
+
+	[Test]
+	public void WeakEventManagerDelegate_RaiseEvent_WithParameters()
+	{
+		//Arrange
+		PropertyChanged += HandleDelegateTest;
+		bool didEventFire = false;
+
+		void HandleDelegateTest(object? sender, PropertyChangedEventArgs e)
+		{
+			Assert.Multiple(() =>
+			{
+				Assert.That(sender, Is.Not.Null);
+				Assert.That(sender?.GetType(), Is.EqualTo(this.GetType()));
+
+				Assert.That(e, Is.Not.Null);
+			});
+
+			didEventFire = true;
+			PropertyChanged -= HandleDelegateTest;
+		}
+
+		//Act
+		_propertyChangedWeakEventManager.RaiseEvent(this, new PropertyChangedEventArgs("Test"), nameof(PropertyChanged));
+
+		//Assert
+		Assert.That(didEventFire, Is.True);
+	}
+
+	[Test]
+	public void WeakEventManagerDelegate_ExceptionHandling()
+	{
+		//Arrange
+		PropertyChanged += HandleDelegateTest;
+		Exception? caughtException = null;
+
+		void HandleDelegateTest(object? sender, PropertyChangedEventArgs e) => throw new NullReferenceException();
+
+		//Act
+		try
+		{
+			_propertyChangedWeakEventManager.RaiseEvent(this, new PropertyChangedEventArgs("Test"), nameof(PropertyChanged));
+		}
+		catch (Exception ex)
+		{
+			caughtException = ex;
+		}
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+		PropertyChanged -= HandleDelegateTest;
+	}
 }
