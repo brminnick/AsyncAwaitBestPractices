@@ -53,7 +53,7 @@ jobs:
         condition: eq(variables['Agent.OS'], 'Darwin') # Only run this step on macOS
         inputs:
             certSecureFile: 'certificate.p12'
-            certPwd: '$(AppleCertificatePassword)'
+            certPwd: '$(APPLECERTIFICATEPASSWORD)'
 
       - task: InstallAppleProvisioningProfile@1
         displayName: "Set Xcode Provisioning Profile"
