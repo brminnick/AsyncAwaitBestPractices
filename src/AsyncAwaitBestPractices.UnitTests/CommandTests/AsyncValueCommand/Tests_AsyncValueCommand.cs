@@ -35,7 +35,6 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 		await command2.ExecuteAsync(parameter);
 
 		//Assert
-
 	}
 
 	[TestCase("Hello")]
@@ -51,7 +50,6 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 		await command2.ExecuteAsync(parameter);
 
 		//Assert
-
 	}
 
 	[Test]
@@ -123,9 +121,6 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 		AsyncValueCommand command = new AsyncValueCommand(NoParameterTask, commandCanExecute);
 		command.CanExecuteChanged += handleCanExecuteChanged;
 
-		void handleCanExecuteChanged(object? sender, EventArgs e) => didCanExecuteChangeFire = true;
-		bool commandCanExecute(object? parameter) => canCommandExecute;
-
 		Assert.That(command.CanExecute(null), Is.False);
 
 		//Act
@@ -147,5 +142,41 @@ class Tests_AsyncValueCommand : BaseAsyncValueCommandTest
 			Assert.That(didCanExecuteChangeFire, Is.True);
 			Assert.That(command.CanExecute(null), Is.True);
 		});
+
+		void handleCanExecuteChanged(object? sender, EventArgs e) => didCanExecuteChangeFire = true;
+
+		bool commandCanExecute(object? parameter) => canCommandExecute;
+	}
+
+	[Test]
+	public void AsyncValueCommand_ExecuteAsync_ExceptionHandling_Test()
+	{
+		//Arrange
+		AsyncValueCommand command = new AsyncValueCommand(NoParameterImmediateNullReferenceExceptionTask, onException: HandleException);
+		Exception? caughtException = null;
+
+		//Act
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(async () => await command.ExecuteAsync());
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
+	}
+
+	[Test]
+	public void AsyncValueCommand_ExecuteAsync_ExceptionHandlingWithParameter_Test()
+	{
+		//Arrange
+		AsyncValueCommand<int> command = new AsyncValueCommand<int>(ParameterImmediateNullReferenceExceptionTask, onException: HandleException);
+		Exception? caughtException = null;
+
+		//Act
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(async () => await command.ExecuteAsync(0));
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
 	}
 }

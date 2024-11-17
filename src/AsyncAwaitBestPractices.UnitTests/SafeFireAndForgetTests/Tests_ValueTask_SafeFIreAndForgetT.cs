@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AsyncAwaitBestPractices.MVVM;
 using NUnit.Framework;
 
 namespace AsyncAwaitBestPractices.UnitTests;
@@ -91,5 +92,37 @@ class Tests_ValueTask_SafeFireAndForgetT : BaseAsyncValueCommandTest
 			Assert.That(exception1, Is.Not.Null);
 			Assert.That(exception2, Is.Not.Null);
 		});
+	}
+
+	[Test]
+	public void SafeFireAndForget_ExecuteAsync_ExceptionHandling_Test()
+	{
+		//Arrange
+		var command = new AsyncValueCommand(NoParameterImmediateNullReferenceExceptionTask, onException: HandleException);
+		Exception? caughtException = null;
+
+		//Act
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(async () => await command.ExecuteAsync());
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
+	}
+
+	[Test]
+	public void SafeFireAndForget_ExecuteAsync_ExceptionHandlingWithParameter_Test()
+	{
+		//Arrange
+		var command = new AsyncValueCommand<int>(ParameterImmediateNullReferenceExceptionTask, onException: HandleException);
+		Exception? caughtException = null;
+
+		//Act
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(async () => await command.ExecuteAsync(0));
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
 	}
 }

@@ -15,7 +15,7 @@ partial class NewsViewModel(IDispatcher dispatcher, HackerNewsAPIService hackerN
 		remove => _pullToRefreshEventManager.RemoveEventHandler(value);
 	}
 
-	[ObservableProperty] 
+	[ObservableProperty]
 	public partial bool IsListRefreshing { get; set; }
 
 	[RelayCommand]

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using AsyncAwaitBestPractices.MVVM;
 using NUnit.Framework;
@@ -49,7 +50,7 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 	{
 		//Arrange
 		InvalidCommandParameterException? actualInvalidCommandParameterException = null;
-		InvalidCommandParameterException expectedInvalidCommandParameterException = new InvalidCommandParameterException(typeof(string), typeof(int));
+		InvalidCommandParameterException expectedInvalidCommandParameterException = new(typeof(string), typeof(int));
 
 		ICommand command = new AsyncCommand<string, string>(StringParameterTask);
 
@@ -256,5 +257,37 @@ class Tests_ICommand_AsyncCommand : BaseAsyncCommandTest
 			Assert.That(command.CanExecute(true), Is.True);
 			Assert.That(command.CanExecute(false), Is.False);
 		});
+	}
+
+	[Test]
+	public void ICommand_ExecuteAsync_ExceptionHandling_Test()
+	{
+		//Arrange
+		ICommand command = new AsyncCommand(NoParameterImmediateNullReferenceExceptionTask, onException: HandleException);
+		Exception? caughtException = null;
+
+		//Act
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(async () => await ((AsyncCommand)command).ExecuteAsync());
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
+	}
+
+	[Test]
+	public void ICommand_ExecuteAsync_ExceptionHandlingWithParameter_Test()
+	{
+		//Arrange
+		ICommand command = new AsyncCommand<int>(ParameterImmediateNullReferenceExceptionTask, onException: HandleException);
+		Exception? caughtException = null;
+
+		//Act
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(async () => await ((AsyncCommand<int>)command).ExecuteAsync(0));
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
 	}
 }

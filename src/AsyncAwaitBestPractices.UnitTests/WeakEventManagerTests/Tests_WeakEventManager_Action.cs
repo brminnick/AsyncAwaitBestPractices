@@ -20,17 +20,17 @@ class Tests_WeakEventManager_Action : BaseTest
 		ActionEvent += HandleDelegateTest;
 		bool didEventFire = false;
 
-		void HandleDelegateTest()
-		{
-			didEventFire = true;
-			ActionEvent -= HandleDelegateTest;
-		}
-
 		//Act
 		_actionEventManager.RaiseEvent(nameof(ActionEvent));
 
 		//Assert
 		Assert.That(didEventFire, Is.True);
+
+		void HandleDelegateTest()
+		{
+			didEventFire = true;
+			ActionEvent -= HandleDelegateTest;
+		}
 	}
 
 	[Test]
@@ -40,14 +40,14 @@ class Tests_WeakEventManager_Action : BaseTest
 		ActionEvent += HandleDelegateTest;
 		bool didEventFire = false;
 
-		void HandleDelegateTest() => didEventFire = true;
-
 		//Act
 		_actionEventManager.RaiseEvent(nameof(TestStringEvent));
 
 		//Assert
 		Assert.That(didEventFire, Is.False);
 		ActionEvent -= HandleDelegateTest;
+
+		void HandleDelegateTest() => didEventFire = true;
 	}
 
 	[Test]
@@ -58,13 +58,14 @@ class Tests_WeakEventManager_Action : BaseTest
 
 		ActionEvent += HandleDelegateTest;
 		ActionEvent -= HandleDelegateTest;
-		void HandleDelegateTest() => didEventFire = true;
 
 		//Act
 		_actionEventManager.RaiseEvent(nameof(ActionEvent));
 
 		//Assert
 		Assert.That(didEventFire, Is.False);
+
+		void HandleDelegateTest() => didEventFire = true;
 	}
 
 	[Test]
@@ -75,7 +76,6 @@ class Tests_WeakEventManager_Action : BaseTest
 		bool didEventFire = false;
 
 		ActionEvent += HandleDelegateTest;
-		void HandleDelegateTest() => didEventFire = true;
 
 		//Act
 		unassignedEventManager.RaiseEvent(nameof(ActionEvent));
@@ -83,6 +83,8 @@ class Tests_WeakEventManager_Action : BaseTest
 		//Assert
 		Assert.That(didEventFire, Is.False);
 		ActionEvent -= HandleDelegateTest;
+
+		void HandleDelegateTest() => didEventFire = true;
 	}
 
 	[Test]
@@ -91,8 +93,6 @@ class Tests_WeakEventManager_Action : BaseTest
 		//Arrange
 		ActionEvent += HandleDelegateTest;
 		bool didEventFire = false;
-
-		void HandleDelegateTest() => didEventFire = true;
 
 		//Act
 
@@ -104,6 +104,8 @@ class Tests_WeakEventManager_Action : BaseTest
 		});
 
 		ActionEvent -= HandleDelegateTest;
+
+		void HandleDelegateTest() => didEventFire = true;
 	}
 
 	[Test]
@@ -196,5 +198,49 @@ class Tests_WeakEventManager_Action : BaseTest
 
 		//Assert
 		Assert.Throws<ArgumentNullException>(() => _actionEventManager.RemoveEventHandler(null, " "), "Value cannot be null.\nParameter name: eventName");
+	}
+
+	[Test]
+	public void WeakEventManagerAction_RaiseEvent_WithParameters()
+	{
+		//Arrange
+		ActionEvent += HandleDelegateTest;
+		bool didEventFire = false;
+
+		//Act
+		_actionEventManager.RaiseEvent(nameof(ActionEvent));
+
+		//Assert
+		Assert.That(didEventFire, Is.True);
+
+		void HandleDelegateTest()
+		{
+			didEventFire = true;
+			ActionEvent -= HandleDelegateTest;
+		}
+	}
+
+	[Test]
+	public void WeakEventManagerAction_ExceptionHandling()
+	{
+		//Arrange
+		ActionEvent += HandleDelegateTest;
+		Exception? caughtException = null;
+
+		//Act
+		try
+		{
+			_actionEventManager.RaiseEvent(nameof(ActionEvent));
+		}
+		catch (Exception ex)
+		{
+			caughtException = ex;
+		}
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+		ActionEvent -= HandleDelegateTest;
+
+		void HandleDelegateTest() => throw new NullReferenceException();
 	}
 }

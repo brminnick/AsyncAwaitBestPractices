@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AsyncAwaitBestPractices.MVVM;
 using NUnit.Framework;
 
@@ -138,5 +139,37 @@ class Tests_IAsyncValueCommand : BaseAsyncValueCommandTest
 
 		//Assert
 		Assert.That(command.CanExecute(null), Is.False);
+	}
+
+	[Test]
+	public void IAsyncValueCommand_ExecuteAsync_ExceptionHandling_Test()
+	{
+		//Arrange
+		IAsyncValueCommand command = new AsyncValueCommand(NoParameterImmediateNullReferenceExceptionTask, onException: HandleException);
+		Exception? caughtException = null;
+
+		//Act
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(async () => await command.ExecuteAsync());
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
+	}
+
+	[Test]
+	public void IAsyncValueCommand_ExecuteAsync_ExceptionHandlingWithParameter_Test()
+	{
+		//Arrange
+		IAsyncValueCommand<int> command = new AsyncValueCommand<int>(ParameterImmediateNullReferenceExceptionTask, onException: HandleException);
+		Exception? caughtException = null;
+
+		//Act
+		caughtException = Assert.ThrowsAsync<NullReferenceException>(async () => await command.ExecuteAsync(0));
+
+		//Assert
+		Assert.That(caughtException, Is.Not.Null);
+
+		void HandleException(Exception ex) => caughtException = ex;
 	}
 }
