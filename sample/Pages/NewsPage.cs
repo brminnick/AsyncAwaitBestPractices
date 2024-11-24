@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using CommunityToolkit.Maui.Markup;
+﻿using CommunityToolkit.Maui.Markup;
 
 namespace HackerNews;
 
