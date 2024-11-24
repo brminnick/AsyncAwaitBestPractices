@@ -27,10 +27,5 @@ partial class App : Application
 		_appShell = appshell;
 	}
 
-	protected override Window CreateWindow(IActivationState? activationState)
-	{
-		base.CreateWindow(activationState);
-
-		return new(_appShell);
-	}
+	protected override Window CreateWindow(IActivationState? activationState) => new(_appShell);
 }
