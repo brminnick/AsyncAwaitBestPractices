@@ -7,7 +7,7 @@ partial class App : Application
 {
 	readonly AppShell _appShell;
 
-	public App(AppShell appshell)
+	public App(AppShell appShell)
 	{
 		Resources = new ResourceDictionary
 		{
@@ -24,7 +24,7 @@ partial class App : Application
 				(NavigationPage.BarBackgroundColorProperty, ColorConstants.NavigationBarBackgroundColor)).ApplyToDerivedTypes(true)
 		};
 
-		_appShell = appshell;
+		_appShell = appShell;
 	}
 
 	protected override Window CreateWindow(IActivationState? activationState) => new(_appShell);
