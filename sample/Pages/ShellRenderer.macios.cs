@@ -209,7 +209,7 @@ public class CustomShellSectionRenderer : ShellSectionRenderer
 		// https://github.com/xamarin/Xamarin.Forms/issues/10519
 		[Export("navigationController:animationControllerForOperation:fromViewController:toViewController:")]
 		[Foundation.Preserve(Conditional = true)]
-		public static new IUIViewControllerAnimatedTransitioning? GetAnimationControllerForOperation(UINavigationController navigationController, UINavigationControllerOperation operation, UIViewController fromViewController, UIViewController toViewController) => null;
+		public new static IUIViewControllerAnimatedTransitioning? GetAnimationControllerForOperation(UINavigationController navigationController, UINavigationControllerOperation operation, UIViewController fromViewController, UIViewController toViewController) => null;
 
 		public override void DidShowViewController(UINavigationController navigationController, [Transient] UIViewController viewController, bool animated)
 		{
@@ -235,14 +235,9 @@ public class CustomShellSectionRenderer : ShellSectionRenderer
 	}
 }
 
-public class CustomShellPageRendererTracker : ShellPageRendererTracker
+public class CustomShellPageRendererTracker(IShellContext context) : ShellPageRendererTracker(context)
 {
-	public CustomShellPageRendererTracker(IShellContext context) : base(context)
-	{
-		Context = context;
-	}
-
-	public IShellContext Context { get; }
+	public IShellContext Context { get; } = context;
 
 	Page? ToolbarCurrentPage
 	{
