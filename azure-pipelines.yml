@@ -2,7 +2,7 @@ variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   CurrentSemanticVersionBase: '99.0.0'
   PreviewNumber: $[counter(variables['CurrentSemanticVersionBase'], 1001)]
-  NET_VERSION: '9.0.100'
+  NET_VERSION: '9.0.x'
   CurrentSemanticVersion: '$(CurrentSemanticVersionBase)-preview$(PreviewNumber)'
   NugetPackageVersion: '$(CurrentSemanticVersion)'
   PathToSolution: 'AsyncAwaitBestPractices.sln'
