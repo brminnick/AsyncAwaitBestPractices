@@ -375,7 +375,8 @@ public class CustomTitleViewContainer : UIContainerView
 
 	public override void LayoutSubviews()
 	{
-		if (Height is null or 0)
+		if (Height is null or 0
+		    && Superview is not null)
 		{
 			UpdateFrame(Superview);
 		}
